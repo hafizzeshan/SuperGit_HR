@@ -9,6 +9,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/custom_text_field.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class LoanScreen extends StatefulWidget {
   const LoanScreen({super.key});
@@ -34,7 +35,7 @@ class _LoanScreenState extends State<LoanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitoutAction(title: "Loans"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.loans.tr),
       body: Obx(() {
         // Show loading only on first load
         if (_loanController.isLoading.value &&
@@ -83,14 +84,14 @@ class _LoanScreenState extends State<LoanScreen> {
           ),
           const SizedBox(height: 16),
           kText(
-            text: "No loans found",
+            text: TranslationKeys.noLoansFound.tr,
             fSize: 18.0,
             fWeight: FontWeight.w600,
             tColor: Colors.grey.shade600,
           ),
           const SizedBox(height: 8),
           kText(
-            text: "Pull down to refresh",
+            text: TranslationKeys.pullDownToRefresh.tr,
             fSize: 14.0,
             tColor: Colors.grey.shade500,
           ),
@@ -144,13 +145,13 @@ class _LoanScreenState extends State<LoanScreen> {
                   ),
                   UIHelper.verticalSpaceSm5,
                   kText(
-                    text: "Amount: ${loan.amount}",
+                    text: "${TranslationKeys.amount.tr}: ${loan.amount}",
                     fSize: 14.0,
                     tColor: Colors.grey.shade200,
                   ),
                   UIHelper.verticalSpaceSm5,
                   kText(
-                    text: "Remaining: ${loan.remainingAmount}",
+                    text: "${TranslationKeys.remaining.tr}: ${loan.remainingAmount}",
                     fSize: 14.0,
                     tColor: Colors.grey.shade200,
                   ),

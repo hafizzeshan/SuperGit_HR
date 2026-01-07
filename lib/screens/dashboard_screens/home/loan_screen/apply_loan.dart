@@ -7,6 +7,7 @@ import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/custom_text_field.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class ApplyLoanScreen extends StatefulWidget {
   const ApplyLoanScreen({super.key});
@@ -65,18 +66,18 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitoutAction(title: "Apply for Loan"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.applyForLoan.tr),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: ListView(
           children: [
             // Installments and Monthly Installment at the top
             Text(
-              "Installments: ${_loanController.installmentsController.text = "12"} months",
+              "${TranslationKeys.installments.tr}: ${_loanController.installmentsController.text = "12"} ${TranslationKeys.months.tr}",
               style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
             ),
             Text(
-              "Monthly Installment: ${monthlyInstallment.toStringAsFixed(2)} SAR",
+              "${TranslationKeys.monthlyInstallment.tr}: ${monthlyInstallment.toStringAsFixed(2)} SAR",
               style: TextStyle(fontSize: 16, color: Colors.grey.shade700),
             ),
             const SizedBox(height: 12),
@@ -84,7 +85,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
             // Loan Amount Field
             CustomTextField(
               controller: _loanController.amountController,
-              hint: "Enter Loan Amount",
+              hint: TranslationKeys.enterLoanAmount.tr,
               keyboardType: TextInputType.number,
               required: true,
               onChanged: (_) => setState(() {}),
@@ -95,7 +96,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
             // Start Month Field (Read-only, Date Picker)
             CustomTextField(
               controller: _loanController.startMonthController,
-              hint: "Start Month (YYYY-MM)",
+              hint: TranslationKeys.startMonth.tr,
               readOnly: true,
               onTap: _pickStartMonth,
               required: true,
@@ -105,7 +106,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
             // Purpose of Loan (Multi-line field)
             CustomTextField(
               controller: _loanController.purposeController,
-              hint: "Purpose of Loan",
+              hint: TranslationKeys.purposeOfLoan.tr,
               required: true,
               maxLines: 4, // To allow multiple lines
             ),
@@ -114,7 +115,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
             // Apply Loan Button
             LoadingButton(
               isLoading: _loanController.isSubmitting.value,
-              text: "Apply for Loan",
+              text: TranslationKeys.applyForLoan.tr,
               onTap: _applyLoan,
             ),
           ],

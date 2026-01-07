@@ -7,8 +7,8 @@ class AppURL {
   // shamas
   // static const String baseUrl = 'https://6d5rc5cb-8080.inc1.devtunnels.ms/api/';
   // live
-  static const String baseUrl = 'https://hr1.api.supergitsa.com/api/';
-  // static const String baseUrl = 'https://90j4c2m1-8080.asse.devtunnels.ms/api/';
+  // static const String baseUrl = 'https://hr1.api.supergitsa.com/api/';
+  static const String baseUrl = 'https://90j4c2m1-8080.asse.devtunnels.ms/api/';
 
   static const String loginApi = 'auth/login';
   static const String updateProfile = 'update-profile';
@@ -37,6 +37,7 @@ class AppURL {
   static const String clockOutApi = "attendance/clock-out";
   static const String leaveTypesApi = "leave-types";
   static const String leaveRequestsApi = "leave-requests";
+  static const String announcementApi = 'employees/announcement';
 
   static const todayLogsApi = "attendance/logs/today";
   static const allLogsApi = "attendance/logs/all";

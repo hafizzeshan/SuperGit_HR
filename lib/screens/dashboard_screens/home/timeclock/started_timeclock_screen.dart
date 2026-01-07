@@ -32,28 +32,25 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
 
   /// ✅ End shift → open confirmation sheet
   Future<void> _onEndShiftPressed(BuildContext context) async {
-    Location location = Location();
-    bool serviceEnabled = await location.serviceEnabled();
-    if (!serviceEnabled) serviceEnabled = await location.requestService();
-
-    PermissionStatus permissionGranted = await location.hasPermission();
-    if (permissionGranted == PermissionStatus.denied) {
-      permissionGranted = await location.requestPermission();
-      if (permissionGranted != PermissionStatus.granted) return;
+    // Show a small loading if location is not ready
+    if (locationController.currentLatLng.value == null) {
+      Get.dialog(
+        const Center(child: CircularProgressIndicator(color: kPrimaryColor)),
+        barrierDismissible: false,
+      );
+      await locationController.getCurrentLocation();
+      Get.back(); // Close loading
     }
 
-    LocationData currentLocation = await location.getLocation();
+    if (locationController.currentLatLng.value == null) {
+      Utils.snackBar(TranslationKeys.unableToFetchLocation.tr, true);
+      return;
+    }
+
+    final coords = locationController.currentLatLng.value!;
 
     if (!mounted) return;
-    Future.microtask(() {
-      _showConfirmEndShiftSheet(
-        context,
-        LatLng(
-          currentLocation.latitude ?? 0.0,
-          currentLocation.longitude ?? 0.0,
-        ),
-      );
-    });
+    _showConfirmEndShiftSheet(context, coords);
   }
 
   /// ✅ Confirmation Sheet (map + confirm/edit buttons)
@@ -77,7 +74,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
             mainAxisSize: MainAxisSize.min,
             children: [
               kText(
-                text: "Confirm End Shift",
+                text: TranslationKeys.confirmEndShift.tr,
                 fSize: 18.0,
                 fWeight: FontWeight.bold,
               ),
@@ -104,7 +101,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                     child: Obx(
                       () => LoadingButton(
                         isLoading: _controller.isClockOutLoading.value,
-                        text: "Confirm hours",
+                        text: TranslationKeys.confirmHours.tr,
                         onTap: () async {
                           Navigator.pop(context);
                           await _runClockOut(coords); // ✅ Now passing LatLng
@@ -116,7 +113,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                   Expanded(
                     child: LoadingButton(
                       isLoading: false,
-                      text: "Edit Shift",
+                      text: TranslationKeys.editShift.tr,
                       onTap: () {
                         Navigator.pop(context);
                         _showEditShiftSheet(context);
@@ -134,25 +131,25 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
 
   /// ✅ Clock-Out logic (LatLng supported)
   Future<void> _runClockOut(LatLng coords) async {
-    if (locationController.currentLatLng.value == null) {
-      locationController.getCurrentLocation();
-      Utils.snackBar(
-        "Unable to fetch current location. Please try again.",
-        true,
-      );
-      return;
+    print("🕒 Clock-Out initiated from UI with coords: $coords");
+
+    // Ensure we have an address for remarks if possible
+    if (locationController.address.value.isEmpty) {
+      await locationController.getAddressFromLatLng(coords);
     }
-    print("🕒 Clock-Out initiated from UI ${locationController.currentLatLng}");
+
     await _controller.clockOut(
       method: "App",
       sourceDevice: "Mobile",
-      remarks: locationController.address.value,
-      coords:
-          locationController.currentLatLng.value!, // ✅ Directly using LatLng
+      remarks: locationController.address.value.isNotEmpty
+          ? locationController.address.value
+          : "Clock out from mobile app",
+      coords: coords, // ✅ Directly using the LatLng we passed
     );
 
-    if (Get.isOverlaysOpen) Get.back();
-    Get.back();
+    // After clock out, the controller will handle any navigation if needed,
+    // but usually we want to go back to home.
+    Get.offAll(() => DashBorad(index: 0));
   }
 
   /// ✅ Edit Shift Sheet
@@ -181,7 +178,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
                   kText(
-                    text: "Request Edit",
+                    text: TranslationKeys.requestEdit.tr,
                     fSize: 18.0,
                     fWeight: FontWeight.bold,
                   ),
@@ -191,7 +188,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                   //   Chip(label: kText(text: "Flutter Developer", fSize: 12.0)),
                   // ),
                   _editRow(
-                    "Starts",
+                    TranslationKeys.starts.tr,
                     Obx(() {
                       final start = _controller.clockInTime.value;
                       return kText(
@@ -205,7 +202,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                     }),
                   ),
                   _editRow(
-                    "Total Hours",
+                    TranslationKeys.totalHours.tr,
                     Obx(
                       () => kText(
                         text: _controller.elapsedTime.value,
@@ -218,7 +215,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                   Align(
                     alignment: Alignment.centerLeft,
                     child: kText(
-                      text: "Add a note",
+                      text: TranslationKeys.addANote.tr,
                       fSize: 14.0,
                       fWeight: FontWeight.w600,
                     ),
@@ -229,7 +226,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                     maxLines: 3,
                     style: const TextStyle(fontSize: 12),
                     decoration: InputDecoration(
-                      hintText: "Attach a note to your request",
+                      hintText: TranslationKeys.attachNoteToRequest.tr,
                       hintStyle: const TextStyle(fontSize: 12),
                       filled: true,
                       fillColor: Colors.grey.shade100,
@@ -241,17 +238,17 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                   ),
                   const SizedBox(height: 12),
                   kText(
-                    text: "All requests will be sent for manager approval",
+                    text: TranslationKeys.allRequestsSentForApproval.tr,
                     fSize: 12.0,
                     tColor: Colors.grey,
                   ),
                   const SizedBox(height: 20),
                   LoadingButton(
                     isLoading: false,
-                    text: "Send for approval",
+                    text: TranslationKeys.sendForApproval.tr,
                     onTap: () {
                       Navigator.pop(context);
-                      Utils.snackBar("Shift edit request sent!", false);
+                      Utils.snackBar(TranslationKeys.shiftEditRequestSent.tr, false);
                     },
                   ),
                 ],
@@ -318,7 +315,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   kText(
-                    text: "Working as Employee",
+                    text: TranslationKeys.workingAsEmployee.tr,
                     fSize: 14.0,
                     tColor: Colors.white,
                   ),

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/customText.dart';
@@ -17,7 +18,7 @@ class ProfileViewScreen extends StatelessWidget {
     _profileController.loadCachedUser();
 
     return Scaffold(
-      appBar: appBarrWitAction(title: "Profile"),
+      appBar: appBarrWitAction(title: TranslationKeys.profile.tr),
       backgroundColor: Colors.grey.shade50,
       body: Obx(() {
         final model = _profileController.userModel.value;
@@ -38,7 +39,7 @@ class ProfileViewScreen extends StatelessWidget {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    kText(text: "First Name", fSize: 12, tColor: Colors.grey),
+                    kText(text: TranslationKeys.firstName.tr, fSize: 12, tColor: Colors.grey),
                     UIHelper.verticalSpaceSm5,
                     kText(
                       text: model.firstNameEn ?? '-',
@@ -47,7 +48,7 @@ class ProfileViewScreen extends StatelessWidget {
                     ),
                     UIHelper.verticalSpaceSm10,
 
-                    kText(text: "Last Name", fSize: 12, tColor: Colors.grey),
+                    kText(text: TranslationKeys.lastName.tr, fSize: 12, tColor: Colors.grey),
                     UIHelper.verticalSpaceSm5,
                     kText(
                       text: model.lastNameEn ?? '-',
@@ -56,7 +57,7 @@ class ProfileViewScreen extends StatelessWidget {
                     ),
                     UIHelper.verticalSpaceSm10,
 
-                    kText(text: "Email", fSize: 12, tColor: Colors.grey),
+                    kText(text: TranslationKeys.email.tr, fSize: 12, tColor: Colors.grey),
                     UIHelper.verticalSpaceSm5,
                     kText(
                       text: model.email ?? '-',
@@ -65,7 +66,7 @@ class ProfileViewScreen extends StatelessWidget {
                     ),
                     UIHelper.verticalSpaceSm10,
 
-                    kText(text: "Phone", fSize: 12, tColor: Colors.grey),
+                    kText(text: TranslationKeys.phone.tr, fSize: 12, tColor: Colors.grey),
                     UIHelper.verticalSpaceSm5,
                     kText(
                       text: model.mobileNumber ?? '-',

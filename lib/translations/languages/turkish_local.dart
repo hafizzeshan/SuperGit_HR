@@ -330,7 +330,24 @@ class TurkishLocal {
       TranslationKeys.tokenNumber: "Jeton Numarası",
       TranslationKeys.packages: "Paketler",
       TranslationKeys.call: "Arama",
-      TranslationKeys.downloading: "Fatura indiriliyor..."
+      TranslationKeys.downloading: "Fatura indiriliyor...",
+      TranslationKeys.firstName: "Ad",
+      TranslationKeys.lastName: "Soyad",
+      TranslationKeys.noChatsAvailable: "Sohbet yok",
+      TranslationKeys.contactSupport: "Destekle İletişime Geç",
+      TranslationKeys.support: "Destek",
+      TranslationKeys.admin: "Yönetici",
+      TranslationKeys.all: "Hepsi",
+      TranslationKeys.unread: "Okunmamış",
+      TranslationKeys.groups: "Gruplar",
+      TranslationKeys.justNow: "Az önce",
+      TranslationKeys.supportMessage: "Bugün size nasıl yardımcı olabiliriz?",
+      TranslationKeys.announcements: "Duyurular",
+      TranslationKeys.readMore: "Devamını oku",
+      TranslationKeys.viewAll: "Hepsini gör",
+      TranslationKeys.important: "Önemli",
+      TranslationKeys.close: "Kapat",
+      TranslationKeys.noAnnouncementsAvailable: "Mevcut duyuru yok",
     };
   }
 }

@@ -9,6 +9,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class UIHelper {
   // Vertical spacing constants. Adjust to your liking.
@@ -178,7 +179,7 @@ class UIHelper {
             mainAxisSize: MainAxisSize.min,
             children: [
               kText(
-                text: "Are you sure you want to logout?",
+                text: TranslationKeys.areYouSureWantToLogout.tr,
                 fSize: 16.0,
                 fWeight: FontWeight.bold,
                 tColor: Colors.black87,
@@ -196,7 +197,7 @@ class UIHelper {
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       child: kText(
-                        text: "Cancel",
+                        text: TranslationKeys.cancel.tr,
                         fSize: 14.0,
                         fWeight: FontWeight.w600,
                         tColor: Colors.grey,
@@ -212,7 +213,7 @@ class UIHelper {
                         padding: const EdgeInsets.symmetric(vertical: 14),
                       ),
                       child: kText(
-                        text: "Logout",
+                        text: TranslationKeys.logout.tr,
                         fSize: 14.0,
                         fWeight: FontWeight.w600,
                         tColor: Colors.white,

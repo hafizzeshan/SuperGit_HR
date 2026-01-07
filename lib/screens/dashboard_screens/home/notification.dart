@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
@@ -40,13 +42,13 @@ class NotificationScreen extends StatelessWidget {
     ];
 
     return Scaffold(
-      appBar: appBarrWitoutAction(title: "Notifications"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.notifications.tr),
       backgroundColor: Colors.white,
       body:
           notifications.isEmpty
               ? Center(
                 child: kText(
-                  text: "No notifications available",
+                  text: TranslationKeys.noNotificationsAvailable.tr,
                   fSize: 14,
                   tColor: Colors.grey,
                 ),

@@ -59,7 +59,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
   /// Convert ID → name
   String getLeaveTypeName(String? id, List<LeaveTypeModel> types) {
     final match = types.firstWhereOrNull((t) => t.id.toString() == id);
-    return match?.nameEn ?? "Leave Type";
+    return match?.nameEn ?? TranslationKeys.leaveType.tr;
   }
 
   @override
@@ -103,7 +103,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                   ),
                   const SizedBox(height: 8),
                   kText(
-                    text: "Pull down to refresh",
+                    text: TranslationKeys.pullDownToRefresh.tr,
                     fSize: 12.0,
                     tColor: Colors.grey.shade400,
                   ),

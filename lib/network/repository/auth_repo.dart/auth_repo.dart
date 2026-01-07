@@ -11,7 +11,11 @@ class AuthRepository {
   }) async {
     final response = await _api.postRequest(AppURL.loginApi, data: data);
 
-    if (response == null) return null;
+    // If response is null, it means there was a network error
+    // The error response should be returned from api_network.dart
+    if (response == null) {
+      return null; // Let the controller handle null response
+    }
 
     if (response.statusCode == 200 || response.statusCode == 201) {
       final responseData = response.data;
@@ -24,7 +28,7 @@ class AuthRepository {
 
       return responseData;
     } else {
-      return null;
+      return {"error": true, "message": response.data?['message'] ?? "Login failed"};
     }
   }
 

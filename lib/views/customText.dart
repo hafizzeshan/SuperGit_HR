@@ -45,7 +45,7 @@ class kText extends StatelessWidget {
           style ??
           textStyleMontserratMiddle(
             height: height ?? 1.0,
-            fontSize: double.parse(fSize.toString()),
+            fontSize: fSize ?? 14.0,
             color: tColor,
             weight: fWeight ?? FontWeight.normal,
             decoration: textUnderLine ?? false,

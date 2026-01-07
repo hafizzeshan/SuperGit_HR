@@ -8,6 +8,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/shimmer/holiday_shimmer.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class HolidayScreen extends StatefulWidget {
   const HolidayScreen({super.key});
@@ -34,7 +35,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade50,
-      appBar: appBarrWitoutAction(title: "Holidays"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.holidays.tr),
       body: Obx(() {
         // Show shimmer only on first load
         if (holidayController.isLoading.value &&
@@ -76,14 +77,14 @@ class _HolidayScreenState extends State<HolidayScreen> {
           ),
           const SizedBox(height: 16),
           kText(
-            text: "No holidays found",
+            text: TranslationKeys.noHolidaysFound.tr,
             fSize: 18.0,
             fWeight: FontWeight.w600,
             tColor: Colors.grey.shade600,
           ),
           const SizedBox(height: 8),
           kText(
-            text: "Pull down to refresh",
+            text: TranslationKeys.pullDownToRefresh.tr,
             fSize: 14.0,
             tColor: Colors.grey.shade500,
           ),
@@ -156,7 +157,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     kText(
-                      text: holiday.nameEn ?? "Holiday",
+                      text: holiday.nameEn ?? TranslationKeys.holiday.tr,
                       fSize: 16.0,
                       fWeight: FontWeight.bold,
                       tColor: Colors.white,
@@ -205,8 +206,8 @@ class _HolidayScreenState extends State<HolidayScreen> {
                           const SizedBox(width: 5),
                           kText(
                             text: holiday.isRecurring == true
-                                ? "Recurring"
-                                : "One Time",
+                                ? TranslationKeys.recurring.tr
+                                : TranslationKeys.oneTime.tr,
                             fSize: 11.0,
                             fWeight: FontWeight.w600,
                             tColor: Colors.white,

@@ -6,6 +6,7 @@ import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class EmployeeSalaryStructureScreen extends StatefulWidget {
   EmployeeSalaryStructureScreen({super.key});
@@ -49,7 +50,7 @@ class _EmployeeSalaryStructureScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitAction(title: "Salary Structure", titlefontSize: 18),
+      appBar: appBarrWitAction(title: TranslationKeys.salaryStructure.tr, titlefontSize: 18),
       backgroundColor: const Color(0xFFF3F4F7),
 
       body: Obx(() {
@@ -76,7 +77,7 @@ class _EmployeeSalaryStructureScreenState
                 const SizedBox(height: 16),
                 Center(
                   child: kText(
-                    text: "No salary structure available",
+                    text: TranslationKeys.noSalaryStructureAvailable.tr,
                     fSize: 14.0,
                     tColor: Colors.grey.shade600,
                   ),
@@ -84,7 +85,7 @@ class _EmployeeSalaryStructureScreenState
                 const SizedBox(height: 8),
                 Center(
                   child: kText(
-                    text: "Pull down to refresh",
+                    text: TranslationKeys.pullDownToRefresh.tr,
                     fSize: 12.0,
                     tColor: Colors.grey.shade400,
                   ),
@@ -173,7 +174,7 @@ class _EmployeeSalaryStructureScreenState
                   Row(
                     children: [
                       kText(
-                        text: "Allowances: $totalAllowance",
+                        text: "${TranslationKeys.allowances.tr}: $totalAllowance",
                         fSize: 12,
                         tColor: Colors.grey.shade200,
                       ),
@@ -246,7 +247,7 @@ class _EmployeeSalaryStructureScreenState
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kText(
-                            text: "Salary Breakdown",
+                            text: TranslationKeys.salaryBreakdown.tr,
                             fSize: 18,
                             fWeight: FontWeight.w700,
                           ),
@@ -258,53 +259,53 @@ class _EmployeeSalaryStructureScreenState
                   UIHelper.verticalSpaceSm20,
 
                   // --- Section: Main Salary ---
-                  _sectionHeader("Salary Components"),
+                  _sectionHeader(TranslationKeys.salaryComponents.tr),
 
                   _detailTile(
                     Icons.home,
-                    "Housing Allowance",
+                    TranslationKeys.housingAllowance.tr,
                     "${item.housingAllowance}",
                   ),
                   _detailTile(
                     Icons.directions_bus,
-                    "Transport Allowance",
+                    TranslationKeys.transportAllowance.tr,
                     "${item.transportAllowance}",
                   ),
                   _detailTile(
                     Icons.add_card,
-                    "Other Allowances",
+                    TranslationKeys.otherAllowances.tr,
                     "${item.otherAllowances}",
                   ),
 
                   UIHelper.verticalSpaceSm20,
 
                   // --- Section: Deductions ---
-                  _sectionHeader("Deductions"),
+                  _sectionHeader(TranslationKeys.deductions.tr),
                   _detailTile(
                     Icons.remove_circle,
-                    "Deductions",
+                    TranslationKeys.deductions.tr,
                     "${item.deductions}",
                   ),
                   _detailTile(
                     Icons.security,
-                    "GOSI Contribution",
+                    TranslationKeys.gosiContribution.tr,
                     "${item.gosiContribution}",
                   ),
 
                   UIHelper.verticalSpaceSm20,
 
                   // --- Section: Effective Dates ---
-                  _sectionHeader("Effective Dates"),
+                  _sectionHeader(TranslationKeys.effectiveDates.tr),
                   _detailTile(
                     Icons.calendar_month,
-                    "Effective From",
+                    TranslationKeys.effectiveFrom.tr,
                     item.effectiveFrom.year == 1
                         ? "-"
                         : item.effectiveFrom.toString().split(" ").first,
                   ),
                   _detailTile(
                     Icons.calendar_today,
-                    "Effective To",
+                    TranslationKeys.effectiveTo.tr,
                     item.effectiveTo.year == 1
                         ? "-"
                         : item.effectiveTo.toString().split(" ").first,
@@ -360,7 +361,7 @@ class _EmployeeSalaryStructureScreenState
         borderRadius: BorderRadius.circular(20),
       ),
       child: kText(
-        text: isActive ? "Active" : "Inactive",
+        text: isActive ? TranslationKeys.active.tr : TranslationKeys.inactive.tr,
         fSize: 12,
         tColor: whiteColor,
         fWeight: FontWeight.w600,

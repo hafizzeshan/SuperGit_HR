@@ -59,9 +59,11 @@ class ApiNetworkService {
           print('❌ ERROR MESSAGE: ${e.message}');
 
           // ✅ Handle 401 Unauthorized - Session expired
-          if (e.response?.statusCode == 401) {
+          // BUT: Skip this for login endpoint (401 there means wrong credentials)
+          if (e.response?.statusCode == 401 && 
+              !e.requestOptions.path.contains('auth/login')) {
             print(
-              '🔐 401 Unauthorized - Clearing token and redirecting to login',
+              '🔐 401 Unauthorized - Clearing token and redirecting to login'
             );
             await clearAuthToken();
 
@@ -95,7 +97,7 @@ class ApiNetworkService {
       if (now.difference(savedAt) > tokenExpiryDuration) {
         // ✅ Token expired
         await clearAuthToken();
-        Utils.snackBar("Session expired. Please log in again.", true);
+        // Don't show snackbar - let the API response handle error messages
         print("⚠️ Token expired (20 hours passed)");
       } else {
         // ✅ Token still valid
@@ -153,7 +155,7 @@ class ApiNetworkService {
         if (now.difference(savedAt) > tokenExpiryDuration) {
           // ✅ Token expired again check
           await clearAuthToken();
-          Utils.snackBar("Session expired. Please log in again.", true);
+          // Don't show snackbar - let the API response handle error messages
           return;
         } else {
           authToken = token;
@@ -166,8 +168,8 @@ class ApiNetworkService {
     }
   }
 
-  /// Unified Error Handler
-  void _handleError(DioException e) {
+  /// Unified Error Handler - Only logs errors, no snackbars
+  void _handleError(DioException e, {bool showSnackbar = true}) {
     String message = "Something went wrong";
     if (e.response != null && e.response?.data != null) {
       final data = e.response!.data;
@@ -186,10 +188,8 @@ class ApiNetworkService {
       message = e.message!;
     }
 
-    if (!Get.isSnackbarOpen) {
-      Utils.snackBar(message, true);
-    }
-
+    // ✅ Don't show any snackbar - let the controller/repository handle error display from API response
+    // Only log for debugging purposes
     log("❌ API ERROR: $message");
   }
 
@@ -218,26 +218,16 @@ class ApiNetworkService {
         print("✅ POST $endpoint Success → ${response.data}");
         return response;
       } else {
-        final errorData = response.data;
-        final errorMessage =
-            errorData is Map
-                ? (errorData['message'] ??
-                    errorData['error'] ??
-                    "Unexpected error")
-                : errorData.toString();
-
-        Utils.snackBar(errorMessage, true);
+        // Don't show snackbar - return response so controller can handle error message
         print(
           "Post Request to ${AppURL.baseUrl}$endpoint Failed → ${response.data.toString()}",
         );
-        return null;
+        return response; // Return response with error data instead of null
       }
     } on DioException catch (e) {
       _handleError(e);
-      print(
-        "Post Request to ${AppURL.baseUrl}$endpoint Failed → ${e.toString()}",
-      );
-      return null;
+      // Return the error response if available so controller can extract error message
+      return e.response;
     }
   }
 
@@ -259,16 +249,8 @@ class ApiNetworkService {
         print(
           "❌ GET Request to ${AppURL.baseUrl}$endpoint Failed → Status: ${response.statusCode}, Data: ${response.data}",
         );
-        final errorData = response.data;
-        final errorMessage =
-            errorData is Map
-                ? (errorData['message'] ??
-                    errorData['error'] ??
-                    "Unexpected error")
-                : errorData.toString();
-        Utils.snackBar(errorMessage, true);
-        print("⚠️ GET $endpoint Failed → $errorMessage");
-        return null;
+        // Don't show snackbar - return response so controller can handle error message
+        return response; // Return response with error data instead of null
       }
     } on DioException catch (e) {
       print("❌ DioException in GET Request to ${AppURL.baseUrl}$endpoint");
@@ -278,7 +260,8 @@ class ApiNetworkService {
       print("❌ Response Data: ${e.response?.data}");
       print("❌ Request Headers: ${e.requestOptions.headers}");
       _handleError(e);
-      return null;
+      // Return the error response if available so controller can extract error message
+      return e.response;
     }
   }
 }

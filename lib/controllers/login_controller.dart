@@ -46,7 +46,7 @@ class LoginController extends GetxController {
     print("Login Response: $response");
     isLoading.value = false;
 
-    if (response != null && response['data'] != null) {
+    if (response != null && response['data'] != null && response['error'] != true) {
       final prefs = await SharedPreferences.getInstance();
       final token = response['data']['token'];
       final refresh_token = response['data']['refresh_token'];
@@ -120,9 +120,15 @@ class LoginController extends GetxController {
       Get.offAll(() => DashBorad(index: 0));
       Future.delayed(const Duration(seconds: 1));
       leaveController.fetchLeaveTypes();
-    } else {
-      Utils.snackBar("Invalid credentials or server error", true);
+    } else if (response != null) {
+      // ✅ Only show error if we have a response with error/message from server
+      final errorMessage = response['message'] ?? response['error'];
+      if (errorMessage != null) {
+        Utils.snackBar(errorMessage, true);
+      }
     }
+    // If response is null (network error), don't show any message
+    // The network layer already logged the error for debugging
   }
 
   @override

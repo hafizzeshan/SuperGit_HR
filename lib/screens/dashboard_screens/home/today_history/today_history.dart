@@ -6,6 +6,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/date_time_helper.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class TodayHistoryScreen extends StatefulWidget {
   const TodayHistoryScreen({super.key});
@@ -21,7 +22,7 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitAction(title: "Today History"),
+      appBar: appBarrWitAction(title: TranslationKeys.todayHistory.tr),
       backgroundColor: const Color(0xFFF1F3F8),
 
       body: Obx(() {
@@ -32,7 +33,7 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
         final todayModel = controller.todayLogsModel.value;
 
         if (todayModel == null || todayModel.logs.isEmpty) {
-          return const Center(child: Text("No activity logged today"));
+          return Center(child: Text(TranslationKeys.noActivityLoggedToday.tr));
         }
 
         return RefreshIndicator(
@@ -113,10 +114,10 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
                         kText(
                           text:
                               isClockIn
-                                  ? "Clocked In"
+                                  ? TranslationKeys.clockedIn.tr
                                   : isClockOut
-                                  ? "Clocked Out"
-                                  : type ?? "Activity",
+                                  ? TranslationKeys.clockedOut.tr
+                                  : type ?? TranslationKeys.activity.tr,
                           fSize: 15,
                           fWeight: FontWeight.w600,
                           tColor: whiteColor,

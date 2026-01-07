@@ -18,10 +18,8 @@ import 'package:supergithr/controllers/translation_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
-
   // 1️⃣ Initialize Firebase first
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-
   // 2️⃣ Register background handler
   // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   // // 3️⃣ Initialize notification service

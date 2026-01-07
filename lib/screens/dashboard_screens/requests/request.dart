@@ -11,6 +11,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class RequestScreen extends StatefulWidget {
   const RequestScreen({super.key});
@@ -67,14 +68,14 @@ class _RequestScreenState extends State<RequestScreen> {
     final leaveType = leaveController.leaveTypes.firstWhereOrNull(
       (type) => type.id == leaveTypeId,
     );
-    return leaveType?.nameEn ?? "Leave";
+    return leaveType?.nameEn ?? TranslationKeys.leave.tr;
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarrWitAction(
-        title: "Requests",
+        title: TranslationKeys.requests.tr,
         leadingWidget: const SizedBox(),
         titlefontSize: 18.0,
       ),
@@ -85,7 +86,7 @@ class _RequestScreenState extends State<RequestScreen> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             kText(
-              text: "Requests history",
+              text: TranslationKeys.requestsHistory.tr,
               fSize: 16.0,
               fWeight: FontWeight.bold,
             ),
@@ -108,13 +109,13 @@ class _RequestScreenState extends State<RequestScreen> {
                         ),
                         UIHelper.verticalSpaceSm10,
                         kText(
-                          text: "No leave requests found",
+                          text: TranslationKeys.noLeaveRequestsFound.tr,
                           fSize: 14.0,
                           tColor: Colors.grey,
                         ),
                         UIHelper.verticalSpaceSm5,
                         kText(
-                          text: "Click below to make a request",
+                          text: TranslationKeys.clickBelowToMakeRequest.tr,
                           fSize: 12.0,
                           tColor: Colors.grey.shade400,
                         ),
@@ -181,7 +182,7 @@ class _RequestScreenState extends State<RequestScreen> {
         padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
         child: LoadingButton(
           isLoading: false,
-          text: "Make a request",
+          text: TranslationKeys.makeARequest.tr,
           onTap: () {
             Get.to(
               () => const NewLeaveRequestScreen(),
@@ -263,7 +264,7 @@ class _RequestScreenState extends State<RequestScreen> {
                     ],
                   ),
                   child: kText(
-                    text: leave.status ?? "Unknown",
+                    text: leave.status ?? TranslationKeys.unknown.tr,
                     fSize: 11.0,
                     tColor: whiteColor,
                     fWeight: fontWeightBold,
@@ -287,7 +288,7 @@ class _RequestScreenState extends State<RequestScreen> {
                       const SizedBox(width: 6),
                       kText(
                         text:
-                            "${leave.totalDays} day${leave.totalDays! > 1 ? 's' : ''}",
+                            "${leave.totalDays} ${leave.totalDays! > 1 ? TranslationKeys.days.tr : TranslationKeys.day.tr}",
                         fSize: 12.0,
                         tColor: whiteColor,
                         fWeight: FontWeight.w500,
@@ -409,7 +410,7 @@ class _RequestScreenState extends State<RequestScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             kText(
-                              text: "Leave Details",
+                              text: TranslationKeys.leaveDetails.tr,
                               fSize: 18.0,
                               fWeight: FontWeight.bold,
                               tColor: Colors.black87,
@@ -440,7 +441,7 @@ class _RequestScreenState extends State<RequestScreen> {
                           ],
                         ),
                         child: kText(
-                          text: leave.status ?? "Unknown",
+                          text: leave.status ?? TranslationKeys.unknown.tr,
                           fSize: 12.0,
                           tColor: Colors.white,
                           fWeight: FontWeight.bold,
@@ -462,7 +463,7 @@ class _RequestScreenState extends State<RequestScreen> {
                         // Date Range
                         _detailCard(
                           icon: Icons.calendar_today,
-                          title: "Date Range",
+                          title: TranslationKeys.dateRange.tr,
                           content:
                               "${formatDate(leave.startDate)} - ${formatDate(leave.endDate)}",
                         ),
@@ -473,9 +474,9 @@ class _RequestScreenState extends State<RequestScreen> {
                         if (leave.totalDays != null)
                           _detailCard(
                             icon: Icons.event_available,
-                            title: "Total Days",
+                            title: TranslationKeys.totalDays.tr,
                             content:
-                                "${leave.totalDays} day${leave.totalDays! > 1 ? 's' : ''}",
+                                "${leave.totalDays} ${leave.totalDays! > 1 ? TranslationKeys.days.tr : TranslationKeys.day.tr}",
                           ),
 
                         const SizedBox(height: 12),
@@ -484,7 +485,7 @@ class _RequestScreenState extends State<RequestScreen> {
                         if (leave.reason != null && leave.reason!.isNotEmpty)
                           _detailCard(
                             icon: Icons.notes,
-                            title: "Reason",
+                            title: TranslationKeys.reason.tr,
                             content: leave.reason!,
                           ),
 
@@ -494,7 +495,7 @@ class _RequestScreenState extends State<RequestScreen> {
                         if (leave.approverId != null)
                           _detailCard(
                             icon: Icons.person_outline,
-                            title: "Approver ID",
+                            title: TranslationKeys.approverId.tr,
                             content: leave.approverId!,
                           ),
 
@@ -504,7 +505,7 @@ class _RequestScreenState extends State<RequestScreen> {
                         if (leave.approvedAt != null)
                           _detailCard(
                             icon: Icons.check_circle_outline,
-                            title: "Approved At",
+                            title: TranslationKeys.approvedAt.tr,
                             content: formatDate(leave.approvedAt),
                           ),
 
@@ -514,7 +515,7 @@ class _RequestScreenState extends State<RequestScreen> {
                         if (leave.createdAt != null)
                           _detailCard(
                             icon: Icons.access_time,
-                            title: "Requested On",
+                            title: TranslationKeys.requestedOn.tr,
                             content: formatDate(leave.createdAt),
                           ),
 

@@ -7,6 +7,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/views/CustomButton.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class NewLeaveRequestScreen extends StatefulWidget {
   const NewLeaveRequestScreen({super.key});
@@ -26,7 +27,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitAction(title: "New Leave Request"),
+      appBar: appBarrWitAction(title: TranslationKeys.newLeaveRequest.tr),
       backgroundColor: Colors.white,
       body: Obx(() {
         if (leaveController.isLoading.value) {
@@ -67,7 +68,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                                             .value,
                                   )
                                   .nameEn!
-                              : "Select leave type",
+                              : TranslationKeys.selectLeaveType.tr,
                       fSize: 14.0,
                       tColor: whiteColor,
                     ),
@@ -85,7 +86,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                   child: GestureDetector(
                     onTap: () => _pickDate(context, true),
                     child: _dateField(
-                      title: "Start Date",
+                      title: TranslationKeys.startDate.tr,
                       value: leaveController.startDateController.text,
                     ),
                   ),
@@ -95,7 +96,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                   child: GestureDetector(
                     onTap: () => _pickDate(context, false),
                     child: _dateField(
-                      title: "End Date",
+                      title: TranslationKeys.endDate.tr,
                       value: leaveController.endDateController.text,
                     ),
                   ),
@@ -121,7 +122,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       kText(
-                        text: "Total Days",
+                        text: TranslationKeys.totalDays.tr,
                         fSize: 14.0,
                         fWeight: FontWeight.w600,
                         tColor: whiteColor,
@@ -148,7 +149,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
               },
               maxLines: 4,
               decoration: InputDecoration(
-                hintText: "Add reason for leave...",
+                hintText: TranslationKeys.addReasonForLeave.tr,
                 border: OutlineInputBorder(
                   borderRadius: BorderRadius.circular(12),
                   borderSide: BorderSide(color: kPrimaryColor),
@@ -171,7 +172,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
         child: Obx(
           () => LoadingButton(
             isLoading: leaveController.isSubmitting.value,
-            text: "Submit Request",
+            text: TranslationKeys.submitRequest.tr,
             onTap: () => leaveController.submitLeaveRequest(),
           ),
         ),
@@ -197,7 +198,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
               const Icon(Icons.calendar_today, size: 16, color: whiteColor),
               UIHelper.horizontalSpaceSm10,
               kText(
-                text: value.isNotEmpty ? value : "Select date",
+                text: value.isNotEmpty ? value : TranslationKeys.selectDate.tr,
                 fSize: 13.5,
                 tColor: whiteColor,
               ),
@@ -240,8 +241,8 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
         // Prevent negative day count (if user selects end < start)
         if (end.isBefore(start)) {
           Get.snackbar(
-            "Invalid Date Range",
-            "End date cannot be before start date",
+            TranslationKeys.invalidDateRange.tr,
+            TranslationKeys.endDateCannotBeBeforeStartDate.tr,
             snackPosition: SnackPosition.BOTTOM,
             backgroundColor: Colors.red.shade100,
             colorText: Colors.black,
@@ -363,7 +364,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                  kText(
-                                  text: "Choose Leave Type",
+                                  text: TranslationKeys.chooseLeaveType.tr,
                                   fSize: 16.0,
                                   fWeight: FontWeight.bold,
                                   tColor: Colors.black87,
@@ -372,7 +373,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                                 Obx(() {
                                   return kText(
                                     text:
-                                        "${leaveController.leaveTypes.length} types available",
+                                        "${leaveController.leaveTypes.length} ${TranslationKeys.typesAvailable.tr}",
                                     fSize: 11.0,
                                     tColor: Colors.grey.shade600,
                                   );
@@ -638,7 +639,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                                     ),
                                     const SizedBox(width: 4),
                                     kText(
-                                      text: "Paid",
+                                      text: TranslationKeys.paid.tr,
                                       fSize: 10.0,
                                       tColor: Colors.white,
                                       fWeight: FontWeight.bold,
@@ -667,7 +668,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                               ),
                               const SizedBox(width: 4),
                               kText(
-                                text: "${type.annualDays} days/year",
+                                text: "${type.annualDays} ${TranslationKeys.daysPerYear.tr}",
                                 fSize: 10.0,
                                 tColor: Colors.grey.shade700,
                                 fWeight: FontWeight.w500,

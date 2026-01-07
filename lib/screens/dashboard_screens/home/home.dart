@@ -17,6 +17,9 @@ import 'package:supergithr/views/ui_helpers.dart';
 import '../../../controllers/employee_history_controller.dart';
 import '../../../controllers/profile_controller.dart';
 import '../../../translations/translations/translation_keys.dart';
+import 'package:intl/intl.dart';
+import 'package:supergithr/controllers/announcement_controller.dart';
+import 'package:supergithr/screens/dashboard_screens/home/announcements/announcements_list.dart';
 import '../../../utils/localization_helper.dart';
 
 class HomeScreen extends StatefulWidget {
@@ -31,6 +34,9 @@ class _HomeScreenState extends State<HomeScreen> {
     AttendanceController(),
   );
   final _profileController = Get.find<ProfileController>();
+  final AnnouncementController _announcementController = Get.put(
+    AnnouncementController(),
+  );
 
   @override
   Widget build(BuildContext context) {
@@ -317,7 +323,7 @@ class _HomeScreenState extends State<HomeScreen> {
                   ],
                 ),
                 InkWell(
-                  onTap: () {},
+                  onTap: () => Get.to(() => const AnnouncementsListScreen()),
                   child: Container(
                     padding: const EdgeInsets.symmetric(
                       horizontal: 12,
@@ -341,181 +347,191 @@ class _HomeScreenState extends State<HomeScreen> {
             UIHelper.verticalSpaceSm10,
 
             // Beautiful Announcement Card
-            Container(
-              width: double.infinity,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(20),
-                gradient: LinearGradient(
-                  colors: [
-                    kPrimaryColor.withOpacity(0.8),
-                    kSecondaryColor.withOpacity(0.9),
+            Obx(() {
+              final lastAnnouncement = _announcementController.latestAnnouncement;
+              if (lastAnnouncement == null) {
+                return const SizedBox();
+              }
+
+              final title = lastAnnouncement.title ?? "";
+              final message = lastAnnouncement.message ?? "";
+              final publishDate = lastAnnouncement.publishAt != null
+                  ? DateFormat('dd MMM, yyyy HH:mm').format(
+                    DateTime.parse(lastAnnouncement.publishAt!),
+                  )
+                  : "";
+
+              return Container(
+                width: double.infinity,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  gradient: LinearGradient(
+                    colors: [
+                      kPrimaryColor.withOpacity(0.8),
+                      kSecondaryColor.withOpacity(0.9),
+                    ],
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                  ),
+                  boxShadow: [
+                    BoxShadow(
+                      color: kPrimaryColor.withOpacity(0.3),
+                      blurRadius: 15,
+                      offset: const Offset(0, 8),
+                    ),
                   ],
-                  begin: Alignment.topLeft,
-                  end: Alignment.bottomRight,
                 ),
-                boxShadow: [
-                  BoxShadow(
-                    color: kPrimaryColor.withOpacity(0.3),
-                    blurRadius: 15,
-                    offset: const Offset(0, 8),
-                  ),
-                ],
-              ),
-              child: Stack(
-                children: [
-                  // Decorative circles
-                  Positioned(
-                    top: -20,
-                    right: -20,
-                    child: Container(
-                      width: 100,
-                      height: 100,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.1),
+                child: Stack(
+                  children: [
+                    // Decorative circles
+                    Positioned(
+                      top: -20,
+                      right: -20,
+                      child: Container(
+                        width: 100,
+                        height: 100,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.1),
+                        ),
                       ),
                     ),
-                  ),
-                  Positioned(
-                    bottom: -30,
-                    left: -30,
-                    child: Container(
-                      width: 120,
-                      height: 120,
-                      decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        color: Colors.white.withOpacity(0.05),
+                    Positioned(
+                      bottom: -30,
+                      left: -30,
+                      child: Container(
+                        width: 120,
+                        height: 120,
+                        decoration: BoxDecoration(
+                          shape: BoxShape.circle,
+                          color: Colors.white.withOpacity(0.05),
+                        ),
                       ),
                     ),
-                  ),
-                  // Content
-                  Padding(
-                    padding: const EdgeInsets.all(20),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        // Badge
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 12,
-                            vertical: 6,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white.withOpacity(0.2),
-                            borderRadius: BorderRadius.circular(20),
-                            border: Border.all(
-                              color: Colors.white.withOpacity(0.3),
-                            ),
-                          ),
-                          child: Row(
-                            mainAxisSize: MainAxisSize.min,
-                            children: [
-                              Container(
-                                width: 8,
-                                height: 8,
-                                decoration: const BoxDecoration(
-                                  shape: BoxShape.circle,
-                                  color: Colors.greenAccent,
-                                ),
-                              ),
-                              const SizedBox(width: 6),
-                              kText(
-                                text: TranslationKeys.new_.tr,
-                                fSize: 11.0,
-                                tColor: Colors.white,
-                                fWeight: FontWeight.w600,
-                              ),
-                            ],
-                          ),
-                        ),
-                        UIHelper.verticalSpaceSm10,
-                        // Title
-                        kText(
-                          text: "Important Company Update",
-                          fSize: 18.0,
-                          fWeight: FontWeight.bold,
-                          tColor: Colors.white,
-                          maxLines: 2,
-                          textoverflow: TextOverflow.ellipsis,
-                        ),
-                        UIHelper.verticalSpaceSm5,
-                        // Date & Time
-                        Row(
-                          children: [
-                            Icon(
-                              Icons.access_time,
-                              size: 14,
-                              color: Colors.white.withOpacity(0.8),
-                            ),
-                            const SizedBox(width: 4),
-                            kText(
-                              text: "Today, 2:30 PM",
-                              fSize: 12.0,
-                              tColor: Colors.white.withOpacity(0.8),
-                            ),
-                          ],
-                        ),
-                        UIHelper.verticalSpaceSm10,
-                        // Description
-                        kText(
-                          text:
-                              "We have important updates regarding company policies and upcoming events. Please review the details carefully.",
-                          fSize: 13.0,
-                          tColor: Colors.white.withOpacity(0.95),
-                          maxLines: 3,
-                          textoverflow: TextOverflow.ellipsis,
-                        ),
-                        UIHelper.verticalSpaceSm10,
-                        // Read More Button
-                        InkWell(
-                          onTap: () {
-                            showAnnouncementDetail(
-                              context,
-                              "Important Company Update",
-                              "We have important updates regarding company policies and upcoming events. This includes new working hours, holiday schedule, and performance review guidelines. Please make sure to read through all the details and reach out to HR if you have any questions.",
-                            );
-                          },
-                          child: Container(
+                    // Content
+                    Padding(
+                      padding: const EdgeInsets.all(20),
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          // Badge
+                          Container(
                             padding: const EdgeInsets.symmetric(
-                              horizontal: 16,
-                              vertical: 10,
+                              horizontal: 12,
+                              vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: Colors.white,
-                              borderRadius: BorderRadius.circular(25),
-                              boxShadow: [
-                                BoxShadow(
-                                  color: Colors.black.withOpacity(0.1),
-                                  blurRadius: 8,
-                                  offset: const Offset(0, 4),
-                                ),
-                              ],
+                              color: Colors.white.withOpacity(0.2),
+                              borderRadius: BorderRadius.circular(20),
+                              border: Border.all(
+                                color: Colors.white.withOpacity(0.3),
+                              ),
                             ),
                             child: Row(
                               mainAxisSize: MainAxisSize.min,
                               children: [
-                                kText(
-                                  text: TranslationKeys.readMore.tr,
-                                  fSize: 13.0,
-                                  tColor: kPrimaryColor,
-                                  fWeight: FontWeight.w600,
+                                Container(
+                                  width: 8,
+                                  height: 8,
+                                  decoration: const BoxDecoration(
+                                    shape: BoxShape.circle,
+                                    color: Colors.greenAccent,
+                                  ),
                                 ),
                                 const SizedBox(width: 6),
-                                Icon(
-                                  Icons.arrow_forward,
-                                  size: 16,
-                                  color: kPrimaryColor,
+                                kText(
+                                  text: TranslationKeys.new_.tr,
+                                  fSize: 11.0,
+                                  tColor: Colors.white,
+                                  fWeight: FontWeight.w600,
                                 ),
                               ],
                             ),
                           ),
-                        ),
-                      ],
+                          UIHelper.verticalSpaceSm10,
+                          // Title
+                          kText(
+                            text: title,
+                            fSize: 18.0,
+                            fWeight: FontWeight.bold,
+                            tColor: Colors.white,
+                            maxLines: 2,
+                            textoverflow: TextOverflow.ellipsis,
+                          ),
+                          UIHelper.verticalSpaceSm5,
+                          // Date & Time
+                          Row(
+                            children: [
+                              Icon(
+                                Icons.access_time,
+                                size: 14,
+                                color: Colors.white.withOpacity(0.8),
+                              ),
+                              const SizedBox(width: 4),
+                              kText(
+                                text: publishDate,
+                                fSize: 12.0,
+                                tColor: Colors.white.withOpacity(0.8),
+                              ),
+                            ],
+                          ),
+                          UIHelper.verticalSpaceSm10,
+                          // Description
+                          kText(
+                            text: message,
+                            fSize: 13.0,
+                            tColor: Colors.white.withOpacity(0.95),
+                            maxLines: 3,
+                            textoverflow: TextOverflow.ellipsis,
+                          ),
+                          UIHelper.verticalSpaceSm10,
+                          // Read More Button
+                          InkWell(
+                            onTap: () {
+                              showAnnouncementDetail(context, title, message);
+                            },
+                            child: Container(
+                              padding: const EdgeInsets.symmetric(
+                                horizontal: 16,
+                                vertical: 10,
+                              ),
+                              decoration: BoxDecoration(
+                                color: Colors.white,
+                                borderRadius: BorderRadius.circular(25),
+                                boxShadow: [
+                                  BoxShadow(
+                                    color: Colors.black.withOpacity(0.1),
+                                    blurRadius: 8,
+                                    offset: const Offset(0, 4),
+                                  ),
+                                ],
+                              ),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  kText(
+                                    text: TranslationKeys.readMore.tr,
+                                    fSize: 13.0,
+                                    tColor: kPrimaryColor,
+                                    fWeight: FontWeight.w600,
+                                  ),
+                                  const SizedBox(width: 6),
+                                  Icon(
+                                    Icons.arrow_forward,
+                                    size: 16,
+                                    color: kPrimaryColor,
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
                     ),
-                  ),
-                ],
-              ),
-            ),
+                  ],
+                ),
+              );
+            }),
           ],
         ),
       ),
@@ -658,13 +674,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   kText(
-                                    text: "Published",
+                                    text: TranslationKeys.published.tr,
                                     fSize: 11.0,
                                     tColor: Colors.grey.shade600,
                                   ),
                                   const SizedBox(height: 2),
                                   kText(
-                                    text: "Today, 2:30 PM",
+                                    text: TranslationKeys.todayAtTime.tr,
                                     fSize: 13.0,
                                     fWeight: FontWeight.w600,
                                     tColor: Colors.black87,
@@ -690,7 +706,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                     ),
                                     const SizedBox(width: 4),
                                     kText(
-                                      text: "Important",
+                                      text: TranslationKeys.important.tr,
                                       fSize: 11.0,
                                       tColor: kPrimaryColor,
                                       fWeight: FontWeight.w600,
@@ -706,7 +722,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
                         // Body Content
                         kText(
-                          text: "Details",
+                          text: TranslationKeys.details.tr,
                           fSize: 16.0,
                           fWeight: FontWeight.bold,
                           tColor: Colors.black87,
@@ -746,8 +762,7 @@ class _HomeScreenState extends State<HomeScreen> {
                               const SizedBox(width: 12),
                               Expanded(
                                 child: kText(
-                                  text:
-                                      "For any questions, please contact HR department.",
+                                  text: TranslationKeys.contactHrMessage.tr,
                                   fSize: 12.0,
                                   tColor: Colors.grey.shade700,
                                 ),

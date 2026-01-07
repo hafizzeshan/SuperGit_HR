@@ -11,7 +11,7 @@ import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/models/user_model.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/screens/dashboard_screens/home/holidays/holidays.dart';
-import 'package:supergithr/screens/dashboard_screens/setting/announcement_screen.dart';
+import 'package:supergithr/screens/dashboard_screens/home/announcements/announcements_list.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/doc/personal_document.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/profile_view.dart';
 import 'package:supergithr/splash.dart';
@@ -77,7 +77,7 @@ class _AboutScreenState extends State<AboutScreen> {
           _buildTile(
             icon: Icons.campaign_rounded,
             label: TranslationKeys.announcements.tr,
-            onTap: () => Get.to(AnnouncementScreen()),
+            onTap: () => Get.to(() => const AnnouncementsListScreen()),
           ),
           _buildTile(
             icon: Icons.flag_rounded,
@@ -135,7 +135,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 SizedBox(width: 12),
                 Expanded(
                   child: kText(
-                    text: "Location Required",
+                    text: TranslationKeys.locationRequired.tr,
                     fSize: 18.0,
                     fWeight: FontWeight.bold,
                     tColor: Colors.black87,
@@ -145,7 +145,7 @@ class _AboutScreenState extends State<AboutScreen> {
             ),
             content: kText(
               text:
-                  "Location services are required to clock out. Please enable location to continue with logout.",
+                  TranslationKeys.locationServicesRequiredForClockOut.tr,
               fSize: 14.0,
               tColor: Colors.black87,
             ),
@@ -153,7 +153,7 @@ class _AboutScreenState extends State<AboutScreen> {
               TextButton(
                 onPressed: () => Get.back(result: false),
                 child: kText(
-                  text: "Cancel",
+                  text: TranslationKeys.cancel.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.grey,
@@ -168,7 +168,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ),
                 child: kText(
-                  text: "Enable Location",
+                  text: TranslationKeys.enableLocation.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.white,
@@ -187,7 +187,7 @@ class _AboutScreenState extends State<AboutScreen> {
         serviceEnabled = await location.requestService();
         if (!serviceEnabled) {
           Utils.snackBar(
-            "Location service is required to clock out before logout",
+            TranslationKeys.locationServiceRequiredBeforeLogout.tr,
             true,
           );
           return;
@@ -199,7 +199,7 @@ class _AboutScreenState extends State<AboutScreen> {
       if (permissionGranted == PermissionStatus.denied) {
         permissionGranted = await location.requestPermission();
         if (permissionGranted != PermissionStatus.granted) {
-          Utils.snackBar("Location permission is required to clock out", true);
+          Utils.snackBar(TranslationKeys.locationPermissionRequired.tr, true);
           return;
         }
       }
@@ -212,14 +212,14 @@ class _AboutScreenState extends State<AboutScreen> {
               borderRadius: BorderRadius.circular(16),
             ),
             title: kText(
-              text: "Permission Required",
+              text: TranslationKeys.permissionRequired.tr,
               fSize: 18.0,
               fWeight: FontWeight.bold,
               tColor: Colors.black87,
             ),
             content: kText(
               text:
-                  "Location permission is permanently denied. Please enable it in app settings to continue.",
+                  TranslationKeys.locationPermissionPermanentlyDenied.tr,
               fSize: 14.0,
               tColor: Colors.black87,
             ),
@@ -227,7 +227,7 @@ class _AboutScreenState extends State<AboutScreen> {
               TextButton(
                 onPressed: () => Get.back(),
                 child: kText(
-                  text: "Cancel",
+                  text: TranslationKeys.cancel.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.grey,
@@ -255,7 +255,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
                 kText(
-                  text: "Getting your location...",
+                  text: TranslationKeys.gettingYourLocation.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.black87,
@@ -281,7 +281,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
       // Check if location was successfully retrieved
       if (locationController.currentLatLng.value == null) {
-        Utils.snackBar("Failed to get location. Please try again.", true);
+        Utils.snackBar(TranslationKeys.failedToGetLocation.tr, true);
         return;
       }
 
@@ -297,7 +297,7 @@ class _AboutScreenState extends State<AboutScreen> {
       if (Get.isDialogOpen!) Get.back();
 
       // Show error
-      Utils.snackBar("Failed to get location. Please try again.", true);
+      Utils.snackBar(TranslationKeys.failedToGetLocation.tr, true);
     }
   }
 
@@ -323,7 +323,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 SizedBox(width: 12),
                 Expanded(
                   child: kText(
-                    text: "Clock Out Required",
+                    text: TranslationKeys.clockOutRequired.tr,
                     fSize: 18.0,
                     fWeight: FontWeight.bold,
                     tColor: Colors.black87,
@@ -337,7 +337,7 @@ class _AboutScreenState extends State<AboutScreen> {
               children: [
                 kText(
                   text:
-                      "You are currently clocked in. If you logout now, you will be automatically clocked out.",
+                      TranslationKeys.currentlyClockedInMessage.tr,
                   fSize: 14.0,
                   tColor: Colors.black87,
                   textalign: TextAlign.left,
@@ -361,7 +361,7 @@ class _AboutScreenState extends State<AboutScreen> {
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             kText(
-                              text: "Clock-out Location:",
+                              text: TranslationKeys.clockOutLocation.tr,
                               fSize: 12.0,
                               fWeight: FontWeight.w600,
                               tColor: Colors.blue.shade900,
@@ -371,7 +371,7 @@ class _AboutScreenState extends State<AboutScreen> {
                               text:
                                   address.isNotEmpty
                                       ? address
-                                      : "Getting address...",
+                                      : TranslationKeys.gettingAddress.tr,
                               fSize: 13.0,
                               tColor: Colors.black87,
                               textalign: TextAlign.left,
@@ -385,7 +385,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 SizedBox(height: 16),
                 kText(
                   text:
-                      "Do you want to proceed with logout and automatic clock out?",
+                      TranslationKeys.proceedWithLogoutAndClockOut.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.black87,
@@ -397,7 +397,7 @@ class _AboutScreenState extends State<AboutScreen> {
               TextButton(
                 onPressed: () => Navigator.pop(context),
                 child: kText(
-                  text: "Cancel",
+                  text: TranslationKeys.cancel.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.grey,
@@ -415,7 +415,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   ),
                 ),
                 child: kText(
-                  text: "Yes, Logout",
+                  text: TranslationKeys.yesLogout.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.white,
@@ -433,7 +433,7 @@ class _AboutScreenState extends State<AboutScreen> {
 
       // Validate coordinates
       if (coords == null) {
-        Utils.snackBar("Location not available. Please try again.", true);
+        Utils.snackBar(TranslationKeys.failedToGetLocation.tr, true);
         return;
       }
 
@@ -452,7 +452,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 CircularProgressIndicator(),
                 SizedBox(height: 16),
                 kText(
-                  text: "Clocking out...",
+                  text: TranslationKeys.clockingOut.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.black87,
@@ -508,14 +508,14 @@ class _AboutScreenState extends State<AboutScreen> {
             borderRadius: BorderRadius.circular(16),
           ),
           title: kText(
-            text: "Clock Out Failed",
+            text: TranslationKeys.clockOutFailed.tr,
             fSize: 16.0,
             fWeight: FontWeight.bold,
             tColor: Colors.black87,
           ),
           content: kText(
             text:
-                "Failed to clock out automatically. Do you still want to logout?",
+                TranslationKeys.failedToClockOutAutomatically.tr,
             fSize: 14.0,
             tColor: Colors.black87,
           ),
@@ -523,7 +523,7 @@ class _AboutScreenState extends State<AboutScreen> {
             TextButton(
               onPressed: () => Get.back(),
               child: kText(
-                text: "Cancel",
+                text: TranslationKeys.cancel.tr,
                 fSize: 14.0,
                 fWeight: FontWeight.w600,
                 tColor: Colors.grey,
@@ -538,7 +538,7 @@ class _AboutScreenState extends State<AboutScreen> {
                 backgroundColor: Colors.redAccent,
               ),
               child: kText(
-                text: "Logout Anyway",
+                text: TranslationKeys.logoutAnyway.tr,
                 fSize: 14.0,
                 fWeight: FontWeight.w600,
                 tColor: Colors.white,

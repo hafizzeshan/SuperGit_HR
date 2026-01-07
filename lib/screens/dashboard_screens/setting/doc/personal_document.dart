@@ -8,6 +8,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/doc/document_viewer.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class PersonalDocumentsScreen extends StatefulWidget {
   PersonalDocumentsScreen({super.key});
@@ -39,7 +40,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitAction(title: "Personal Documents"),
+      appBar: appBarrWitAction(title: TranslationKeys.personalDocuments.tr),
       backgroundColor: Colors.grey.shade50,
       floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -91,14 +92,14 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
               ),
               UIHelper.verticalSpaceSm20,
               kText(
-                text: "No Documents Yet",
+                text: TranslationKeys.noDocumentsYet.tr,
                 fSize: 20,
                 fWeight: FontWeight.w600,
                 tColor: Colors.grey.shade600,
               ),
               UIHelper.verticalSpaceSm10,
               kText(
-                text: "Add your first document to get started",
+                text: TranslationKeys.addFirstDocument.tr,
                 fSize: 14,
                 tColor: Colors.grey.shade500,
               ),
@@ -180,19 +181,19 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
         children: [
           _buildStatItem(
             verifiedCount,
-            "Verified",
+            TranslationKeys.verified.tr,
             Colors.green.shade100,
             Colors.green,
           ),
           _buildStatItem(
             pendingCount,
-            "Pending",
+            TranslationKeys.pending.tr,
             Colors.orange.shade100,
             Colors.orange,
           ),
           _buildStatItem(
             expiredCount,
-            "Expired",
+            TranslationKeys.expired.tr,
             Colors.red.shade100,
             Colors.red,
           ),
@@ -219,7 +220,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
 
     if (signedFlag || signedAt.contains('verified')) {
       return {
-        'label': 'Verified',
+        'label': TranslationKeys.verified.tr,
         'color': Colors.green,
         'icon': Icons.verified_rounded,
       };
@@ -227,14 +228,14 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
 
     if (isExpired || signedAt.contains('expired')) {
       return {
-        'label': 'Expired',
+        'label': TranslationKeys.expired.tr,
         'color': Colors.red,
         'icon': Icons.error_outline_rounded,
       };
     }
 
     return {
-      'label': 'Pending',
+      'label': TranslationKeys.pending.tr,
       'color': Colors.orange,
       'icon': Icons.pending_rounded,
     };
@@ -342,7 +343,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kText(
-                            text: doc.documentType ?? "Document",
+                            text: doc.documentType ?? TranslationKeys.document.tr,
                             fSize: 18,
                             fWeight: FontWeight.bold,
                             tColor: whiteColor,
@@ -412,17 +413,17 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
         mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
           _buildDetailItem(
-            "Document No.",
+            TranslationKeys.documentNo.tr,
             doc.documentNumber ?? "-",
             Icons.numbers_rounded,
           ),
           _buildDetailItem(
-            "Issue Date",
+            TranslationKeys.issueDate.tr,
             doc.issueDate ?? "-",
             Icons.calendar_today_rounded,
           ),
           _buildDetailItem(
-            "Expiry Date",
+            TranslationKeys.expiryDate.tr,
             doc.expiryDate ?? "-",
             Icons.event_busy_rounded,
           ),
@@ -476,7 +477,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
             ),
             icon: const Icon(Icons.visibility_outlined, size: 18),
             label: kText(
-              text: "View Document",
+              text: TranslationKeys.viewDocument.tr,
               fSize: 14,
               tColor: whiteColor,
               fWeight: FontWeight.w600,

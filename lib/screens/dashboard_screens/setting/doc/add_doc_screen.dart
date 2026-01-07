@@ -8,6 +8,7 @@ import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/custom_text_field.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class AddDocumentScreen extends StatefulWidget {
   AddDocumentScreen({super.key});
@@ -22,7 +23,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitoutAction(title: "Add Document"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.addDocument.tr),
       body: Obx(
         () => SingleChildScrollView(
           padding: const EdgeInsets.all(16),
@@ -30,25 +31,25 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
             children: [
               CustomTextField(
                 controller: controller.documentTypeController,
-                hint: "Document Type",
+                hint: TranslationKeys.documentType.tr,
                 required: true,
               ),
               const SizedBox(height: 12),
               CustomTextField(
                 controller: controller.documentNameController,
-                hint: "Document Name",
+                hint: TranslationKeys.documentName.tr,
                 required: true,
               ),
               const SizedBox(height: 12),
               CustomTextField(
                 controller: controller.documentNumberController,
-                hint: "Document Number",
+                hint: TranslationKeys.documentNumber.tr,
                 required: true,
               ),
               const SizedBox(height: 12),
               CustomTextField(
                 controller: controller.issueDateController,
-                hint: "Issue Date",
+                hint: TranslationKeys.issueDate.tr,
                 readOnly: true,
                 onTap: () => _pickDate(controller.issueDateController),
                 required: true,
@@ -56,7 +57,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
               const SizedBox(height: 12),
               CustomTextField(
                 controller: controller.expiryDateController,
-                hint: "Expiry Date",
+                hint: TranslationKeys.expiryDate.tr,
                 readOnly: true,
                 onTap: () => _pickDate(controller.expiryDateController),
                 required: true,
@@ -65,8 +66,8 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
               _buildFilePickerField(),
               const SizedBox(height: 24),
               LoadingButton(
-                isLoading: !controller.isSubmitting.value,
-                text: "Add Document",
+                isLoading: controller.isSubmitting.value,
+                text: TranslationKeys.addDocument.tr,
                 onTap: controller.addDocument,
               ),
             ],
@@ -96,8 +97,8 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                 },
                 text:
                     controller.filePathController.text.isEmpty
-                        ? "Browse"
-                        : "Change File",
+                        ? TranslationKeys.browse.tr
+                        : TranslationKeys.changeFile.tr,
                 circleRadius: 10.0,
                 height: 45.0,
               ),
@@ -124,7 +125,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
             children: [
               UIHelper.verticalSpaceSm20,
               kText(
-                text: "Selected Image:",
+                text: TranslationKeys.selectedImage.tr,
                 fSize: 14.0,
                 fWeight: FontWeight.w500,
                 tColor: Colors.grey.shade700,
@@ -157,7 +158,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                             ),
                             UIHelper.verticalSpaceSm10,
                             kText(
-                              text: "Failed to load image",
+                              text: TranslationKeys.failedToLoadImage.tr,
                               fSize: 14.0,
                               tColor: Colors.grey.shade600,
                             ),
@@ -178,7 +179,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                       setState(() {}); // Refresh UI immediately
                     },
                     icon: Icon(Icons.delete_outline, color: Colors.red),
-                    tooltip: "Remove image",
+                    tooltip: TranslationKeys.removeImage.tr,
                   ),
                 ],
               ),

@@ -7,6 +7,7 @@ import 'package:supergithr/screens/dashboard_screens/home/timeclock/savedJod.dar
 import 'package:supergithr/views/CustomButton.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class ClockInMapScreen extends StatefulWidget {
   const ClockInMapScreen({super.key});
@@ -31,7 +32,7 @@ class _ClockInMapScreenState extends State<ClockInMapScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitoutAction(title: "Clock In"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.clockIn.tr),
       body: Obx(() {
         if (locationController.isLoading.value ||
             locationController.currentLatLng.value == null) {
@@ -153,7 +154,7 @@ class _ClockInMapViewState extends State<_ClockInMapView> {
                 height: 50,
                 child: LoadingButton(
                   isLoading: false,
-                  text: "Confirm",
+                  text: TranslationKeys.confirm.tr,
                   onTap: widget.onConfirm,
                 ),
               ),

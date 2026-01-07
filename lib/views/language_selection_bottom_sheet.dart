@@ -4,6 +4,7 @@ import 'package:supergithr/controllers/translation_controller.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 /// Modern Language Selection Bottom Sheet
 /// Supports English, Arabic, and Urdu languages
@@ -33,7 +34,7 @@ class LanguageSelectionBottomSheet {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 kText(
-                  text: "Select Language".tr,
+                  text: TranslationKeys.selectLanguage.tr,
                   fSize: 20.0,
                   fWeight: FontWeight.bold,
                   tColor: Colors.black87,
@@ -47,7 +48,7 @@ class LanguageSelectionBottomSheet {
             ),
             UIHelper.verticalSpaceSm10,
             kText(
-              text: "Choose your preferred language".tr,
+              text: TranslationKeys.chooseYourPreferredLanguage.tr,
               fSize: 14.0,
               tColor: Colors.grey.shade600,
             ),
