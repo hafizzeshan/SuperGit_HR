@@ -348,6 +348,12 @@ class TurkishLocal {
       TranslationKeys.important: "Önemli",
       TranslationKeys.close: "Kapat",
       TranslationKeys.noAnnouncementsAvailable: "Mevcut duyuru yok",
+      TranslationKeys.documentViewer: "Belge Görüntüleyici",
+      TranslationKeys.noDocumentAvailable: "Kullanılabilir belge yok",
+      TranslationKeys.failedToLoadImage: "Resim yüklenemedi",
+      TranslationKeys.openDocument: "Belgeyi Aç",
+      TranslationKeys.invalidDocumentUrl: "Geçersiz belge URL'si",
+      TranslationKeys.couldNotOpenDocument: "Belge açılamadı",
     };
   }
 }

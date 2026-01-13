@@ -513,6 +513,12 @@ class UrduLocal {
       TranslationKeys.important: "اہم",
       TranslationKeys.close: "بند کریں",
       TranslationKeys.noAnnouncementsAvailable: "کوئی اعلانات دستیاب نہیں ہیں",
+      TranslationKeys.documentViewer: "دستاویز دیکھنے والا",
+      TranslationKeys.noDocumentAvailable: "کوئی دستاویز دستیاب نہیں ہے",
+      TranslationKeys.failedToLoadImage: "تصویر لوڈ کرنے میں ناکامی",
+      TranslationKeys.openDocument: "دستاویز کھولیں",
+      TranslationKeys.invalidDocumentUrl: "غلط دستاویز کا URL",
+      TranslationKeys.couldNotOpenDocument: "دستاویز نہیں کھولی جا سکی",
     };
   }
 }

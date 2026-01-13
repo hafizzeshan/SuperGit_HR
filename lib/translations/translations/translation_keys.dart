@@ -516,4 +516,9 @@ class TranslationKeys {
   static const String groups = "groups";
   static const String justNow = "justNow";
   static const String supportMessage = "supportMessage";
+  static const String documentViewer = "documentViewer";
+  static const String noDocumentAvailable = "noDocumentAvailable";
+  static const String openDocument = "openDocument";
+  static const String invalidDocumentUrl = "invalidDocumentUrl";
+  static const String couldNotOpenDocument = "couldNotOpenDocument";
 }

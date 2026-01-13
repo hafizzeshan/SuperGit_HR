@@ -517,6 +517,12 @@ class ArabicLocal {
       TranslationKeys.important: "هام",
       TranslationKeys.close: "إغلاق",
       TranslationKeys.noAnnouncementsAvailable: "لا توجد إعلانات متاحة",
+      TranslationKeys.documentViewer: "عارض المستندات",
+      TranslationKeys.noDocumentAvailable: "لا يوجد مستند متاح",
+      TranslationKeys.failedToLoadImage: "فشل تحميل الصورة",
+      TranslationKeys.openDocument: "فتح المستند",
+      TranslationKeys.invalidDocumentUrl: "رابط المستند غير صالح",
+      TranslationKeys.couldNotOpenDocument: "تعذر فتح المستند",
     };
   }
 }

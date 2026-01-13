@@ -524,6 +524,12 @@ class EnglishLocal {
       TranslationKeys.important: "Important",
       TranslationKeys.close: "Close",
       TranslationKeys.noAnnouncementsAvailable: "No announcements available",
+      TranslationKeys.documentViewer: "Document Viewer",
+      TranslationKeys.noDocumentAvailable: "No document available",
+      TranslationKeys.failedToLoadImage: "Failed to load image",
+      TranslationKeys.openDocument: "Open Document",
+      TranslationKeys.invalidDocumentUrl: "Invalid document URL",
+      TranslationKeys.couldNotOpenDocument: "Could not open document",
     };
   }
 }
