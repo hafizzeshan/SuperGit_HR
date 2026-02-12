@@ -19,7 +19,7 @@ class LanguageSelectionBottomSheet {
       isScrollControlled: true,
       builder: (context) => Container(
         decoration: const BoxDecoration(
-          color: Colors.white,
+          gradient: kMainBackgroundGradient,
           borderRadius: BorderRadius.vertical(
             top: Radius.circular(24),
           ),

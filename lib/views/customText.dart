@@ -15,7 +15,8 @@ class kText extends StatelessWidget {
   final bool? textUnderLine;
   final Alignment? align;
   final Color? uderlineColor;
-  final Gradient? gradient; // ✅ NEW
+  final Gradient? gradient;
+  final double? letterSpacing; // ✅ NEW
 
   const kText({
     required this.text,
@@ -30,26 +31,30 @@ class kText extends StatelessWidget {
     this.textUnderLine,
     this.align,
     this.uderlineColor,
-    this.gradient, // ✅ NEW
+    this.gradient,
+    this.letterSpacing, // ✅ NEW
     super.key,
   });
 
   @override
   Widget build(BuildContext context) {
+    bool isArabic = Get.locale?.languageCode == 'ar';
+
     final textWidget = Text(
       text.tr,
       overflow: textoverflow ?? TextOverflow.visible,
       maxLines: maxLines,
-      textAlign: textalign,
+      textAlign: textalign ?? (isArabic ? TextAlign.right : TextAlign.left),
       style:
           style ??
           textStyleMontserratMiddle(
-            height: height ?? 1.0,
+            height: height ?? (isArabic ? 1.4 : 1.0),
             fontSize: fSize ?? 14.0,
             color: tColor,
             weight: fWeight ?? FontWeight.normal,
             decoration: textUnderLine ?? false,
             underlineColor: uderlineColor ?? tColor,
+            letterSpacing: letterSpacing, // ✅ NEW
           ),
     );
 

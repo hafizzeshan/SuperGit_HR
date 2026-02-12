@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/models/leave_type_model.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
@@ -28,147 +29,331 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: appBarrWitAction(title: TranslationKeys.newLeaveRequest.tr),
-      backgroundColor: Colors.white,
-      body: Obx(() {
-        if (leaveController.isLoading.value) {
-          return const Center(
-            child: CircularProgressIndicator(color: kPrimaryColor),
-          );
-        }
+      backgroundColor: kMainBackgroundColor,
+      body: Container(
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
+        child: Obx(() {
+          if (leaveController.isLoading.value) {
+            return const Center(
+              child: CircularProgressIndicator(color: kPrimaryColor),
+            );
+          }
 
-        return ListView(
-          padding: const EdgeInsets.all(16),
-          children: [
-            // Leave Type
-            UIHelper.verticalSpaceSm5,
-            GestureDetector(
-              onTap: _showLeaveTypeBottomSheet,
-              child: Container(
-                padding: const EdgeInsets.symmetric(
-                  horizontal: 12,
-                  vertical: 14,
-                ),
-                decoration: BoxDecoration(
-                  gradient: linearGradient2,
-                  border: Border.all(color: kPrimaryColor.withOpacity(0.5)),
-                  borderRadius: BorderRadius.circular(12),
-                ),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    kText(
-                      text:
-                          leaveController.selectedLeaveTypeId.value != null
-                              ? leaveController.leaveTypes
-                                  .firstWhere(
-                                    (type) =>
-                                        type.id ==
-                                        leaveController
-                                            .selectedLeaveTypeId
-                                            .value,
-                                  )
-                                  .nameEn!
-                              : TranslationKeys.selectLeaveType.tr,
-                      fSize: 14.0,
-                      tColor: whiteColor,
-                    ),
-                    const Icon(Icons.arrow_drop_down, color: whiteColor),
-                  ],
-                ),
-              ),
-            ),
-
-            // Start + End Dates Row
-            UIHelper.verticalSpaceSm20,
-            Row(
-              children: [
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _pickDate(context, true),
-                    child: _dateField(
-                      title: TranslationKeys.startDate.tr,
-                      value: leaveController.startDateController.text,
-                    ),
-                  ),
-                ),
-                const SizedBox(width: 12),
-                Expanded(
-                  child: GestureDetector(
-                    onTap: () => _pickDate(context, false),
-                    child: _dateField(
-                      title: TranslationKeys.endDate.tr,
-                      value: leaveController.endDateController.text,
-                    ),
-                  ),
-                ),
-              ],
-            ),
-
-            // Total Days
-            if (leaveController.totalDaysController.text.isNotEmpty)
-              Padding(
-                padding: const EdgeInsets.only(top: 12),
+          return ListView(
+            padding: const EdgeInsets.all(20),
+            children: [
+              // Leave Type Selector
+              GestureDetector(
+                onTap: _showLeaveTypeBottomSheet,
                 child: Container(
-                  padding: const EdgeInsets.symmetric(
-                    vertical: 12,
-                    horizontal: 14,
-                  ),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    gradient: linearGradient2,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(color: Colors.grey.shade300),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.03),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      kText(
-                        text: TranslationKeys.totalDays.tr,
-                        fSize: 14.0,
-                        fWeight: FontWeight.w600,
-                        tColor: whiteColor,
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor.withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          Icons.category_rounded,
+                          color: kPrimaryColor,
+                          size: 20,
+                        ),
                       ),
-                      kText(
-                        text:
-                            "${leaveController.totalDaysController.text} day${leaveController.totalDaysController.text == '1' ? '' : 's'}",
-                        fSize: 14.0,
-                        tColor: whiteColor,
-                        fWeight: FontWeight.bold,
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            kText(
+                              text: TranslationKeys.leaveType.tr,
+                              fSize: 12.0,
+                              tColor: Colors.grey.shade500,
+                            ),
+                            const SizedBox(height: 4),
+                            kText(
+                              text:
+                                  leaveController.selectedLeaveTypeId.value !=
+                                          null
+                                      ? leaveController.leaveTypes
+                                          .firstWhere(
+                                            (type) =>
+                                                type.id ==
+                                                leaveController
+                                                    .selectedLeaveTypeId
+                                                    .value,
+                                            orElse:
+                                                () => LeaveTypeModel(
+                                                  nameEn: "Unknown",
+                                                ),
+                                          )
+                                          .nameEn!
+                                      : TranslationKeys.selectLeaveType.tr,
+                              fSize: 15.0,
+                              fWeight: FontWeight.bold,
+                              tColor: Colors.black87,
+                            ),
+                          ],
+                        ),
+                      ),
+                      Icon(
+                        Icons.keyboard_arrow_down_rounded,
+                        color: Colors.grey.shade400,
+                        size: 24,
                       ),
                     ],
                   ),
                 ),
               ),
 
-            // Reason
-            UIHelper.verticalSpaceSm20,
-            TextField(
-              controller: leaveController.reasonController,
+              const SizedBox(height: 20),
 
-              onTapOutside: (event) async {
-                FocusScope.of(context).unfocus();
-              },
-              maxLines: 4,
-              decoration: InputDecoration(
-                hintText: TranslationKeys.addReasonForLeave.tr,
-                border: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: kPrimaryColor),
+              // Date Selection Row
+              Row(
+                children: [
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _pickDate(context, true),
+                      child: _dateField(
+                        title: TranslationKeys.startDate.tr,
+                        value: leaveController.startDateController.text,
+                        icon: Icons.calendar_today_rounded,
+                      ),
+                    ),
+                  ),
+                  const SizedBox(width: 16),
+                  Expanded(
+                    child: GestureDetector(
+                      onTap: () => _pickDate(context, false),
+                      child: _dateField(
+                        title: TranslationKeys.endDate.tr,
+                        value: leaveController.endDateController.text,
+                        icon: Icons.event_rounded,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              // Total Days Card
+              if (leaveController.totalDaysController.text.isNotEmpty)
+                Padding(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: Container(
+                    padding: const EdgeInsets.all(20),
+                    decoration: BoxDecoration(
+                      gradient: LinearGradient(
+                        colors: [
+                          kPrimaryColor.withOpacity(0.1),
+                          kPrimaryColor.withOpacity(0.05),
+                        ],
+                      ),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(color: kPrimaryColor.withOpacity(0.1)),
+                    ),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Row(
+                          children: [
+                            Icon(
+                              Icons.access_time_filled_rounded,
+                              color: kPrimaryColor,
+                              size: 20,
+                            ),
+                            const SizedBox(width: 10),
+                            kText(
+                              text: TranslationKeys.totalDays.tr,
+                              fSize: 14.0,
+                              fWeight: FontWeight.w600,
+                              tColor: kPrimaryColor.withOpacity(0.8),
+                            ),
+                          ],
+                        ),
+                        Container(
+                          padding: const EdgeInsets.symmetric(
+                            horizontal: 12,
+                            vertical: 6,
+                          ),
+                          decoration: BoxDecoration(
+                            color: Colors.white,
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: kText(
+                            text:
+                                "${leaveController.totalDaysController.text} Days",
+                            fSize: 14.0,
+                            tColor: kPrimaryColor,
+                            fWeight: FontWeight.bold,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                focusedBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: kPrimaryColor, width: 2),
-                ),
-                enabledBorder: OutlineInputBorder(
-                  borderRadius: BorderRadius.circular(12),
-                  borderSide: BorderSide(color: kPrimaryColor.withOpacity(0.5)),
+
+              const SizedBox(height: 24),
+
+              // Reason Input
+              kText(
+                text: TranslationKeys.reason.tr,
+                fSize: 14.0,
+                fWeight: FontWeight.bold,
+                tColor: Colors.black87,
+              ),
+              const SizedBox(height: 10),
+              TextField(
+                controller: leaveController.reasonController,
+                onTapOutside: (event) async {
+                  FocusScope.of(context).unfocus();
+                },
+                maxLines: 5,
+                style: const TextStyle(fontSize: 14),
+                decoration: InputDecoration(
+                  hintText: TranslationKeys.addReasonForLeave.tr,
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 13,
+                  ),
+                  filled: true,
+                  fillColor: Colors.white,
+                  contentPadding: const EdgeInsets.all(20),
+                  border: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none,
+                  ),
+                  enabledBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide.none,
+                  ),
+                  focusedBorder: OutlineInputBorder(
+                    borderRadius: BorderRadius.circular(20),
+                    borderSide: BorderSide(
+                      color: kPrimaryColor.withOpacity(0.5),
+                      width: 1.5,
+                    ),
+                  ),
                 ),
               ),
+
+              const SizedBox(height: 24),
+
+              // Attach Document
+              kText(
+                text: "Attach Document (Optional)",
+                fSize: 14.0,
+                fWeight: FontWeight.bold,
+                tColor: Colors.black87,
+              ),
+              const SizedBox(height: 10),
+              GestureDetector(
+                onTap: leaveController.pickDocument,
+                child: Container(
+                  padding: const EdgeInsets.all(16),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(
+                      color:
+                          leaveController.attachedFile.value != null
+                              ? kPrimaryColor
+                              : Colors.transparent,
+                    ),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.03),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Container(
+                        padding: const EdgeInsets.all(10),
+                        decoration: BoxDecoration(
+                          color: (leaveController.attachedFile.value != null
+                                  ? kPrimaryColor
+                                  : Colors.grey)
+                              .withOpacity(0.1),
+                          shape: BoxShape.circle,
+                        ),
+                        child: Icon(
+                          leaveController.attachedFile.value != null
+                              ? Icons.description
+                              : Icons.attach_file,
+                          color:
+                              leaveController.attachedFile.value != null
+                                  ? kPrimaryColor
+                                  : Colors.grey,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 16),
+                      Expanded(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            kText(
+                              text:
+                                  leaveController.attachedFile.value != null
+                                      ? "Selected Document"
+                                      : "Upload Document",
+                              fSize: 12.0,
+                              tColor: Colors.grey.shade500,
+                            ),
+                            const SizedBox(height: 4),
+                            kText(
+                              text:
+                                  leaveController.attachedFile.value?.name ??
+                                  "No file selected",
+                              fSize: 14.0,
+                              fWeight: FontWeight.w600,
+                              tColor: Colors.black87,
+                              maxLines: 1,
+                              textoverflow: TextOverflow.ellipsis,
+                            ),
+                          ],
+                        ),
+                      ),
+                      if (leaveController.attachedFile.value != null)
+                        IconButton(
+                          icon: const Icon(Icons.close, color: Colors.red),
+                          onPressed: leaveController.clearAttachedFile,
+                        ),
+                    ],
+                  ),
+                ),
+              ),
+            ],
+          );
+        }),
+      ),
+      bottomNavigationBar: Container(
+        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 20,
+              offset: const Offset(0, -5),
             ),
           ],
-        );
-      }),
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+        ),
         child: Obx(
           () => LoadingButton(
             isLoading: leaveController.isSubmitting.value,
@@ -180,27 +365,39 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
     );
   }
 
-  Widget _dateField({required String title, required String value}) {
+  Widget _dateField({
+    required String title,
+    required String value,
+    required IconData icon,
+  }) {
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 12, horizontal: 12),
+      padding: const EdgeInsets.all(16),
       decoration: BoxDecoration(
-        border: Border.all(color: Colors.grey.shade300),
-        gradient: linearGradient2,
-        borderRadius: BorderRadius.circular(12),
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(20),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.03),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          kText(text: title, fSize: 12.0, tColor: Colors.grey.shade200),
-          const SizedBox(height: 4),
+          kText(text: title, fSize: 12.0, tColor: Colors.grey.shade500),
+          const SizedBox(height: 8),
           Row(
             children: [
-              const Icon(Icons.calendar_today, size: 16, color: whiteColor),
+              Icon(icon, size: 20, color: kPrimaryColor),
               UIHelper.horizontalSpaceSm10,
               kText(
                 text: value.isNotEmpty ? value : TranslationKeys.selectDate.tr,
-                fSize: 13.5,
-                tColor: whiteColor,
+                fSize: 14.0,
+                fWeight: FontWeight.w600,
+                tColor:
+                    value.isNotEmpty ? Colors.black87 : Colors.grey.shade400,
               ),
             ],
           ),
@@ -210,15 +407,49 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
   }
 
   Future<void> _pickDate(BuildContext context, bool isStart) async {
-    DateTime initialDate = DateTime.now();
+    DateTime now = DateTime.now();
+    DateTime today = DateTime(now.year, now.month, now.day);
+    DateTime initialDate = today;
+    DateTime firstDate = DateTime(2000); // ✅ Allow past dates
+    DateTime lastDate = DateTime(2100);
+
+    // If picking Start Date, update initialDate to currently selected start date if any
+    if (isStart && leaveController.startDateController.text.isNotEmpty) {
+      try {
+        initialDate = DateTime.parse(leaveController.startDateController.text);
+      } catch (_) {}
+    }
+
+    // If picking End Date, restrict to be >= Start Date
+    if (!isStart && leaveController.startDateController.text.isNotEmpty) {
+      try {
+        final start = DateTime.parse(leaveController.startDateController.text);
+        
+        // The earliest end date allowed is the start date
+        firstDate = start;
+
+        // If end date is already selected, use it as initial. Otherwise use start date.
+        if (leaveController.endDateController.text.isNotEmpty) {
+           final end = DateTime.parse(leaveController.endDateController.text);
+           initialDate = end;
+        } else {
+           initialDate = start;
+        }
+      } catch (_) {
+        // Fallback to defaults if parsing fails
+      }
+    }
+    
+    // Ensure initialDate is within valid range
+    if (initialDate.isBefore(firstDate)) {
+      initialDate = firstDate;
+    }
 
     DateTime? picked = await showDatePicker(
       context: context,
       initialDate: initialDate,
-      firstDate: initialDate, // ✅ Only today and future dates
-      lastDate: initialDate.add(
-        const Duration(days: 365),
-      ), // up to 1 year ahead
+      firstDate: firstDate,
+      lastDate: lastDate,
     );
 
     if (picked != null) {
@@ -284,14 +515,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
             builder: (context, scrollController2) {
               return Container(
                 decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.white,
-                      Colors.blue.shade50.withOpacity(0.3),
-                    ],
-                  ),
+                  gradient: kMainBackgroundGradient,
                   borderRadius: const BorderRadius.vertical(
                     top: Radius.circular(30),
                   ),
@@ -363,7 +587,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
-                                 kText(
+                                kText(
                                   text: TranslationKeys.chooseLeaveType.tr,
                                   fSize: 16.0,
                                   fWeight: FontWeight.bold,
@@ -543,7 +767,9 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
           borderRadius: BorderRadius.circular(20),
           border: Border.all(
             color:
-                isSelected ? kPrimaryColor.withOpacity(0.5) : Colors.grey.shade200,
+                isSelected
+                    ? kPrimaryColor.withOpacity(0.5)
+                    : Colors.grey.shade200,
             width: isSelected ? 2 : 1,
           ),
           boxShadow: [
@@ -668,7 +894,8 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                               ),
                               const SizedBox(width: 4),
                               kText(
-                                text: "${type.annualDays} ${TranslationKeys.daysPerYear.tr}",
+                                text:
+                                    "${type.annualDays} ${TranslationKeys.daysPerYear.tr}",
                                 fSize: 10.0,
                                 tColor: Colors.grey.shade700,
                                 fWeight: FontWeight.w500,
@@ -686,7 +913,10 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                       padding: const EdgeInsets.all(6),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
-                          colors: [kPrimaryColor.withOpacity(0.8), kPrimaryColor],
+                          colors: [
+                            kPrimaryColor.withOpacity(0.8),
+                            kPrimaryColor,
+                          ],
                         ),
                         shape: BoxShape.circle,
                         boxShadow: [

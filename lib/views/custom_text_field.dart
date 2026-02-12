@@ -184,7 +184,8 @@ class _CustomTextFieldState extends State<CustomTextField> {
           borderRadius: BorderRadius.circular(10),
           borderSide: BorderSide(color: appButtonColor),
         ),
-        fillColor: Colors.grey,
+        filled: widget.backGroundcolor != null,
+        fillColor: widget.backGroundcolor ?? Colors.grey,
         // hintText: "",
         errorText: widget.errorMsg?.tr,
         //make hint text

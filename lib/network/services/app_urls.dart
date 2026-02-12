@@ -5,9 +5,17 @@ class AppURL {
   // static const String baseUrl =
   //     'https://mobile1.api.supergitsa.com/mobile/api/v1/';
   // shamas
-  // static const String baseUrl = 'https://6d5rc5cb-8080.inc1.devtunnels.ms/api/';
+  static const String baseUrl = 'https://jzq6qslp-8080.asse.devtunnels.ms/api/';
   // live
-  static const String baseUrl = 'https://hr1.api.supergitsa.com/api/';
+  // static const String baseUrl = 'https://hr1.api.supergitsa.com/api/';
+
+  static String attendanceHistory(
+    String employeeId,
+    String startDate,
+    String endDate,
+  ) =>
+      "${baseUrl}attendance/history?employee_id=$employeeId&start_date=$startDate&end_date=$endDate";
+
   // static const String baseUrl = 'https://90j4c2m1-8080.asse.devtunnels.ms/api/';
 
   static const String loginApi = 'auth/login';

@@ -5,6 +5,9 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/models/leave_request_model.dart';
 import 'package:supergithr/models/leave_type_model.dart';
 import 'package:supergithr/network/repository/attendance_repo/leave_repo.dart';
+import 'dart:io';
+import 'package:file_picker/file_picker.dart';
+import 'package:dio/dio.dart' as dio;
 import 'package:supergithr/utils/utils.dart';
 
 class LeaveController extends GetxController {
@@ -20,6 +23,7 @@ class LeaveController extends GetxController {
   var leaveTypes = <LeaveTypeModel>[].obs;
   var leaveHistory = <LeaveRequestModel>[].obs;
   var selectedLeaveTypeId = RxnString();
+  final attachedFile = Rxn<PlatformFile>();
 
   /// Pagination variables for leave types
   var currentPage = 1.obs;
@@ -68,9 +72,10 @@ class LeaveController extends GetxController {
       );
 
       if (response != null && response["data"] != null) {
-        final types = (response["data"] as List)
-            .map((e) => LeaveTypeModel.fromJson(e))
-            .toList();
+        final types =
+            (response["data"] as List)
+                .map((e) => LeaveTypeModel.fromJson(e))
+                .toList();
 
         if (currentPage.value == 1) {
           leaveTypes.assignAll(types);
@@ -83,7 +88,9 @@ class LeaveController extends GetxController {
         totalItems.value = response["total"] ?? 0;
         hasMore.value = currentPage.value < totalPages.value;
 
-        log("✅ Leave Types fetched: Page ${currentPage.value}/${totalPages.value}, Items: ${types.length}, Total: ${totalItems.value}");
+        log(
+          "✅ Leave Types fetched: Page ${currentPage.value}/${totalPages.value}, Items: ${types.length}, Total: ${totalItems.value}",
+        );
       } else {
         log("⚠️ Failed to load leave types - response was null");
         hasMore.value = false;
@@ -108,9 +115,33 @@ class LeaveController extends GetxController {
     await fetchLeaveTypes();
   }
 
-  /// ✅ Refresh Leave Types
   Future<void> refreshLeaveTypes() async {
     await fetchLeaveTypes(refresh: true);
+  }
+
+  /// ✅ Pick Document
+  Future<void> pickDocument() async {
+    try {
+      FilePickerResult? result = await FilePicker.platform.pickFiles(
+        type: FileType.custom,
+        allowedExtensions: ['pdf', 'doc', 'docx', 'jpg', 'jpeg', 'png'],
+      );
+
+      if (result != null) {
+        attachedFile.value = result.files.first;
+        log("✅ File Selected: ${attachedFile.value!.name}");
+      } else {
+        log("⚠️ File selection canceled");
+      }
+    } catch (e) {
+      log("❌ Error picking file: $e");
+      Utils.snackBar("Error picking file", true);
+    }
+  }
+
+  /// ✅ Clear Selected File
+  void clearAttachedFile() {
+    attachedFile.value = null;
   }
 
   /// ✅ Submit Leave Request
@@ -150,20 +181,50 @@ class LeaveController extends GetxController {
         "reason": reason,
       };
 
-      final response = await _repo.submitLeaveRequest(data: data);
+      dynamic requestData;
+      bool isMultipart = false;
+
+      if (attachedFile.value != null) {
+        isMultipart = true;
+
+        // Create FormData
+        final formData = dio.FormData.fromMap(data);
+
+        // Add file
+        if (attachedFile.value!.path != null) {
+          formData.files.add(
+            MapEntry(
+              "document",
+              await dio.MultipartFile.fromFile(
+                attachedFile.value!.path!,
+                filename: attachedFile.value!.name,
+              ),
+            ),
+          );
+        }
+
+        requestData = formData;
+      } else {
+        requestData = data;
+      }
+
+      final response = await _repo.createLeaveRequest(
+        data: requestData,
+        isMultipart: isMultipart,
+      );
       isSubmitting.value = false;
 
       if (response != null && response["data"] != null) {
         final leaveRequest = LeaveRequestModel.fromJson(response["data"]);
-        
+
         // Add the new leave request to the top of the history list
         leaveHistory.insert(0, leaveRequest);
         historyTotalItems.value++;
-        
+
         Utils.snackBar("Leave request submitted successfully!", false);
         clearForm();
         log("✅ Leave Request: ${leaveRequest.toJson()}");
-        
+
         // Navigate back to requests screen
         Get.back();
       } else {
@@ -205,9 +266,10 @@ class LeaveController extends GetxController {
       );
 
       if (response != null && response["data"] != null) {
-        final history = (response["data"] as List)
-            .map((e) => LeaveRequestModel.fromJson(e))
-            .toList();
+        final history =
+            (response["data"] as List)
+                .map((e) => LeaveRequestModel.fromJson(e))
+                .toList();
 
         if (historyCurrentPage.value == 1) {
           leaveHistory.assignAll(history);
@@ -218,9 +280,12 @@ class LeaveController extends GetxController {
         // Update pagination metadata
         historyTotalPages.value = response["total_pages"] ?? 1;
         historyTotalItems.value = response["total"] ?? 0;
-        hasMoreHistory.value = historyCurrentPage.value < historyTotalPages.value;
+        hasMoreHistory.value =
+            historyCurrentPage.value < historyTotalPages.value;
 
-        log("✅ Leave history fetched: Page ${historyCurrentPage.value}/${historyTotalPages.value}, Items: ${history.length}, Total: ${historyTotalItems.value}");
+        log(
+          "✅ Leave history fetched: Page ${historyCurrentPage.value}/${historyTotalPages.value}, Items: ${history.length}, Total: ${historyTotalItems.value}",
+        );
       } else {
         hasMoreHistory.value = false;
       }
@@ -235,7 +300,9 @@ class LeaveController extends GetxController {
 
   /// ✅ Load More Leave History
   Future<void> loadMoreLeaveHistory() async {
-    if (!hasMoreHistory.value || isLoadingMoreHistory.value || isHistoryLoading.value) {
+    if (!hasMoreHistory.value ||
+        isLoadingMoreHistory.value ||
+        isHistoryLoading.value) {
       return;
     }
 
@@ -255,6 +322,7 @@ class LeaveController extends GetxController {
     totalDaysController.clear();
     reasonController.clear();
     selectedLeaveTypeId.value = null;
+    attachedFile.value = null;
   }
 
   @override

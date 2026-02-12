@@ -9,6 +9,7 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/doc/document_viewer.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
+import 'package:supergithr/views/custom_animated_views.dart';
 
 class PersonalDocumentsScreen extends StatefulWidget {
   PersonalDocumentsScreen({super.key});
@@ -40,34 +41,45 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitAction(title: TranslationKeys.personalDocuments.tr),
-      backgroundColor: Colors.grey.shade50,
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(() => AddDocumentScreen());
-        },
-        backgroundColor: kPrimaryColor,
-        elevation: 4,
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        child: const Icon(Icons.add, color: Colors.white, size: 28),
-      ),
-      body: Obx(() {
-        // Show shimmer only on initial load (empty list)
-        if (_docController.isLoading.value && _docController.documents.isEmpty) {
-          return _buildShimmerList();
-        }
-
-        return RefreshIndicator(
-          onRefresh: () async {
-            await _docController.fetchEmployeeDocuments();
+      appBar: appBarrWitAction(
+        title: TranslationKeys.personalDocuments.tr,
+        actionwidget: IconButton(
+          onPressed: () {
+            Get.to(() => AddDocumentScreen());
           },
-          color: kPrimaryColor,
-          child:
-              _docController.documents.isEmpty
-                  ? _buildEmptyState()
-                  : _buildDocumentsList(),
-        );
-      }),
+          icon: Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: kPrimaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.add, color: kPrimaryColor, size: 22),
+          ),
+        ),
+      ),
+      backgroundColor: kMainBackgroundColor,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: kMainBackgroundGradient,
+        ),
+        child: Obx(() {
+          // Show shimmer only on initial load (empty list)
+          if (_docController.isLoading.value && _docController.documents.isEmpty) {
+            return _buildShimmerList();
+          }
+
+          return RefreshIndicator(
+            onRefresh: () async {
+              await _docController.fetchEmployeeDocuments();
+            },
+            color: kPrimaryColor,
+            child:
+                _docController.documents.isEmpty
+                    ? _buildEmptyState()
+                    : _buildDocumentsList(),
+          );
+        }),
+      ),
     );
   }
 
@@ -111,28 +123,76 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
   }
 
   Widget _buildDocumentsList() {
-    return Column(
+    final docs = _docController.documents;
+
+    // Filter into categories
+    final idCards = docs.where((d) {
+      final t = (d.documentType ?? "").toLowerCase();
+      return t.contains("id") || t.contains("national") || t.contains("iqama");
+    }).toList();
+
+    final passports = docs.where((d) {
+      final t = (d.documentType ?? "").toLowerCase();
+      return t.contains("passport");
+    }).toList();
+
+    final visas = docs.where((d) {
+      final t = (d.documentType ?? "").toLowerCase();
+      return t.contains("visa");
+    }).toList();
+
+    final education = docs.where((d) {
+      final t = (d.documentType ?? "").toLowerCase();
+      return t.contains("degree") || t.contains("education") || t.contains("certificate");
+    }).toList();
+
+    // "Others" are those not in above lists
+    final others = docs.where((d) {
+      return !idCards.contains(d) && !passports.contains(d) && !visas.contains(d) && !education.contains(d);
+    }).toList();
+
+
+    return ListView(
+      padding: const EdgeInsets.only(bottom: 20),
       children: [
         // Header Stats
         _buildHeaderStats(),
 
-        // Documents List
-        Expanded(
-          child: ListView.separated(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            itemCount: _docController.documents.length,
-            separatorBuilder: (_, __) => UIHelper.verticalSpaceSm15,
-            itemBuilder: (context, index) {
-              final doc = _docController.documents[index];
-              return _buildDocumentCard(doc);
-            },
+        // Sections
+        if (idCards.isNotEmpty) _buildDocTypeSection(TranslationKeys.idCards.tr, idCards),
+        if (passports.isNotEmpty) _buildDocTypeSection(TranslationKeys.passport.tr, passports),
+        if (visas.isNotEmpty) _buildDocTypeSection(TranslationKeys.visa.tr, visas),
+        if (education.isNotEmpty) _buildDocTypeSection(TranslationKeys.education.tr, education),
+        if (others.isNotEmpty) _buildDocTypeSection(TranslationKeys.others.tr, others),
+        
+        const SizedBox(height: 20),
+      ],
+    );
+  }
+
+  Widget _buildDocTypeSection(String title, List<dynamic> docs) {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 16, 20, 8),
+          child: kText(
+            text: title,
+            fSize: 16.0,
+            fWeight: FontWeight.bold,
+            tColor: Colors.black87,
           ),
         ),
+        ...docs.map((doc) => Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
+          child: _buildDocumentCard(doc),
+        )).toList(),
       ],
     );
   }
 
   Widget _buildHeaderStats() {
+    // ... logic remains same ...
     // Compute counts using reliable fields:
     // - verified: `isSigned == true` or signedAt contains 'verified'
     // - expired: expiry date before now
@@ -173,8 +233,16 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
       margin: const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
       padding: const EdgeInsets.all(20),
       decoration: BoxDecoration(
-        gradient: linearGradient2,
+        color: Colors.white,
         borderRadius: BorderRadius.circular(20),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Row(
         mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -182,19 +250,19 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
           _buildStatItem(
             verifiedCount,
             TranslationKeys.verified.tr,
-            Colors.green.shade100,
+            Colors.green.shade50,
             Colors.green,
           ),
           _buildStatItem(
             pendingCount,
             TranslationKeys.pending.tr,
-            Colors.orange.shade100,
+            Colors.orange.shade50,
             Colors.orange,
           ),
           _buildStatItem(
             expiredCount,
             TranslationKeys.expired.tr,
-            Colors.red.shade100,
+            Colors.red.shade50,
             Colors.red,
           ),
         ],
@@ -246,18 +314,147 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
       padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
       itemCount: 6,
       itemBuilder: (context, index) {
-        return Padding(
-          padding: const EdgeInsets.only(bottom: 12.0),
-          child: Shimmer.fromColors(
-            baseColor: Colors.grey.shade300,
-            highlightColor: Colors.grey.shade100,
-            child: Container(
-              height: 140,
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
+        return Container(
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey.shade200),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
               ),
-            ),
+            ],
+          ),
+          margin: const EdgeInsets.only(bottom: 12.0),
+          padding: const EdgeInsets.all(16),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Header Row
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  // Status Icon Shimmer
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      width: 48,
+                      height: 48,
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                    ),
+                  ),
+                  UIHelper.horizontalSpaceSm15,
+
+                  // Document Info Shimmer
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 150,
+                            height: 16,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                        UIHelper.verticalSpaceSm5,
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 100,
+                            height: 13,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+
+                  const SizedBox(width: 12),
+                  // Arrow Shimmer
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      width: 16,
+                      height: 16,
+                      decoration: const BoxDecoration(
+                        color: Colors.white,
+                        shape: BoxShape.circle,
+                      ),
+                    ),
+                  ),
+                ],
+              ),
+
+              Divider(color: Colors.grey.shade100, height: 32),
+
+              // Document Details Shimmer
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceAround,
+                children: List.generate(3, (index) {
+                  return Expanded(
+                    child: Column(
+                      children: [
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 18,
+                            height: 18,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
+                          ),
+                        ),
+                        UIHelper.verticalSpaceSm5,
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 60,
+                            height: 10,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                        UIHelper.verticalSpaceSm5,
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 40,
+                            height: 12,
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(4),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                }),
+              ),
+            ],
           ),
         );
       },
@@ -274,23 +471,20 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
       children: [
         Container(
           padding: const EdgeInsets.all(12),
-          decoration: BoxDecoration(
-            gradient: linearGradient3,
-            shape: BoxShape.circle,
-          ),
+          decoration: BoxDecoration(color: bgColor, shape: BoxShape.circle),
           child: kText(
             text: count.toString(),
             fSize: 18,
             fWeight: FontWeight.bold,
-            tColor: Colors.white,
+            tColor: textColor,
           ),
         ),
         UIHelper.verticalSpaceSm5,
         kText(
           text: label,
           fSize: 12,
-          tColor: Colors.white.withOpacity(0.9),
-          fWeight: FontWeight.w500,
+          tColor: Colors.grey.shade600,
+          fWeight: FontWeight.w600,
         ),
       ],
     );
@@ -304,36 +498,42 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
 
     return Container(
       decoration: BoxDecoration(
-        borderRadius: BorderRadius.circular(20),
-        gradient: linearGradient2,
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade200),
+        boxShadow: [
+          BoxShadow(
+            color: Colors.black.withOpacity(0.05),
+            blurRadius: 10,
+            offset: const Offset(0, 4),
+          ),
+        ],
       ),
       child: Material(
         color: Colors.transparent,
-        borderRadius: BorderRadius.circular(20),
+        borderRadius: BorderRadius.circular(16),
         child: InkWell(
-          onTap: () {},
-          borderRadius: BorderRadius.circular(20),
+          onTap: () {
+            Get.to(() => DocumentViewerScreen(filePath: doc.filePath ?? ''));
+          },
+          borderRadius: BorderRadius.circular(16),
           child: Padding(
-            padding: const EdgeInsets.all(10),
+            padding: const EdgeInsets.all(16),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 // Header Row
                 Row(
-                  crossAxisAlignment: CrossAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
                   children: [
-                    // Document Icon
+                    // Status Icon (Leading)
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        gradient: linearGradient3,
+                        color: statusColor.withOpacity(0.1),
                       ),
-                      child: Icon(
-                        Icons.description_rounded,
-                        color: whiteColor,
-                        size: 24,
-                      ),
+                      child: Icon(statusIcon, color: statusColor, size: 24),
                     ),
                     UIHelper.horizontalSpaceSm15,
 
@@ -344,56 +544,33 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
                         children: [
                           kText(
                             text: doc.documentType ?? TranslationKeys.document.tr,
-                            fSize: 18,
+                            fSize: 16,
                             fWeight: FontWeight.bold,
-                            tColor: whiteColor,
+                            tColor: Colors.black87,
                           ),
                           UIHelper.verticalSpaceSm5,
                           kText(
                             text: doc.documentName ?? "-",
-                            fSize: 14,
-                            tColor: Colors.grey.shade200,
+                            fSize: 13,
+                            tColor: Colors.grey.shade600,
                           ),
                         ],
                       ),
                     ),
 
-                    // Status Badge
-                    Container(
-                      padding: const EdgeInsets.symmetric(
-                        horizontal: 12,
-                        vertical: 6,
-                      ),
-                      decoration: BoxDecoration(
-                        color: statusColor.withOpacity(0.5),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Row(
-                        mainAxisSize: MainAxisSize.min,
-                        children: [
-                          Icon(statusIcon, color: whiteColor, size: 16),
-                          UIHelper.horizontalSpaceSm5,
-                          kText(
-                            text: statusLabel,
-                            fSize: 12,
-                            fWeight: FontWeight.w600,
-                            tColor: whiteColor,
-                          ),
-                        ],
-                      ),
+                    const SizedBox(width: 12),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                      color: Colors.grey.shade300,
                     ),
                   ],
                 ),
 
-                UIHelper.verticalSpaceSm10,
+                Divider(color: Colors.grey.shade100, height: 32),
 
                 // Document Details
                 _buildDetailGrid(doc),
-
-                UIHelper.verticalSpaceSm10,
-
-                // Action Buttons
-                _buildActionButtons(doc),
               ],
             ),
           ),
@@ -403,32 +580,25 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
   }
 
   Widget _buildDetailGrid(doc) {
-    return Container(
-      padding: const EdgeInsets.all(16),
-      decoration: BoxDecoration(
-        color: Colors.grey.shade50,
-        borderRadius: BorderRadius.circular(12),
-      ),
-      child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          _buildDetailItem(
-            TranslationKeys.documentNo.tr,
-            doc.documentNumber ?? "-",
-            Icons.numbers_rounded,
-          ),
-          _buildDetailItem(
-            TranslationKeys.issueDate.tr,
-            doc.issueDate ?? "-",
-            Icons.calendar_today_rounded,
-          ),
-          _buildDetailItem(
-            TranslationKeys.expiryDate.tr,
-            doc.expiryDate ?? "-",
-            Icons.event_busy_rounded,
-          ),
-        ],
-      ),
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceAround,
+      children: [
+        _buildDetailItem(
+          TranslationKeys.documentNo.tr,
+          doc.documentNumber ?? "-",
+          Icons.numbers_rounded,
+        ),
+        _buildDetailItem(
+          TranslationKeys.issueDate.tr,
+          doc.issueDate ?? "-",
+          Icons.calendar_today_rounded,
+        ),
+        _buildDetailItem(
+          TranslationKeys.expiryDate.tr,
+          doc.expiryDate ?? "-",
+          Icons.event_busy_rounded,
+        ),
+      ],
     );
   }
 
@@ -436,7 +606,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
     return Expanded(
       child: Column(
         children: [
-          Icon(icon, size: 18, color: kPrimaryColor),
+          Icon(icon, size: 18, color: Colors.grey.shade500),
           UIHelper.verticalSpaceSm5,
           kText(
             text: label,
@@ -449,42 +619,12 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
             text: value,
             fSize: 12,
             fWeight: FontWeight.w600,
-            tColor: Colors.grey.shade800,
+            tColor: Colors.black87,
             textalign: TextAlign.center,
             maxLines: 2,
           ),
         ],
       ),
-    );
-  }
-
-  Widget _buildActionButtons(doc) {
-    return Row(
-      children: [
-        Expanded(
-          child: OutlinedButton.icon(
-            onPressed: () {
-              // Open document viewer
-              Get.to(() => DocumentViewerScreen(filePath: doc.filePath ?? ''));
-            },
-            style: OutlinedButton.styleFrom(
-              foregroundColor: whiteColor,
-              side: BorderSide(color: whiteColor),
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(12),
-              ),
-              padding: const EdgeInsets.symmetric(vertical: 12),
-            ),
-            icon: const Icon(Icons.visibility_outlined, size: 18),
-            label: kText(
-              text: TranslationKeys.viewDocument.tr,
-              fSize: 14,
-              tColor: whiteColor,
-              fWeight: FontWeight.w600,
-            ),
-          ),
-        ),
-      ],
     );
   }
 }

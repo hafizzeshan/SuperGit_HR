@@ -20,15 +20,18 @@ TextStyle textStyleExoRegular({
   Color? underlineColor,
   double? height,
   bool decoration = false,
-}) => GoogleFonts.exo(
-  height: height,
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: fontWeightRegular,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationColor: underlineColor ?? color,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  return style(
+    height: height,
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: fontWeightRegular,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationColor: underlineColor ?? color,
+  );
+}
 
 TextStyle textStyleExoMiddle({
   Color? color,
@@ -38,16 +41,19 @@ TextStyle textStyleExoMiddle({
   Color? underlineColor,
   double? height,
   bool decoration = false,
-}) => GoogleFonts.exo(
-  decorationColor: underlineColor ?? color,
-  height: height,
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: weight ?? fontWeightMedium,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationStyle: TextDecorationStyle.solid,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  return style(
+    decorationColor: underlineColor ?? color,
+    height: height,
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: weight ?? fontWeightMedium,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationStyle: TextDecorationStyle.solid,
+  );
+}
 
 TextStyle textStyleExoSemiBold({
   Color? color,
@@ -57,15 +63,18 @@ TextStyle textStyleExoSemiBold({
   Color? underlineColor,
   double? height,
   bool decoration = false,
-}) => GoogleFonts.exo(
-  height: height,
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: weight ?? fontWeightSemiBold,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationColor: underlineColor ?? color,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  return style(
+    height: height,
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: weight ?? fontWeightSemiBold,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationColor: underlineColor ?? color,
+  );
+}
 
 TextStyle textStyleExoBold({
   Color? color,
@@ -74,26 +83,32 @@ TextStyle textStyleExoBold({
   bool decoration = false,
   Color? underlineColor,
   FontWeight? weight,
-}) => GoogleFonts.exo(
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: weight ?? fontWeightExtraBold,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationColor: underlineColor ?? color,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  return style(
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: weight ?? fontWeightExtraBold,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationColor: underlineColor ?? color,
+  );
+}
 
 TextStyle textStyleExoExtraBold({
   Color? color,
   double? fontSize,
   double? letterSpacing,
   Color? underlineColor,
-}) => GoogleFonts.exo(
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: fontWeightExtraBold,
-  letterSpacing: letterSpacing ?? 0,
-  decorationColor: underlineColor ?? color,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  return style(
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: fontWeightExtraBold,
+    letterSpacing: letterSpacing ?? 0,
+    decorationColor: underlineColor ?? color,
+  );
+}
 
 TextStyle textStyleMontserratRegular({
   Color? color,
@@ -102,15 +117,18 @@ TextStyle textStyleMontserratRegular({
   Color? underlineColor,
   double? height,
   bool decoration = false,
-}) => GoogleFonts.inter(
-  height: height,
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: fontWeightRegular,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationColor: underlineColor ?? color,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  return style(
+    height: height,
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: fontWeightRegular,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationColor: underlineColor ?? color,
+  );
+}
 
 TextStyle textStyleMontserratMiddle({
   Color? color,
@@ -120,16 +138,19 @@ TextStyle textStyleMontserratMiddle({
   Color? underlineColor,
   double? height,
   bool decoration = false,
-}) => GoogleFonts.inter(
-  decorationColor: underlineColor ?? color,
-  height: height,
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: weight ?? fontWeightMedium,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationStyle: TextDecorationStyle.solid,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  return style(
+    decorationColor: underlineColor ?? color,
+    height: height,
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: weight ?? fontWeightMedium,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationStyle: TextDecorationStyle.solid,
+  );
+}
 
 TextStyle textStyleMontserratSemiBold({
   Color? color,
@@ -139,15 +160,18 @@ TextStyle textStyleMontserratSemiBold({
   Color? underlineColor,
   double? height,
   bool decoration = false,
-}) => GoogleFonts.inter(
-  height: height,
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: weight ?? fontWeightSemiBold,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationColor: underlineColor ?? color,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  return style(
+    height: height,
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: weight ?? fontWeightSemiBold,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationColor: underlineColor ?? color,
+  );
+}
 
 TextStyle textStyleMontserratBold({
   Color? color,
@@ -156,23 +180,31 @@ TextStyle textStyleMontserratBold({
   bool decoration = false,
   Color? underlineColor,
   FontWeight? weight,
-}) => GoogleFonts.inter(
-  color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: weight ?? fontWeightBold,
-  letterSpacing: letterSpacing ?? 0,
-  decoration: decoration ? TextDecoration.underline : null,
-  decorationColor: underlineColor ?? color,
-);
+  double? height,
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  return style(
+    height: height,
+    color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: weight ?? fontWeightBold,
+    letterSpacing: letterSpacing ?? 0,
+    decoration: decoration ? TextDecoration.underline : null,
+    decorationColor: underlineColor ?? color,
+  );
+}
 
 TextStyle textStyleMontserratExtraBold({
   Color? color,
   double? fontSize,
   double? letterSpacing,
   Color? underlineColor,
-}) => GoogleFonts.montserrat(
-  fontSize: fontSize ?? fontMedium1,
-  fontWeight: fontWeightExtraBold,
-  letterSpacing: letterSpacing ?? 0,
-  decorationColor: underlineColor ?? color,
-);
+}) {
+  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  return style(
+    fontSize: fontSize ?? fontMedium1,
+    fontWeight: fontWeightExtraBold,
+    letterSpacing: letterSpacing ?? 0,
+    decorationColor: underlineColor ?? color,
+  );
+}

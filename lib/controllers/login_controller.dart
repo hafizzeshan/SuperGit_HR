@@ -9,6 +9,10 @@ import 'package:supergithr/network/repository/auth_repo.dart/auth_repo.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
 import 'package:supergithr/utils/utils.dart';
+import 'package:supergithr/controllers/announcement_controller.dart';
+import 'package:supergithr/controllers/employee_history_controller.dart';
+import 'package:supergithr/controllers/holiday_controller.dart';
+import 'package:supergithr/controllers/loan_controller.dart';
 
 class LoginController extends GetxController {
   final AuthRepository _repo = AuthRepository();
@@ -22,11 +26,11 @@ class LoginController extends GetxController {
 
   /// ✅ Login Function
   Future<void> loginUser(payload) async {
-    final email = payload['email']?.trim();
+    final employeeCode = payload['employee_code']?.trim();
     final password = payload['password']?.trim();
-    if (email == null ||
+    if (employeeCode == null ||
         password == null ||
-        email.isEmpty ||
+        employeeCode.isEmpty ||
         password.isEmpty) {
       Utils.snackBar("Please fill all fields", true);
       return;
@@ -36,7 +40,7 @@ class LoginController extends GetxController {
 
     String fcmToken = await getFCMToken();
     final data = {
-      "email": email,
+      "employee_code": employeeCode,
       "password": password,
       "device_name": Platform.isAndroid ? "Android" : "iOS",
       "fcm_token": fcmToken.isEmpty ? "empty_fcm" : fcmToken,
@@ -81,15 +85,13 @@ class LoginController extends GetxController {
           final lastName =
               nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
 
-          final basicUserModel = {
-            'id': employeeId,
-            'user_id': userId,
-            'email': userData['email'],
-            'mobile_number': userData['mobile_number'],
-            'first_name_en': firstName,
-            'last_name_en': lastName,
-            'employee_id': employeeId,
-          };
+          final Map<String, dynamic> basicUserModel = Map<String, dynamic>.from(userData);
+          // Override/Ensure specific mappings match UserModel expectations
+          basicUserModel['id'] = employeeId; // Maps employee_id to id
+          basicUserModel['user_id'] = userId; // Maps id to user_id
+          basicUserModel['first_name_en'] = firstName;
+          basicUserModel['last_name_en'] = lastName;
+          basicUserModel['employee_id'] = employeeId;
           await prefs.setString('user_model', jsonEncode(basicUserModel));
           print("✅ Basic user data saved from login response");
           print("   First Name: $firstName, Last Name: $lastName");
@@ -99,27 +101,28 @@ class LoginController extends GetxController {
         }
       }
 
-      Utils.snackBar(response['message'] ?? "Login successful", false);
 
-      /// ✅ Skip profile fetch - login response already has all needed data
-      /// The profile endpoint returns 404 due to tenant configuration
-      /// We already have: email, name, employee_id, user_id from login
-      print(
-        "✅ Using user data from login response (profile endpoint not needed)",
-      );
 
-      // Uncomment below if profile endpoint becomes available:
-      // await Future.delayed(const Duration(milliseconds: 500));
-      // try {
-      //   await _profileController.getProfile();
-      // } catch (e) {
-      //   print("⚠️ Profile fetch failed, using basic login data: $e");
-      // }
+      print("🔹 Fetching full profile from API...");
+      await Future.delayed(const Duration(milliseconds: 500));
+      try {
+        await _profileController.getProfile();
+      } catch (e) {
+        print("⚠️ Profile fetch failed, using basic login data: $e");
+      }
 
       /// ✅ Navigate to Dashboard
       Get.offAll(() => DashBorad(index: 0));
-      Future.delayed(const Duration(seconds: 1));
-      leaveController.fetchLeaveTypes();
+      
+      // ✅ Refresh all data immediately after login
+      Future.delayed(const Duration(milliseconds: 200), () {
+        Get.find<LeaveController>().fetchLeaveTypes();
+        Get.find<AnnouncementController>().fetchAnnouncements();
+        Get.find<AttendanceHistoryController>().getTodayLogs();
+        Get.find<HolidayController>().fetchHolidays();
+        Get.find<LoanController>().fetchLoans();
+        print("✅ Post-login data refresh triggered");
+      });
     } else if (response != null) {
       // ✅ Only show error if we have a response with error/message from server
       final errorMessage = response['message'] ?? response['error'];

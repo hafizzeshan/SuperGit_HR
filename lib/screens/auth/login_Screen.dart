@@ -10,6 +10,7 @@ import 'package:supergithr/views/custom_text_field.dart';
 import 'package:supergithr/views/language_selection_bottom_sheet.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/views/colors.dart';
+import 'package:supergithr/views/text_styles.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -22,9 +23,9 @@ class LoginScreen extends StatefulWidget {
 class _LoginScreenState extends State<LoginScreen> {
   final formKey = GlobalKey<FormState>(debugLabel: "LoginFormKey");
 
-  final TextEditingController emailController = TextEditingController();
+  final TextEditingController employeeCodeController = TextEditingController();
   final TextEditingController passwordController = TextEditingController();
-  final FocusNode emailFocus = FocusNode();
+  final FocusNode employeeCodeFocus = FocusNode();
   final FocusNode passwordFocus = FocusNode();
 
   bool obscureText = true;
@@ -35,58 +36,98 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitAction(
-        title: TranslationKeys.login.tr,
-        titlefontSize: 18.0,
-        leadingWidget: const SizedBox(),
-        actionwidget: IconButton(
-          onPressed: () {
-            LanguageSelectionBottomSheet.show(context);
-          },
-          icon: const Icon(Icons.translate),
+      extendBodyBehindAppBar: true,
+      body: Container(
+        height: Get.height,
+        width: Get.width,
+        decoration: const BoxDecoration(
+          gradient: linearGradient2,
         ),
-      ),
-      body: LayoutBuilder(
-        builder: (context, constraint) {
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5.w),
-            child: SingleChildScrollView(
-              physics: const BouncingScrollPhysics(),
-              child: ConstrainedBox(
-                constraints: BoxConstraints(minHeight: constraint.maxHeight),
-                child: IntrinsicHeight(
+        child: Center(
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                // 🔹 Modern Card
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(24),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.15),
+                        blurRadius: 30,
+                        offset: const Offset(0, 10),
+                      ),
+                    ],
+                  ),
                   child: Form(
                     key: formKey,
                     child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
-                        SizedBox(width: 100.w),
-                        const SizedBox(height: 15),
                         // 🔹 App Logo
-                        SizedBox(
-                          height: 70,
-                          width: 70,
-                          child: Material(
-                            color: Colors.transparent,
-                            child: Hero(
-                              tag: "logo",
-                              child: Image.asset(AppAssets.logo),
+                        Hero(
+                          tag: "logo",
+                          child: Container(
+                            height: 90,
+                            width: 90,
+                            padding: const EdgeInsets.all(12),
+                            decoration: BoxDecoration(
+                              shape: BoxShape.circle,
+                              color: Colors.white,
+                              boxShadow: [
+                                BoxShadow(
+                                  color: kPrimaryColor.withOpacity(0.1),
+                                  blurRadius: 20,
+                                  offset: const Offset(0, 5),
+                                ),
+                              ],
                             ),
+                            child: Image.asset(AppAssets.logo),
                           ),
                         ),
+                        const SizedBox(height: 20),
 
-                        const Spacer(flex: 1),
+                        // 🔹 Title & Subtitle
+                        Text(
+                          "SuperGit HR",
+                          style: textStyleMontserratBold(
+                            color: appblueColor,
+                            fontSize: 26.0,
+                          ),
+                        ),
+                        const SizedBox(height: 8),
+                        Text(
+                          TranslationKeys.welcomeBackLoginToContinue.tr,
+                          textAlign: TextAlign.center,
+                          style: textStyleMontserratMiddle(
+                            color: Colors.grey.shade600,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                        const SizedBox(height: 35),
 
-                        // 🔹 Email Field
+                        // 🔹 Employee Code Field
                         CustomTextField(
                           required: true,
-                          focusNode: emailFocus,
-                          controller: emailController,
+                          focusNode: employeeCodeFocus,
+                          controller: employeeCodeController,
                           maxLength: 50,
-                          hint: TranslationKeys.email.tr,
-                          keyboardType: TextInputType.emailAddress,
+                          label: TranslationKeys.employeeID.tr,
+                          hint: TranslationKeys.enterYourEmployeeID.tr,
+                          keyboardType: TextInputType.text,
+                          backGroundcolor: Colors.grey.shade50,
+                          prefix: Icon(
+                            Icons.person_outline_rounded,
+                            color: kPrimaryColor,
+                            size: 22,
+                          ),
                         ),
-                        const SizedBox(height: 13),
+                        const SizedBox(height: 20),
 
                         // 🔹 Password Field
                         CustomTextField(
@@ -94,8 +135,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           controller: passwordController,
                           focusNode: passwordFocus,
                           maxLines: 1,
+                          label: TranslationKeys.password.tr,
                           hint: TranslationKeys.password.tr,
                           isHide: obscureText,
+                          backGroundcolor: Colors.grey.shade50,
+                          prefix: Icon(
+                            Icons.lock_outline_rounded,
+                            color: kPrimaryColor,
+                            size: 22,
+                          ),
                           suffixIcon: GestureDetector(
                             onTap: () {
                               setState(() {
@@ -104,23 +152,15 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                             child: Icon(
                               obscureText
-                                  ? Icons.visibility_off
-                                  : Icons.visibility,
-                              color: Colors.grey.shade600,
+                                  ? Icons.visibility_off_outlined
+                                  : Icons.visibility_outlined,
+                              color: Colors.grey.shade500,
+                              size: 22,
                             ),
                           ),
                         ),
 
-                        // const SizedBox(height: 10),
-                        // Align(
-                        //   alignment: Alignment.topRight,
-                        //   child: kText(
-                        //     text: "Forget Password?",
-                        //     tColor: Colors.grey.shade600,
-                        //     fSize: 14.0,
-                        //   ),
-                        // ),
-                        const Spacer(flex: 2),
+                        const SizedBox(height: 35),
 
                         // 🔹 Login Button
                         Obx(() {
@@ -130,10 +170,14 @@ class _LoginScreenState extends State<LoginScreen> {
                                 loginController.isLoading.value
                                     ? TranslationKeys.loading.tr
                                     : TranslationKeys.login.tr,
+                            width: double.infinity,
+                            height: 52,
                             onTap: () {
                               if (formKey.currentState!.validate()) {
+                                FocusManager.instance.primaryFocus?.unfocus();
                                 final payload = {
-                                  "email": emailController.text.trim(),
+                                  "employee_code":
+                                      employeeCodeController.text.trim(),
                                   "password": passwordController.text.trim(),
                                 };
                                 loginController.loginUser(payload);
@@ -150,16 +194,65 @@ class _LoginScreenState extends State<LoginScreen> {
                             },
                           );
                         }),
-
-                        const SizedBox(height: 20),
                       ],
                     ),
                   ),
                 ),
-              ),
+                
+                const SizedBox(height: 30),
+
+                // 🔹 Language Selection Button
+                GestureDetector(
+                  onTap: () {
+                    LanguageSelectionBottomSheet.show(context);
+                  },
+                  child: Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 8,
+                    ),
+                    decoration: BoxDecoration(
+                      color: Colors.white.withOpacity(0.2),
+                      borderRadius: BorderRadius.circular(20),
+                      border: Border.all(
+                        color: Colors.white.withOpacity(0.3),
+                      ),
+                    ),
+                    child: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        const Icon(
+                          Icons.translate,
+                          color: Colors.white,
+                          size: 20,
+                        ),
+                        const SizedBox(width: 8),
+                        Text(
+                          TranslationKeys.changeLanguage.tr,
+                          style: textStyleMontserratMiddle(
+                            color: Colors.white,
+                            fontSize: 14.0,
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                
+                const SizedBox(height: 20),
+                
+                // Footer text
+                Text(
+                  "© 2026 SuperGit HR. ${TranslationKeys.allRightsReserved.tr}",
+                  style: textStyleMontserratRegular(
+                    color: Colors.white.withOpacity(0.7),
+                    fontSize: 12.0,
+                  ),
+                ),
+              ],
             ),
-          );
-        },
+          ),
+        ),
       ),
     );
   }

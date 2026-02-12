@@ -19,30 +19,31 @@ AppBar appBarrWitoutAction({
 }) {
   return AppBar(
     titleSpacing: 0.0,
-    leadingWidth: 55,
-    systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent, // or any dark color
+    leadingWidth: 70, // Increased width for better spacing
+    systemOverlayStyle: const SystemUiOverlayStyle(
+      statusBarColor: Colors.transparent,
       statusBarIconBrightness: Brightness.dark,
     ),
-    backgroundColor: backgroundColor ?? Colors.transparent,
+    backgroundColor: backgroundColor ?? kLightBlueBackgroundColor,
     leading:
         leadingWidget ??
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(
-                width: 2,
-                color: leadinBorderColor ?? Color(0xffE8ECF4),
+        Center(
+          // Center the button vertically and horizontally within leading area
+          child: GestureDetector(
+            onTap: () {
+              if (isBlockBack == true)
+                return; // Basic handling if functionality needed
+              Get.back();
+            },
+            child: const Center(
+              child: Padding(
+                padding: EdgeInsets.only(left: 6.0), // Optical alignment
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black87,
+                  size: 20,
+                ),
               ),
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Icon(Icons.arrow_back_ios_new_rounded),
             ),
           ),
         ),
@@ -50,7 +51,7 @@ AppBar appBarrWitoutAction({
     elevation: 0,
     centerTitle: centerTitle ?? true,
     title: Text(
-      title!.tr ?? "title",
+      title?.tr ?? "title",
       style: textStyleMontserratMiddle(
         color: titleColor ?? mainBlackcolor,
         fontSize: 18.0,
@@ -121,28 +122,29 @@ AppBar appBarrWitAction({
   titleColor,
 }) {
   return AppBar(
-    leadingWidth: 55,
-    backgroundColor: backgroundColor ?? Colors.transparent,
-    systemOverlayStyle: SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark,
-      statusBarColor: Colors.white, // or any dark color
-      statusBarBrightness: Brightness.light, // for Android
+    leadingWidth: 70, // Increased width for better spacing
+    backgroundColor: backgroundColor ?? kLightBlueBackgroundColor,
+    systemOverlayStyle: const SystemUiOverlayStyle(
+      statusBarIconBrightness: Brightness.light, // Black icons on Android
+      statusBarColor: Colors.transparent, // Transparent background
+      statusBarBrightness: Brightness.light, // Black icons on iOS
     ),
     leading:
         leadingWidget ??
-        Padding(
-          padding: const EdgeInsets.all(10.0),
-          child: Container(
-            decoration: BoxDecoration(
-              shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.circular(10),
-              border: Border.all(width: 2, color: Color(0xffE8ECF4)),
-            ),
-            child: GestureDetector(
-              onTap: () {
-                Get.back();
-              },
-              child: Icon(Icons.arrow_back_ios_new_rounded),
+        Center(
+          child: GestureDetector(
+            onTap: () {
+              Get.back();
+            },
+            child: const Center(
+              child: Padding(
+                padding: EdgeInsets.only(left: 6.0), // Optical alignment
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Colors.black87,
+                  size: 20,
+                ),
+              ),
             ),
           ),
         ),

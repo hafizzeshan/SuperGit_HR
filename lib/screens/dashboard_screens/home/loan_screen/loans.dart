@@ -35,38 +35,53 @@ class _LoanScreenState extends State<LoanScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitoutAction(title: TranslationKeys.loans.tr),
-      body: Obx(() {
-        // Show loading only on first load
-        if (_loanController.isLoading.value &&
-            _loanController.loans.isEmpty) {
-          return const Center(child: CircularProgressIndicator());
-        }
-
-        if (_loanController.loans.isEmpty &&
-            !_loanController.isLoading.value) {
-          return _buildEmptyState();
-        }
-
-        // Add pull-to-refresh
-        return RefreshIndicator(
-          onRefresh: () => _loanController.fetchLoans(),
-          color: kPrimaryColor,
-          child: ListView.builder(
-            itemCount: _loanController.loans.length,
-            itemBuilder: (_, index) {
-              final loan = _loanController.loans[index];
-              return _loanTile(loan);
-            },
+      backgroundColor: kMainBackgroundColor,
+      appBar: appBarrWitAction(
+        title: TranslationKeys.loans.tr,
+        actionwidget: IconButton(
+          onPressed: () {
+            Get.to(() => ApplyLoanScreen());
+          },
+          icon: Container(
+            padding: const EdgeInsets.all(6),
+            decoration: BoxDecoration(
+              color: kPrimaryColor.withOpacity(0.1),
+              borderRadius: BorderRadius.circular(12),
+            ),
+            child: const Icon(Icons.add, color: kPrimaryColor, size: 22),
           ),
-        );
-      }),
-      floatingActionButton: FloatingActionButton(
-        onPressed: () {
-          Get.to(ApplyLoanScreen());
-        },
-        backgroundColor: kPrimaryColor,
-        child: const Icon(Icons.add),
+        ),
+      ),
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: kMainBackgroundGradient,
+        ),
+        child: Obx(() {
+          // Show loading only on first load
+          if (_loanController.isLoading.value &&
+              _loanController.loans.isEmpty) {
+            return const Center(child: CircularProgressIndicator(color: kPrimaryColor));
+          }
+
+          if (_loanController.loans.isEmpty &&
+              !_loanController.isLoading.value) {
+            return _buildEmptyState();
+          }
+
+          // Add pull-to-refresh
+          return RefreshIndicator(
+            onRefresh: () => _loanController.fetchLoans(),
+            color: kPrimaryColor,
+            child: ListView.builder(
+              padding: const EdgeInsets.symmetric(vertical: 16),
+              itemCount: _loanController.loans.length,
+              itemBuilder: (_, index) {
+                final loan = _loanController.loans[index];
+                return _loanTile(loan);
+              },
+            ),
+          );
+        }),
       ),
     );
   }
@@ -79,21 +94,20 @@ class _LoanScreenState extends State<LoanScreen> {
         children: [
           Icon(
             Icons.money_off_rounded,
-            size: 80,
-            color: Colors.grey.shade400,
+            size: 60,
+            color: Colors.grey.shade300,
           ),
           const SizedBox(height: 16),
           kText(
             text: TranslationKeys.noLoansFound.tr,
-            fSize: 18.0,
-            fWeight: FontWeight.w600,
+            fSize: 15.0,
             tColor: Colors.grey.shade600,
           ),
           const SizedBox(height: 8),
           kText(
             text: TranslationKeys.pullDownToRefresh.tr,
-            fSize: 14.0,
-            tColor: Colors.grey.shade500,
+            fSize: 12.0,
+            tColor: Colors.grey.shade400,
           ),
         ],
       ),
@@ -101,79 +115,245 @@ class _LoanScreenState extends State<LoanScreen> {
   }
 
   Widget _loanTile(LoanDatum loan) {
-    // Determine the loan status color
-    Color statusColor = loan.status == "Pending" ? Colors.orange : Colors.green;
+    Color statusColor = loan.status == "Approved"
+        ? Colors.green
+        : loan.status == "Pending"
+            ? Colors.orange
+            : Colors.red;
 
-    return AnimatedScale(
-      duration: const Duration(milliseconds: 150),
-      scale: 1.0,
-      child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-        padding: const EdgeInsets.all(16),
-        decoration: BoxDecoration(
-          gradient: linearGradient2,
-          borderRadius: BorderRadius.circular(12),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withOpacity(0.1),
-              blurRadius: 10,
-              offset: const Offset(0, 5),
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 12, left: 16, right: 16),
+      child: Material(
+        color: Colors.transparent,
+        child: InkWell(
+          onTap: () => _showLoanDetailsBottomSheet(context, loan, statusColor),
+          borderRadius: BorderRadius.circular(16),
+          child: Container(
+            padding: const EdgeInsets.all(16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey.shade200),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withOpacity(0.05),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
             ),
-          ],
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Row(
+                  children: [
+                    Container(
+                      width: 50,
+                      height: 50,
+                      decoration: BoxDecoration(
+                        color: statusColor.withOpacity(0.1),
+                        borderRadius: BorderRadius.circular(12),
+                      ),
+                      child: Icon(
+                        Icons.account_balance_wallet_rounded,
+                        color: statusColor,
+                        size: 24,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kText(
+                            text: loan.purpose,
+                            fSize: 16,
+                            fWeight: FontWeight.bold,
+                            tColor: Colors.black87,
+                          ),
+                          const SizedBox(height: 4),
+                          kText(
+                            text: loan.status,
+                            fSize: 12,
+                            fWeight: FontWeight.w600,
+                            tColor: statusColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                    Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      size: 16,
+                      color: Colors.grey.shade300,
+                    ),
+                  ],
+                ),
+                const SizedBox(height: 16),
+                Row(
+                  children: [
+                    Expanded(
+                      child: _infoChip(
+                        TranslationKeys.amount.tr,
+                        "${loan.amount}",
+                      ),
+                    ),
+                    const SizedBox(width: 12),
+                    Expanded(
+                      child: _infoChip(
+                        TranslationKeys.remaining.tr,
+                        "${loan.remainingAmount}",
+                      ),
+                    ),
+                  ],
+                ),
+              ],
+            ),
+          ),
         ),
-        child: Row(
-          children: [
-            // Loan Icon
-            Container(
-              padding: const EdgeInsets.all(8),
-              decoration: BoxDecoration(
-                gradient: linearGradient2,
-                borderRadius: BorderRadius.circular(16),
-              ),
-              child: Icon(Icons.money_rounded, color: Colors.white, size: 30),
-            ),
-            UIHelper.horizontalSpaceSm15,
-            Expanded(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  kText(
-                    text: loan.purpose,
-                    fSize: 16.0,
-                    fWeight: FontWeight.w700,
-                    tColor: Colors.white,
+      ),
+    );
+  }
+
+  void _showLoanDetailsBottomSheet(
+      BuildContext context, LoanDatum loan, Color statusColor) {
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
+      builder: (context) {
+        return Container(
+          decoration: const BoxDecoration(
+            gradient: kMainBackgroundGradient,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+          ),
+          padding: EdgeInsets.only(
+            left: 24,
+            right: 24,
+            top: 16,
+            bottom: MediaQuery.of(context).padding.bottom + 24,
+          ),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                  UIHelper.verticalSpaceSm5,
-                  kText(
-                    text: "${TranslationKeys.amount.tr}: ${loan.amount}",
-                    fSize: 14.0,
-                    tColor: Colors.grey.shade200,
+                ),
+                const SizedBox(height: 30),
+
+                // Header
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: statusColor.withOpacity(0.1),
+                    shape: BoxShape.circle,
                   ),
-                  UIHelper.verticalSpaceSm5,
-                  kText(
-                    text: "${TranslationKeys.remaining.tr}: ${loan.remainingAmount}",
-                    fSize: 14.0,
-                    tColor: Colors.grey.shade200,
+                  child: Icon(
+                    Icons.monetization_on_rounded,
+                    color: statusColor,
+                    size: 36,
                   ),
-                ],
-              ),
+                ),
+                const SizedBox(height: 16),
+                kText(
+                  text: loan.status,
+                  fSize: 22,
+                  fWeight: FontWeight.bold,
+                  tColor: statusColor,
+                ),
+                const SizedBox(height: 8),
+                kText(
+                  text: "${TranslationKeys.amount.tr}: ${loan.amount}",
+                  fSize: 15,
+                  tColor: Colors.grey.shade600,
+                ),
+                const SizedBox(height: 30),
+
+                // Details Box
+                Container(
+                  padding: const EdgeInsets.all(20),
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(20),
+                    border: Border.all(color: Colors.grey.shade100),
+                  ),
+                  child: Column(
+                    children: [
+                      _detailRow(TranslationKeys.purpose.tr, loan.purpose),
+                      const SizedBox(height: 16),
+                      _detailRow("Installments", "${loan.installments}"),
+                      const SizedBox(height: 16),
+                      _detailRow("Monthly", "${loan.monthlyInstallment}"),
+                      const SizedBox(height: 16),
+                      _detailRow("Start Month", loan.startMonth),
+                      const SizedBox(height: 16),
+                      _detailRow(
+                          TranslationKeys.remaining.tr, "${loan.remainingAmount}"),
+                    ],
+                  ),
+                ),
+
+                const SizedBox(height: 24),
+              ],
             ),
-            // Loan Status
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 7),
-              decoration: BoxDecoration(
-                color: statusColor,
-                borderRadius: BorderRadius.circular(10),
-              ),
-              child: kText(
-                text: loan.status,
-                fSize: 12.0,
-                tColor: Colors.white,
-                fWeight: FontWeight.bold,
-              ),
-            ),
-          ],
+          ),
+        );
+      },
+    );
+  }
+
+  Widget _detailRow(String label, String value) {
+    return Row(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        kText(
+          text: label,
+          fSize: 14,
+          tColor: Colors.grey.shade600,
         ),
+        kText(
+          text: value,
+          fSize: 14,
+          fWeight: FontWeight.bold,
+          tColor: Colors.black87,
+        ),
+      ],
+    );
+  }
+
+  Widget _infoChip(String title, String value) {
+    return Container(
+      width: double.infinity,
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
+      decoration: BoxDecoration(
+        color: kPrimaryColor.withOpacity(0.04),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: kPrimaryColor.withOpacity(0.1)),
+      ),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          kText(
+            text: title,
+            fSize: 10.0,
+            tColor: Colors.grey.shade600,
+          ),
+          const SizedBox(height: 4),
+          kText(
+            text: value,
+            fSize: 12.0,
+            fWeight: FontWeight.w600,
+            tColor: Colors.black87,
+            maxLines: 1,
+            textoverflow: TextOverflow.ellipsis,
+          ),
+        ],
       ),
     );
   }

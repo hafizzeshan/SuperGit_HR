@@ -63,4 +63,32 @@ class AttendanceRepository {
       Utils.snackBar("Something went wrong during Clock-Out", true);
     }
   }
+
+  /// ✅ Get Attendance History
+  Future getAttendanceHistory({
+    required String employeeId,
+    required String startDate,
+    required String endDate,
+  }) async {
+    try {
+      final url = AppURL.attendanceHistory(employeeId, startDate, endDate);
+      final response = await _api.getRequest(url);
+
+      if (response == null) {
+        Utils.snackBar("Unable to reach server. Please try again.", true);
+        return null;
+      }
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data;
+      } else {
+        Utils.snackBar("Failed to fetch attendance history", true);
+        return null;
+      }
+    } catch (e, st) {
+      log("❌ Exception in getAttendanceHistory: $e", stackTrace: st);
+      Utils.snackBar("Error fetching attendance history", true);
+      return null;
+    }
+  }
 }

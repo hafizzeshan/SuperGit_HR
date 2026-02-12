@@ -1,6 +1,7 @@
 class UserModel {
   final String? id;
   final String? userId;
+  final String? employeeCode;
   final String? firstNameEn;
   final String? lastNameEn;
   final String? firstNameAr;
@@ -8,6 +9,7 @@ class UserModel {
   final String? gender;
   final String? dateOfBirth;
   final String? nationality;
+  final String? documentId;
   final String? maritalStatus;
   final String? mobileNumber;
   final String? email;
@@ -15,7 +17,10 @@ class UserModel {
   final String? emergencyContactNumber;
   final String? jobTitle;
   final String? departmentId;
+  final String? dateFormat;
   final String? managerId;
+  final String? jobRoleId;
+  final String? managerName;
   final String? employmentStatus;
   final String? joinDate;
   final dynamic documents;
@@ -27,6 +32,7 @@ class UserModel {
   UserModel({
     this.id,
     this.userId,
+    this.employeeCode,
     this.firstNameEn,
     this.lastNameEn,
     this.firstNameAr,
@@ -34,6 +40,7 @@ class UserModel {
     this.gender,
     this.dateOfBirth,
     this.nationality,
+    this.documentId,
     this.maritalStatus,
     this.mobileNumber,
     this.email,
@@ -41,7 +48,10 @@ class UserModel {
     this.emergencyContactNumber,
     this.jobTitle,
     this.departmentId,
+    this.dateFormat,
     this.managerId,
+    this.jobRoleId,
+    this.managerName,
     this.employmentStatus,
     this.joinDate,
     this.documents,
@@ -58,6 +68,7 @@ class UserModel {
     return UserModel(
       id: json['id'] as String?,
       userId: json['user_id'] as String?,
+      employeeCode: json['employee_code'] as String?,
       firstNameEn: json['first_name_en'] as String?,
       lastNameEn: json['last_name_en'] as String?,
       firstNameAr: json['first_name_ar'] as String?,
@@ -65,6 +76,7 @@ class UserModel {
       gender: json['gender'] as String?,
       dateOfBirth: json['date_of_birth'] as String?,
       nationality: json['nationality'] as String?,
+      documentId: json['document_id'] as String?,
       maritalStatus: json['marital_status'] as String?,
       mobileNumber: json['mobile_number'] as String?,
       email: json['email'] as String?,
@@ -72,7 +84,10 @@ class UserModel {
       emergencyContactNumber: json['emergency_contact_number'] as String?,
       jobTitle: json['job_title'] as String?,
       departmentId: json['department_id'] as String?,
+      dateFormat: json['date_format'] as String?,
       managerId: json['manager_id'] as String?,
+      jobRoleId: json['job_role_id'] as String?,
+      managerName: json['manager_name'] as String?,
       employmentStatus: json['employment_status'] as String?,
       joinDate: json['join_date'] as String?,
       documents: json['documents'],
@@ -88,6 +103,7 @@ class UserModel {
     return {
       "id": id,
       "user_id": userId,
+      "employee_code": employeeCode,
       "first_name_en": firstNameEn,
       "last_name_en": lastNameEn,
       "first_name_ar": firstNameAr,
@@ -95,6 +111,7 @@ class UserModel {
       "gender": gender,
       "date_of_birth": dateOfBirth,
       "nationality": nationality,
+      "document_id": documentId,
       "marital_status": maritalStatus,
       "mobile_number": mobileNumber,
       "email": email,
@@ -102,7 +119,10 @@ class UserModel {
       "emergency_contact_number": emergencyContactNumber,
       "job_title": jobTitle,
       "department_id": departmentId,
+      "date_format": dateFormat,
       "manager_id": managerId,
+      "job_role_id": jobRoleId,
+      "manager_name": managerName,
       "employment_status": employmentStatus,
       "join_date": joinDate,
       "documents": documents,

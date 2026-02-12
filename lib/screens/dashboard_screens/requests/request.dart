@@ -12,6 +12,7 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
+import 'package:supergithr/views/custom_animated_views.dart';
 
 class RequestScreen extends StatefulWidget {
   const RequestScreen({super.key});
@@ -79,116 +80,123 @@ class _RequestScreenState extends State<RequestScreen> {
         leadingWidget: const SizedBox(),
         titlefontSize: 18.0,
       ),
-      backgroundColor: Colors.white,
-      body: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            kText(
-              text: TranslationKeys.requestsHistory.tr,
-              fSize: 16.0,
-              fWeight: FontWeight.bold,
-            ),
-            UIHelper.verticalSpaceSm20,
+      backgroundColor: kMainBackgroundColor,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: kMainBackgroundGradient,
+        ),
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              kText(
+                text: TranslationKeys.requestsHistory.tr,
+                fSize: 16.0,
+                fWeight: FontWeight.bold,
+              ),
+              UIHelper.verticalSpaceSm20,
 
-            // Leave Requests List
-            Expanded(
-              child: Obx(() {
-                // Show empty state if no data and not loading
-                if (leaveController.leaveHistory.isEmpty &&
-                    !leaveController.isHistoryLoading.value) {
-                  return Center(
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        Icon(
-                          Icons.article_outlined,
-                          size: 60,
-                          color: Colors.grey.shade300,
-                        ),
-                        UIHelper.verticalSpaceSm10,
-                        kText(
-                          text: TranslationKeys.noLeaveRequestsFound.tr,
-                          fSize: 14.0,
-                          tColor: Colors.grey,
-                        ),
-                        UIHelper.verticalSpaceSm5,
-                        kText(
-                          text: TranslationKeys.clickBelowToMakeRequest.tr,
-                          fSize: 12.0,
-                          tColor: Colors.grey.shade400,
-                        ),
-                      ],
-                    ),
-                  );
-                }
-
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    await leaveController.refreshLeaveHistory();
-                  },
-                  color: kPrimaryColor,
-                  child: Obx(() {
-                    // Show shimmer when loading (initial or refresh)
-                    if (leaveController.isHistoryLoading.value) {
-                      return _buildShimmerList();
-                    }
-
-                    // Show actual data
-                    return ListView.separated(
-                      physics: const BouncingScrollPhysics(),
-                      itemCount: leaveController.leaveHistory.length +
-                          (leaveController.hasMoreHistory.value ? 1 : 0),
-                      separatorBuilder: (_, __) => const SizedBox(height: 12),
-                      itemBuilder: (context, index) {
-                        // Loading indicator at bottom
-                        if (index == leaveController.leaveHistory.length) {
-                          // Trigger load more
-                          WidgetsBinding.instance.addPostFrameCallback((_) {
-                            leaveController.loadMoreLeaveHistory();
-                          });
-
-                          return Obx(() {
-                            if (leaveController.isLoadingMoreHistory.value) {
-                              return Container(
-                                padding: const EdgeInsets.all(20),
-                                child: const Center(
-                                  child: CircularProgressIndicator(
-                                    color: kPrimaryColor,
-                                    strokeWidth: 2,
-                                  ),
-                                ),
-                              );
-                            }
-                            return const SizedBox.shrink();
-                          });
-                        }
-
-                        final leave = leaveController.leaveHistory[index];
-                        return _buildLeaveCard(leave);
-                      },
+              // Leave Requests List
+              Expanded(
+                child: Obx(() {
+                  // Show empty state if no data and not loading
+                  if (leaveController.leaveHistory.isEmpty &&
+                      !leaveController.isHistoryLoading.value) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.article_outlined,
+                            size: 60,
+                            color: Colors.grey.shade300,
+                          ),
+                          UIHelper.verticalSpaceSm10,
+                          kText(
+                            text: TranslationKeys.noLeaveRequestsFound.tr,
+                            fSize: 14.0,
+                            tColor: Colors.grey,
+                          ),
+                          UIHelper.verticalSpaceSm5,
+                          kText(
+                            text: TranslationKeys.clickBelowToMakeRequest.tr,
+                            fSize: 12.0,
+                            tColor: Colors.grey.shade400,
+                          ),
+                        ],
+                      ),
                     );
-                  }),
-                );
-              }),
-            ),
-          ],
+                  }
+
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await leaveController.refreshLeaveHistory();
+                    },
+                    color: kPrimaryColor,
+                    child: Obx(() {
+                      // Show shimmer when loading (initial or refresh)
+                      if (leaveController.isHistoryLoading.value) {
+                        return _buildShimmerList();
+                      }
+
+                      // Show actual data
+                      return CustomAnimatedListView(
+                        physics: const BouncingScrollPhysics(
+                            parent: AlwaysScrollableScrollPhysics()),
+                        itemCount: leaveController.leaveHistory.length +
+                            (leaveController.hasMoreHistory.value ? 1 : 0),
+                        separator: const SizedBox(height: 12),
+                        itemBuilder: (context, index) {
+                          // Loading indicator at bottom
+                          if (index == leaveController.leaveHistory.length) {
+                            // Trigger load more
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              leaveController.loadMoreLeaveHistory();
+                            });
+
+                            return Obx(() {
+                              if (leaveController.isLoadingMoreHistory.value) {
+                                return Container(
+                                  padding: const EdgeInsets.all(20),
+                                  child: const Center(
+                                    child: CircularProgressIndicator(
+                                      color: kPrimaryColor,
+                                      strokeWidth: 2,
+                                    ),
+                                  ),
+                                );
+                              }
+                              return const SizedBox.shrink();
+                            });
+                          }
+
+                          final leave = leaveController.leaveHistory[index];
+                          return _buildLeaveCard(leave);
+                        },
+                      );
+                    }),
+                  );
+                }),
+              ),
+            ],
+          ),
         ),
       ),
 
-      // Request Button
-      bottomNavigationBar: Padding(
-        padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
-        child: LoadingButton(
-          isLoading: false,
-          text: TranslationKeys.makeARequest.tr,
-          onTap: () {
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 20.0),
+        child: FloatingActionButton(
+          onPressed: () {
             Get.to(
               () => const NewLeaveRequestScreen(),
               transition: Transition.rightToLeft,
             );
           },
+          backgroundColor: kPrimaryColor,
+          elevation: 4,
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+          child: const Icon(Icons.add, color: Colors.white, size: 28),
         ),
       ),
     );
@@ -203,13 +211,14 @@ class _RequestScreenState extends State<RequestScreen> {
       child: Container(
         padding: const EdgeInsets.all(14),
         decoration: BoxDecoration(
-          gradient: linearGradient2,
-          borderRadius: BorderRadius.circular(12),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
             BoxShadow(
-              color: kPrimaryColor.withOpacity(0.1),
-              blurRadius: 8,
-              offset: const Offset(0, 3),
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
             ),
           ],
         ),
@@ -221,10 +230,10 @@ class _RequestScreenState extends State<RequestScreen> {
                 Container(
                   padding: const EdgeInsets.all(10),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
-                    borderRadius: BorderRadius.circular(10),
+                    color: kPrimaryColor.withOpacity(0.08),
+                    borderRadius: BorderRadius.circular(12),
                   ),
-                  child: Icon(Icons.event_note, color: whiteColor, size: 24),
+                  child: Icon(Icons.event_note, color: kPrimaryColor, size: 24),
                 ),
                 const SizedBox(width: 12),
                 Expanded(
@@ -235,14 +244,14 @@ class _RequestScreenState extends State<RequestScreen> {
                         text: leaveTypeName,
                         fWeight: FontWeight.bold,
                         fSize: 15.0,
-                        tColor: whiteColor,
+                        tColor: Colors.black87,
                       ),
                       const SizedBox(height: 4),
                       kText(
                         text:
                             "${formatDate(leave.startDate)} - ${formatDate(leave.endDate)}",
                         fSize: 12.0,
-                        tColor: Colors.white.withOpacity(0.9),
+                        tColor: Colors.grey.shade600,
                       ),
                     ],
                   ),
@@ -253,20 +262,14 @@ class _RequestScreenState extends State<RequestScreen> {
                     vertical: 6,
                   ),
                   decoration: BoxDecoration(
-                    color: statusColor,
+                    color: statusColor.withOpacity(0.1),
                     borderRadius: BorderRadius.circular(20),
-                    boxShadow: [
-                      BoxShadow(
-                        color: statusColor.withOpacity(0.3),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      ),
-                    ],
+                    border: Border.all(color: statusColor.withOpacity(0.2)),
                   ),
                   child: kText(
                     text: leave.status ?? TranslationKeys.unknown.tr,
                     fSize: 11.0,
-                    tColor: whiteColor,
+                    tColor: statusColor,
                     fWeight: fontWeightBold,
                   ),
                 ),
@@ -276,22 +279,27 @@ class _RequestScreenState extends State<RequestScreen> {
             if (leave.totalDays != null || leave.reason != null) ...[
               const SizedBox(height: 12),
               Container(
-                padding: const EdgeInsets.all(10),
+                padding: const EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.15),
-                  borderRadius: BorderRadius.circular(8),
+                  color: Colors.grey.shade50,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade100),
                 ),
                 child: Row(
                   children: [
                     if (leave.totalDays != null) ...[
-                      Icon(Icons.calendar_today, size: 14, color: whiteColor),
+                      Icon(
+                        Icons.calendar_today,
+                        size: 14,
+                        color: Colors.grey.shade600,
+                      ),
                       const SizedBox(width: 6),
                       kText(
                         text:
                             "${leave.totalDays} ${leave.totalDays! > 1 ? TranslationKeys.days.tr : TranslationKeys.day.tr}",
                         fSize: 12.0,
-                        tColor: whiteColor,
-                        fWeight: FontWeight.w500,
+                        tColor: Colors.grey.shade800,
+                        fWeight: FontWeight.w600,
                       ),
                     ],
                     if (leave.totalDays != null &&
@@ -301,19 +309,23 @@ class _RequestScreenState extends State<RequestScreen> {
                         margin: const EdgeInsets.symmetric(horizontal: 12),
                         width: 1,
                         height: 14,
-                        color: Colors.white.withOpacity(0.3),
+                        color: Colors.grey.shade300,
                       ),
                     if (leave.reason != null && leave.reason!.isNotEmpty)
                       Expanded(
                         child: Row(
                           children: [
-                            Icon(Icons.notes, size: 14, color: whiteColor),
+                            Icon(
+                              Icons.notes,
+                              size: 14,
+                              color: Colors.grey.shade600,
+                            ),
                             const SizedBox(width: 6),
                             Expanded(
                               child: kText(
                                 text: leave.reason!,
                                 fSize: 12.0,
-                                tColor: whiteColor,
+                                tColor: Colors.grey.shade700,
                                 maxLines: 1,
                               ),
                             ),
@@ -335,35 +347,12 @@ class _RequestScreenState extends State<RequestScreen> {
     final statusColor = getStatusColor(leave.status);
     final leaveTypeName = getLeaveTypeName(leave.leaveTypeId);
 
-    showModalBottomSheet(
+    showCustomAnimatedBottomSheet(
       context: context,
-      isScrollControlled: true,
-      backgroundColor: Colors.transparent,
-      builder:
-          (context) => Container(
-            constraints: BoxConstraints(
-              maxHeight: MediaQuery.of(context).size.height * 0.85,
-            ),
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                begin: Alignment.topLeft,
-                end: Alignment.bottomRight,
-                colors: [Colors.white, Colors.blue.shade50.withOpacity(0.3)],
-              ),
-              borderRadius: const BorderRadius.vertical(
-                top: Radius.circular(30),
-              ),
-              boxShadow: [
-                BoxShadow(
-                  color: kPrimaryColor.withOpacity(0.2),
-                  blurRadius: 20,
-                  offset: const Offset(0, -5),
-                ),
-              ],
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              children: [
+      heightFactor: 0.85,
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
                 // Drag handle
                 Container(
                   width: 50,
@@ -388,11 +377,12 @@ class _RequestScreenState extends State<RequestScreen> {
                       Container(
                         padding: const EdgeInsets.all(14),
                         decoration: BoxDecoration(
-                          gradient: linearGradient2,
+                          color: Colors.white,
                           borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey.shade200),
                           boxShadow: [
                             BoxShadow(
-                              color: kPrimaryColor.withOpacity(0.3),
+                              color: kPrimaryColor.withOpacity(0.1),
                               blurRadius: 8,
                               offset: const Offset(0, 4),
                             ),
@@ -400,7 +390,7 @@ class _RequestScreenState extends State<RequestScreen> {
                         ),
                         child: const Icon(
                           Icons.info_outline,
-                          color: Colors.white,
+                          color: kPrimaryColor,
                           size: 28,
                         ),
                       ),
@@ -430,20 +420,14 @@ class _RequestScreenState extends State<RequestScreen> {
                           vertical: 8,
                         ),
                         decoration: BoxDecoration(
-                          color: statusColor,
+                          color: statusColor.withOpacity(0.1),
                           borderRadius: BorderRadius.circular(20),
-                          boxShadow: [
-                            BoxShadow(
-                              color: statusColor.withOpacity(0.3),
-                              blurRadius: 6,
-                              offset: const Offset(0, 3),
-                            ),
-                          ],
+                          border: Border.all(color: statusColor.withOpacity(0.2)),
                         ),
                         child: kText(
                           text: leave.status ?? TranslationKeys.unknown.tr,
                           fSize: 12.0,
-                          tColor: Colors.white,
+                          tColor: statusColor,
                           fWeight: FontWeight.bold,
                         ),
                       ),
@@ -525,8 +509,7 @@ class _RequestScreenState extends State<RequestScreen> {
                   ),
                 ),
               ],
-            ),
-          ),
+      ),
     );
   }
 
@@ -555,10 +538,10 @@ class _RequestScreenState extends State<RequestScreen> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              gradient: linearGradient2,
+              color: kPrimaryColor.withOpacity(0.08),
               borderRadius: BorderRadius.circular(10),
             ),
-            child: Icon(icon, color: Colors.white, size: 20),
+            child: Icon(icon, color: kPrimaryColor, size: 20),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -589,78 +572,108 @@ class _RequestScreenState extends State<RequestScreen> {
   /// Build shimmer loading list
   Widget _buildShimmerList() {
     return ListView.separated(
-      physics: const AlwaysScrollableScrollPhysics(),
-      itemCount: 5,
+      physics: const NeverScrollableScrollPhysics(),
+      itemCount: 6,
       separatorBuilder: (_, __) => const SizedBox(height: 12),
       itemBuilder: (context, index) {
-        return Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Container(
-            padding: const EdgeInsets.all(14),
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(12),
-            ),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                Row(
-                  children: [
-                    Container(
-                      width: 48,
-                      height: 48,
+        return Container(
+          padding: const EdgeInsets.all(14),
+          decoration: BoxDecoration(
+            color: Colors.white,
+            borderRadius: BorderRadius.circular(16),
+            border: Border.all(color: Colors.grey.shade200),
+            boxShadow: [
+              BoxShadow(
+                color: Colors.black.withOpacity(0.05),
+                blurRadius: 10,
+                offset: const Offset(0, 4),
+              ),
+            ],
+          ),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  // Icon shimmer
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      width: 44,
+                      height: 44,
                       decoration: BoxDecoration(
                         color: Colors.white,
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Container(
-                            width: double.infinity,
+                  ),
+                  const SizedBox(width: 12),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        // Title shimmer
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 120,
                             height: 16,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
-                          const SizedBox(height: 8),
-                          Container(
-                            width: 150,
+                        ),
+                        const SizedBox(height: 8),
+                        // Subtitle shimmer
+                        Shimmer.fromColors(
+                          baseColor: Colors.grey.shade300,
+                          highlightColor: Colors.grey.shade100,
+                          child: Container(
+                            width: 180,
                             height: 12,
                             decoration: BoxDecoration(
                               color: Colors.white,
                               borderRadius: BorderRadius.circular(4),
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    Container(
-                      width: 70,
+                  ),
+                  const SizedBox(width: 12),
+                  // Status badge shimmer
+                  Shimmer.fromColors(
+                    baseColor: Colors.grey.shade300,
+                    highlightColor: Colors.grey.shade100,
+                    child: Container(
+                      width: 60,
                       height: 24,
                       decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.circular(20),
                       ),
                     ),
-                  ],
-                ),
-                const SizedBox(height: 12),
-                Container(
+                  ),
+                ],
+              ),
+              const SizedBox(height: 12),
+              // Bottom detail box shimmer
+              Shimmer.fromColors(
+                baseColor: Colors.grey.shade300,
+                highlightColor: Colors.grey.shade100,
+                child: Container(
                   width: double.infinity,
                   height: 40,
                   decoration: BoxDecoration(
                     color: Colors.white,
-                    borderRadius: BorderRadius.circular(8),
+                    borderRadius: BorderRadius.circular(12),
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         );
       },

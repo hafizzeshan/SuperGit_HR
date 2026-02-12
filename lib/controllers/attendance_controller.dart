@@ -6,6 +6,7 @@ import 'package:supergithr/screens/dashboard_screens/home/timeclock/started_time
 import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/network/repository/attendance_repo/attendance_repo.dart';
+import 'package:supergithr/models/attendance_history_model.dart';
 
 class AttendanceController extends GetxController {
   final AttendanceRepository _repo = AttendanceRepository();
@@ -128,5 +129,49 @@ class AttendanceController extends GetxController {
   void onClose() {
     _timer?.cancel();
     super.onClose();
+  }
+
+  // Attendance History Variables
+  var attendanceHistory = <Months>[].obs;
+  var isHistoryLoading = false.obs;
+
+  /// ✅ Fetch Attendance History
+  Future<void> getAttendanceHistory({
+    required String startDate,
+    required String endDate,
+  }) async {
+    isHistoryLoading.value = true;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final String employeeId = prefs.getString('employee_id') ?? "";
+
+      if (employeeId.isEmpty) {
+        Utils.snackBar("Employee ID not found", true);
+        isHistoryLoading.value = false;
+        return;
+      }
+
+      final response = await _repo.getAttendanceHistory(
+        employeeId: employeeId,
+        startDate: startDate,
+        endDate: endDate,
+      );
+
+      if (response != null) {
+        final model = AttendanceHistoryModel.fromJson(response);
+        if (model.months != null) {
+          attendanceHistory.assignAll(model.months!);
+        } else {
+          attendanceHistory.clear();
+        }
+      } else {
+        attendanceHistory.clear();
+      }
+    } catch (e) {
+      print("Error fetching history: $e");
+      attendanceHistory.clear();
+    } finally {
+      isHistoryLoading.value = false;
+    }
   }
 }

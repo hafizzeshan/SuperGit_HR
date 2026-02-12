@@ -9,7 +9,6 @@ class AnnouncementController extends GetxController {
 
   @override
   void onInit() {
-    fetchAnnouncements();
     super.onInit();
   }
 

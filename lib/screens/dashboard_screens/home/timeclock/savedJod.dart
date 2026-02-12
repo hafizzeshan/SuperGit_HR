@@ -26,23 +26,30 @@ class SavedJobsSheet extends StatelessWidget {
     /// ✅ Fetch address for provided coordinates
     WidgetsBinding.instance.addPostFrameCallback((_) {
       locationController.getAddressFromLatLng(coords);
-      print("Coords in SavedJobsSheet: ${locationController.address.value}");
     });
 
-    return Padding(
-      padding: const EdgeInsets.all(16.0),
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.only(
+            topLeft: Radius.circular(24),
+            topRight: Radius.circular(24),
+          )),
       child: Obx(() {
         final bool isLoading = locationController.isLoading.value;
         final String address = locationController.address.value;
 
-        return Wrap(
-          runSpacing: 16,
+        return Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             /// --- Drag handle ---
             Center(
               child: Container(
                 width: 40,
                 height: 4,
+                margin: const EdgeInsets.only(bottom: 20),
                 decoration: BoxDecoration(
                   color: Colors.grey.shade300,
                   borderRadius: BorderRadius.circular(10),
@@ -50,83 +57,122 @@ class SavedJobsSheet extends StatelessWidget {
               ),
             ),
 
-            /// --- Title ---
+            /// --- Header ---
             Center(
-              child: kText(
-                text: TranslationKeys.confirm.tr,
-                fSize: 16.0,
-                fWeight: FontWeight.bold,
+              child: Column(
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(12),
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor.withOpacity(0.1),
+                      shape: BoxShape.circle,
+                    ),
+                    child: Icon(Icons.location_on_rounded,
+                        color: kPrimaryColor, size: 28),
+                  ),
+                  const SizedBox(height: 12),
+                  kText(
+                    text: TranslationKeys.confirmClockInLocation.tr,
+                    fSize: 18.0,
+                    fWeight: FontWeight.bold,
+                    tColor: Colors.black87,
+                  ),
+                  const SizedBox(height: 5),
+                  kText(
+                    text: TranslationKeys.verifyLocationClockIn.tr,
+                    fSize: 13.0,
+                    tColor: Colors.grey.shade500,
+                    textalign: TextAlign.center,
+                  ),
+                ],
               ),
             ),
+            const SizedBox(height: 25),
 
-            /// --- Address Info ---
-            isLoading
-                ? const Center(child: CircularProgressIndicator())
-                : Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    SizedBox(
-                      width: Get.width,
-
-                      child: Row(
-                        children: [
-                          Icon(
-                            Icons.location_on,
-                            color: kPrimaryColor,
-                            size: 20,
+            /// --- Address Card ---
+            Container(
+              width: double.infinity,
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.grey.shade50,
+                borderRadius: BorderRadius.circular(16),
+                border: Border.all(color: Colors.grey.shade200),
+              ),
+              child: isLoading
+                  ? const Center(
+                      child: Padding(
+                      padding: EdgeInsets.all(10.0),
+                      child: SizedBox(
+                          height: 20,
+                          width: 20,
+                          child: CircularProgressIndicator(
+                              strokeWidth: 2, color: kPrimaryColor)),
+                    ))
+                  : Row(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Icon(Icons.map_outlined, color: kPrimaryColor, size: 20),
+                        const SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              kText(
+                                text: TranslationKeys.detectedLocation.tr,
+                                fSize: 11.0,
+                                tColor: Colors.grey.shade500,
+                                fWeight: FontWeight.w600,
+                              ),
+                              const SizedBox(height: 4),
+                              kText(
+                                text: address.isNotEmpty
+                                    ? address
+                                    : TranslationKeys.unknown.tr,
+                                fSize: 14.0,
+                                tColor: Colors.black87,
+                                fWeight: FontWeight.w600,
+                                maxLines: 3,
+                                textoverflow: TextOverflow.ellipsis,
+                              ),
+                              const SizedBox(height: 4),
+                              kText(
+                                text:
+                                    "${coords.latitude.toStringAsFixed(5)}, ${coords.longitude.toStringAsFixed(5)}",
+                                fSize: 11.0,
+                                tColor: Colors.grey.shade400,
+                              ),
+                            ],
                           ),
-                          const SizedBox(width: 6),
-                          Expanded(
-                            child: kText(
-                              text:
-                                  address.isNotEmpty
-                                      ? address
-                                      : "Unable to fetch address",
-                              fSize: 14.0,
-                              tColor: Colors.grey.shade600,
-                              textoverflow: TextOverflow.ellipsis,
-                              fWeight: fontWeightBold,
-                              maxLines: 3,
-                            ),
-                          ),
-                        ],
-                      ),
+                        ),
+                      ],
                     ),
-                    const SizedBox(height: 6),
+            ),
 
-                    // const SizedBox(height: 6),
-                    // kText(
-                    //   text:
-                    //       "(${coords.latitude.toStringAsFixed(5)}, ${coords.longitude.toStringAsFixed(5)})",
-                    //   fSize: 12.0,
-                    //   tColor: Colors.grey.shade500,
-                    // ),
-                  ],
-                ),
-
-            const SizedBox(height: 20),
+            const SizedBox(height: 30),
 
             /// --- Buttons ---
             Row(
               children: [
                 /// Cancel Button
                 Expanded(
-                  child: OutlinedButton(
+                  child: TextButton(
                     onPressed: () => Get.back(),
-                    style: OutlinedButton.styleFrom(
-                      side: const BorderSide(color: kPrimaryColor),
+                    style: TextButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      backgroundColor: Colors.grey.shade100,
                       shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(10),
+                        borderRadius: BorderRadius.circular(12),
                       ),
                     ),
                     child: kText(
                       text: TranslationKeys.cancel.tr,
-                      fSize: 14.0,
-                      tColor: kPrimaryColor,
+                      fSize: 15.0,
+                      fWeight: FontWeight.w600,
+                      tColor: Colors.grey.shade700,
                     ),
                   ),
                 ),
-                const SizedBox(width: 12),
+                const SizedBox(width: 16),
 
                 /// Confirm Button
                 Expanded(
@@ -134,44 +180,45 @@ class SavedJobsSheet extends StatelessWidget {
                     () => ElevatedButton(
                       style: ElevatedButton.styleFrom(
                         backgroundColor: kPrimaryColor,
+                        padding: const EdgeInsets.symmetric(vertical: 14),
+                         elevation: 0,
+                         shadowColor: Colors.transparent,
                         shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(10),
+                          borderRadius: BorderRadius.circular(12),
                         ),
-                        padding: const EdgeInsets.symmetric(vertical: 12),
                       ),
-                      onPressed:
-                          attendanceController.isClockInLoading.value
-                              ? null
-                              : () async {
-                                await attendanceController.clockIn(
-                                  method: data["method"],
-                                  sourceDevice: data["sourceDevice"],
-                                  remarks: data["remarks"],
-                                  coords: coords,
-                                  address: address, // Pass the address
-                                );
-                              },
-                      child:
-                          attendanceController.isClockInLoading.value
-                              ? const SizedBox(
-                                height: 18,
-                                width: 18,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
-                                ),
-                              )
-                              : kText(
-                                text: TranslationKeys.confirm.tr,
-                                fSize: 14.0,
-                                fWeight: FontWeight.bold,
-                                tColor: Colors.white,
+                      onPressed: attendanceController.isClockInLoading.value || isLoading
+                          ? null
+                          : () async {
+                              await attendanceController.clockIn(
+                                method: data["method"],
+                                sourceDevice: data["sourceDevice"],
+                                remarks: data["remarks"],
+                                coords: coords,
+                                address: address,
+                              );
+                            },
+                      child: attendanceController.isClockInLoading.value
+                          ? const SizedBox(
+                              height: 20,
+                              width: 20,
+                              child: CircularProgressIndicator(
+                                strokeWidth: 2,
+                                color: Colors.white,
                               ),
+                            )
+                          : kText(
+                              text: TranslationKeys.confirm.tr,
+                              fSize: 15.0,
+                              fWeight: FontWeight.bold,
+                              tColor: Colors.white,
+                            ),
                     ),
                   ),
                 ),
               ],
             ),
+            const SizedBox(height: 20), // Bottom padding
           ],
         );
       }),

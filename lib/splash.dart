@@ -7,6 +7,7 @@ import 'package:supergithr/controllers/holiday_controller.dart';
 import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/controllers/loan_controller.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
+import 'package:supergithr/controllers/announcement_controller.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/screens/auth/login_Screen.dart';
 import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
@@ -18,6 +19,8 @@ import 'package:supergithr/views/customText.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
+
+  
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -72,6 +75,7 @@ class _SplashScreenState extends State<SplashScreen> {
       AttendanceHistoryController attendanceHistoryController = Get.find();
       HolidayController holidayController = Get.find();
       LoanController loanController = Get.find();
+      AnnouncementController announcementController = Get.find();
 
       await ApiNetworkService().saveAuthToken(token);
 
@@ -85,6 +89,7 @@ class _SplashScreenState extends State<SplashScreen> {
         attendanceHistoryController.getTodayLogs();
         holidayController.fetchHolidays(); // ✅ Fetch holidays in splash
         loanController.fetchLoans(); // ✅ Fetch loans in splash
+        announcementController.fetchAnnouncements(); // ✅ Fetch announcements in splash
 
         Get.offAll(() => DashBorad(index: 0));
         print("🔹 Token valid, navigating to Dashboard.");
@@ -106,65 +111,58 @@ class _SplashScreenState extends State<SplashScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Center(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              SizedBox(height: 4.h),
+      body: Container(
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(
+          gradient: splashGradient,
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                SizedBox(height: 4.h),
 
-              Spacer(),
-              SizedBox(
-                height: 15.h,
-                width: 15.h,
-                child: Image.asset(AppAssets.logo),
-              ),
-              Container(
-                // color: redColor,
-                // height: 30.h,
-                // width: 30.h,
-                child: Image.asset(AppAssets.splashLogo2),
-              ),
-              Spacer(),
-              //  if (isLoading) ...[
-              SizedBox(
-                height: 20.sp,
-                width: 20.sp,
-                child: ShaderMask(
-                  shaderCallback: (Rect bounds) {
-                    return const LinearGradient(
-                      colors: [
-                        Color(0xff0076CE),
-                        Color(0xff0099F7),
-                        Color(0xff00A676),
-                        Color(0xff00B589),
-                      ],
-                      // begin: Alignment.topLeft,
-                      // end: Alignment.bottomRight,
-                    ).createShader(bounds);
-                  },
-                  child: const CircularProgressIndicator(strokeWidth: 1),
+                Spacer(),
+                // Main Logo
+                SizedBox(
+                  height: 15.h,
+                  width: 15.h,
+                  child: Image.asset(AppAssets.logo),
                 ),
-              ),
-              SizedBox(height: 2.h),
-              kText(
-                text: TranslationKeys.loading.tr,
-                fSize: 14.0,
-                fWeight: FontWeight.bold,
-                tColor: Colors.grey,
-                gradient: LinearGradient(
-                  colors: [
-                    Color(0xff0076CE),
-                    Color(0xff0099F7),
-                    Color(0xff00A676),
-                    Color(0xff00B589),
-                  ],
+                // Splash Logo
+                Container(
+                  // color: redColor,
+                  // height: 30.h,
+                  // width: 30.h,
+                  child: Image.asset(AppAssets.splashLogo2),
                 ),
-              ),
-              //  ],
-              Spacer(),
-            ],
+                Spacer(),
+                
+                // Loading Indicator with WHITE color since bg is blue/gradient
+                SizedBox(
+                  height: 20.sp,
+                  width: 20.sp,
+                  child: const CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                    strokeWidth: 2,
+                  ),
+                ),
+                SizedBox(height: 2.h),
+                
+                // Text in WHITE
+                kText(
+                  text: TranslationKeys.loading.tr,
+                  fSize: 14.0,
+                  fWeight: FontWeight.bold,
+                  tColor: kPrimaryColor,
+                ),
+                
+                Spacer(),
+              ],
+            ),
           ),
         ),
       ),

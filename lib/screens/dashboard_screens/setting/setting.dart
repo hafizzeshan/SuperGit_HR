@@ -22,6 +22,8 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/views/language_selection_bottom_sheet.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
+import 'package:supergithr/views/custom_animated_views.dart';
+import 'package:supergithr/screens/dashboard_screens/setting/employee_card_screen.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});
@@ -47,49 +49,69 @@ class _AboutScreenState extends State<AboutScreen> {
     final phone = model.mobileNumber ?? "N/A";
 
     return Scaffold(
-      backgroundColor: whiteColor,
+      backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitoutAction(
         title: TranslationKeys.about.tr,
         leadingWidget: SizedBox(),
       ),
-      body: Column(
-        children: [
-          const SizedBox(height: 12),
-          _buildProfileCard(name: fullName, phone: phone),
-          const SizedBox(height: 20),
-          // _buildTile(
-          //   icon: Icons.person_outline,
-          //   label: "Educational Documents",
-          //   onTap: () => Get.to(EducationalDocumentsScreen()),
-          // ),
-          _buildTile(
-            icon: Icons.folder_shared_rounded,
-            label: TranslationKeys.personalDocuments.tr,
-            onTap: () => Get.to(PersonalDocumentsScreen()),
-          ),
-          _buildTile(
-            icon: Icons.language_rounded,
-            label: TranslationKeys.changeLanguage.tr,
-            onTap: () {
-              LanguageSelectionBottomSheet.show(context);
-            },
-          ),
-          _buildTile(
-            icon: Icons.campaign_rounded,
-            label: TranslationKeys.announcements.tr,
-            onTap: () => Get.to(() => const AnnouncementsListScreen()),
-          ),
-          _buildTile(
-            icon: Icons.flag_rounded,
-            label: TranslationKeys.holidays.tr,
-            onTap: () => Get.to(() => HolidayScreen()),
-          ),
-          _buildTile(
-            icon: Icons.logout_rounded,
-            label: TranslationKeys.logout.tr,
-            onTap: () => _handleLogout(),
-          ),
-        ],
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: kMainBackgroundGradient,
+        ),
+        child: CustomAnimatedListView(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
+          itemCount: 9, // 1 Spacer + 1 Profile + 1 Spacer + 6 Actions
+          itemBuilder: (context, index) {
+            switch (index) {
+              case 0:
+                return const SizedBox(height: 12);
+              case 1:
+                return _buildProfileCard(name: fullName, phone: phone);
+              case 2:
+                return const SizedBox(height: 20);
+              case 3:
+                return _gridActionTile(
+                  Icons.folder_shared_rounded,
+                  TranslationKeys.personalDocuments.tr,
+                  () => Get.to(PersonalDocumentsScreen()),
+                );
+              case 4:
+                return _gridActionTile(
+                  Icons.language_rounded,
+                  TranslationKeys.changeLanguage.tr,
+                  () {
+                    LanguageSelectionBottomSheet.show(context);
+                  },
+                );
+              case 5:
+                return _gridActionTile(
+                  Icons.campaign_rounded,
+                  TranslationKeys.announcements.tr,
+                  () => Get.to(() => const AnnouncementsListScreen()),
+                );
+              case 6:
+                return _gridActionTile(
+                  Icons.flag_rounded,
+                  TranslationKeys.holidays.tr,
+                  () => Get.to(() => HolidayScreen()),
+                );
+              // case 7:
+              //   return _gridActionTile(
+              //     Icons.badge_rounded,
+              //     TranslationKeys.employeeCard.tr,
+              //     () => Get.to(() => const EmployeeCardScreen()),
+              //   );
+              case 7:
+                return _gridActionTile(
+                  Icons.logout_rounded,
+                  TranslationKeys.logout.tr,
+                  () => _handleLogout(),
+                );
+              default:
+                return const SizedBox();
+            }
+          },
+        ),
       ),
     );
   }
@@ -144,8 +166,7 @@ class _AboutScreenState extends State<AboutScreen> {
               ],
             ),
             content: kText(
-              text:
-                  TranslationKeys.locationServicesRequiredForClockOut.tr,
+              text: TranslationKeys.locationServicesRequiredForClockOut.tr,
               fSize: 14.0,
               tColor: Colors.black87,
             ),
@@ -218,8 +239,7 @@ class _AboutScreenState extends State<AboutScreen> {
               tColor: Colors.black87,
             ),
             content: kText(
-              text:
-                  TranslationKeys.locationPermissionPermanentlyDenied.tr,
+              text: TranslationKeys.locationPermissionPermanentlyDenied.tr,
               fSize: 14.0,
               tColor: Colors.black87,
             ),
@@ -306,56 +326,109 @@ class _AboutScreenState extends State<AboutScreen> {
     required String address,
     required LatLng? coords,
   }) {
-    showDialog(
+    showModalBottomSheet(
       context: context,
+      backgroundColor: Colors.transparent,
+      isScrollControlled: true,
       builder:
-          (context) => AlertDialog(
-            shape: RoundedRectangleBorder(
-              borderRadius: BorderRadius.circular(16),
+          (context) => Container(
+            decoration: const BoxDecoration(
+              gradient: kMainBackgroundGradient,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
             ),
-            title: Row(
-              children: [
-                Icon(
-                  Icons.warning_amber_rounded,
-                  color: Colors.orange,
-                  size: 28,
-                ),
-                SizedBox(width: 12),
-                Expanded(
-                  child: kText(
-                    text: TranslationKeys.clockOutRequired.tr,
-                    fSize: 18.0,
-                    fWeight: FontWeight.bold,
-                    tColor: Colors.black87,
-                  ),
-                ),
-              ],
+            padding: EdgeInsets.only(
+              left: 20,
+              right: 20,
+              top: 20,
+              bottom: MediaQuery.of(context).padding.bottom + 20,
             ),
-            content: Column(
+            child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                kText(
-                  text:
-                      TranslationKeys.currentlyClockedInMessage.tr,
-                  fSize: 14.0,
-                  tColor: Colors.black87,
-                  textalign: TextAlign.left,
+                // Drag Handle
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                  ),
                 ),
-                SizedBox(height: 16),
-                // Show current location
+                const SizedBox(height: 24),
+
+                // Title Row
+                Row(
+                  children: [
+                    Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.orange.withOpacity(0.1),
+                        shape: BoxShape.circle,
+                      ),
+                      child: const Icon(
+                        Icons.warning_amber_rounded,
+                        color: Colors.orange,
+                        size: 28,
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          kText(
+                            text: TranslationKeys.clockOutRequired.tr,
+                            fSize: 18.0,
+                            fWeight: FontWeight.bold,
+                            tColor: Colors.black87,
+                          ),
+                          const SizedBox(height: 4),
+                          kText(
+                            text: TranslationKeys.currentlyClockedInMessage.tr,
+                            fSize: 13.0,
+                            tColor: Colors.grey.shade600,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+
+                const SizedBox(height: 24),
+
+                // Location Card
                 Container(
-                  padding: EdgeInsets.all(12),
+                  padding: const EdgeInsets.all(16),
                   decoration: BoxDecoration(
-                    color: Colors.blue.shade50,
-                    borderRadius: BorderRadius.circular(8),
-                    border: Border.all(color: Colors.blue.shade200),
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(16),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withOpacity(0.05),
+                        blurRadius: 10,
+                        offset: const Offset(0, 4),
+                      ),
+                    ],
                   ),
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.location_on, color: Colors.blue, size: 20),
-                      SizedBox(width: 8),
+                      Container(
+                        padding: const EdgeInsets.all(8),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor.withOpacity(0.08),
+                          borderRadius: BorderRadius.circular(10),
+                        ),
+                        child: Icon(
+                          Icons.location_on_rounded,
+                          color: kPrimaryColor,
+                          size: 20,
+                        ),
+                      ),
+                      const SizedBox(width: 14),
                       Expanded(
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
@@ -364,16 +437,17 @@ class _AboutScreenState extends State<AboutScreen> {
                               text: TranslationKeys.clockOutLocation.tr,
                               fSize: 12.0,
                               fWeight: FontWeight.w600,
-                              tColor: Colors.blue.shade900,
+                              tColor: Colors.grey.shade600,
                             ),
-                            SizedBox(height: 4),
+                            const SizedBox(height: 6),
                             kText(
                               text:
                                   address.isNotEmpty
                                       ? address
                                       : TranslationKeys.gettingAddress.tr,
-                              fSize: 13.0,
+                              fSize: 14.0,
                               tColor: Colors.black87,
+                              maxLines: 3,
                               textalign: TextAlign.left,
                             ),
                           ],
@@ -382,46 +456,66 @@ class _AboutScreenState extends State<AboutScreen> {
                     ],
                   ),
                 ),
-                SizedBox(height: 16),
+
+                const SizedBox(height: 24),
+
                 kText(
-                  text:
-                      TranslationKeys.proceedWithLogoutAndClockOut.tr,
+                  text: TranslationKeys.proceedWithLogoutAndClockOut.tr,
                   fSize: 14.0,
                   fWeight: FontWeight.w600,
                   tColor: Colors.black87,
-                  textalign: TextAlign.left,
+                ),
+
+                const SizedBox(height: 24),
+
+                // Buttons
+                Row(
+                  children: [
+                    Expanded(
+                      child: OutlinedButton(
+                        onPressed: () => Navigator.pop(context),
+                        style: OutlinedButton.styleFrom(
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          side: BorderSide(color: Colors.grey.shade300),
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: kText(
+                          text: TranslationKeys.cancel.tr,
+                          fSize: 15.0,
+                          fWeight: FontWeight.w600,
+                          tColor: Colors.black87,
+                        ),
+                      ),
+                    ),
+                    const SizedBox(width: 16),
+                    Expanded(
+                      child: ElevatedButton(
+                        onPressed: () {
+                          Navigator.pop(context);
+                          _autoClockOutAndLogout(coords: coords);
+                        },
+                        style: ElevatedButton.styleFrom(
+                          backgroundColor: Colors.redAccent,
+                          padding: const EdgeInsets.symmetric(vertical: 16),
+                          elevation: 0,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(16),
+                          ),
+                        ),
+                        child: kText(
+                          text: TranslationKeys.yesLogout.tr,
+                          fSize: 15.0,
+                          fWeight: FontWeight.w600,
+                          tColor: Colors.white,
+                        ),
+                      ),
+                    ),
+                  ],
                 ),
               ],
             ),
-            actions: [
-              TextButton(
-                onPressed: () => Navigator.pop(context),
-                child: kText(
-                  text: TranslationKeys.cancel.tr,
-                  fSize: 14.0,
-                  fWeight: FontWeight.w600,
-                  tColor: Colors.grey,
-                ),
-              ),
-              ElevatedButton(
-                onPressed: () {
-                  Navigator.pop(context);
-                  _autoClockOutAndLogout(coords: coords);
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: Colors.redAccent,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(8),
-                  ),
-                ),
-                child: kText(
-                  text: TranslationKeys.yesLogout.tr,
-                  fSize: 14.0,
-                  fWeight: FontWeight.w600,
-                  tColor: Colors.white,
-                ),
-              ),
-            ],
           ),
     );
   }
@@ -514,8 +608,7 @@ class _AboutScreenState extends State<AboutScreen> {
             tColor: Colors.black87,
           ),
           content: kText(
-            text:
-                TranslationKeys.failedToClockOutAutomatically.tr,
+            text: TranslationKeys.failedToClockOutAutomatically.tr,
             fSize: 14.0,
             tColor: Colors.black87,
           ),
@@ -560,10 +653,16 @@ class _AboutScreenState extends State<AboutScreen> {
       await apiService.clearAuthToken();
       print("✅ Auth token cleared from API service");
 
-      // 2. Clear ALL SharedPreferences data (including authToken, tokenSavedAt, user_model, employee_id, etc.)
+      // 2. Clear SharedPreferences data but PRESERVE the language setting
       final prefs = await SharedPreferences.getInstance();
+      final String? currentLocal = prefs.getString("local"); // Save current language
       await prefs.clear();
-      print("✅ All SharedPreferences data cleared");
+      
+      if (currentLocal != null) {
+        await prefs.setString("local", currentLocal); // Restore language
+        print("✅ Language preference preserved: $currentLocal");
+      }
+      print("✅ Other SharedPreferences data cleared");
 
       // 3. Reset all controllers to clear any cached data
       try {
@@ -625,20 +724,33 @@ class _AboutScreenState extends State<AboutScreen> {
     return InkWell(
       onTap: () => Get.to(() => ProfileViewScreen()),
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16),
+        width: double.infinity,
         padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          //  color: mainBlackcolor.withOpacity(0.05),
-          gradient: linearGradient2,
+          color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(color: mainBlackcolor.withOpacity(0.2)),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
           children: [
-            CircleAvatar(
-              radius: 25,
-              backgroundColor: mainBlackcolor.withOpacity(0.2),
-              child: Icon(Icons.person, size: 30, color: whiteColor),
+            Container(
+              padding: const EdgeInsets.all(2),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                color: kPrimaryColor.withOpacity(0.08),
+              ),
+              child: CircleAvatar(
+                radius: 25,
+                backgroundColor: Colors.white,
+                child: Icon(Icons.person, size: 30, color: kPrimaryColor),
+              ),
             ),
             const SizedBox(width: 16),
             Expanded(
@@ -649,54 +761,96 @@ class _AboutScreenState extends State<AboutScreen> {
                     text: name,
                     fWeight: FontWeight.bold,
                     fSize: 16.0,
-                    tColor: whiteColor,
+                    tColor: Colors.black87,
                   ),
                   const SizedBox(height: 4),
                   Row(
                     children: [
-                      Icon(Icons.phone, size: 14, color: whiteColor),
+                      Icon(Icons.phone, size: 14, color: Colors.grey.shade600),
                       const SizedBox(width: 6),
-                      kText(text: phone, tColor: whiteColor, fSize: 13.0),
+                      kText(
+                        text: phone,
+                        tColor: Colors.grey.shade600,
+                        fSize: 13.0,
+                      ),
                     ],
                   ),
                 ],
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 16, color: whiteColor),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: kPrimaryColor.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 14,
+                color: kPrimaryColor,
+              ),
+            ),
           ],
         ),
       ),
     );
   }
 
-  Widget _buildTile({
-    required IconData icon,
-    required String label,
-    required VoidCallback onTap,
-  }) {
+  Widget _gridActionTile(IconData icon, String label, VoidCallback onTap) {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
-        padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 16),
+        margin: const EdgeInsets.only(bottom: 12), // Add vertical margin for list view spacing
+        width: Get.width,
+        padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
-          // color: appblueColor.withOpacity(0.05),
-          borderRadius: BorderRadius.circular(12),
-          gradient: linearGradient2,
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(
+            color: Colors.grey.shade200,
+          ),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
         child: Row(
           children: [
-            Icon(icon, size: 22, color: whiteColor),
-            const SizedBox(width: 16),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: kPrimaryColor.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(icon, color: kPrimaryColor, size: 22),
+            ),
+            const SizedBox(width: 10),
             Expanded(
               child: kText(
                 text: label,
+                fSize: 12.0,
                 fWeight: FontWeight.w600,
-                fSize: 14.0,
-                tColor: whiteColor,
+                tColor: Colors.black87,
+                textalign: TextAlign.start,
+                maxLines: 2,
+                textoverflow: TextOverflow.ellipsis,
               ),
             ),
-            const Icon(Icons.arrow_forward_ios, size: 16, color: whiteColor),
+            Container(
+              padding: const EdgeInsets.all(8),
+              decoration: BoxDecoration(
+                color: kPrimaryColor.withOpacity(0.08),
+                borderRadius: BorderRadius.circular(10),
+              ),
+              child: Icon(
+                Icons.arrow_forward_ios,
+                size: 14,
+                color: kPrimaryColor,
+              ),
+            ),
           ],
         ),
       ),

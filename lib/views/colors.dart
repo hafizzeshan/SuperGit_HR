@@ -40,6 +40,17 @@ const Color kSecondaryColor = Color(0xff00A676);
 const Color kDarkColor = Color(0xff262626);
 const Color kDarkShadeColor = Color(0xff797979);
 const Color kWhiteColor = Color(0xffE0E0E0);
+const Color kMainBackgroundColor = Color(0xffF2F6F9);
+const Color kLightBlueBackgroundColor = Color(0xffD6EAF8);
+
+const LinearGradient kMainBackgroundGradient = LinearGradient(
+  colors: [
+    kLightBlueBackgroundColor,
+    kMainBackgroundColor,
+  ],
+  begin: Alignment.topCenter,
+  end: Alignment.center,
+);
 
 const LinearGradient linearGradient = LinearGradient(
   colors: [
@@ -68,4 +79,10 @@ LinearGradient linearGradient3 = LinearGradient(
   colors: [Colors.blue.shade400, Colors.blue.shade700],
   begin: Alignment.topLeft,
   end: Alignment.bottomRight,
+);
+
+const LinearGradient splashGradient = LinearGradient(
+  colors: [Colors.white, kLightBlueBackgroundColor],
+  begin: Alignment.topCenter,
+  end: Alignment.bottomCenter,
 );

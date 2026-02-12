@@ -4,6 +4,7 @@ import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/views/colors.dart';
 
 class NotificationScreen extends StatelessWidget {
   const NotificationScreen({super.key});
@@ -43,9 +44,12 @@ class NotificationScreen extends StatelessWidget {
 
     return Scaffold(
       appBar: appBarrWitoutAction(title: TranslationKeys.notifications.tr),
-      backgroundColor: Colors.white,
-      body:
-          notifications.isEmpty
+      backgroundColor: kMainBackgroundColor,
+      body: Container(
+        decoration: const BoxDecoration(
+          gradient: kMainBackgroundGradient,
+        ),
+        child: notifications.isEmpty
               ? Center(
                 child: kText(
                   text: TranslationKeys.noNotificationsAvailable.tr,
@@ -107,6 +111,7 @@ class NotificationScreen extends StatelessWidget {
                   );
                 },
               ),
+      ),
     );
   }
 }

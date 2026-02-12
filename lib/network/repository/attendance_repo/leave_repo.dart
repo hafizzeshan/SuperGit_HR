@@ -34,12 +34,16 @@ class LeaveRepository {
     }
   }
 
-  /// ✅ Submit Leave Request
-  Future submitLeaveRequest({required Map<String, dynamic> data}) async {
+  /// ✅ Create Leave Request
+  Future createLeaveRequest({
+    required dynamic data,
+    bool isMultipart = false,
+  }) async {
     try {
       final response = await _api.postRequest(
         AppURL.leaveRequestsApi,
         data: data,
+        isMultipart: isMultipart,
       );
 
       if (response == null) {
@@ -49,10 +53,6 @@ class LeaveRepository {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         log("✅ Leave Request Response: ${response.data}");
-        Utils.snackBar(
-          response.data?['message'] ?? "Leave request submitted successfully!",
-          false,
-        );
         return response.data;
       } else {
         final message = response.data?['message'] ?? "Leave request failed";

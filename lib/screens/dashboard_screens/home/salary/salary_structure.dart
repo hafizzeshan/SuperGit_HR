@@ -29,13 +29,17 @@ class _EmployeeSalaryStructureScreenState
 
     // ✅ Fetch salary structure only if list is empty (first time)
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      print('📊 Salary Structure - List count: ${controller.salaryStructureList.length}');
-      
+      print(
+        '📊 Salary Structure - List count: ${controller.salaryStructureList.length}',
+      );
+
       if (controller.salaryStructureList.isEmpty) {
         print('🔄 Fetching salary structure (list is empty)');
         controller.fetchSalaryStructureList();
       } else {
-        print('✅ Using cached salary structure (${controller.salaryStructureList.length} items)');
+        print(
+          '✅ Using cached salary structure (${controller.salaryStructureList.length} items)',
+        );
       }
     });
 
@@ -50,12 +54,16 @@ class _EmployeeSalaryStructureScreenState
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: appBarrWitAction(title: TranslationKeys.salaryStructure.tr, titlefontSize: 18),
+      appBar: appBarrWitAction(
+        title: TranslationKeys.salaryStructure.tr,
+        titlefontSize: 18,
+      ),
       backgroundColor: const Color(0xFFF3F4F7),
 
       body: Obx(() {
         // Show spinner only on initial load (empty list)
-        if (controller.isLoading.value && controller.salaryStructureList.isEmpty) {
+        if (controller.isLoading.value &&
+            controller.salaryStructureList.isEmpty) {
           return const Center(
             child: CircularProgressIndicator(color: kPrimaryColor),
           );
@@ -129,29 +137,36 @@ class _EmployeeSalaryStructureScreenState
         item.housingAllowance + item.transportAllowance + item.otherAllowances;
 
     return InkWell(
-      borderRadius: BorderRadius.circular(20),
+      borderRadius: BorderRadius.circular(16),
       onTap: () => _openBottomSheet(context, item),
       child: Container(
-        padding: const EdgeInsets.all(18),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
-          gradient: linearGradient2,
-          borderRadius: BorderRadius.circular(20),
+          color: Colors.white,
+          borderRadius: BorderRadius.circular(16),
+          border: Border.all(color: Colors.grey.shade200),
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withOpacity(0.05),
+              blurRadius: 10,
+              offset: const Offset(0, 4),
+            ),
+          ],
         ),
-
         child: Row(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             // --------------------------- Icon Badge ---------------------------
             Container(
-              padding: const EdgeInsets.all(14),
+              padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                gradient: linearGradient3,
+                color: kPrimaryColor.withOpacity(0.08),
                 shape: BoxShape.circle,
               ),
-              child: const Icon(
+              child: Icon(
                 Icons.account_balance_wallet_rounded,
-                color: Colors.white,
-                size: 22,
+                color: kPrimaryColor,
+                size: 24,
               ),
             ),
 
@@ -164,21 +179,15 @@ class _EmployeeSalaryStructureScreenState
                 children: [
                   kText(
                     text: "${item.basicSalary} SAR",
-                    fSize: 17,
+                    fSize: 16,
                     fWeight: FontWeight.w700,
-                    tColor: whiteColor,
+                    tColor: Colors.black87,
                   ),
-
                   const SizedBox(height: 4),
-
-                  Row(
-                    children: [
-                      kText(
-                        text: "${TranslationKeys.allowances.tr}: $totalAllowance",
-                        fSize: 12,
-                        tColor: Colors.grey.shade200,
-                      ),
-                    ],
+                  kText(
+                    text: "${TranslationKeys.allowances.tr}: $totalAllowance",
+                    fSize: 12,
+                    tColor: Colors.grey.shade600,
                   ),
                 ],
               ),
@@ -197,125 +206,131 @@ class _EmployeeSalaryStructureScreenState
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
-      backgroundColor: Colors.white,
+      backgroundColor: Colors.transparent,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
       ),
       builder: (_) {
-        return DraggableScrollableSheet(
-          expand: false,
-          initialChildSize: 0.70,
-          maxChildSize: 0.95,
-          minChildSize: 0.50,
-          builder: (_, scrollController) {
-            return Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 22),
-              child: ListView(
-                controller: scrollController,
-                children: [
-                  // --- Drag Handle ---
-                  Center(
-                    child: Container(
-                      width: 60,
-                      height: 6,
-                      margin: const EdgeInsets.only(top: 12, bottom: 16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade300,
-                        borderRadius: BorderRadius.circular(10),
+        return Container(
+          decoration: const BoxDecoration(
+            gradient: kMainBackgroundGradient,
+            borderRadius: BorderRadius.vertical(top: Radius.circular(28)),
+          ),
+          child: DraggableScrollableSheet(
+            expand: false,
+            initialChildSize: 0.70,
+            maxChildSize: 0.95,
+            minChildSize: 0.50,
+            builder: (_, scrollController) {
+              return Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 22),
+                child: ListView(
+                  controller: scrollController,
+                  children: [
+                    // --- Drag Handle ---
+                    Center(
+                      child: Container(
+                        width: 60,
+                        height: 6,
+                        margin: const EdgeInsets.only(top: 12, bottom: 16),
+                        decoration: BoxDecoration(
+                          color: Colors.grey.shade300,
+                          borderRadius: BorderRadius.circular(10),
+                        ),
                       ),
                     ),
-                  ),
 
-                  // --- Header ---
-                  Row(
-                    children: [
-                      Container(
-                        padding: const EdgeInsets.all(14),
-                        decoration: BoxDecoration(
-                          color: Colors.blue.withOpacity(0.12),
-                          shape: BoxShape.circle,
-                        ),
-                        child: const Icon(
-                          Icons.account_balance_wallet_rounded,
-                          size: 30,
-                          color: Colors.blue,
-                        ),
-                      ),
-
-                      const SizedBox(width: 16),
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          kText(
-                            text: TranslationKeys.salaryBreakdown.tr,
-                            fSize: 18,
-                            fWeight: FontWeight.w700,
+                    // --- Header ---
+                    Row(
+                      children: [
+                        Container(
+                          padding: const EdgeInsets.all(14),
+                          decoration: BoxDecoration(
+                            color: Colors.blue.withOpacity(0.12),
+                            shape: BoxShape.circle,
                           ),
-                        ],
-                      ),
-                    ],
-                  ),
+                          child: const Icon(
+                            Icons.account_balance_wallet_rounded,
+                            size: 30,
+                            color: Colors.blue,
+                          ),
+                        ),
 
-                  UIHelper.verticalSpaceSm20,
+                        const SizedBox(width: 16),
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            kText(
+                              text: TranslationKeys.salaryBreakdown.tr,
+                              fSize: 18,
+                              fWeight: FontWeight.w700,
+                            ),
+                          ],
+                        ),
+                      ],
+                    ),
 
-                  // --- Section: Main Salary ---
-                  _sectionHeader(TranslationKeys.salaryComponents.tr),
+                    UIHelper.verticalSpaceSm20,
 
-                  _detailTile(
-                    Icons.home,
-                    TranslationKeys.housingAllowance.tr,
-                    "${item.housingAllowance}",
-                  ),
-                  _detailTile(
-                    Icons.directions_bus,
-                    TranslationKeys.transportAllowance.tr,
-                    "${item.transportAllowance}",
-                  ),
-                  _detailTile(
-                    Icons.add_card,
-                    TranslationKeys.otherAllowances.tr,
-                    "${item.otherAllowances}",
-                  ),
+                    // --- Section: Main Salary ---
+                    _sectionHeader(TranslationKeys.salaryComponents.tr),
 
-                  UIHelper.verticalSpaceSm20,
+                    _detailTile(
+                      Icons.home,
+                      TranslationKeys.housingAllowance.tr,
+                      "${item.housingAllowance}",
+                    ),
+                    _detailTile(
+                      Icons.directions_bus,
+                      TranslationKeys.transportAllowance.tr,
+                      "${item.transportAllowance}",
+                    ),
+                    _detailTile(
+                      Icons.add_card,
+                      TranslationKeys.otherAllowances.tr,
+                      "${item.otherAllowances}",
+                    ),
 
-                  // --- Section: Deductions ---
-                  _sectionHeader(TranslationKeys.deductions.tr),
-                  _detailTile(
-                    Icons.remove_circle,
-                    TranslationKeys.deductions.tr,
-                    "${item.deductions}",
-                  ),
-                  _detailTile(
-                    Icons.security,
-                    TranslationKeys.gosiContribution.tr,
-                    "${item.gosiContribution}",
-                  ),
+                    UIHelper.verticalSpaceSm20,
 
-                  UIHelper.verticalSpaceSm20,
+                    // --- Section: Deductions ---
+                    _sectionHeader(TranslationKeys.deductions.tr),
+                    _detailTile(
+                      Icons.remove_circle,
+                      TranslationKeys.deductions.tr,
+                      "${item.deductions}",
+                    ),
+                    _detailTile(
+                      Icons.security,
+                      TranslationKeys.gosiContribution.tr,
+                      "${item.gosiContribution}",
+                    ),
 
-                  // --- Section: Effective Dates ---
-                  _sectionHeader(TranslationKeys.effectiveDates.tr),
-                  _detailTile(
-                    Icons.calendar_month,
-                    TranslationKeys.effectiveFrom.tr,
-                    item.effectiveFrom.year == 1
-                        ? "-"
-                        : item.effectiveFrom.toString().split(" ").first,
-                  ),
-                  _detailTile(
-                    Icons.calendar_today,
-                    TranslationKeys.effectiveTo.tr,
-                    item.effectiveTo.year == 1
-                        ? "-"
-                        : item.effectiveTo.toString().split(" ").first,
-                  ),
+                    UIHelper.verticalSpaceSm20,
 
-                  UIHelper.verticalSpaceSm20,
-                ],
-              ),
-            );
-          },
+                    // --- Section: Effective Dates ---
+                    _sectionHeader(TranslationKeys.effectiveDates.tr),
+                    _detailTile(
+                      Icons.calendar_month,
+                      TranslationKeys.effectiveFrom.tr,
+                      item.effectiveFrom.year == 1
+                          ? "-"
+                          : item.effectiveFrom.toString().split(" ").first,
+                    ),
+                    _detailTile(
+                      Icons.calendar_today,
+                      TranslationKeys.effectiveTo.tr,
+                      item.effectiveTo.year == 1
+                          ? "-"
+                          : item.effectiveTo.toString().split(" ").first,
+                    ),
+
+                    UIHelper.verticalSpaceSm20,
+                  ],
+                ),
+              );
+            },
+          ),
         );
       },
     );
@@ -354,16 +369,19 @@ class _EmployeeSalaryStructureScreenState
   }
 
   Widget _statusChip(bool isActive) {
+    final color = isActive ? Colors.green : Colors.red;
     return Container(
-      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 12),
+      padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       decoration: BoxDecoration(
-        color: isActive ? Colors.green : Colors.red,
-        borderRadius: BorderRadius.circular(20),
+        color: color.withOpacity(0.1),
+        borderRadius: BorderRadius.circular(12),
+        border: Border.all(color: color.withOpacity(0.2)),
       ),
       child: kText(
-        text: isActive ? TranslationKeys.active.tr : TranslationKeys.inactive.tr,
-        fSize: 12,
-        tColor: whiteColor,
+        text:
+            isActive ? TranslationKeys.active.tr : TranslationKeys.inactive.tr,
+        fSize: 11,
+        tColor: color,
         fWeight: FontWeight.w600,
       ),
     );
