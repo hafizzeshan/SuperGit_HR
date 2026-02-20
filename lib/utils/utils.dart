@@ -34,7 +34,7 @@ class Utils {
     );
   }
 
-  static snackBar(String message, bool isError) {
+  static snackBar(String message, bool isError, {BuildContext? context}) {
     DelightToastBar(
       animationDuration: const Duration(milliseconds: 400),
       snackbarDuration: const Duration(seconds: 3),
@@ -105,7 +105,7 @@ class Utils {
       //     ),
       //   ),
       // ),
-    ).show(Get.key.currentContext!);
+    ).show(context ?? Get.key.currentContext ?? Get.context!);
     // Get.snackbar(
     //     isError?"Error"/*TranslationKeys.error.tr*/:message,
     //     isError? message:"",

@@ -81,7 +81,71 @@ class LocalizationHelper {
       case 'pending':
         return TranslationKeys.pending.tr;
       case 'rejected':
+      case 'cancelled':
         return TranslationKeys.rejected.tr;
+      default:
+        return status;
+    }
+  }
+
+  /// Get loan status text with proper translation
+  static String getLoanStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'approved':
+        return TranslationKeys.approved.tr;
+      case 'pending':
+        return TranslationKeys.pending.tr;
+      case 'rejected':
+      case 'cancelled':
+        return TranslationKeys.rejected.tr;
+      default:
+        return status;
+    }
+  }
+
+  /// Get attendance status text with proper translation
+  static String getAttendanceStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'present':
+        return TranslationKeys.present.tr;
+      case 'absent':
+        return TranslationKeys.absent.tr;
+      case 'on leave':
+        return TranslationKeys.onLeave.tr;
+      case 'pending':
+        return TranslationKeys.pending.tr;
+      default:
+        return status;
+    }
+  }
+
+  /// Get document status text with proper translation
+  static String getDocStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'verified':
+      case 'approved':
+        return TranslationKeys.verified.tr;
+      case 'pending':
+        return TranslationKeys.pending.tr;
+      case 'expired':
+        return TranslationKeys.expired.tr;
+      case 'rejected':
+      case 'cancelled':
+        return TranslationKeys.rejected.tr;
+      default:
+        return status;
+    }
+  }
+
+  /// Get prescription status text with proper translation
+  static String getPrescriptionStatus(String status) {
+    switch (status.toLowerCase()) {
+      case 'pending':
+        return TranslationKeys.pending.tr;
+      case 'ready':
+        return TranslationKeys.ready.tr;
+      case 'in transit':
+        return TranslationKeys.inTransit.tr;
       default:
         return status;
     }

@@ -578,4 +578,44 @@ class TranslationKeys {
   static const String softwareDeveloper = "softwareDeveloper";
   static const String idealClinic = "idealClinic";
   static const String healthcareServices = "healthcareServices";
+  static const String date = "date";
+  static const String ends = "ends";
+  static const String shiftEditRequest = "shiftEditRequest";
+  static const String present = "present";
+  static const String absent = "absent";
+  static const String onLeave = "onLeave";
+  static const String ready = "ready";
+  static const String inTransit = "inTransit";
+  static const String today = "today";
+  static const String announcement = "announcement";
+  static const String anytime = "anytime";
+  static const String tapToViewDetails = "tapToViewDetails";
+  static const String autoClockOutOnLogout = "autoClockOutOnLogout";
+  static const String h = "h";
+  static const String m = "m";
+  static const String s = "s";
+  static const String institution = "institution";
+  static const String degree = "degree";
+  static const String fieldOfStudy = "fieldOfStudy";
+  static const String passingYear = "passingYear";
+  static const String remarks = "remarks";
+  static const String pleaseFillAllFields = "pleaseFillAllFields";
+  static const String profileUpdatedSuccessfully = "profileUpdatedSuccessfully";
+  static const String failedToUpdateProfile = "failedToUpdateProfile";
+  static const String passwordChangedSuccessfully =
+      "passwordChangedSuccessfully";
+  static const String failedToChangePassword = "failedToChangePassword";
+  static const String newPasswordsDoNotMatch = "newPasswordsDoNotMatch";
+  static const String pleaseFillAllPasswordFields =
+      "pleaseFillAllPasswordFields";
+  static const String unableToLoadUserProfile = "unableToLoadUserProfile";
+  static const String employeeIdNotFound = "employeeIdNotFound";
+  static const String failedToFetchLoans = "failedToFetchLoans";
+  static const String pleaseFillAllRequiredFields =
+      "pleaseFillAllRequiredFields";
+  static const String leaveRequestSubmittedSuccessfully =
+      "leaveRequestSubmittedSuccessfully";
+  static const String errorPickingFile = "errorPickingFile";
+  static const String failedToRetrieveAttendanceID =
+      "failedToRetrieveAttendanceID";
 }

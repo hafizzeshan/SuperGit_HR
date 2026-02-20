@@ -6,6 +6,8 @@ import 'package:supergithr/models/user_model.dart';
 import 'package:supergithr/network/repository/profile_repo/profile_repo.dart';
 import 'package:supergithr/utils/utils.dart';
 
+import '../translations/translations/translation_keys.dart';
+
 class ProfileController extends GetxController {
   final ProfileRepository _repo = ProfileRepository();
 
@@ -104,7 +106,7 @@ class ProfileController extends GetxController {
       } catch (cacheError) {
         print("❌ Failed to load cached user: $cacheError");
         // Only show error if we truly have no data
-        Utils.snackBar("Unable to load user profile", true);
+        Utils.snackBar(TranslationKeys.unableToLoadUserProfile.tr, true);
       }
     }
   }
@@ -153,7 +155,7 @@ class ProfileController extends GetxController {
         familyName.isEmpty ||
         email.isEmpty ||
         phone.isEmpty) {
-      Utils.snackBar("Please fill all fields", true);
+      Utils.snackBar(TranslationKeys.pleaseFillAllFields.tr, true);
       return;
     }
 
@@ -177,13 +179,13 @@ class ProfileController extends GetxController {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('user_model', jsonEncode(updatedModel.toJson()));
 
-        Utils.snackBar("Profile updated successfully", false);
+        Utils.snackBar(TranslationKeys.profileUpdatedSuccessfully.tr, false);
       } else {
-        Utils.snackBar("Failed to update profile", true);
+        Utils.snackBar(TranslationKeys.failedToUpdateProfile.tr, true);
       }
     } catch (e) {
       updateLoading.value = false;
-      Utils.snackBar("Error updating profile: $e", true);
+      Utils.snackBar("${TranslationKeys.error.tr}: $e", true);
     }
   }
 
@@ -194,12 +196,12 @@ class ProfileController extends GetxController {
     final confirmPass = confirmPasswordController.text.trim();
 
     if (oldPass.isEmpty || newPass.isEmpty || confirmPass.isEmpty) {
-      Utils.snackBar("Please fill all password fields", true);
+      Utils.snackBar(TranslationKeys.pleaseFillAllPasswordFields.tr, true);
       return;
     }
 
     if (newPass != confirmPass) {
-      Utils.snackBar("New passwords do not match", true);
+      Utils.snackBar(TranslationKeys.newPasswordsDoNotMatch.tr, true);
       return;
     }
 
@@ -215,12 +217,12 @@ class ProfileController extends GetxController {
       isLoading.value = false;
 
       if (response != null) {
-        Utils.snackBar("Password changed successfully", false);
+        Utils.snackBar(TranslationKeys.passwordChangedSuccessfully.tr, false);
         oldPasswordController.clear();
         newPasswordController.clear();
         confirmPasswordController.clear();
       } else {
-        Utils.snackBar("Failed to change password", true);
+        Utils.snackBar(TranslationKeys.failedToChangePassword.tr, true);
       }
     } catch (e) {
       isLoading.value = false;

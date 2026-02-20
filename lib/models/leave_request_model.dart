@@ -10,6 +10,7 @@ class LeaveRequestModel {
   final String? reason;
   final String? approvedAt;
   final String? createdAt;
+  final String? documentUrl;
   final String? updatedAt;
   final String? deletedAt;
 
@@ -25,6 +26,7 @@ class LeaveRequestModel {
     this.reason,
     this.approvedAt,
     this.createdAt,
+    this.documentUrl,
     this.updatedAt,
     this.deletedAt,
   });
@@ -42,6 +44,7 @@ class LeaveRequestModel {
       reason: json["reason"],
       approvedAt: json["approved_at"],
       createdAt: json["created_at"],
+      documentUrl: json["document_url"],
       updatedAt: json["updated_at"],
       deletedAt: json["deleted_at"],
     );
@@ -59,6 +62,7 @@ class LeaveRequestModel {
     "reason": reason,
     "approved_at": approvedAt,
     "created_at": createdAt,
+    "document_url": documentUrl,
     "updated_at": updatedAt,
     "deleted_at": deletedAt,
   };

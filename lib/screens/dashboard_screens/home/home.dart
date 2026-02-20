@@ -302,7 +302,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   ),
                                   decoration: BoxDecoration(
                                     color: kPrimaryColor.withOpacity(0.05),
-                                    borderRadius: BorderRadius.circular(20),
+                                    borderRadius: BorderRadius.circular(10),
                                   ),
                                   child: Column(
                                     crossAxisAlignment: CrossAxisAlignment.end,
@@ -483,7 +483,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             padding: const EdgeInsets.symmetric(horizontal: 20),
                             child:
                                 _buildLargeAnnouncementCard(
-                                  date: "Anytime",
+                                  date: TranslationKeys.anytime.tr,
                                   time: "",
                                   title:
                                       TranslationKeys
@@ -516,7 +516,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                                     announcement.publishAt!,
                                                   ),
                                                 )
-                                                : "Today",
+                                                : TranslationKeys.today.tr,
                                         time:
                                             announcement.publishAt != null
                                                 ? DateFormat('HH:mm a').format(
@@ -527,10 +527,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                                 : "",
                                         title:
                                             announcement.title ??
-                                            "Announcement",
+                                            TranslationKeys.announcement.tr,
                                         subtitle:
                                             announcement.message ??
-                                            "Tap to view details.",
+                                            TranslationKeys.tapToViewDetails.tr,
                                         onTap: () {
                                           showAnnouncementDetail(
                                             context,

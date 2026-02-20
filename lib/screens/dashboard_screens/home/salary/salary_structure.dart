@@ -178,7 +178,7 @@ class _EmployeeSalaryStructureScreenState
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   kText(
-                    text: "${item.basicSalary} SAR",
+                    text: "${item.basicSalary} ${TranslationKeys.SAR.tr}",
                     fSize: 16,
                     fWeight: FontWeight.w700,
                     tColor: Colors.black87,

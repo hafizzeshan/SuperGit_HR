@@ -8,7 +8,10 @@ import 'package:supergithr/network/repository/attendance_repo/leave_repo.dart';
 import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart' as dio;
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/utils.dart';
+import 'package:supergithr/views/colors.dart';
+import 'package:supergithr/views/customText.dart';
 
 class LeaveController extends GetxController {
   final LeaveRepository _repo = LeaveRepository();
@@ -135,7 +138,7 @@ class LeaveController extends GetxController {
       }
     } catch (e) {
       log("❌ Error picking file: $e");
-      Utils.snackBar("Error picking file", true);
+      Utils.snackBar(TranslationKeys.errorPickingFile.tr, true);
     }
   }
 
@@ -145,7 +148,7 @@ class LeaveController extends GetxController {
   }
 
   /// ✅ Submit Leave Request
-  Future<void> submitLeaveRequest() async {
+  Future<void> submitLeaveRequest(BuildContext context) async {
     final startDate = startDateController.text.trim();
     final endDate = endDateController.text.trim();
     final totalDays = totalDaysController.text.trim();
@@ -156,7 +159,10 @@ class LeaveController extends GetxController {
         endDate.isEmpty ||
         totalDays.isEmpty ||
         reason.isEmpty) {
-      Utils.snackBar("Please fill all required fields", true);
+      log(
+        "⚠️ Validation failed: Type: ${selectedLeaveTypeId.value}, Start: $startDate, End: $endDate, Days: $totalDays, Reason: $reason",
+      );
+      Utils.snackBar(TranslationKeys.pleaseFillAllRequiredFields.tr, true, context: context);
       return;
     }
 
@@ -167,7 +173,7 @@ class LeaveController extends GetxController {
       final employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
-        Utils.snackBar("Employee ID not found. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         isSubmitting.value = false;
         return;
       }
@@ -221,18 +227,41 @@ class LeaveController extends GetxController {
         leaveHistory.insert(0, leaveRequest);
         historyTotalItems.value++;
 
-        Utils.snackBar("Leave request submitted successfully!", false);
+        Utils.snackBar(TranslationKeys.leaveRequestSubmittedSuccessfully.tr, false);
         clearForm();
         log("✅ Leave Request: ${leaveRequest.toJson()}");
 
         // Navigate back to requests screen
         Get.back();
       } else {
-        Utils.snackBar("Failed to submit leave request", true);
+        // Error handled in repository
       }
     } catch (e) {
       isSubmitting.value = false;
-      Utils.snackBar("Error submitting leave request: $e", true);
+      log("❌ Error submitting leave request: $e");
+
+      String errorMessage = "Error submitting leave request";
+
+      if (e is dio.DioException) {
+        if (e.response != null && e.response!.data != null) {
+          final data = e.response!.data;
+          if (data is Map && data['message'] != null) {
+            errorMessage = data['message'].toString();
+          } else if (data is Map && data['error'] != null) {
+            errorMessage = data['error'].toString();
+          } else {
+            errorMessage =
+                e.response?.statusMessage ??
+                "Server Error: ${e.response?.statusCode}";
+          }
+        } else {
+          errorMessage = e.message ?? "Network Error";
+        }
+      } else {
+        errorMessage = e.toString();
+      }
+
+      Utils.snackBar(errorMessage, true);
     }
   }
 
@@ -255,7 +284,7 @@ class LeaveController extends GetxController {
       final employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
-        Utils.snackBar("Employee ID not found. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         return;
       }
 

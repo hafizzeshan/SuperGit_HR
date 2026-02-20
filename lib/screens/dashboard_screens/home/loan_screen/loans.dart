@@ -10,6 +10,7 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/custom_text_field.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
+import 'package:supergithr/utils/localization_helper.dart';
 
 class LoanScreen extends StatefulWidget {
   const LoanScreen({super.key});
@@ -115,9 +116,9 @@ class _LoanScreenState extends State<LoanScreen> {
   }
 
   Widget _loanTile(LoanDatum loan) {
-    Color statusColor = loan.status == "Approved"
+    Color statusColor = loan.status.toLowerCase() == "approved"
         ? Colors.green
-        : loan.status == "Pending"
+        : loan.status.toLowerCase() == "pending"
             ? Colors.orange
             : Colors.red;
 
@@ -173,7 +174,7 @@ class _LoanScreenState extends State<LoanScreen> {
                           ),
                           const SizedBox(height: 4),
                           kText(
-                            text: loan.status,
+                            text: LocalizationHelper.getLoanStatus(loan.status),
                             fSize: 12,
                             fWeight: FontWeight.w600,
                             tColor: statusColor,
@@ -262,7 +263,7 @@ class _LoanScreenState extends State<LoanScreen> {
                 ),
                 const SizedBox(height: 16),
                 kText(
-                  text: loan.status,
+                  text: LocalizationHelper.getLoanStatus(loan.status),
                   fSize: 22,
                   fWeight: FontWeight.bold,
                   tColor: statusColor,

@@ -43,7 +43,7 @@ class _AboutScreenState extends State<AboutScreen> {
   @override
   Widget build(BuildContext context) {
     final model = profileController.userModel.value;
-    final firstName = model.firstNameEn ?? "User";
+    final firstName = model.firstNameEn ?? TranslationKeys.user.tr;
     final lastName = model.lastNameEn ?? "";
     final fullName = "$firstName $lastName".trim();
     final phone = model.mobileNumber ?? "N/A";
@@ -577,7 +577,7 @@ class _AboutScreenState extends State<AboutScreen> {
           remarks:
               locationController.address.value.isNotEmpty
                   ? locationController.address.value
-                  : "Auto clock-out on logout",
+                  : TranslationKeys.autoClockOutOnLogout.tr,
           coords: coords, // ✅ Use coordinates from LocationController
         );
 

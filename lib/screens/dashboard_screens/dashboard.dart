@@ -54,9 +54,7 @@ class _DashBoradState extends State<DashBorad> {
                 bottom: isKeyboardVisible ? 0 : 30,
               ),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(
-                  0.9,
-                ), // Slightly transparent pill
+                color: Colors.white, // Slightly transparent pill
                 borderRadius: BorderRadius.circular(35),
                 boxShadow: [
                   BoxShadow(
@@ -112,7 +110,7 @@ class _DashBoradState extends State<DashBorad> {
       child: AnimatedContainer(
         duration: const Duration(milliseconds: 500),
         curve: Curves.elasticOut, // Bouncy effect
-        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 12),
+        padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 12),
         decoration:
             isSelected
                 ? BoxDecoration(
@@ -126,17 +124,21 @@ class _DashBoradState extends State<DashBorad> {
           children: [
             Image.asset(
               icon,
-              height: isSelected ? 26 : 24, // Slight size bump
-              width: isSelected ? 26 : 24,
+              height: isSelected ? 25 : 23, // Slight size bump
+              width: isSelected ? 25 : 23,
               color: isSelected ? kPrimaryColor : Colors.grey.shade400,
             ),
             if (isSelected) ...[
               const SizedBox(width: 8),
-              Text(
-                label,
-                style: textStyleMontserratBold(
-                  fontSize: 12,
-                  color: kPrimaryColor,
+              Flexible(
+                child: Text(
+                  label,
+                  maxLines: 1,
+                  overflow: TextOverflow.ellipsis,
+                  style: textStyleMontserratBold(
+                    fontSize: 12,
+                    color: kPrimaryColor,
+                  ),
                 ),
               ),
             ],
@@ -151,7 +153,9 @@ class _DashBoradState extends State<DashBorad> {
       case 0:
         return KeepAliveWrapper(child: const HomeScreen());
       case 1:
-        return KeepAliveWrapper(child: const LeaveSummaryScreen(showBackButton: false));
+        return KeepAliveWrapper(
+          child: const LeaveSummaryScreen(showBackButton: false),
+        );
       case 2:
         return KeepAliveWrapper(child: ChatScreen());
       case 3:

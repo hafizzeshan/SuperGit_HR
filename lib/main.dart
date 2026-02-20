@@ -58,7 +58,6 @@ class MyApp extends StatelessWidget {
       builder:
           (context, orientation, screenType) => GetMaterialApp(
             enableLog: true,
-            navigatorKey: Get.key,
             title: 'SuperGit HR',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(

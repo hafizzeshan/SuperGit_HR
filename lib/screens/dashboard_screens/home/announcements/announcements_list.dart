@@ -91,11 +91,11 @@ class AnnouncementsListScreen extends StatelessWidget {
   }
 
   Widget _buildGridAnnouncementCard(BuildContext context, AnnouncementData announcement, int index) {
-    final title = announcement.title ?? "Announcement";
-    final message = announcement.message ?? "Tap to view details";
+    final title = announcement.title ?? TranslationKeys.announcement.tr;
+    final message = announcement.message ?? TranslationKeys.tapToViewDetails.tr;
     final date = announcement.publishAt != null
         ? DateFormat('dd MMM').format(DateTime.parse(announcement.publishAt!))
-        : "Today";
+        : TranslationKeys.today.tr;
     final time = announcement.publishAt != null
          ? DateFormat('HH:mm').format(DateTime.parse(announcement.publishAt!))
          : "";

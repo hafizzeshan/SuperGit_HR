@@ -358,7 +358,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
           () => LoadingButton(
             isLoading: leaveController.isSubmitting.value,
             text: TranslationKeys.submitRequest.tr,
-            onTap: () => leaveController.submitLeaveRequest(),
+            onTap: () => leaveController.submitLeaveRequest(context),
           ),
         ),
       ),

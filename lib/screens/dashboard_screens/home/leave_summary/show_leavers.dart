@@ -15,6 +15,7 @@ import 'package:supergithr/models/leave_type_model.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/localization_helper.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
+import 'package:supergithr/screens/dashboard_screens/setting/doc/document_viewer.dart';
 
 class LeaveSummaryScreen extends StatefulWidget {
   final bool showBackButton;
@@ -488,7 +489,8 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: kText(
-                              text: "${model.totalDays} ${TranslationKeys.days.tr} ${TranslationKeys.duration.tr}",
+                              text:
+                                  "${model.totalDays} ${TranslationKeys.days.tr} ${TranslationKeys.duration.tr}",
                               fSize: 12,
                               fWeight: FontWeight.w600,
                               tColor: kPrimaryColor,
@@ -558,6 +560,85 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                       fSize: 14,
                       tColor: Colors.grey.shade700,
                       height: 1.5,
+                    ),
+                  ),
+                ],
+
+                if (model.documentUrl != null &&
+                    model.documentUrl!.isNotEmpty) ...[
+                  const SizedBox(height: 24),
+                  Align(
+                    alignment: Alignment.centerLeft,
+                    child: kText(
+                      text: TranslationKeys.document.tr,
+                      fSize: 14,
+                      fWeight: FontWeight.w600,
+                      tColor: Colors.black87,
+                    ),
+                  ),
+                  const SizedBox(height: 10),
+                  Material(
+                    color: Colors.transparent,
+                    child: InkWell(
+                      onTap: () {
+                        Get.to(
+                          () => DocumentViewerScreen(
+                            filePath: model.documentUrl,
+                            status: model.status,
+                            leave: model,
+                          ),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(16),
+                      child: Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          color: Colors.white,
+                          borderRadius: BorderRadius.circular(16),
+                          border: Border.all(color: Colors.grey.shade200),
+                        ),
+                        child: Row(
+                          children: [
+                            Container(
+                              padding: const EdgeInsets.all(10),
+                              decoration: BoxDecoration(
+                                color: kPrimaryColor.withOpacity(0.1),
+                                shape: BoxShape.circle,
+                              ),
+                              child: const Icon(
+                                Icons.description_outlined,
+                                color: kPrimaryColor,
+                                size: 20,
+                              ),
+                            ),
+                            const SizedBox(width: 12),
+                            Expanded(
+                              child: Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  kText(
+                                    text: TranslationKeys.viewDocument.tr,
+                                    fSize: 14,
+                                    fWeight: FontWeight.w600,
+                                    tColor: Colors.black87,
+                                  ),
+                                  kText(
+                                    text: model.documentUrl!.split('/').last,
+                                    fSize: 11,
+                                    tColor: Colors.grey,
+                                  ),
+                                ],
+                              ),
+                            ),
+                            const Icon(
+                              Icons.arrow_forward_ios_rounded,
+                              size: 14,
+                              color: Colors.grey,
+                            ),
+                          ],
+                        ),
+                      ),
                     ),
                   ),
                 ],

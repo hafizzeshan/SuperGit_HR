@@ -514,7 +514,10 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           onTap: () {
-            Get.to(() => DocumentViewerScreen(filePath: doc.filePath ?? ''));
+            Get.to(() => DocumentViewerScreen(
+                  filePath: doc.filePath ?? '',
+                  doc: doc,
+                ));
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(

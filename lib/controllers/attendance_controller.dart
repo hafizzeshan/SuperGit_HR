@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -7,6 +8,9 @@ import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/network/repository/attendance_repo/attendance_repo.dart';
 import 'package:supergithr/models/attendance_history_model.dart';
+import 'package:supergithr/models/attendance_edit_request_model.dart';
+
+import '../translations/translations/translation_keys.dart';
 
 class AttendanceController extends GetxController {
   final AttendanceRepository _repo = AttendanceRepository();
@@ -78,7 +82,7 @@ class AttendanceController extends GetxController {
   }
 
   /// ✅ Clock-Out (Stop timer)
-  Future<void> clockOut({
+  Future<Map<String, dynamic>?> clockOut({
     required String method,
     required String sourceDevice,
     required String remarks,
@@ -104,6 +108,68 @@ class AttendanceController extends GetxController {
       _stopTimer();
       await prefs.remove('clock_in_time');
       await prefs.remove('clock_in_address');
+      return response;
+    }
+    return null;
+  }
+
+  /// ✅ Clock-Out With Edit Request
+  Future<void> clockOutWithEditRequest({
+    required LatLng coords,
+    required DateTime date,
+    required TimeOfDay startTime,
+    required TimeOfDay endTime,
+    required String reason,
+  }) async {
+    // 1. First, clock out partially to end the session
+    // We use "Mobile" and empty remark or "Edit Request" remark
+    final response = await clockOut(
+      method: "App",
+      sourceDevice: "Mobile",
+      remarks: "Clock out with edit request: $reason",
+      coords: coords,
+    );
+
+    if (response != null) {
+      // 2. Extract Attendance ID from response
+      // Assuming response structure: { "data": { "id": "..." } } or { "id": "..." }
+      String? attendanceId;
+      if (response['data'] != null && response['data'] is Map) {
+        attendanceId = response['data']['id']?.toString();
+        print("attendanceId: $attendanceId");
+      } else if (response['id'] != null) {
+        attendanceId = response['id']?.toString();
+        print("attendanceId: $attendanceId");
+      }
+
+      if (attendanceId != null) {
+        // Format Times
+        final startStr =
+            "${startTime.hour.toString().padLeft(2, '0')}:${startTime.minute.toString().padLeft(2, '0')}";
+        final endStr =
+            "${endTime.hour.toString().padLeft(2, '0')}:${endTime.minute.toString().padLeft(2, '0')}";
+        final dateStr =
+            "${date.year}-${date.month.toString().padLeft(2, '0')}-${date.day.toString().padLeft(2, '0')}";
+
+        final dto = CreateEditRequestDTO(
+          date: dateStr,
+          requestedClockInTime: startStr,
+          requestedClockOutTime: endStr,
+          reason: reason,
+        );
+
+        // 3. Create Edit Request
+        await createEditAttendanceRequest(
+          attendanceId: attendanceId,
+          requestDto: dto,
+        );
+
+        // Navigation handled in CreateEditRequest or here
+        Get.offAll(() => DashBorad(index: 0));
+      } else {
+        Utils.snackBar(TranslationKeys.failedToRetrieveAttendanceID.tr, true);
+        Get.offAll(() => DashBorad(index: 0));
+      }
     }
   }
 
@@ -146,7 +212,7 @@ class AttendanceController extends GetxController {
       final String employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
-        Utils.snackBar("Employee ID not found", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         isHistoryLoading.value = false;
         return;
       }
@@ -172,6 +238,33 @@ class AttendanceController extends GetxController {
       attendanceHistory.clear();
     } finally {
       isHistoryLoading.value = false;
+    }
+  }
+
+  // Edit Request State
+  var isEditRequestLoading = false.obs;
+
+  /// ✅ Create Attendance Edit Request
+  Future<void> createEditAttendanceRequest({
+    required String attendanceId,
+    required CreateEditRequestDTO requestDto,
+  }) async {
+    isEditRequestLoading.value = true;
+    try {
+      print("Edit Request Payload: ${requestDto.toJson()}");
+      final response = await _repo.createEditRequest(
+        attendanceId: attendanceId,
+        data: requestDto.toJson(),
+      );
+
+      if (response != null) {
+        // Handle success
+        Get.back(); // Close dialog/bottom sheet
+      }
+    } catch (e) {
+      print("Error creating edit request: $e");
+    } finally {
+      isEditRequestLoading.value = false;
     }
   }
 }

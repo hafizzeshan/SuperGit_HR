@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
+import 'package:supergithr/utils/localization_helper.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
 import 'package:supergithr/views/ui_helpers.dart';
@@ -107,7 +109,10 @@ class PrescriptionCard extends StatelessWidget {
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                              child: kText(text: s, fSize: 7.0),
+                                child: kText(
+                                  text: LocalizationHelper.getPrescriptionStatus(s),
+                                  fSize: 7.0,
+                                ),
                             ),
                           ),
                         ),
@@ -122,8 +127,8 @@ class PrescriptionCard extends StatelessWidget {
   }
 
   Color _getStatusColor(String status) {
-    switch (status) {
-      case 'Pending':
+    switch (status.toLowerCase()) {
+      case 'pending':
         return Colors.orange;
       case 'Ready':
         return Colors.green;

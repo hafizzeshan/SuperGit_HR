@@ -55,7 +55,31 @@ class LeaveRepository {
         log("✅ Leave Request Response: ${response.data}");
         return response.data;
       } else {
-        final message = response.data?['message'] ?? "Leave request failed";
+        String message = "Leave request failed";
+        if (response.data != null) {
+          final data = response.data;
+          if (data is Map) {
+            if (data['message'] != null) {
+              message = data['message'].toString();
+            } else if (data['error'] != null) {
+              message = data['error'].toString();
+            } else if (data['errors'] != null) {
+              if (data['errors'] is Map) {
+                final errors = data['errors'] as Map;
+                if (errors.isNotEmpty) {
+                  final firstError = errors.values.first;
+                  message = firstError is List
+                      ? firstError.first.toString()
+                      : firstError.toString();
+                }
+              } else {
+                message = data['errors'].toString();
+              }
+            }
+          } else {
+             message = data.toString();
+          }
+        }
         Utils.snackBar(message, true);
         log("❌ Leave Request Failed: $message");
         return null;

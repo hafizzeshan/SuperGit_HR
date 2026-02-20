@@ -1,13 +1,8 @@
 class AppURL {
-  // static const String baseUrl =
-  //     'https://his2.api.supergitsa.com/mobile/api/v1/';
-  // live
-  // static const String baseUrl =
-  //     'https://mobile1.api.supergitsa.com/mobile/api/v1/';
   // shamas
-  static const String baseUrl = 'https://jzq6qslp-8080.asse.devtunnels.ms/api/';
+  // static const String baseUrl = 'https://jzq6qslp-8080.asse.devtunnels.ms/api/';
   // live
-  // static const String baseUrl = 'https://hr1.api.supergitsa.com/api/';
+  static const String baseUrl = 'https://hr1.api.supergitsa.com/api/';
 
   static String attendanceHistory(
     String employeeId,
@@ -16,7 +11,6 @@ class AppURL {
   ) =>
       "${baseUrl}attendance/history?employee_id=$employeeId&start_date=$startDate&end_date=$endDate";
 
-  // static const String baseUrl = 'https://90j4c2m1-8080.asse.devtunnels.ms/api/';
 
   static const String loginApi = 'auth/login';
   static const String updateProfile = 'update-profile';
@@ -51,6 +45,10 @@ class AppURL {
   static const allLogsApi = "attendance/logs/all";
   static const String salaryStructureApi = "payroll/structures/employee";
   static const String holidayApi = "public-holidays";
+
+  static String editAttendanceRequest(String id) {
+    return "attendance/edit-requests/$id";
+  }
 
   // loan APIs
   static String loanApi(v) {

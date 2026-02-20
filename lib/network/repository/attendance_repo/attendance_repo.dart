@@ -18,10 +18,10 @@ class AttendanceRepository {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("✅ Clock-In Response: ${response.data}");
-        Utils.snackBar(
-          response.data?['message'] ?? "Clock-In Successful!",
-          false,
-        );
+        // Utils.snackBar(
+        //   response.data?['message'] ?? "Clock-In Successful!",
+        //   false,
+        // );
         return response.data;
       } else {
         final message = response.data?['message'] ?? "Clock-In failed";
@@ -48,10 +48,10 @@ class AttendanceRepository {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         print("✅ Clock-Out Response: ${response.data}");
-        Utils.snackBar(
-          response.data?['message'] ?? "Clock-Out Successful!",
-          false,
-        );
+        // Utils.snackBar(
+        //   response.data?['message'] ?? "Clock-Out Successful!",
+        //   false,
+        // );
         return response.data;
       } else {
         final message = response.data?['message'] ?? "Clock-Out failed";
@@ -88,6 +88,52 @@ class AttendanceRepository {
     } catch (e, st) {
       log("❌ Exception in getAttendanceHistory: $e", stackTrace: st);
       Utils.snackBar("Error fetching attendance history", true);
+      return null;
+    }
+  }
+
+  /// ✅ Create Edit Request
+  Future createEditRequest({
+    required String attendanceId,
+    required Map<String, dynamic> data,
+  }) async {
+    try {
+      final url = AppURL.editAttendanceRequest(attendanceId);
+      
+      print("\n================= EDIT REQUEST START =================");
+      print("🔹 URL: ${AppURL.baseUrl}$url");
+      print("🔹 Payload: $data");
+
+      // Assuming postRequest is the correct method for edit requests
+      final response = await _api.postRequest(url, data: data);
+
+      if (response == null) {
+        print("❌ Edit Request Response: NULL (Network Error)");
+        Utils.snackBar("Unable to reach server. Please try again.", true);
+        return null;
+      }
+
+      print("🔹 Headers Sent: ${_api.dio.options.headers}");
+      print("🔹 Response Code: ${response.statusCode}");
+      print("🔹 Response Data: ${response.data}");
+      print("================= EDIT REQUEST END =================\n");
+
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        Utils.snackBar(
+          response.data?['message'] ?? "Request Submitted Successfully!",
+          false,
+        );
+        return response.data;
+      } else {
+        final message =
+            response.data?['message'] ?? "Failed to submit request";
+        Utils.snackBar(message, true);
+        log("❌ Edit Request Failed: $message");
+        return null;
+      }
+    } catch (e, st) {
+      log("❌ Exception in createEditRequest: $e", stackTrace: st);
+      Utils.snackBar("Something went wrong during request submission", true);
       return null;
     }
   }

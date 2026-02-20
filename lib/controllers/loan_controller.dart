@@ -5,6 +5,8 @@ import 'package:supergithr/models/loan_model.dart';
 import 'package:supergithr/network/repository/loan_repo/loan_repo.dart';
 import 'package:supergithr/utils/utils.dart';
 
+import '../translations/translations/translation_keys.dart';
+
 class LoanController extends GetxController {
   final LoanRepository _repo = LoanRepository();
 
@@ -42,7 +44,7 @@ class LoanController extends GetxController {
       if (employeeId.isEmpty) {
         print("🔹 Employee ID not found in preferences.");
 
-        Utils.snackBar("Employee ID not found. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         return;
       }
       final response = await _repo.getEmployeeLoans(
@@ -56,12 +58,12 @@ class LoanController extends GetxController {
         loans.assignAll(loanList);
         print("✅ Loans fetched: ${loans.length}");
       } else {
-        Utils.snackBar("Failed to fetch loans", true);
+        Utils.snackBar(TranslationKeys.failedToFetchLoans.tr, true);
       }
     } catch (e) {
       isLoading.value = false;
 
-      Utils.snackBar("Error fetching loans: $e", true);
+      Utils.snackBar("${TranslationKeys.error.tr}: $e", true);
     } finally {
       isLoading.value = false;
     }
@@ -81,7 +83,7 @@ class LoanController extends GetxController {
         purpose.isEmpty ||
         installments.isEmpty ||
         startMonth.isEmpty) {
-      Utils.snackBar("Please fill all required fields", true);
+      Utils.snackBar(TranslationKeys.pleaseFillAllRequiredFields.tr, true);
       return;
     }
 
@@ -92,7 +94,7 @@ class LoanController extends GetxController {
       final employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
-        Utils.snackBar("Employee ID not found. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         return;
       }
       final data = {

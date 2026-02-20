@@ -254,116 +254,425 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
     Get.offAll(() => DashBorad(index: 0));
   }
 
-  /// ✅ Edit Shift Sheet
+  /// ✅ Edit Shift Sheet (Updated Design)
   void _showEditShiftSheet(BuildContext context) {
+    if (_controller.clockInTime.value == null) return;
+
+    // Initialize with current clock-in info
+    DateTime selectedDate = _controller.clockInTime.value!;
+    TimeOfDay startTime = TimeOfDay.fromDateTime(selectedDate);
+    TimeOfDay endTime = TimeOfDay.now();
     final noteController = TextEditingController();
 
     showModalBottomSheet(
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
-        borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
+        borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
       ),
       backgroundColor: Colors.transparent,
       builder: (ct) {
-        return Container(
-          decoration: const BoxDecoration(
-            gradient: kMainBackgroundGradient,
-            borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
-          ),
-          padding: EdgeInsets.only(
-            left: 20,
-            right: 20,
-            top: 20,
-            bottom: MediaQuery.of(ct).viewInsets.bottom + 20,
-          ),
-          child: FractionallySizedBox(
-            heightFactor: 0.75,
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                children: [
-                  kText(
-                    text: TranslationKeys.requestEdit.tr,
-                    fSize: 18.0,
-                    fWeight: FontWeight.bold,
-                  ),
-                  const SizedBox(height: 16),
-                  // _editRow(
-                  //   "Job",
-                  //   Chip(label: kText(text: "Flutter Developer", fSize: 12.0)),
-                  // ),
-                  _editRow(
-                    TranslationKeys.starts.tr,
-                    Obx(() {
-                      final start = _controller.clockInTime.value;
-                      return kText(
-                        text:
-                            start != null
-                                ? "${start.hour.toString().padLeft(2, '0')}:${start.minute.toString().padLeft(2, '0')} • ${start.day}/${start.month}/${start.year}"
-                                : "-",
-                        fSize: 14.0,
-                        tColor: Colors.blue,
-                      );
-                    }),
-                  ),
-                  _editRow(
-                    TranslationKeys.totalHours.tr,
-                    Obx(
-                      () => kText(
-                        text: _controller.elapsedTime.value,
-                        fSize: 15.0,
-                        fWeight: FontWeight.bold,
+        return StatefulBuilder(
+          builder: (BuildContext context, StateSetter setMjState) {
+            // Calculate Duration
+            final dtStart = DateTime(
+              selectedDate.year,
+              selectedDate.month,
+              selectedDate.day,
+              startTime.hour,
+              startTime.minute,
+            );
+            var dtEnd = DateTime(
+              selectedDate.year,
+              selectedDate.month,
+              selectedDate.day,
+              endTime.hour,
+              endTime.minute,
+            );
+
+            // Handle overnight shift for duration calculation
+            if (dtEnd.isBefore(dtStart)) {
+              dtEnd = dtEnd.add(const Duration(days: 1));
+            }
+
+            final diff = dtEnd.difference(dtStart);
+            final hours = diff.inHours.toString().padLeft(2, '0');
+            final minutes = (diff.inMinutes % 60).toString().padLeft(2, '0');
+            final durationStr = "$hours ${TranslationKeys.h.tr} $minutes ${TranslationKeys.m.tr}";
+
+            // Date Picker
+            Future<void> pickDate() async {
+              final picked = await showDatePicker(
+                context: context,
+                initialDate: selectedDate,
+                firstDate: DateTime(2000),
+                lastDate: DateTime(2100),
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: const ColorScheme.light(
+                        primary: kPrimaryColor,
+                        onPrimary: Colors.white,
+                        onSurface: Colors.black,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 16),
-                  Align(
-                    alignment: Alignment.centerLeft,
-                    child: kText(
-                      text: TranslationKeys.addANote.tr,
-                      fSize: 14.0,
-                      fWeight: FontWeight.w600,
-                    ),
-                  ),
-                  const SizedBox(height: 8),
-                  TextField(
-                    controller: noteController,
-                    maxLines: 3,
-                    style: const TextStyle(fontSize: 12),
-                    decoration: InputDecoration(
-                      hintText: TranslationKeys.attachNoteToRequest.tr,
-                      hintStyle: const TextStyle(fontSize: 12),
-                      filled: true,
-                      fillColor: Colors.grey.shade100,
-                      border: OutlineInputBorder(
-                        borderRadius: BorderRadius.circular(12),
-                        borderSide: BorderSide.none,
+                    child: child!,
+                  );
+                },
+              );
+              if (picked != null) {
+                setMjState(() => selectedDate = picked);
+              }
+            }
+
+            // Time Picker
+            Future<void> pickTime(bool isStart) async {
+              final initial = isStart ? startTime : endTime;
+              final picked = await showTimePicker(
+                context: context,
+                initialTime: initial,
+                builder: (context, child) {
+                  return Theme(
+                    data: Theme.of(context).copyWith(
+                      colorScheme: const ColorScheme.light(
+                        primary: kPrimaryColor,
+                        onPrimary: Colors.white,
+                        onSurface: Colors.black,
                       ),
                     ),
-                  ),
-                  const SizedBox(height: 12),
-                  kText(
-                    text: TranslationKeys.allRequestsSentForApproval.tr,
-                    fSize: 12.0,
-                    tColor: Colors.grey,
-                  ),
-                  const SizedBox(height: 20),
-                  LoadingButton(
-                    isLoading: false,
-                    text: TranslationKeys.sendForApproval.tr,
-                    onTap: () {
-                      Navigator.pop(context);
-                      Utils.snackBar(
-                        TranslationKeys.shiftEditRequestSent.tr,
-                        false,
-                      );
-                    },
-                  ),
-                ],
+                    child: child!,
+                  );
+                },
+              );
+              if (picked != null) {
+                setMjState(() {
+                  if (isStart) {
+                    startTime = picked;
+                  } else {
+                    endTime = picked;
+                  }
+                });
+              }
+            }
+
+            return Container(
+              decoration: const BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
               ),
-            ),
-          ),
+              padding: EdgeInsets.only(
+                left: 24,
+                right: 24,
+                top: 24,
+                bottom: MediaQuery.of(ct).viewInsets.bottom + 24,
+              ),
+              child: FractionallySizedBox(
+                heightFactor: 0.70,
+                child: SingleChildScrollView(
+                  physics: const BouncingScrollPhysics(),
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      // Handle
+                      Center(
+                        child: Container(
+                          width: 40,
+                          height: 4,
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade300,
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
+
+                      // Title
+                      Center(
+                        child: kText(
+                          text: TranslationKeys.requestEdit.tr,
+                          fSize: 20.0,
+                          fWeight: FontWeight.bold,
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Date Selection Card
+                      InkWell(
+                        onTap: pickDate,
+                        borderRadius: BorderRadius.circular(16),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: kMainBackgroundColor,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.grey.shade200),
+                          ),
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: Colors.blue.withOpacity(0.1),
+                                  shape: BoxShape.circle,
+                                ),
+                                child: const Icon(
+                                  Icons.calendar_month_rounded,
+                                  color: Colors.blue,
+                                  size: 20,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              Column(
+                                crossAxisAlignment: CrossAxisAlignment.start,
+                                children: [
+                                  kText(
+                                    text: TranslationKeys.date.tr, // Ensure 'Date' key or use string
+                                    fSize: 12.0,
+                                    tColor: Colors.grey.shade600,
+                                  ),
+                                  const SizedBox(height: 4),
+                                  kText(
+                                    text:
+                                        "${selectedDate.day}/${selectedDate.month}/${selectedDate.year}",
+                                    fSize: 16.0,
+                                    fWeight: FontWeight.bold,
+                                  ),
+                                ],
+                              ),
+                              const Spacer(),
+                              const Icon(
+                                Icons.edit_rounded,
+                                size: 18,
+                                color: Colors.grey,
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Time Selection Row
+                      Row(
+                        children: [
+                          // Start Time
+                          Expanded(
+                            child: InkWell(
+                              onTap: () => pickTime(true),
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: kMainBackgroundColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border:
+                                      Border.all(color: Colors.grey.shade200),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.login_rounded,
+                                          size: 16,
+                                          color: Colors.green.shade600,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        kText(
+                                          text: TranslationKeys.starts.tr,
+                                          fSize: 12.0,
+                                          tColor: Colors.grey.shade600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    kText(
+                                      text: startTime.format(context),
+                                      fSize: 18.0,
+                                      fWeight: FontWeight.bold,
+                                      tColor: Colors.black87,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                          const SizedBox(width: 12),
+                          // End Time
+                          Expanded(
+                            child: InkWell(
+                              onTap: () => pickTime(false),
+                              borderRadius: BorderRadius.circular(16),
+                              child: Container(
+                                padding: const EdgeInsets.all(16),
+                                decoration: BoxDecoration(
+                                  color: kMainBackgroundColor,
+                                  borderRadius: BorderRadius.circular(16),
+                                  border:
+                                      Border.all(color: Colors.grey.shade200),
+                                ),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.start,
+                                  children: [
+                                    Row(
+                                      children: [
+                                        Icon(
+                                          Icons.logout_rounded,
+                                          size: 16,
+                                          color: Colors.red.shade600,
+                                        ),
+                                        const SizedBox(width: 8),
+                                        kText(
+                                          text: TranslationKeys.ends.tr,
+                                          fSize: 12.0,
+                                          tColor: Colors.grey.shade600,
+                                        ),
+                                      ],
+                                    ),
+                                    const SizedBox(height: 8),
+                                    kText(
+                                      text: endTime.format(context),
+                                      fSize: 18.0,
+                                      fWeight: FontWeight.bold,
+                                      tColor: Colors.black87,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 16),
+
+                      // Total Hours Display
+                      Container(
+                        width: double.infinity,
+                        padding: const EdgeInsets.symmetric(
+                          vertical: 12,
+                          horizontal: 16,
+                        ),
+                        decoration: BoxDecoration(
+                          color: kPrimaryColor.withOpacity(0.05),
+                          borderRadius: BorderRadius.circular(12),
+                          border: Border.all(
+                            color: kPrimaryColor.withOpacity(0.1),
+                          ),
+                        ),
+                        child: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            kText(
+                              text: TranslationKeys.totalHours.tr,
+                              fSize: 14.0,
+                              fWeight: FontWeight.w500,
+                              tColor: kPrimaryColor,
+                            ),
+                            kText(
+                              text: durationStr,
+                              fSize: 16.0,
+                              fWeight: FontWeight.bold,
+                              tColor: kPrimaryColor,
+                            ),
+                          ],
+                        ),
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Note Input
+                      kText(
+                        text: TranslationKeys.addANote.tr,
+                        fSize: 14.0,
+                        fWeight: FontWeight.w600,
+                      ),
+                      const SizedBox(height: 8),
+                      TextField(
+                        controller: noteController,
+                        maxLines: 3,
+                        style: const TextStyle(fontSize: 14),
+                        decoration: InputDecoration(
+                          hintText: TranslationKeys.attachNoteToRequest.tr,
+                          hintStyle: TextStyle(
+                            fontSize: 14,
+                            color: Colors.grey.shade400,
+                          ),
+                          filled: true,
+                          fillColor: kMainBackgroundColor,
+                          border: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: BorderSide.none,
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderRadius: BorderRadius.circular(12),
+                            borderSide: const BorderSide(
+                              color: kPrimaryColor,
+                              width: 1,
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 12),
+                      Row(
+                        children: [
+                          const Icon(
+                            Icons.info_outline_rounded,
+                            size: 14,
+                            color: Colors.grey,
+                          ),
+                          const SizedBox(width: 6),
+                          Expanded(
+                            child: kText(
+                              text:
+                                  TranslationKeys.allRequestsSentForApproval.tr,
+                              fSize: 12.0,
+                              tColor: Colors.grey,
+                            ),
+                          ),
+                        ],
+                      ),
+                      const SizedBox(height: 24),
+
+                      // Submit Button
+                      LoadingButton(
+                        isLoading: false,
+                        text: TranslationKeys.sendForApproval.tr,
+                        onTap: () async {
+                          Navigator.pop(context);
+                          
+                          // Ensure we have coords
+                          var coords = locationController.currentLatLng.value;
+                          if (coords == null) {
+                             await locationController.getCurrentLocation();
+                             coords = locationController.currentLatLng.value;
+                          }
+
+                          if (coords == null) {
+                             Utils.snackBar(TranslationKeys.unableToFetchLocation.tr, true);
+                             return;
+                          }
+
+                          // Call Controller Method
+                          await _controller.clockOutWithEditRequest(
+                            coords: coords,
+                            date: selectedDate,
+                            startTime: startTime,
+                            endTime: endTime,
+                            reason: noteController.text.isNotEmpty ? noteController.text : TranslationKeys.shiftEditRequest.tr,
+                          );
+
+                          Utils.snackBar(
+                            TranslationKeys.shiftEditRequestSent.tr,
+                            false,
+                          );
+                        },
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            );
+          },
         );
       },
     );

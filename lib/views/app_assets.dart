@@ -6,10 +6,10 @@ class AppAssets {
 
   static String loading = "assets/icons/loading.json";
   static String lock = "assets/icons/lock.png";
-  static String home = "assets/icons/home.png";
-  static String approved = "assets/icons/approved.png";
-  static String chat = "assets/icons/chat.png";
-  static String setting = "assets/icons/settings.png";
+  static String home = "assets/icons/home_nav.png";
+  static String approved = "assets/icons/requests_nav.png";
+  static String chat = "assets/icons/chat_nav.png";
+  static String setting = "assets/icons/settings_nav.png";
 
   static String bookAppointment = "assets/icons/book_appointment.png";
   static String medicalFile = "assets/icons/medical_file.svg";

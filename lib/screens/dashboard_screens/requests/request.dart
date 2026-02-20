@@ -6,6 +6,7 @@ import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/models/leave_request_model.dart';
 import 'package:supergithr/screens/dashboard_screens/requests/new_request_screen.dart';
 import 'package:supergithr/views/CustomButton.dart';
+import 'package:supergithr/utils/localization_helper.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
@@ -13,6 +14,7 @@ import 'package:supergithr/views/text_styles.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
+import 'package:supergithr/screens/dashboard_screens/setting/doc/document_viewer.dart';
 
 class RequestScreen extends StatefulWidget {
   const RequestScreen({super.key});
@@ -267,7 +269,7 @@ class _RequestScreenState extends State<RequestScreen> {
                     border: Border.all(color: statusColor.withOpacity(0.2)),
                   ),
                   child: kText(
-                    text: leave.status ?? TranslationKeys.unknown.tr,
+                    text: LocalizationHelper.getLeaveStatus(leave.status ?? ""),
                     fSize: 11.0,
                     tColor: statusColor,
                     fWeight: fontWeightBold,
@@ -425,7 +427,7 @@ class _RequestScreenState extends State<RequestScreen> {
                           border: Border.all(color: statusColor.withOpacity(0.2)),
                         ),
                         child: kText(
-                          text: leave.status ?? TranslationKeys.unknown.tr,
+                          text: LocalizationHelper.getLeaveStatus(leave.status ?? ""),
                           fSize: 12.0,
                           tColor: statusColor,
                           fWeight: FontWeight.bold,
@@ -501,6 +503,27 @@ class _RequestScreenState extends State<RequestScreen> {
                             icon: Icons.access_time,
                             title: TranslationKeys.requestedOn.tr,
                             content: formatDate(leave.createdAt),
+                          ),
+
+                        const SizedBox(height: 12),
+
+                        // Document
+                        if (leave.documentUrl != null && leave.documentUrl!.isNotEmpty)
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(
+                                () => DocumentViewerScreen(
+                                  filePath: leave.documentUrl,
+                                  status: leave.status,
+                                  leave: leave,
+                                ),
+                              );
+                            },
+                            child: _detailCard(
+                              icon: Icons.description_outlined,
+                              title: TranslationKeys.document.tr,
+                              content: TranslationKeys.viewDocument.tr,
+                            ),
                           ),
 
                         const SizedBox(height: 20),

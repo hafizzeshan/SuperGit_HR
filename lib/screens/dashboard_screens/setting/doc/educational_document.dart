@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
+import 'package:supergithr/utils/localization_helper.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
@@ -60,12 +61,12 @@ class EducationalDocumentsScreen extends StatelessWidget {
               children: [
                 kText(text: doc['name'], fSize: 16.0, fWeight: FontWeight.bold),
                 UIHelper.verticalSpaceSm10,
-                _buildRow('Institution', doc['institution']),
-                _buildRow('Degree', doc['degree']),
-                _buildRow('Field of Study', doc['field']),
-                _buildRow('Passing Year', doc['year']),
-                _buildRow('Upload Date', doc['uploadDate']),
-                _buildRow('Remarks', doc['remarks']),
+                _buildRow(TranslationKeys.institution.tr, doc['institution']),
+                _buildRow(TranslationKeys.degree.tr, doc['degree']),
+                _buildRow(TranslationKeys.fieldOfStudy.tr, doc['field']),
+                _buildRow(TranslationKeys.passingYear.tr, doc['year']),
+                // _buildRow(TranslationKeys.uploadDate.tr, doc['uploadDate']),
+                _buildRow(TranslationKeys.remarks.tr, doc['remarks']),
                 UIHelper.verticalSpaceSm10,
                 Row(
                   children: [
@@ -73,7 +74,7 @@ class EducationalDocumentsScreen extends StatelessWidget {
                     const Spacer(),
                     TextButton(
                       onPressed: () {},
-                      child: const Text("View Document"),
+                      child: Text(TranslationKeys.viewDocument.tr),
                     ),
                   ],
                 ),
@@ -111,9 +112,9 @@ class EducationalDocumentsScreen extends StatelessWidget {
 
   Widget _statusChip(String status) {
     Color color =
-        status == "Verified"
+        status.toLowerCase() == "verified"
             ? Colors.green
-            : status == "Pending"
+            : status.toLowerCase() == "pending"
             ? Colors.orange
             : Colors.red;
 
@@ -124,7 +125,7 @@ class EducationalDocumentsScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(20),
       ),
       child: kText(
-        text: status,
+        text: LocalizationHelper.getDocStatus(status),
         fSize: 12.0,
         tColor: color,
         fWeight: FontWeight.w600,
