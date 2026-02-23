@@ -618,4 +618,8 @@ class TranslationKeys {
   static const String errorPickingFile = "errorPickingFile";
   static const String failedToRetrieveAttendanceID =
       "failedToRetrieveAttendanceID";
+  static const String attachDocumentOptional = "attachDocumentOptional";
+  static const String selectedDocument = "selectedDocument";
+  static const String uploadDocument = "uploadDocument";
+  static const String noFileSelected = "noFileSelected";
 }

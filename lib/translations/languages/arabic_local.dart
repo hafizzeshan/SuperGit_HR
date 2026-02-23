@@ -338,7 +338,7 @@ class ArabicLocal {
       TranslationKeys.packages: "الباقات",
       TranslationKeys.call: "يتصل",
       TranslationKeys.downloading: "جاري تنزيل الفاتورة...",
-      
+
       // ========== HR APP SPECIFIC KEYS ==========
       TranslationKeys.goodMorning: "صباح الخير",
       TranslationKeys.goodAfternoon: "مساء الخير",
@@ -370,19 +370,22 @@ class ArabicLocal {
       TranslationKeys.annualLeave: "إجازة سنوية",
       TranslationKeys.unpaidLeave: "إجازة بدون أجر",
       TranslationKeys.error: "خطأ",
-      TranslationKeys.pleaseFillAllFieldsCorrectly: "يرجى ملء جميع الحقول بشكل صحيح",
+      TranslationKeys.pleaseFillAllFieldsCorrectly:
+          "يرجى ملء جميع الحقول بشكل صحيح",
       TranslationKeys.clockIn: "تسجيل الدخول",
       TranslationKeys.clockOut: "تسجيل الخروج",
       TranslationKeys.confirmEndShift: "تأكيد إنهاء الوردية",
       TranslationKeys.confirmHours: "تأكيد الساعات",
       TranslationKeys.editShift: "تعديل الوردية",
-      TranslationKeys.unableToFetchLocation: "غير قادر على جلب الموقع الحالي. يرجى المحاولة مرة أخرى.",
+      TranslationKeys.unableToFetchLocation:
+          "غير قادر على جلب الموقع الحالي. يرجى المحاولة مرة أخرى.",
       TranslationKeys.requestEdit: "طلب تعديل",
       TranslationKeys.starts: "يبدأ",
       TranslationKeys.totalHours: "إجمالي الساعات",
       TranslationKeys.addANote: "إضافة ملاحظة",
       TranslationKeys.attachNoteToRequest: "إرفاق ملاحظة إلى طلبك",
-      TranslationKeys.allRequestsSentForApproval: "سيتم إرسال جميع الطلبات لموافقة المدير",
+      TranslationKeys.allRequestsSentForApproval:
+          "سيتم إرسال جميع الطلبات لموافقة المدير",
       TranslationKeys.sendForApproval: "إرسال للموافقة",
       TranslationKeys.shiftEditRequestSent: "تم إرسال طلب تعديل الوردية!",
       TranslationKeys.workingAsEmployee: "يعمل كموظف",
@@ -419,7 +422,8 @@ class ArabicLocal {
       TranslationKeys.submitRequest: "إرسال الطلب",
       TranslationKeys.selectDate: "اختر التاريخ",
       TranslationKeys.invalidDateRange: "نطاق تاريخ غير صالح",
-      TranslationKeys.endDateCannotBeBeforeStartDate: "لا يمكن أن يكون تاريخ الانتهاء قبل تاريخ البدء",
+      TranslationKeys.endDateCannotBeBeforeStartDate:
+          "لا يمكن أن يكون تاريخ الانتهاء قبل تاريخ البدء",
       TranslationKeys.chooseLeaveType: "اختر نوع الإجازة",
       TranslationKeys.typesAvailable: "أنواع متاحة",
       TranslationKeys.paid: "مدفوعة",
@@ -429,27 +433,37 @@ class ArabicLocal {
       TranslationKeys.recurring: "متكررة",
       TranslationKeys.oneTime: "مرة واحدة",
       TranslationKeys.noAnnouncementsAvailable: "لا توجد إعلانات متاحة",
-      TranslationKeys.areYouSureWantToLogout: "هل أنت متأكد من أنك تريد تسجيل الخروج؟",
+      TranslationKeys.areYouSureWantToLogout:
+          "هل أنت متأكد من أنك تريد تسجيل الخروج؟",
       TranslationKeys.selectLanguage: "اختر اللغة",
       TranslationKeys.chooseYourPreferredLanguage: "اختر لغتك المفضلة",
+      TranslationKeys.location: "الموقع",
       TranslationKeys.locationRequired: "الموقع مطلوب",
-      TranslationKeys.locationServicesRequiredForClockOut: "خدمات الموقع مطلوبة لتسجيل الخروج. يرجى تفعيل الموقع للمتابعة.",
+      TranslationKeys.locationServicesRequiredForClockOut:
+          "خدمات الموقع مطلوبة لتسجيل الخروج. يرجى تفعيل الموقع للمتابعة.",
       TranslationKeys.enableLocation: "تفعيل الموقع",
-      TranslationKeys.locationServiceRequiredBeforeLogout: "خدمة الموقع مطلوبة لتسجيل الخروج قبل تسجيل الخروج",
-      TranslationKeys.locationPermissionRequired: "إذن الموقع مطلوب لتسجيل الخروج",
+      TranslationKeys.locationServiceRequiredBeforeLogout:
+          "خدمة الموقع مطلوبة لتسجيل الخروج قبل تسجيل الخروج",
+      TranslationKeys.locationPermissionRequired:
+          "إذن الموقع مطلوب لتسجيل الخروج",
       TranslationKeys.permissionRequired: "الإذن مطلوب",
-      TranslationKeys.locationPermissionPermanentlyDenied: "تم رفض إذن الموقع بشكل دائم. يرجى تفعيله في إعدادات التطبيق للمتابعة.",
+      TranslationKeys.locationPermissionPermanentlyDenied:
+          "تم رفض إذن الموقع بشكل دائم. يرجى تفعيله في إعدادات التطبيق للمتابعة.",
       TranslationKeys.gettingYourLocation: "جاري الحصول على موقعك...",
-      TranslationKeys.failedToGetLocation: "فشل الحصول على الموقع. يرجى المحاولة مرة أخرى.",
+      TranslationKeys.failedToGetLocation:
+          "فشل الحصول على الموقع. يرجى المحاولة مرة أخرى.",
       TranslationKeys.clockOutRequired: "تسجيل الخروج مطلوب",
-      TranslationKeys.currentlyClockedInMessage: "أنت حاليًا مسجل الدخول. إذا قمت بتسجيل الخروج الآن، سيتم تسجيل خروجك تلقائيًا.",
+      TranslationKeys.currentlyClockedInMessage:
+          "أنت حاليًا مسجل الدخول. إذا قمت بتسجيل الخروج الآن، سيتم تسجيل خروجك تلقائيًا.",
       TranslationKeys.clockOutLocation: "موقع تسجيل الخروج:",
       TranslationKeys.gettingAddress: "جاري الحصول على العنوان...",
-      TranslationKeys.proceedWithLogoutAndClockOut: "هل تريد المتابعة مع تسجيل الخروج وتسجيل الخروج التلقائي؟",
+      TranslationKeys.proceedWithLogoutAndClockOut:
+          "هل تريد المتابعة مع تسجيل الخروج وتسجيل الخروج التلقائي؟",
       TranslationKeys.yesLogout: "نعم، تسجيل الخروج",
       TranslationKeys.clockingOut: "جاري تسجيل الخروج...",
       TranslationKeys.clockOutFailed: "فشل تسجيل الخروج",
-      TranslationKeys.failedToClockOutAutomatically: "فشل تسجيل الخروج تلقائيًا. هل ما زلت تريد تسجيل الخروج؟",
+      TranslationKeys.failedToClockOutAutomatically:
+          "فشل تسجيل الخروج تلقائيًا. هل ما زلت تريد تسجيل الخروج؟",
       TranslationKeys.logoutAnyway: "تسجيل الخروج على أي حال",
       TranslationKeys.addDocument: "إضافة مستند",
       TranslationKeys.documentType: "نوع المستند",
@@ -554,7 +568,8 @@ class ArabicLocal {
       TranslationKeys.youAreHere: "أنت هنا",
       TranslationKeys.yourLocation: "موقعك",
       TranslationKeys.verifyLocationEndShift: "تحقق من موقعك وأنهي ورديتك.",
-      TranslationKeys.verifyLocationClockIn: "يرجى التحقق من موقعك قبل المتابعة.",
+      TranslationKeys.verifyLocationClockIn:
+          "يرجى التحقق من موقعك قبل المتابعة.",
       TranslationKeys.detectedLocation: "الموقع المكتشف",
       TranslationKeys.week: "أسبوع",
       TranslationKeys.day: "يوم",
@@ -610,16 +625,26 @@ class ArabicLocal {
       TranslationKeys.failedToUpdateProfile: "فشل تحديث الملف الشخصي",
       TranslationKeys.passwordChangedSuccessfully: "تم تغيير كلمة المرور بنجاح",
       TranslationKeys.failedToChangePassword: "فشل تغيير كلمة المرور",
-      TranslationKeys.newPasswordsDoNotMatch: "كلمات المرور الجديدة غير متطابقة",
-      TranslationKeys.pleaseFillAllPasswordFields: "يرجى ملء جميع حقول كلمة المرور",
+      TranslationKeys.newPasswordsDoNotMatch:
+          "كلمات المرور الجديدة غير متطابقة",
+      TranslationKeys.pleaseFillAllPasswordFields:
+          "يرجى ملء جميع حقول كلمة المرور",
       TranslationKeys.unableToLoadUserProfile: "تعذر تحميل ملف تعريف المستخدم",
-      TranslationKeys.employeeIdNotFound: "لم يتم العثور على معرف الموظف. يرجى تسجيل الدخول مرة أخرى.",
+      TranslationKeys.employeeIdNotFound:
+          "لم يتم العثور على معرف الموظف. يرجى تسجيل الدخول مرة أخرى.",
       TranslationKeys.failedToFetchLoans: "فشل جلب القروض",
-      TranslationKeys.pleaseFillAllRequiredFields: "يرجى ملء جميع الحقول المطلوبة",
-      TranslationKeys.leaveRequestSubmittedSuccessfully: "تم تقديم طلب الإجازة بنجاح!",
+      TranslationKeys.pleaseFillAllRequiredFields:
+          "يرجى ملء جميع الحقول المطلوبة",
+      TranslationKeys.leaveRequestSubmittedSuccessfully:
+          "تم تقديم طلب الإجازة بنجاح!",
       TranslationKeys.errorPickingFile: "خطأ في اختيار الملف",
       TranslationKeys.noRecordsFor: "لا توجد سجلات لـ",
-      TranslationKeys.failedToRetrieveAttendanceID: "فشل استرداد معرف الحضور الخاص بهذه الجلسة.",
+      TranslationKeys.failedToRetrieveAttendanceID:
+          "فشل استرداد معرف الحضور الخاص بهذه الجلسة.",
+      TranslationKeys.attachDocumentOptional: "إرفاق مستند (اختياري)",
+      TranslationKeys.selectedDocument: "المستند المحدد",
+      TranslationKeys.uploadDocument: "رفع مستند",
+      TranslationKeys.noFileSelected: "لم يتم تحديد ملف",
     };
   }
 }

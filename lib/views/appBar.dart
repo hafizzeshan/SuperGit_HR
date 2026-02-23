@@ -33,7 +33,7 @@ AppBar appBarrWitoutAction({
             onTap: () {
               if (isBlockBack == true)
                 return; // Basic handling if functionality needed
-              Get.back();
+              Navigator.of(Get.context!).pop();
             },
             child: const Center(
               child: Padding(
@@ -134,7 +134,7 @@ AppBar appBarrWitAction({
         Center(
           child: GestureDetector(
             onTap: () {
-              Get.back();
+              Navigator.of(Get.context!).pop();
             },
             child: const Center(
               child: Padding(

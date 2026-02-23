@@ -38,17 +38,17 @@ class kText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isArabic = Get.locale?.languageCode == 'ar';
+    bool isRTL = Get.locale?.languageCode == 'ar' || Get.locale?.languageCode == 'ur';
 
     final textWidget = Text(
       text.tr,
       overflow: textoverflow ?? TextOverflow.visible,
       maxLines: maxLines,
-      textAlign: textalign ?? (isArabic ? TextAlign.right : TextAlign.left),
+      textAlign: textalign ?? (isRTL ? TextAlign.right : TextAlign.left),
       style:
           style ??
           textStyleMontserratMiddle(
-            height: height ?? (isArabic ? 1.4 : 1.0),
+            height: height ?? (isRTL ? 1.4 : 1.0),
             fontSize: fSize ?? 14.0,
             color: tColor,
             weight: fWeight ?? FontWeight.normal,

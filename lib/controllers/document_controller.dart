@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/models/employee_doc_model.dart';
 import 'package:supergithr/network/repository/doc_repo/doc_repo.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/utils.dart';
 
 class DocumentController extends GetxController {
@@ -44,6 +45,8 @@ class DocumentController extends GetxController {
         final docList =
             (response["data"] as List)
                 .map((e) => EmployeeDocumentModel.fromJson(e))
+                .toList()
+                .reversed
                 .toList();
         documents.assignAll(docList);
         log("✅ Documents fetched: ${documents.length}");
@@ -73,9 +76,20 @@ class DocumentController extends GetxController {
         issueDate.isEmpty ||
         expiryDate.isEmpty ||
         filePath.isEmpty) {
-      Utils.snackBar("Please fill all required fields", true);
+      Utils.snackBar(TranslationKeys.pleaseFillAllRequiredFields.tr, true);
       return;
     }
+
+    try {
+      final issue = DateTime.parse(issueDate);
+      final expiry = DateTime.parse(expiryDate);
+      if (expiry.isBefore(issue)) {
+        Utils.snackBar(TranslationKeys.endDateCannotBeBeforeStartDate.tr, true);
+        return;
+      }
+    } catch (_) {}
+
+    if (isSubmitting.value) return;
 
     isSubmitting.value = true;
 
@@ -105,7 +119,7 @@ class DocumentController extends GetxController {
 
       if (response != null && response["data"] != null) {
         final newDoc = EmployeeDocumentModel.fromJson(response["data"]);
-        documents.add(newDoc);
+        documents.insert(0, newDoc);
         Utils.snackBar(response["message"], false);
         Get.back();
         clearForm();

@@ -69,37 +69,48 @@ class LeaveController extends GetxController {
     }
 
     try {
+      final pageToFetch = currentPage.value;
+      log("📡 Fetching Leave Types: Page $pageToFetch (PageSize: ${pageSize.value})");
+
       final response = await _repo.getLeaveTypes(
-        page: currentPage.value,
+        page: pageToFetch,
         pageSize: pageSize.value,
       );
 
-      if (response != null && response["data"] != null) {
-        final types =
-            (response["data"] as List)
-                .map((e) => LeaveTypeModel.fromJson(e))
-                .toList();
+      log("📥 Leave Types Response received for Page $pageToFetch");
 
-        if (currentPage.value == 1) {
+      if (response != null && response["data"] != null) {
+        final List rawData = response["data"];
+        final types = rawData.map((e) => LeaveTypeModel.fromJson(e)).toList();
+
+        if (pageToFetch == 1) {
           leaveTypes.assignAll(types);
         } else {
-          leaveTypes.addAll(types);
+          // Prevent duplicates
+          final existingIds = leaveTypes.map((e) => e.id).toSet();
+          final newItems = types.where((item) => !existingIds.contains(item.id)).toList();
+          leaveTypes.addAll(newItems);
         }
 
-        // Update pagination metadata
-        totalPages.value = response["total_pages"] ?? 1;
-        totalItems.value = response["total"] ?? 0;
-        hasMore.value = currentPage.value < totalPages.value;
+        // Robust parsing of pagination metadata
+        final total = int.tryParse(response["total"]?.toString() ?? "0") ?? 0;
+        final totalPages = int.tryParse(response["total_pages"]?.toString() ?? "1") ?? 1;
+        final serverPage = int.tryParse(response["page"]?.toString() ?? pageToFetch.toString()) ?? pageToFetch;
+
+        this.totalPages.value = totalPages;
+        this.totalItems.value = total;
+        this.currentPage.value = serverPage;
+
+        hasMore.value = currentPage.value < this.totalPages.value;
 
         log(
-          "✅ Leave Types fetched: Page ${currentPage.value}/${totalPages.value}, Items: ${types.length}, Total: ${totalItems.value}",
+          "✅ Leave Types updated: CurrentPage: ${currentPage.value}, TotalPages: ${this.totalPages.value}, TotalItems: ${this.totalItems.value}, HasMore: ${hasMore.value}",
         );
       } else {
-        log("⚠️ Failed to load leave types - response was null");
+        log("⚠️ No data in leave types response");
         hasMore.value = false;
       }
     } catch (e) {
-      // Don't show error message - let the 401 interceptor handle session expiry
       log("❌ Error loading leave types: $e");
       hasMore.value = false;
     } finally {
@@ -111,6 +122,11 @@ class LeaveController extends GetxController {
   /// ✅ Load More Leave Types
   Future<void> loadMoreLeaveTypes() async {
     if (!hasMore.value || isLoadingMore.value || isLoading.value) {
+      return;
+    }
+
+    if (currentPage.value >= totalPages.value) {
+      hasMore.value = false;
       return;
     }
 
@@ -148,23 +164,27 @@ class LeaveController extends GetxController {
   }
 
   /// ✅ Submit Leave Request
-  Future<void> submitLeaveRequest(BuildContext context) async {
+  Future<void> submitLeaveRequest() async {
+    print("🚀 submitLeaveRequest() called");
+    log("🚀 submitLeaveRequest() called");
     final startDate = startDateController.text.trim();
     final endDate = endDateController.text.trim();
     final totalDays = totalDaysController.text.trim();
     final reason = reasonController.text.trim();
-
     if (selectedLeaveTypeId.value == null ||
         startDate.isEmpty ||
         endDate.isEmpty ||
         totalDays.isEmpty ||
         reason.isEmpty) {
-      log(
-        "⚠️ Validation failed: Type: ${selectedLeaveTypeId.value}, Start: $startDate, End: $endDate, Days: $totalDays, Reason: $reason",
+      FocusManager.instance.primaryFocus?.unfocus();
+      Utils.snackBar(
+        TranslationKeys.pleaseFillAllRequiredFields.tr,
+        true,
       );
-      Utils.snackBar(TranslationKeys.pleaseFillAllRequiredFields.tr, true, context: context);
       return;
     }
+
+    if (isSubmitting.value) return;
 
     isSubmitting.value = true;
 
@@ -173,6 +193,7 @@ class LeaveController extends GetxController {
       final employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
+        FocusManager.instance.primaryFocus?.unfocus();
         Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         isSubmitting.value = false;
         return;
@@ -183,40 +204,29 @@ class LeaveController extends GetxController {
         "leave_type_id": selectedLeaveTypeId.value,
         "start_date": startDate,
         "end_date": endDate,
-        "total_days": int.tryParse(totalDays) ?? 1,
+        "total_days": totalDays, // Sending as string to match Postman spec
         "reason": reason,
       };
 
-      dynamic requestData;
-      bool isMultipart = false;
+      // Always use FormData (multipart/form-data) — the backend expects it
+      final formData = dio.FormData.fromMap(data);
 
-      if (attachedFile.value != null) {
-        isMultipart = true;
-
-        // Create FormData
-        final formData = dio.FormData.fromMap(data);
-
-        // Add file
-        if (attachedFile.value!.path != null) {
-          formData.files.add(
-            MapEntry(
-              "document",
-              await dio.MultipartFile.fromFile(
-                attachedFile.value!.path!,
-                filename: attachedFile.value!.name,
-              ),
+      // Add file if attached
+      if (attachedFile.value != null && attachedFile.value!.path != null) {
+        formData.files.add(
+          MapEntry(
+            "files",
+            await dio.MultipartFile.fromFile(
+              attachedFile.value!.path!,
+              filename: attachedFile.value!.name,
             ),
-          );
-        }
-
-        requestData = formData;
-      } else {
-        requestData = data;
+          ),
+        );
       }
 
       final response = await _repo.createLeaveRequest(
-        data: requestData,
-        isMultipart: isMultipart,
+        data: formData,
+        isMultipart: true,
       );
       isSubmitting.value = false;
 
@@ -227,12 +237,16 @@ class LeaveController extends GetxController {
         leaveHistory.insert(0, leaveRequest);
         historyTotalItems.value++;
 
-        Utils.snackBar(TranslationKeys.leaveRequestSubmittedSuccessfully.tr, false);
+        final successMessage =
+            response["message"] ??
+            TranslationKeys.leaveRequestSubmittedSuccessfully.tr;
+
+        Utils.snackBar(successMessage, false);
         clearForm();
         log("✅ Leave Request: ${leaveRequest.toJson()}");
 
-        // Navigate back to requests screen
-        Get.back();
+        // Navigate back to requests screen safely
+        Navigator.of(Get.context!).pop();
       } else {
         // Error handled in repository
       }
@@ -268,11 +282,13 @@ class LeaveController extends GetxController {
   /// ✅ Fetch Employee Leave History with Pagination
   Future<void> getEmployeeLeaveHistory({bool refresh = false}) async {
     if (refresh) {
+      log("🔄 Refreshing Leave History (Clearing list)");
       historyCurrentPage.value = 1;
       leaveHistory.clear();
       hasMoreHistory.value = true;
     }
 
+    // Set loading flags
     if (historyCurrentPage.value == 1) {
       isHistoryLoading.value = true;
     } else {
@@ -288,39 +304,69 @@ class LeaveController extends GetxController {
         return;
       }
 
+      final pageToFetch = historyCurrentPage.value;
+      log("📡 API REQUEST => Leave History | Page: $pageToFetch | PageSize: ${historyPageSize.value}");
+
       final response = await _repo.getEmployeeLeaveHistory(
         employeeId,
-        page: historyCurrentPage.value,
+        page: pageToFetch,
         pageSize: historyPageSize.value,
       );
 
-      if (response != null && response["data"] != null) {
-        final history =
-            (response["data"] as List)
-                .map((e) => LeaveRequestModel.fromJson(e))
-                .toList();
+      log("📥 API RESPONSE => Status: SUCCESS for Page $pageToFetch");
 
-        if (historyCurrentPage.value == 1) {
+      if (response != null && (response["data"] != null || response is List)) {
+        // Handle cases where response might be the list itself or contains a "data" key
+        final List rawData = response["data"] ?? (response is List ? response : []);
+        final history = rawData.map((e) => LeaveRequestModel.fromJson(e)).toList();
+
+        if (pageToFetch == 1) {
           leaveHistory.assignAll(history);
+          log("📄 Initial load: ${history.length} items");
         } else {
-          leaveHistory.addAll(history);
+          // Prevent duplicates by checking ID
+          final existingIds = leaveHistory.map((e) => e.id).toSet();
+          final newUniqueItems = history.where((item) => 
+            item.id != null && !existingIds.contains(item.id)
+          ).toList();
+          
+          if (newUniqueItems.isNotEmpty) {
+            leaveHistory.addAll(newUniqueItems);
+            log("➕ Appended ${newUniqueItems.length} new items (Total: ${leaveHistory.length})");
+          } else {
+            log("⚠️ No new unique items found on Page $pageToFetch - API might be repeating data");
+          }
         }
 
-        // Update pagination metadata
-        historyTotalPages.value = response["total_pages"] ?? 1;
-        historyTotalItems.value = response["total"] ?? 0;
-        hasMoreHistory.value =
-            historyCurrentPage.value < historyTotalPages.value;
+        // Resilient metadata parsing for various common API naming conventions
+        final total = int.tryParse(
+          (response["total"] ?? response["total_items"] ?? response["count"] ?? "0").toString()
+        ) ?? 0;
+        
+        final totalPages = int.tryParse(
+          (response["total_pages"] ?? response["total_pages_count"] ?? response["last_page"] ?? response["totalPages"] ?? "1").toString()
+        ) ?? 1;
+        
+        final serverPage = int.tryParse(
+          (response["page"] ?? response["current_page"] ?? pageToFetch.toString()).toString()
+        ) ?? pageToFetch;
+
+        historyTotalPages.value = totalPages;
+        historyTotalItems.value = total;
+        historyCurrentPage.value = serverPage;
+
+        // Final check for more data
+        hasMoreHistory.value = historyCurrentPage.value < historyTotalPages.value;
 
         log(
-          "✅ Leave history fetched: Page ${historyCurrentPage.value}/${historyTotalPages.value}, Items: ${history.length}, Total: ${historyTotalItems.value}",
+          "📜 META SYNC => Page: ${historyCurrentPage.value}/$totalPages | Total: $total | hasMore: ${hasMoreHistory.value}",
         );
       } else {
+        log("⚠️ API returned empty or invalid structure for history");
         hasMoreHistory.value = false;
       }
     } catch (e, st) {
-      log("❌ Error fetching leave history: $e", stackTrace: st);
-      hasMoreHistory.value = false;
+      log("❌ PAGINATION EXCEPTION: $e", stackTrace: st);
     } finally {
       isHistoryLoading.value = false;
       isLoadingMoreHistory.value = false;
@@ -329,12 +375,24 @@ class LeaveController extends GetxController {
 
   /// ✅ Load More Leave History
   Future<void> loadMoreLeaveHistory() async {
-    if (!hasMoreHistory.value ||
-        isLoadingMoreHistory.value ||
-        isHistoryLoading.value) {
+    // Check if we are already loading or if there's no more data
+    if (!hasMoreHistory.value) {
+      log("⏹️ loadMore skipped: No more history (hasMore=false)");
+      return;
+    }
+    
+    if (isLoadingMoreHistory.value || isHistoryLoading.value) {
+      log("⏳ loadMore skipped: Already loading (Wait for current fetch)");
       return;
     }
 
+    if (historyCurrentPage.value >= historyTotalPages.value) {
+      log("⏹️ loadMore skipped: Current page (${historyCurrentPage.value}) is already at Total pages (${historyTotalPages.value})");
+      hasMoreHistory.value = false;
+      return;
+    }
+
+    log("🔼 PAGINATION => Advancing to next page: ${historyCurrentPage.value + 1}");
     historyCurrentPage.value++;
     await getEmployeeLeaveHistory();
   }

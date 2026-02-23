@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'package:flutter/services.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
@@ -57,34 +58,38 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                         ),
                       ],
                     ),
-                    child: Row(
-                      children: [
-                        Icon(
-                          Icons.category_outlined,
-                          color: Colors.grey.shade500,
-                          size: 20,
-                        ),
-                        const SizedBox(width: 12),
-                        Expanded(
-                          child: kText(
-                            text: controller.documentTypeController.text.isNotEmpty
-                                ? controller.documentTypeController.text
-                                : TranslationKeys.documentType.tr,
-                            fSize: 15.0,
-                            fWeight: controller.documentTypeController.text.isNotEmpty
-                                ? FontWeight.w600
-                                : FontWeight.normal,
-                            tColor: controller.documentTypeController.text.isNotEmpty
-                                ? Colors.black87
-                                : Colors.grey.shade400,
+                    child: Directionality(
+                      textDirection: (Get.locale?.languageCode == 'ur' || Get.locale?.languageCode == 'ar') ? TextDirection.rtl : TextDirection.ltr,
+                      child: Row(
+                        children: [
+                          Icon(
+                            Icons.category_outlined,
+                            color: Colors.grey.shade500,
+                            size: 20,
                           ),
-                        ),
-                        Icon(
-                          Icons.keyboard_arrow_down_rounded,
-                          color: Colors.grey.shade400,
-                          size: 24,
-                        ),
-                      ],
+                          const SizedBox(width: 12),
+                          Expanded(
+                            child: kText(
+                              text: controller.documentTypeController.text.isNotEmpty
+                                  ? controller.documentTypeController.text
+                                  : TranslationKeys.documentType.tr,
+                              fSize: 15.0,
+                              textalign: TextAlign.start,
+                              fWeight: controller.documentTypeController.text.isNotEmpty
+                                  ? FontWeight.w600
+                                  : FontWeight.normal,
+                              tColor: controller.documentTypeController.text.isNotEmpty
+                                  ? Colors.black87
+                                  : Colors.grey.shade400,
+                            ),
+                          ),
+                          Icon(
+                            Icons.keyboard_arrow_down_rounded,
+                            color: Colors.grey.shade400,
+                            size: 24,
+                          ),
+                        ],
+                      ),
                     ),
                   ),
                 ),
@@ -109,6 +114,10 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                   controller: controller.documentNumberController,
                   hint: TranslationKeys.documentNumber.tr,
                   required: true,
+                  maxLength: 15,
+                  inputFormatters: [
+                    FilteringTextInputFormatter.allow(RegExp(r'[a-zA-Z0-9]')),
+                  ],
                   prefix: Icon(
                     Icons.numbers,
                     color: Colors.grey.shade500,

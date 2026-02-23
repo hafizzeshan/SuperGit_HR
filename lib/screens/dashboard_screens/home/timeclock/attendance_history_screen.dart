@@ -33,7 +33,8 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   void initState() {
     super.initState();
     _selectedDayDate = DateTime.now();
-    _selectedWeekIndex = getWeekNumber(DateTime.now()) - 1; // Default to current week
+    _selectedWeekIndex =
+        getWeekNumber(DateTime.now()) - 1; // Default to current week
     _fetchHistory();
   }
 
@@ -70,7 +71,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   }
 
   Future<DateTime?> _showMonthPicker(
-      BuildContext context, DateTime initialDate) async {
+    BuildContext context,
+    DateTime initialDate,
+  ) async {
     DateTime tempDate = initialDate;
     return await showDialog<DateTime>(
       context: context,
@@ -78,7 +81,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
         return StatefulBuilder(
           builder: (context, setState) {
             return Dialog(
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(20),
+              ),
               elevation: 5,
               backgroundColor: Colors.white,
               child: Column(
@@ -86,19 +91,30 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                 children: [
                   // Header
                   Container(
-                    padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 16),
+                    padding: const EdgeInsets.symmetric(
+                      vertical: 16,
+                      horizontal: 16,
+                    ),
                     decoration: BoxDecoration(
                       color: kPrimaryColor,
-                      borderRadius: const BorderRadius.vertical(top: Radius.circular(20)),
+                      borderRadius: const BorderRadius.vertical(
+                        top: Radius.circular(20),
+                      ),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         IconButton(
-                          icon: const Icon(Icons.chevron_left, color: Colors.white),
+                          icon: const Icon(
+                            Icons.chevron_left,
+                            color: Colors.white,
+                          ),
                           onPressed: () {
                             setState(() {
-                              tempDate = DateTime(tempDate.year - 1, tempDate.month);
+                              tempDate = DateTime(
+                                tempDate.year - 1,
+                                tempDate.month,
+                              );
                             });
                           },
                         ),
@@ -109,10 +125,16 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                           tColor: Colors.white,
                         ),
                         IconButton(
-                          icon: const Icon(Icons.chevron_right, color: Colors.white),
+                          icon: const Icon(
+                            Icons.chevron_right,
+                            color: Colors.white,
+                          ),
                           onPressed: () {
                             setState(() {
-                              tempDate = DateTime(tempDate.year + 1, tempDate.month);
+                              tempDate = DateTime(
+                                tempDate.year + 1,
+                                tempDate.month,
+                              );
                             });
                           },
                         ),
@@ -127,19 +149,24 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                       width: double.maxFinite,
                       height: 250,
                       child: GridView.builder(
-                        gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
-                          crossAxisCount: 3,
-                          childAspectRatio: 1.6,
-                          mainAxisSpacing: 12,
-                          crossAxisSpacing: 12,
-                        ),
+                        gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 3,
+                              childAspectRatio: 1.6,
+                              mainAxisSpacing: 12,
+                              crossAxisSpacing: 12,
+                            ),
                         itemCount: 12,
                         itemBuilder: (context, index) {
                           final monthDate = DateTime(tempDate.year, index + 1);
-                          final monthName = DateFormat('MMM').format(monthDate);
+                          final monthName = DateFormat(
+                            'MMM',
+                            Get.locale?.languageCode,
+                          ).format(monthDate);
 
                           // Highlight if it matches the currently selected selectedDate
-                          final isSelected = tempDate.year == initialDate.year &&
+                          final isSelected =
+                              tempDate.year == initialDate.year &&
                               (index + 1) == initialDate.month;
 
                           return Material(
@@ -151,28 +178,40 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 decoration: BoxDecoration(
-                                  color: isSelected ? kPrimaryColor : Colors.white,
+                                  color:
+                                      isSelected ? kPrimaryColor : Colors.white,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
-                                    color: isSelected
-                                        ? kPrimaryColor
-                                        : Colors.grey.shade200,
+                                    color:
+                                        isSelected
+                                            ? kPrimaryColor
+                                            : Colors.grey.shade200,
                                   ),
-                                  boxShadow: isSelected
-                                      ? [
-                                          BoxShadow(
-                                              color: kPrimaryColor.withOpacity(0.4),
+                                  boxShadow:
+                                      isSelected
+                                          ? [
+                                            BoxShadow(
+                                              color: kPrimaryColor.withOpacity(
+                                                0.4,
+                                              ),
                                               blurRadius: 6,
-                                              offset: const Offset(0, 3))
-                                        ]
-                                      : [],
+                                              offset: const Offset(0, 3),
+                                            ),
+                                          ]
+                                          : [],
                                 ),
                                 alignment: Alignment.center,
                                 child: kText(
                                   text: monthName,
                                   fSize: 14.0,
-                                  fWeight: isSelected ? FontWeight.w600 : FontWeight.w500,
-                                  tColor: isSelected ? Colors.white : Colors.black87,
+                                  fWeight:
+                                      isSelected
+                                          ? FontWeight.w600
+                                          : FontWeight.w500,
+                                  tColor:
+                                      isSelected
+                                          ? Colors.white
+                                          : Colors.black87,
                                 ),
                               ),
                             ),
@@ -190,7 +229,10 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                       child: TextButton(
                         onPressed: () => Navigator.pop(context),
                         child: kText(
-                            text: TranslationKeys.cancel.tr, tColor: Colors.grey, fSize: 14.0),
+                          text: TranslationKeys.cancel.tr,
+                          tColor: Colors.grey,
+                          fSize: 14.0,
+                        ),
                       ),
                     ),
                   ),
@@ -209,7 +251,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
       backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitoutAction(title: TranslationKeys.requestsHistory.tr),
       body: Container(
-        decoration: const BoxDecoration( gradient: kMainBackgroundGradient ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Column(
           children: [
             _buildHeader(),
@@ -231,12 +273,14 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                   // The API might return multiple months if range spans months,
                   // but here we request single month.
                   // We'll look for the matching month or just take the first if list not empty.
-                  monthData = controller.attendanceHistory.first; 
+                  monthData = controller.attendanceHistory.first;
                 } catch (e) {
                   return _buildEmptyState();
                 }
 
-                if (monthData == null || monthData.weeks == null || monthData.weeks!.isEmpty) {
+                if (monthData == null ||
+                    monthData.weeks == null ||
+                    monthData.weeks!.isEmpty) {
                   return _buildEmptyState();
                 }
 
@@ -282,7 +326,10 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                 tColor: Colors.grey.shade600,
               ),
               kText(
-                text: DateFormat('MMMM yyyy').format(selectedDate),
+                text: DateFormat(
+                  'MMMM yyyy',
+                  Get.locale?.languageCode,
+                ).format(selectedDate),
                 fSize: 22.0,
                 fWeight: FontWeight.bold,
                 tColor: Colors.black87,
@@ -345,11 +392,14 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           color: isSelected ? kPrimaryColor : Colors.white,
           borderRadius: BorderRadius.circular(30),
           boxShadow: [
-             BoxShadow(
-                color: isSelected ? kPrimaryColor.withOpacity(0.3) : Colors.black.withOpacity(0.05),
-                blurRadius: 8,
-                offset: const Offset(0, 4),
-             ),
+            BoxShadow(
+              color:
+                  isSelected
+                      ? kPrimaryColor.withOpacity(0.3)
+                      : Colors.black.withOpacity(0.05),
+              blurRadius: 8,
+              offset: const Offset(0, 4),
+            ),
           ],
         ),
         child: kText(
@@ -370,22 +420,27 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
       padding: const EdgeInsets.only(bottom: 12),
       child: SizedBox(
         height: 50,
-        child: _selectedFilter == HistoryFilter.week
-            ? _buildWeekSelector()
-            : _buildDaySelector(),
+        child:
+            _selectedFilter == HistoryFilter.week
+                ? _buildWeekSelector()
+                : _buildDaySelector(),
       ),
     );
   }
 
   Widget _buildWeekSelector() {
     // Calculate actual weeks in the month
-    final lastDayOfMonth = DateTime(selectedDate.year, selectedDate.month + 1, 0);
+    final lastDayOfMonth = DateTime(
+      selectedDate.year,
+      selectedDate.month + 1,
+      0,
+    );
     final int weeksInMonth = getWeekNumber(lastDayOfMonth);
 
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16),
-      itemCount: weeksInMonth, 
+      itemCount: weeksInMonth,
       separatorBuilder: (_, __) => const SizedBox(width: 10),
       itemBuilder: (context, index) {
         bool isSelected = _selectedWeekIndex == index;
@@ -411,9 +466,11 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                   fWeight: isSelected ? FontWeight.bold : FontWeight.normal,
                 ),
                 kText(
-                  text: "${(index * 7) + 1} - ${index == weeksInMonth - 1 ? lastDayOfMonth.day : (index + 1) * 7}",
+                  text:
+                      "${(index * 7) + 1} - ${index == weeksInMonth - 1 ? lastDayOfMonth.day : (index + 1) * 7}",
                   fSize: 10.0,
-                  tColor: isSelected ? kPrimaryColor.withOpacity(0.7) : Colors.grey,
+                  tColor:
+                      isSelected ? kPrimaryColor.withOpacity(0.7) : Colors.grey,
                 ),
               ],
             ),
@@ -424,8 +481,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   }
 
   Widget _buildDaySelector() {
-    final daysInMonth = DateTime(selectedDate.year, selectedDate.month + 1, 0).day;
-    
+    final daysInMonth =
+        DateTime(selectedDate.year, selectedDate.month + 1, 0).day;
+
     return ListView.separated(
       scrollDirection: Axis.horizontal,
       padding: const EdgeInsets.symmetric(horizontal: 16),
@@ -446,23 +504,27 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
               border: Border.all(
                 color: isSelected ? kPrimaryColor : Colors.grey.shade300,
               ),
-              boxShadow: isSelected
-                  ? [
-                      BoxShadow(
-                        color: kPrimaryColor.withOpacity(0.3),
-                        blurRadius: 4,
-                        offset: const Offset(0, 2),
-                      )
-                    ]
-                  : null,
+              boxShadow:
+                  isSelected
+                      ? [
+                        BoxShadow(
+                          color: kPrimaryColor.withOpacity(0.3),
+                          blurRadius: 4,
+                          offset: const Offset(0, 2),
+                        ),
+                      ]
+                      : null,
             ),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 kText(
-                   text: DateFormat('E').format(date), // Sun, Mon
-                   fSize: 10.0,
-                   tColor: isSelected ? Colors.white70 : Colors.grey,
+                  text: DateFormat(
+                    'E',
+                    Get.locale?.languageCode,
+                  ).format(date), // Sun, Mon
+                  fSize: 10.0,
+                  tColor: isSelected ? Colors.white70 : Colors.grey,
                 ),
                 const SizedBox(height: 2),
                 kText(
@@ -486,53 +548,64 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
 
     if (_selectedFilter == HistoryFilter.all) {
       // Show All Weeks and Days
-      for (var week in weeks) {
+      for (var week in weeks.reversed) {
         if (week.days != null && week.days!.isNotEmpty) {
-           content.add(_buildWeekHeader(week.week ?? ""));
-           content.addAll(week.days!.map((day) => _buildDayCard(day)));
+          content.add(_buildWeekHeader(week.week ?? ""));
+          content.addAll(week.days!.reversed.map((day) => _buildDayCard(day)));
         }
       }
     } else if (_selectedFilter == HistoryFilter.week) {
       // Filter by Week Number
-      final targetWeekNum = _selectedWeekIndex + 1; // 1-based (Week 1, Week 2...)
-      
+      final targetWeekNum =
+          _selectedWeekIndex + 1; // 1-based (Week 1, Week 2...)
+
       // Filter weeks list to find ANY week object that contains days belonging to targetWeekNum
       // The API return structure is "months -> weeks -> days".
       // A single 'Weeks' object from API might not align perfectly with calendar weeks if sparse,
       // so we iterate all weeks and filter specific days.
-      
+
       bool foundAnyData = false;
 
       for (var week in weeks) {
-         if (week.days != null && week.days!.isNotEmpty) {
-           final validDays = week.days!.where((day) {
-              if (day.date == null) return false;
-              final d = DateTime.parse(day.date!);
-              // Ensure day belongs to selected week AND selected month
-              return getWeekNumber(d) == targetWeekNum && d.month == selectedDate.month;
-           }).toList();
+        if (week.days != null && week.days!.isNotEmpty) {
+          final validDays =
+              week.days!.where((day) {
+                if (day.date == null) return false;
+                final d = DateTime.parse(day.date!);
+                // Ensure day belongs to selected week AND selected month
+                return getWeekNumber(d) == targetWeekNum &&
+                    d.month == selectedDate.month;
+              }).toList();
 
-           if (validDays.isNotEmpty) {
-             foundAnyData = true;
-             // Use the API's week label if available, or generate our own
-              content.add(_buildWeekHeader("${TranslationKeys.week.tr} $targetWeekNum"));
-              content.addAll(validDays.map((d) => _buildDayCard(d)));
-           }
-         }
+          if (validDays.isNotEmpty) {
+            foundAnyData = true;
+            // Use the API's week label if available, or generate our own
+            content.add(
+              _buildWeekHeader("${TranslationKeys.week.tr} $targetWeekNum"),
+            );
+            content.addAll(validDays.reversed.map((d) => _buildDayCard(d)));
+          }
+        }
       }
 
       if (!foundAnyData) {
-          content.add(_buildNoDataMsg("${TranslationKeys.noRecordsFor.tr} ${TranslationKeys.week.tr} $targetWeekNum"));
+        content.add(
+          _buildNoDataMsg(
+            "${TranslationKeys.noRecordsFor.tr} ${TranslationKeys.week.tr} $targetWeekNum",
+          ),
+        );
       }
     } else if (_selectedFilter == HistoryFilter.day) {
       // Filter by Selected Day DATE
       // Search through all weeks/days to find matching date
       final targetDateStr = DateFormat('yyyy-MM-dd').format(_selectedDayDate);
       Days? foundDay;
-      
+
       for (var week in weeks) {
         if (week.days != null) {
-          final match = week.days!.firstWhereOrNull((d) => d.date == targetDateStr);
+          final match = week.days!.firstWhereOrNull(
+            (d) => d.date == targetDateStr,
+          );
           if (match != null) {
             foundDay = match;
             break;
@@ -543,7 +616,11 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
       if (foundDay != null) {
         content.add(_buildDayCard(foundDay));
       } else {
-        content.add(_buildNoDataMsg("${TranslationKeys.noRecordsFor.tr} ${DateFormat('MMM dd').format(_selectedDayDate)}"));
+        content.add(
+          _buildNoDataMsg(
+            "${TranslationKeys.noRecordsFor.tr} ${DateFormat('MMM dd', Get.locale?.languageCode).format(_selectedDayDate)}",
+          ),
+        );
       }
     }
 
@@ -573,9 +650,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
   Widget _buildNoDataMsg(String msg) {
     return Padding(
       padding: const EdgeInsets.all(32.0),
-      child: Center(
-        child: kText(text: msg, fSize: 14.0, tColor: Colors.grey),
-      ),
+      child: Center(child: kText(text: msg, fSize: 14.0, tColor: Colors.grey)),
     );
   }
 
@@ -590,45 +665,53 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 8),
           child: Row(
             children: [
-               Container(
-                 width: 4,
-                 height: 16,
-                 decoration: BoxDecoration(
-                   color: kPrimaryColor,
-                   borderRadius: BorderRadius.circular(2),
-                 ),
-               ),
-               const SizedBox(width: 8),
-               kText(
-                 text: day.date != null 
-                   ? DateFormat('EEEE, MMM dd').format(DateTime.parse(day.date!))
-                   : "",
-                 fSize: 14.0,
-                 fWeight: FontWeight.bold,
-                 tColor: Colors.black87,
-               ),
-               const Spacer(),
-                kText(
-                  text: "${day.totalTime} ${TranslationKeys.hours.tr}",
-                  fSize: 12.0,
-                  fWeight: FontWeight.w600,
-                  tColor: kPrimaryColor,
+              Container(
+                width: 4,
+                height: 16,
+                decoration: BoxDecoration(
+                  color: kPrimaryColor,
+                  borderRadius: BorderRadius.circular(2),
                 ),
+              ),
+              const SizedBox(width: 8),
+              kText(
+                text:
+                    day.date != null
+                        ? DateFormat(
+                          'EEEE, MMM dd',
+                          Get.locale?.languageCode,
+                        ).format(DateTime.parse(day.date!))
+                        : "",
+                fSize: 14.0,
+                fWeight: FontWeight.bold,
+                tColor: Colors.black87,
+              ),
+              const Spacer(),
+              kText(
+                text: "${day.totalTime} ${TranslationKeys.hours.tr}",
+                fSize: 12.0,
+                fWeight: FontWeight.w600,
+                tColor: kPrimaryColor,
+              ),
             ],
           ),
         ),
-        
+
         // Logs
-        ...day.logs!.map((log) => _buildLogItem(log)).toList(),
+        ...day.logs!.reversed.map((log) => _buildLogItem(log)).toList(),
       ],
     );
   }
 
   Widget _buildLogItem(Logs log) {
     final isClockIn = log.clockType?.toLowerCase() == "in";
-    final time = log.clockTime != null 
-        ? DateFormat('hh:mm a').format(DateTime.parse(log.clockTime!).toLocal())
-        : "-";
+    final time =
+        log.clockTime != null
+            ? DateFormat(
+              'hh:mm a',
+              Get.locale?.languageCode,
+            ).format(DateTime.parse(log.clockTime!).toLocal())
+            : "-";
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -652,7 +735,10 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: isClockIn ? Colors.green.withOpacity(0.1) : Colors.red.withOpacity(0.1),
+              color:
+                  isClockIn
+                      ? Colors.green.withOpacity(0.1)
+                      : Colors.red.withOpacity(0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -662,7 +748,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
             ),
           ),
           const SizedBox(width: 12),
-          
+
           // Details
           Expanded(
             child: Column(
@@ -672,7 +758,10 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     kText(
-                      text: isClockIn ? TranslationKeys.clockIn.tr : TranslationKeys.clockOut.tr,
+                      text:
+                          isClockIn
+                              ? TranslationKeys.clockIn.tr
+                              : TranslationKeys.clockOut.tr,
                       fSize: 14.0,
                       fWeight: FontWeight.w600,
                       tColor: Colors.black87,
@@ -712,7 +801,11 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                     child: Row(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Icon(Icons.location_on_outlined, size: 14, color: Colors.grey.shade500),
+                        Icon(
+                          Icons.location_on_outlined,
+                          size: 14,
+                          color: Colors.grey.shade500,
+                        ),
                         const SizedBox(width: 4),
                         Expanded(
                           child: kText(

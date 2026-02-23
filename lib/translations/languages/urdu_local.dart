@@ -335,7 +335,7 @@ class UrduLocal {
       TranslationKeys.packages: "پیکجز",
       TranslationKeys.call: "کال کریں",
       TranslationKeys.downloading: "انوائس ڈاؤن لوڈ ہو رہی ہے...",
-      
+
       // ========== HR APP SPECIFIC KEYS ==========
       TranslationKeys.goodMorning: "صبح بخیر",
       TranslationKeys.goodAfternoon: "دوپہر بخیر",
@@ -355,7 +355,8 @@ class UrduLocal {
       TranslationKeys.new_: "نیا",
       TranslationKeys.changeLanguage: "زبان تبدیل کریں",
       TranslationKeys.personalDocuments: "ذاتی دستاویزات",
-      TranslationKeys.chooseYourPreferredLanguage: "اپنی پسندیدہ زبان منتخب کریں",
+      TranslationKeys.chooseYourPreferredLanguage:
+          "اپنی پسندیدہ زبان منتخب کریں",
       TranslationKeys.totalDays: "کل دن",
       TranslationKeys.from: "سے",
       TranslationKeys.approved: "منظور شدہ",
@@ -367,25 +368,30 @@ class UrduLocal {
       TranslationKeys.annualLeave: "سالانہ چھٹی",
       TranslationKeys.unpaidLeave: "بغیر تنخواہ چھٹی",
       TranslationKeys.error: "غلطی",
-      TranslationKeys.pleaseFillAllFieldsCorrectly: "براہ کرم تمام فیلڈز صحیح طریقے سے بھریں",
+      TranslationKeys.pleaseFillAllFieldsCorrectly:
+          "براہ کرم تمام فیلڈز صحیح طریقے سے بھریں",
       TranslationKeys.clockIn: "داخلہ",
       TranslationKeys.clockOut: "خروج",
       TranslationKeys.confirmEndShift: "شفٹ ختم کرنے کی تصدیق کریں",
       TranslationKeys.confirmHours: "گھنٹوں کی تصدیق کریں",
       TranslationKeys.editShift: "شفٹ میں ترمیم کریں",
-      TranslationKeys.unableToFetchLocation: "موجودہ مقام حاصل کرنے سے قاصر۔ براہ کرم دوبارہ کوشش کریں۔",
+      TranslationKeys.unableToFetchLocation:
+          "موجودہ مقام حاصل کرنے سے قاصر۔ براہ کرم دوبارہ کوشش کریں۔",
       TranslationKeys.requestEdit: "ترمیم کی درخواست",
       TranslationKeys.starts: "شروع ہوتا ہے",
       TranslationKeys.totalHours: "کل گھنٹے",
       TranslationKeys.addANote: "نوٹ شامل کریں",
-      TranslationKeys.attachNoteToRequest: "اپنی درخواست کے ساتھ نوٹ منسلک کریں",
-      TranslationKeys.allRequestsSentForApproval: "تمام درخواستیں مینیجر کی منظوری کے لیے بھیجی جائیں گی",
+      TranslationKeys.attachNoteToRequest:
+          "اپنی درخواست کے ساتھ نوٹ منسلک کریں",
+      TranslationKeys.allRequestsSentForApproval:
+          "تمام درخواستیں مینیجر کی منظوری کے لیے بھیجی جائیں گی",
       TranslationKeys.sendForApproval: "منظوری کے لیے بھیجیں",
       TranslationKeys.shiftEditRequestSent: "شفٹ ترمیم کی درخواست بھیج دی گئی!",
       TranslationKeys.workingAsEmployee: "ملازم کے طور پر کام کر رہے ہیں",
       TranslationKeys.requestsHistory: "درخواستوں کی تاریخ",
       TranslationKeys.noLeaveRequestsFound: "کوئی چھٹی کی درخواست نہیں ملی",
-      TranslationKeys.clickBelowToMakeRequest: "درخواست کرنے کے لیے نیچے کلک کریں",
+      TranslationKeys.clickBelowToMakeRequest:
+          "درخواست کرنے کے لیے نیچے کلک کریں",
       TranslationKeys.makeARequest: "درخواست کریں",
       TranslationKeys.unknown: "نامعلوم",
       TranslationKeys.day: "دن",
@@ -398,7 +404,8 @@ class UrduLocal {
       TranslationKeys.requestedOn: "درخواست کی تاریخ",
       TranslationKeys.leave: "چھٹی",
       TranslationKeys.noDocumentsYet: "ابھی تک کوئی دستاویز نہیں",
-      TranslationKeys.addFirstDocument: "شروع کرنے کے لیے اپنی پہلی دستاویز شامل کریں",
+      TranslationKeys.addFirstDocument:
+          "شروع کرنے کے لیے اپنی پہلی دستاویز شامل کریں",
       TranslationKeys.verified: "تصدیق شدہ",
       TranslationKeys.expired: "میعاد ختم",
       TranslationKeys.document: "دستاویز",
@@ -416,7 +423,8 @@ class UrduLocal {
       TranslationKeys.submitRequest: "درخواست جمع کرائیں",
       TranslationKeys.selectDate: "تاریخ منتخب کریں",
       TranslationKeys.invalidDateRange: "غلط تاریخ کی حد",
-      TranslationKeys.endDateCannotBeBeforeStartDate: "اختتام کی تاریخ شروع کی تاریخ سے پہلے نہیں ہو سکتی",
+      TranslationKeys.endDateCannotBeBeforeStartDate:
+          "اختتام کی تاریخ شروع کی تاریخ سے پہلے نہیں ہو سکتی",
       TranslationKeys.chooseLeaveType: "چھٹی کی قسم منتخب کریں",
       TranslationKeys.typesAvailable: "قسمیں دستیاب ہیں",
       TranslationKeys.paid: "با معاوضہ",
@@ -426,27 +434,38 @@ class UrduLocal {
       TranslationKeys.recurring: "بار بار آنے والی",
       TranslationKeys.oneTime: "ایک بار",
       TranslationKeys.noAnnouncementsAvailable: "کوئی اعلانات دستیاب نہیں",
-      TranslationKeys.areYouSureWantToLogout: "کیا آپ واقعی لاگ آؤٹ کرنا چاہتے ہیں؟",
+      TranslationKeys.areYouSureWantToLogout:
+          "کیا آپ واقعی لاگ آؤٹ کرنا چاہتے ہیں؟",
       TranslationKeys.selectLanguage: "زبان منتخب کریں",
-      TranslationKeys.chooseYourPreferredLanguage: "اپنی پسندیدہ زبان منتخب کریں",
+      TranslationKeys.chooseYourPreferredLanguage:
+          "اپنی پسندیدہ زبان منتخب کریں",
+      TranslationKeys.location: "مقام",
       TranslationKeys.locationRequired: "مقام درکار ہے",
-      TranslationKeys.locationServicesRequiredForClockOut: "کلاک آؤٹ کے لیے مقام کی خدمات درکار ہیں۔ براہ کرم لاگ آؤٹ جاری رکھنے کے لیے مقام فعال کریں۔",
+      TranslationKeys.locationServicesRequiredForClockOut:
+          "کلاک آؤٹ کے لیے مقام کی خدمات درکار ہیں۔ براہ کرم لاگ آؤٹ جاری رکھنے کے لیے مقام فعال کریں۔",
       TranslationKeys.enableLocation: "مقام فعال کریں",
-      TranslationKeys.locationServiceRequiredBeforeLogout: "لاگ آؤٹ سے پہلے کلاک آؤٹ کے لیے مقام کی خدمت درکار ہے",
-      TranslationKeys.locationPermissionRequired: "کلاک آؤٹ کے لیے مقام کی اجازت درکار ہے",
+      TranslationKeys.locationServiceRequiredBeforeLogout:
+          "لاگ آؤٹ سے پہلے کلاک آؤٹ کے لیے مقام کی خدمت درکار ہے",
+      TranslationKeys.locationPermissionRequired:
+          "کلاک آؤٹ کے لیے مقام کی اجازت درکار ہے",
       TranslationKeys.permissionRequired: "اجازت درکار ہے",
-      TranslationKeys.locationPermissionPermanentlyDenied: "مقام کی اجازت مستقل طور پر مسترد کر دی گئی ہے۔ براہ کرم جاری رکھنے کے لیے ایپ کی ترتیبات میں اسے فعال کریں۔",
+      TranslationKeys.locationPermissionPermanentlyDenied:
+          "مقام کی اجازت مستقل طور پر مسترد کر دی گئی ہے۔ براہ کرم جاری رکھنے کے لیے ایپ کی ترتیبات میں اسے فعال کریں۔",
       TranslationKeys.gettingYourLocation: "آپ کا مقام حاصل کیا جا رہا ہے...",
-      TranslationKeys.failedToGetLocation: "مقام حاصل کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
+      TranslationKeys.failedToGetLocation:
+          "مقام حاصل کرنے میں ناکام۔ براہ کرم دوبارہ کوشش کریں۔",
       TranslationKeys.clockOutRequired: "کلاک آؤٹ درکار ہے",
-      TranslationKeys.currentlyClockedInMessage: "آپ فی الحال کلاک ان ہیں۔ اگر آپ ابھی لاگ آؤٹ کرتے ہیں، تو آپ خودکار طور پر کلاک آؤٹ ہو جائیں گے۔",
+      TranslationKeys.currentlyClockedInMessage:
+          "آپ فی الحال کلاک ان ہیں۔ اگر آپ ابھی لاگ آؤٹ کرتے ہیں، تو آپ خودکار طور پر کلاک آؤٹ ہو جائیں گے۔",
       TranslationKeys.clockOutLocation: "کلاک آؤٹ کا مقام:",
       TranslationKeys.gettingAddress: "پتہ حاصل کیا جا رہا ہے...",
-      TranslationKeys.proceedWithLogoutAndClockOut: "کیا آپ لاگ آؤٹ اور خودکار کلاک آؤٹ کے ساتھ جاری رکھنا چاہتے ہیں؟",
+      TranslationKeys.proceedWithLogoutAndClockOut:
+          "کیا آپ لاگ آؤٹ اور خودکار کلاک آؤٹ کے ساتھ جاری رکھنا چاہتے ہیں؟",
       TranslationKeys.yesLogout: "ہاں، لاگ آؤٹ کریں",
       TranslationKeys.clockingOut: "کلاک آؤٹ ہو رہا ہے...",
       TranslationKeys.clockOutFailed: "کلاک آؤٹ ناکام",
-      TranslationKeys.failedToClockOutAutomatically: "خودکار طور پر کلاک آؤٹ ناکام ہوا۔ کیا آپ پھر بھی لاگ آؤٹ کرنا چاہتے ہیں؟",
+      TranslationKeys.failedToClockOutAutomatically:
+          "خودکار طور پر کلاک آؤٹ ناکام ہوا۔ کیا آپ پھر بھی لاگ آؤٹ کرنا چاہتے ہیں؟",
       TranslationKeys.logoutAnyway: "بہرحال لاگ آؤٹ کریں",
       TranslationKeys.addDocument: "دستاویز شامل کریں",
       TranslationKeys.documentType: "دستاویز کی قسم",
@@ -463,7 +482,8 @@ class UrduLocal {
       TranslationKeys.clockedOut: "کلاک آؤٹ",
       TranslationKeys.activity: "سرگرمی",
       TranslationKeys.salaryStructure: "تنخواہ کی ترتیب",
-      TranslationKeys.noSalaryStructureAvailable: "کوئی تنخواہ کی ترتیب دستیاب نہیں",
+      TranslationKeys.noSalaryStructureAvailable:
+          "کوئی تنخواہ کی ترتیب دستیاب نہیں",
       TranslationKeys.allowances: "علاوے",
       TranslationKeys.salaryBreakdown: "تنخواہ کی تفصیل",
       TranslationKeys.salaryComponents: "تنخواہ کے اجزاء",
@@ -548,8 +568,10 @@ class UrduLocal {
       TranslationKeys.documentID: "دستاویز آئی ڈی",
       TranslationKeys.youAreHere: "آپ یہاں ہیں",
       TranslationKeys.yourLocation: "آپ کا مقام",
-      TranslationKeys.verifyLocationEndShift: "اپنے مقام کی تصدیق کریں اور اپنی شفٹ ختم کریں۔",
-      TranslationKeys.verifyLocationClockIn: "براہ کرم آگے بڑھنے سے پہلے اپنے مقام کی تصدیق کریں۔",
+      TranslationKeys.verifyLocationEndShift:
+          "اپنے مقام کی تصدیق کریں اور اپنی شفٹ ختم کریں۔",
+      TranslationKeys.verifyLocationClockIn:
+          "براہ کرم آگے بڑھنے سے پہلے اپنے مقام کی تصدیق کریں۔",
       TranslationKeys.detectedLocation: "ملا مقام",
       TranslationKeys.week: "ہفتہ",
       TranslationKeys.day: "دن",
@@ -602,20 +624,32 @@ class UrduLocal {
       TranslationKeys.passingYear: "پاس ہونے کا سال",
       TranslationKeys.remarks: "ریمارکس",
       TranslationKeys.pleaseFillAllFields: "براہ کرم تمام فیلڈز پُر کریں",
-      TranslationKeys.profileUpdatedSuccessfully: "پروفایل کامیابی کے ساتھ اپ ڈیٹ ہو گیا",
+      TranslationKeys.profileUpdatedSuccessfully:
+          "پروفایل کامیابی کے ساتھ اپ ڈیٹ ہو گیا",
       TranslationKeys.failedToUpdateProfile: "پروفایل اپ ڈیٹ کرنے میں ناکامی",
-      TranslationKeys.passwordChangedSuccessfully: "پاس ورڈ کامیابی کے ساتھ تبدیل ہو گیا",
+      TranslationKeys.passwordChangedSuccessfully:
+          "پاس ورڈ کامیابی کے ساتھ تبدیل ہو گیا",
       TranslationKeys.failedToChangePassword: "پاس ورڈ تبدیل کرنے میں ناکامی",
       TranslationKeys.newPasswordsDoNotMatch: "نئے پاس ورڈ مطابقت نہیں رکھتے",
-      TranslationKeys.pleaseFillAllPasswordFields: "براہ کرم تمام پاس ورڈ فیلڈز پُر کریں",
-      TranslationKeys.unableToLoadUserProfile: "صارف کا پروفایل لوڈ کرنے میں ناکامی",
-      TranslationKeys.employeeIdNotFound: "ایمپلائی آئی ڈی نہیں ملی۔ براہ کرم دوبارہ لاگ ان کریں۔",
+      TranslationKeys.pleaseFillAllPasswordFields:
+          "براہ کرم تمام پاس ورڈ فیلڈز پُر کریں",
+      TranslationKeys.unableToLoadUserProfile:
+          "صارف کا پروفایل لوڈ کرنے میں ناکامی",
+      TranslationKeys.employeeIdNotFound:
+          "ایمپلائی آئی ڈی نہیں ملی۔ براہ کرم دوبارہ لاگ ان کریں۔",
       TranslationKeys.failedToFetchLoans: "قرضے حاصل کرنے میں ناکامی",
-      TranslationKeys.pleaseFillAllRequiredFields: "براہ کرم تمام مطلوبہ فیلڈز پُر کریں",
-      TranslationKeys.leaveRequestSubmittedSuccessfully: "رخصت کی درخواست کامیابی کے ساتھ جمع ہو گئی!",
+      TranslationKeys.pleaseFillAllRequiredFields:
+          "براہ کرم تمام مطلوبہ فیلڈز پُر کریں",
+      TranslationKeys.leaveRequestSubmittedSuccessfully:
+          "رخصت کی درخواست کامیابی کے ساتھ جمع ہو گئی!",
       TranslationKeys.errorPickingFile: "فائل منتخب کرنے میں غلطی",
       TranslationKeys.noRecordsFor: "کے لیے کوئی ریکارڈ نہیں ہے",
-      TranslationKeys.failedToRetrieveAttendanceID: "اس سیشن کے لیے مخصوص حاضری آئی ڈی حاصل کرنے میں ناکامی۔",
+      TranslationKeys.failedToRetrieveAttendanceID:
+          "اس سیشن کے لیے مخصوص حاضری آئی ڈی حاصل کرنے میں ناکامی۔",
+      TranslationKeys.attachDocumentOptional: "دستاویز منسلک کریں (اختیاری)",
+      TranslationKeys.selectedDocument: "منتخب کردہ دستاویز",
+      TranslationKeys.uploadDocument: "دستاویز اپ لوڈ کریں",
+      TranslationKeys.noFileSelected: "کوئی فائل منتخب نہیں کی گئی",
     };
   }
 }

@@ -35,7 +35,7 @@ class Utils {
   }
 
   static snackBar(String message, bool isError, {BuildContext? context}) {
-    DelightToastBar(
+    final delightToast = DelightToastBar(
       animationDuration: const Duration(milliseconds: 400),
       snackbarDuration: const Duration(seconds: 3),
       position: DelightSnackbarPosition.top,
@@ -104,42 +104,11 @@ class Utils {
       //       fontWeight: FontWeight.w500,
       //     ),
       //   ),
-      // ),
-    ).show(context ?? Get.key.currentContext ?? Get.context!);
-    // Get.snackbar(
-    //     isError?"Error"/*TranslationKeys.error.tr*/:message,
-    //     isError? message:"",
-    //     snackPosition: SnackPosition.BOTTOM,
-    //     backgroundColor: Colors.white12,
-    //     borderRadius: 15,
-    //     //  borderWidth: 3.sp,
-    //     //  borderColor: isError?Colors.red:CupertinoColors.systemGreen,
-    //     duration: const Duration(milliseconds: 3500),
-    //     barBlur: 13,
-    //     colorText: isError?Colors.red: CupertinoColors.systemGreen,
-    //     leftBarIndicatorColor: isError?Colors.red:CupertinoColors.systemGreen,
-    //     borderWidth: 3.sp,
-    //     animationDuration: const Duration(milliseconds: 600),
-    //     instantInit: false,
-    //     dismissDirection: DismissDirection.horizontal,
-    //     icon:isError?
-    //     Icon(Icons.error,color: Colors.red,size: 25.sp,)
-    //         : Icon(CupertinoIcons.checkmark_alt_circle_fill,color: CupertinoColors.systemGreen,size: 25.sp,),
-    //     isDismissible: true,
-    //     boxShadows: [
-    //       BoxShadow(
-    //         color: Colors.black.withOpacity(0.1),
-    //         blurRadius: 8,
-    //         spreadRadius: 2,
-    //         offset: const Offset(0, 4),
-    //       )
-    //     ],
-    //     /*  onTap: (getSnackBar) {
-    //   Get.back();
-    // },*/
-    //     padding:  EdgeInsets.symmetric(vertical: 1.h,horizontal: 3),
-    //     margin: EdgeInsets.symmetric(vertical: 5.h,horizontal: 5.w)
-    // );
+    );
+
+    Future.delayed(Duration.zero, () {
+      delightToast.show(context ?? Get.context!);
+    });
   }
 
   static void showLoadingDialog(BuildContext context) async {

@@ -79,10 +79,13 @@ class LoanController extends GetxController {
       "Applying for loan with small data: {amount: $amount, purpose: $purpose, installments: $installments, startMonth: $startMonth}",
     );
 
+    if (isSubmitting.value) return;
+
     if (amount.isEmpty ||
         purpose.isEmpty ||
         installments.isEmpty ||
         startMonth.isEmpty) {
+      FocusManager.instance.primaryFocus?.unfocus();
       Utils.snackBar(TranslationKeys.pleaseFillAllRequiredFields.tr, true);
       return;
     }
@@ -94,7 +97,9 @@ class LoanController extends GetxController {
       final employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
+        FocusManager.instance.primaryFocus?.unfocus();
         Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
+        isSubmitting.value = false;
         return;
       }
       final data = {

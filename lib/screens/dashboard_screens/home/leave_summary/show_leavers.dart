@@ -146,11 +146,47 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
               }
             },
             color: kPrimaryColor,
-            child: CustomAnimatedListView(
-              physics: const BouncingScrollPhysics(),
-              itemCount: controller.leaveHistory.length,
-              separator: const SizedBox(height: 12),
+            child: ListView.separated(
+              padding: const EdgeInsets.only(bottom: 50), // Extra space for better scroll experience
+              physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
+              itemCount: controller.leaveHistory.length +
+                  (controller.hasMoreHistory.value ? 1 : 0),
+              separatorBuilder: (context, index) => const SizedBox(height: 12),
               itemBuilder: (context, index) {
+                // Optimistic trigger: start loading when we are near the end
+                if (index >= controller.leaveHistory.length - 1 && 
+                    controller.hasMoreHistory.value && 
+                    !controller.isLoadingMoreHistory.value) {
+                  WidgetsBinding.instance.addPostFrameCallback((_) {
+                    print("📊 LEAVE SUMMARY => Near end (Index $index), triggering pagination");
+                    controller.loadMoreLeaveHistory();
+                  });
+                }
+
+                // Show loader at the very bottom
+                if (index == controller.leaveHistory.length) {
+                  return Container(
+                    padding: const EdgeInsets.symmetric(vertical: 24),
+                    alignment: Alignment.center,
+                    child: Column(
+                      children: [
+                        const CircularProgressIndicator(
+                          color: kPrimaryColor,
+                          strokeWidth: 2,
+                        ),
+                        UIHelper.verticalSpaceSm5,
+                        kText(
+                          text: "Loading more history...",
+                          fSize: 11.0,
+                          tColor: Colors.grey,
+                        ),
+                      ],
+                    ),
+                  );
+                }
+
                 final leave = controller.leaveHistory[index];
 
                 return _glassCard(

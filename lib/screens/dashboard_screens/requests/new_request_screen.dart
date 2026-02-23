@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/models/leave_type_model.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
@@ -23,6 +24,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
   @override
   void initState() {
     super.initState();
+    leaveController.clearForm();
   }
 
   @override
@@ -216,6 +218,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
               const SizedBox(height: 10),
               TextField(
                 controller: leaveController.reasonController,
+                textDirection: (Get.locale?.languageCode == 'ur' || Get.locale?.languageCode == 'ar') ? TextDirection.rtl : TextDirection.ltr,
                 onTapOutside: (event) async {
                   FocusScope.of(context).unfocus();
                 },
@@ -252,7 +255,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
 
               // Attach Document
               kText(
-                text: "Attach Document (Optional)",
+                text: TranslationKeys.attachDocumentOptional.tr,
                 fSize: 14.0,
                 fWeight: FontWeight.bold,
                 tColor: Colors.black87,
@@ -309,8 +312,8 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                             kText(
                               text:
                                   leaveController.attachedFile.value != null
-                                      ? "Selected Document"
-                                      : "Upload Document",
+                                      ? TranslationKeys.selectedDocument.tr
+                                      : TranslationKeys.uploadDocument.tr,
                               fSize: 12.0,
                               tColor: Colors.grey.shade500,
                             ),
@@ -318,7 +321,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                             kText(
                               text:
                                   leaveController.attachedFile.value?.name ??
-                                  "No file selected",
+                                  TranslationKeys.noFileSelected.tr,
                               fSize: 14.0,
                               fWeight: FontWeight.w600,
                               tColor: Colors.black87,
@@ -358,7 +361,10 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
           () => LoadingButton(
             isLoading: leaveController.isSubmitting.value,
             text: TranslationKeys.submitRequest.tr,
-            onTap: () => leaveController.submitLeaveRequest(context),
+            onTap: () {
+              print("Submit button tapped");
+              leaveController.submitLeaveRequest();
+            },
           ),
         ),
       ),
@@ -424,22 +430,22 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
     if (!isStart && leaveController.startDateController.text.isNotEmpty) {
       try {
         final start = DateTime.parse(leaveController.startDateController.text);
-        
+
         // The earliest end date allowed is the start date
         firstDate = start;
 
         // If end date is already selected, use it as initial. Otherwise use start date.
         if (leaveController.endDateController.text.isNotEmpty) {
-           final end = DateTime.parse(leaveController.endDateController.text);
-           initialDate = end;
+          final end = DateTime.parse(leaveController.endDateController.text);
+          initialDate = end;
         } else {
-           initialDate = start;
+          initialDate = start;
         }
       } catch (_) {
         // Fallback to defaults if parsing fails
       }
     }
-    
+
     // Ensure initialDate is within valid range
     if (initialDate.isBefore(firstDate)) {
       initialDate = firstDate;
@@ -471,12 +477,9 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
 
         // Prevent negative day count (if user selects end < start)
         if (end.isBefore(start)) {
-          Get.snackbar(
-            TranslationKeys.invalidDateRange.tr,
+          Utils.snackBar(
             TranslationKeys.endDateCannotBeBeforeStartDate.tr,
-            snackPosition: SnackPosition.BOTTOM,
-            backgroundColor: Colors.red.shade100,
-            colorText: Colors.black,
+            true,
           );
           leaveController.totalDaysController.clear();
           return;

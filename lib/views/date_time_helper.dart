@@ -1,4 +1,5 @@
 import 'package:intl/intl.dart';
+import 'package:get/get.dart';
 
 class DateTimeHelper {
   DateTimeHelper._(); // Prevent instantiation
@@ -12,7 +13,7 @@ class DateTimeHelper {
 
     try {
       final date = DateTime.parse(rawDate);
-      return DateFormat(format).format(date);
+      return DateFormat(format, Get.locale?.languageCode).format(date);
     } catch (_) {
       return rawDate;
     }
@@ -27,7 +28,10 @@ class DateTimeHelper {
 
     try {
       final time = DateFormat("HH:mm:ss").parse(rawTime);
-      return DateFormat("hh:mm a").format(time); // 12hr format with AM/PM
+      return DateFormat(
+        "hh:mm a",
+        Get.locale?.languageCode,
+      ).format(time); // 12hr format with AM/PM
     } catch (_) {
       return rawTime;
     }
@@ -42,7 +46,7 @@ class DateTimeHelper {
 
     try {
       final date = DateTime.parse(utcDateTime).toLocal();
-      return DateFormat("hh:mm a").format(date);
+      return DateFormat("hh:mm a", Get.locale?.languageCode).format(date);
     } catch (_) {
       return utcDateTime;
     }
@@ -60,7 +64,7 @@ class DateTimeHelper {
 
     try {
       final date = DateTime.parse(utcDateTime).toLocal();
-      return DateFormat(format).format(date);
+      return DateFormat(format, Get.locale?.languageCode).format(date);
     } catch (_) {
       return utcDateTime;
     }
@@ -75,8 +79,14 @@ class DateTimeHelper {
 
     try {
       final date = DateTime.parse(utcDateTime).toLocal();
-      final formattedDate = DateFormat("MMM dd, yyyy").format(date);
-      final formattedTime = DateFormat("hh:mm a").format(date);
+      final formattedDate = DateFormat(
+        "MMM dd, yyyy",
+        Get.locale?.languageCode,
+      ).format(date);
+      final formattedTime = DateFormat(
+        "hh:mm a",
+        Get.locale?.languageCode,
+      ).format(date);
       return "$formattedDate • $formattedTime";
     } catch (_) {
       return utcDateTime;

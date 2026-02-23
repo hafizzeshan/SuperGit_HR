@@ -8,6 +8,7 @@ import 'package:supergithr/translations/translations/app_localizations.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/controllers/translation_controller.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
 // @pragma('vm:entry-point')
 // // ✅ Background message handler
@@ -18,6 +19,7 @@ import 'package:supergithr/controllers/translation_controller.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  await initializeDateFormatting();
   // 1️⃣ Initialize Firebase first
   // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // 2️⃣ Register background handler
@@ -57,6 +59,16 @@ class MyApp extends StatelessWidget {
     return ResponsiveSizer(
       builder:
           (context, orientation, screenType) => GetMaterialApp(
+            navigatorKey: Get.key,
+            builder: (context, child) {
+              return SafeArea(
+                top: false,
+                bottom: true,
+                left: false,
+                right: false,
+                child: child!,
+              );
+            },
             enableLog: true,
             title: 'SuperGit HR',
             debugShowCheckedModeBanner: false,

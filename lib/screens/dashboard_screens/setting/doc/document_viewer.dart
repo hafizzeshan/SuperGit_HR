@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:flutter/foundation.dart';
 import 'package:get/get.dart';
+import 'package:supergithr/utils/utils.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:share_plus/share_plus.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -164,7 +165,8 @@ class DocumentViewerScreen extends StatelessWidget {
         ),
         const SizedBox(height: 20),
         kText(
-          text: status?.toUpperCase() ?? TranslationKeys.pending.tr.toUpperCase(),
+          text:
+              status?.toUpperCase() ?? TranslationKeys.pending.tr.toUpperCase(),
           fSize: 22.0,
           fWeight: FontWeight.bold,
           tColor: mainBlackcolor,
@@ -188,8 +190,11 @@ class DocumentViewerScreen extends StatelessWidget {
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
-            _detailChip(leave.status?.toUpperCase() ?? TranslationKeys.pending.tr.toUpperCase(), _getStatusColor(leave.status)),
-          
+            _detailChip(
+              leave.status?.toUpperCase() ??
+                  TranslationKeys.pending.tr.toUpperCase(),
+              _getStatusColor(leave.status),
+            ),
           ],
         ),
         const SizedBox(height: 24),
@@ -197,17 +202,34 @@ class DocumentViewerScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _buildDataRow(Icons.calendar_today_rounded, TranslationKeys.dateRange.tr, "${leave.startDate} - ${leave.endDate}"),
-                _buildDataRow(Icons.access_time_filled_rounded, TranslationKeys.totalDays.tr, "${leave.totalDays} ${TranslationKeys.days.tr}"),
-                _buildDataRow(Icons.subject_rounded, TranslationKeys.reason.tr, leave.reason ?? "-"),
+                _buildDataRow(
+                  Icons.calendar_today_rounded,
+                  TranslationKeys.dateRange.tr,
+                  "${leave.startDate} - ${leave.endDate}",
+                ),
+                _buildDataRow(
+                  Icons.access_time_filled_rounded,
+                  TranslationKeys.totalDays.tr,
+                  "${leave.totalDays} ${TranslationKeys.days.tr}",
+                ),
+                _buildDataRow(
+                  Icons.subject_rounded,
+                  TranslationKeys.reason.tr,
+                  leave.reason ?? "-",
+                ),
                 if (leave.approvedAt != null)
-                  _buildDataRow(Icons.verified_user_rounded, TranslationKeys.approvedAt.tr, leave.approvedAt!),
+                  _buildDataRow(
+                    Icons.verified_user_rounded,
+                    TranslationKeys.approvedAt.tr,
+                    leave.approvedAt!,
+                  ),
               ],
             ),
           ),
         ),
         const SizedBox(height: 16),
-        if (filePath != null && filePath!.isNotEmpty) _buildActionButtons(filePath!, Get.context!),
+        if (filePath != null && filePath!.isNotEmpty)
+          _buildActionButtons(filePath!, Get.context!),
       ],
     );
   }
@@ -232,17 +254,34 @@ class DocumentViewerScreen extends StatelessWidget {
           child: SingleChildScrollView(
             child: Column(
               children: [
-                _buildDataRow(Icons.badge_rounded, TranslationKeys.documentName.tr, doc.documentName ?? "-"),
-                _buildDataRow(Icons.calendar_month_rounded, TranslationKeys.issueDate.tr, doc.issueDate ?? "-"),
-                _buildDataRow(Icons.event_busy_rounded, TranslationKeys.expiryDate.tr, doc.expiryDate ?? "-"),
+                _buildDataRow(
+                  Icons.badge_rounded,
+                  TranslationKeys.documentName.tr,
+                  doc.documentName ?? "-",
+                ),
+                _buildDataRow(
+                  Icons.calendar_month_rounded,
+                  TranslationKeys.issueDate.tr,
+                  doc.issueDate ?? "-",
+                ),
+                _buildDataRow(
+                  Icons.event_busy_rounded,
+                  TranslationKeys.expiryDate.tr,
+                  doc.expiryDate ?? "-",
+                ),
                 if (doc.signedAt != null)
-                  _buildDataRow(Icons.verified_rounded, TranslationKeys.verified.tr, doc.signedAt!),
+                  _buildDataRow(
+                    Icons.verified_rounded,
+                    TranslationKeys.verified.tr,
+                    doc.signedAt!,
+                  ),
               ],
             ),
           ),
         ),
         const SizedBox(height: 16),
-        if (filePath != null && filePath!.isNotEmpty) _buildActionButtons(filePath!, Get.context!),
+        if (filePath != null && filePath!.isNotEmpty)
+          _buildActionButtons(filePath!, Get.context!),
       ],
     );
   }
@@ -439,13 +478,7 @@ class DocumentViewerScreen extends StatelessWidget {
         final uri = Uri.tryParse(path);
         if (uri != null) {
           if (!await launchUrl(uri, mode: LaunchMode.externalApplication)) {
-            Get.snackbar(
-              TranslationKeys.error.tr,
-              TranslationKeys.couldNotOpenDocument.tr,
-              snackPosition: SnackPosition.BOTTOM,
-              backgroundColor: Colors.red.shade50,
-              colorText: Colors.red,
-            );
+            Utils.snackBar(TranslationKeys.couldNotOpenDocument.tr, true);
           }
         }
       },

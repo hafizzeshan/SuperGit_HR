@@ -50,21 +50,28 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
           final todayModel = controller.todayLogsModel.value;
 
           if (todayModel == null || todayModel.logs.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
+            return RefreshIndicator(
+              onRefresh: () async => controller.getTodayLogs(),
+              color: kPrimaryColor,
+              child: ListView(
+                physics: const AlwaysScrollableScrollPhysics(
+                  parent: BouncingScrollPhysics(),
+                ),
                 children: [
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.3),
                   Icon(
                     Icons.history_toggle_off_rounded,
                     size: 60,
                     color: Colors.grey.shade300,
                   ),
                   const SizedBox(height: 16),
-                  Text(
-                    TranslationKeys.noActivityLoggedToday.tr,
-                    style: TextStyle(
-                      color: Colors.grey.shade500,
-                      fontWeight: FontWeight.w600,
+                  Center(
+                    child: Text(
+                      TranslationKeys.noActivityLoggedToday.tr,
+                      style: TextStyle(
+                        color: Colors.grey.shade500,
+                        fontWeight: FontWeight.w600,
+                      ),
                     ),
                   ),
                 ],
@@ -77,9 +84,13 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
             color: kPrimaryColor,
             child: CustomAnimatedListView(
               padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              physics: const AlwaysScrollableScrollPhysics(
+                parent: BouncingScrollPhysics(),
+              ),
               itemCount: todayModel.logs.length,
               itemBuilder: (_, index) {
-                final log = todayModel.logs[index];
+                final reversedLogs = todayModel.logs.reversed.toList();
+                final log = reversedLogs[index];
 
                 return _modernHistoryTile(
                   type: log.clockType,

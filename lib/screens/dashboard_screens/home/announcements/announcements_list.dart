@@ -94,10 +94,10 @@ class AnnouncementsListScreen extends StatelessWidget {
     final title = announcement.title ?? TranslationKeys.announcement.tr;
     final message = announcement.message ?? TranslationKeys.tapToViewDetails.tr;
     final date = announcement.publishAt != null
-        ? DateFormat('dd MMM').format(DateTime.parse(announcement.publishAt!))
+        ? DateFormat('dd MMM', Get.locale?.languageCode).format(DateTime.parse(announcement.publishAt!))
         : TranslationKeys.today.tr;
     final time = announcement.publishAt != null
-         ? DateFormat('HH:mm').format(DateTime.parse(announcement.publishAt!))
+         ? DateFormat('HH:mm', Get.locale?.languageCode).format(DateTime.parse(announcement.publishAt!))
          : "";
 
     // Alternate card styles for visual variety

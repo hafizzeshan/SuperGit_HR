@@ -33,20 +33,22 @@ class LeaveRequestModel {
 
   factory LeaveRequestModel.fromJson(Map<String, dynamic> json) {
     return LeaveRequestModel(
-      id: json["id"],
-      employeeId: json["employee_id"],
-      leaveTypeId: json["leave_type_id"],
-      startDate: json["start_date"],
-      endDate: json["end_date"],
-      totalDays: json["total_days"],
-      status: json["status"],
-      approverId: json["approver_id"],
-      reason: json["reason"],
-      approvedAt: json["approved_at"],
-      createdAt: json["created_at"],
-      documentUrl: json["document_url"],
-      updatedAt: json["updated_at"],
-      deletedAt: json["deleted_at"],
+      id: json["id"]?.toString(),
+      employeeId: json["employee_id"]?.toString(),
+      leaveTypeId: json["leave_type_id"]?.toString(),
+      startDate: json["start_date"]?.toString(),
+      endDate: json["end_date"]?.toString(),
+      totalDays: json["total_days"] is int
+          ? json["total_days"]
+          : int.tryParse(json["total_days"]?.toString() ?? ""),
+      status: json["status"]?.toString(),
+      approverId: json["approver_id"]?.toString(),
+      reason: json["reason"]?.toString(),
+      approvedAt: json["approved_at"]?.toString(),
+      createdAt: json["created_at"]?.toString(),
+      documentUrl: json["document_url"]?.toString(),
+      updatedAt: json["updated_at"]?.toString(),
+      deletedAt: json["deleted_at"]?.toString(),
     );
   }
 

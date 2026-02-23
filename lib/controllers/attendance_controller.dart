@@ -9,6 +9,7 @@ import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/network/repository/attendance_repo/attendance_repo.dart';
 import 'package:supergithr/models/attendance_history_model.dart';
 import 'package:supergithr/models/attendance_edit_request_model.dart';
+import 'package:supergithr/controllers/employee_history_controller.dart';
 
 import '../translations/translations/translation_keys.dart';
 
@@ -74,6 +75,12 @@ class AttendanceController extends GetxController {
       );
       await prefs.setString('clock_in_address', clockInAddress.value);
       _startTimer();
+      
+      // ✅ Fetch today's logs to update history
+      if (Get.isRegistered<AttendanceHistoryController>()) {
+         Get.find<AttendanceHistoryController>().getTodayLogs();
+      }
+
       // Navigate to dashboard first, then to time clock screen
       // This prevents going back to the map screen
       Get.offAll(() => DashBorad(index: 0));
@@ -108,6 +115,12 @@ class AttendanceController extends GetxController {
       _stopTimer();
       await prefs.remove('clock_in_time');
       await prefs.remove('clock_in_address');
+      
+      // ✅ Fetch today's logs to update history
+      if (Get.isRegistered<AttendanceHistoryController>()) {
+         Get.find<AttendanceHistoryController>().getTodayLogs();
+      }
+
       return response;
     }
     return null;

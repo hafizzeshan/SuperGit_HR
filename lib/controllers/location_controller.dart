@@ -57,8 +57,9 @@ class LocationController extends GetxController {
       isLoading.value = true;
       address.value = '';
 
+      final String languageCode = Get.locale?.languageCode ?? 'en';
       final url =
-          "https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.latitude},${coords.longitude}&key=$googleApiKey";
+          "https://maps.googleapis.com/maps/api/geocode/json?latlng=${coords.latitude},${coords.longitude}&key=$googleApiKey&language=$languageCode";
 
       final response = await http.get(Uri.parse(url));
 
@@ -89,6 +90,12 @@ class LocationController extends GetxController {
   /// 🔄 Local fallback using device geocoding
   Future<void> _getAddressFromGeocoding(LatLng coords) async {
     try {
+      final String languageCode = Get.locale?.languageCode ?? 'en';
+      try {
+        await setLocaleIdentifier(languageCode);
+      } catch (e) {
+        print("Set locale identifier failed: $e");
+      }
       List<Placemark> placemarks = await placemarkFromCoordinates(
         coords.latitude,
         coords.longitude,
@@ -105,7 +112,7 @@ class LocationController extends GetxController {
           p.administrativeArea,
           p.postalCode,
           p.country,
-        ].where((e) => e != null && e!.isNotEmpty).join(', ');
+        ].where((e) => e != null && e.isNotEmpty).join(', ');
 
         print('📍 Local Geocoding Address: ${address.value}');
       } else {

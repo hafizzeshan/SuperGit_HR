@@ -22,6 +22,9 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
   @override
   void initState() {
     super.initState();
+    // Clear form to ensure no stale data remains when navigating
+    _loanController.clearForm();
+
     // Set default value
     if (_loanController.installmentsController.text.isEmpty) {
       _loanController.installmentsController.text = "12";

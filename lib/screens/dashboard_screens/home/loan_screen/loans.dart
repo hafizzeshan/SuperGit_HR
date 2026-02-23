@@ -288,11 +288,11 @@ class _LoanScreenState extends State<LoanScreen> {
                     children: [
                       _detailRow(TranslationKeys.purpose.tr, loan.purpose),
                       const SizedBox(height: 16),
-                      _detailRow("Installments", "${loan.installments}"),
+                      _detailRow(TranslationKeys.installments.tr, "${loan.installments}"),
                       const SizedBox(height: 16),
-                      _detailRow("Monthly", "${loan.monthlyInstallment}"),
+                      _detailRow(TranslationKeys.monthlyInstallment.tr, "${loan.monthlyInstallment}"),
                       const SizedBox(height: 16),
-                      _detailRow("Start Month", loan.startMonth),
+                      _detailRow(TranslationKeys.startMonth.tr, loan.startMonth),
                       const SizedBox(height: 16),
                       _detailRow(
                           TranslationKeys.remaining.tr, "${loan.remainingAmount}"),

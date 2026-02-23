@@ -627,6 +627,10 @@ class EnglishLocal {
       TranslationKeys.errorPickingFile: "Error picking file",
       TranslationKeys.noRecordsFor: "No records for",
       TranslationKeys.failedToRetrieveAttendanceID: "Failed to retrieve attendance ID specific to this session.",
+      TranslationKeys.attachDocumentOptional: "Attach Document (Optional)",
+      TranslationKeys.selectedDocument: "Selected Document",
+      TranslationKeys.uploadDocument: "Upload Document",
+      TranslationKeys.noFileSelected: "No file selected",
     };
   }
 }

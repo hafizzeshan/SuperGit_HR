@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:printing/printing.dart';
+import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/CustomButton.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
@@ -146,19 +147,9 @@ class UIHelper {
     bool? isError,
   }) {
     if (isError!) {
-      Get.snackbar(
-        title.tr,
-        message.tr,
-        backgroundColor: Colors.red,
-        colorText: Colors.white,
-      );
+      Utils.snackBar(message.tr, true);
     } else {
-      Get.snackbar(
-        title.tr,
-        message.tr,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-      );
+      Utils.snackBar(message.tr, false);
     }
   }
 
@@ -400,11 +391,7 @@ class UIHelper {
     );
   }
 
-  static Widget amountTile({
-    leadingColor,
-    titleText,
-    trailingAmont,
-  }) {
+  static Widget amountTile({leadingColor, titleText, trailingAmont}) {
     return ListTile(
       contentPadding: EdgeInsets.zero,
       horizontalTitleGap: 8.0,
@@ -816,7 +803,7 @@ class UIHelper {
               UIHelper.verticalSpaceMd35,
               bottomWidget ??
                   CustomButton(() {
-                    Get.back();
+                    Navigator.pop(context);
                   }, text: "Button"),
             ],
           ),
