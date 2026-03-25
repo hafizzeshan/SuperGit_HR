@@ -1,6 +1,7 @@
 class AppAssets {
   /// TODO: define all the assets use in app
-  static String logo = "assets/icons/logo1.png";
+  static String logo = "assets/icons/newlogo1.png";
+  
   static String splashLogo2 = "assets/icons/splashlogo2.png";
   //static String splashLogo2 = "assets/icons/ss.png";
 

@@ -125,32 +125,33 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
   Widget _buildDocumentsList() {
     final docs = _docController.documents;
 
-    // Filter into categories
-    final idCards = docs.where((d) {
-      final t = (d.documentType ?? "").toLowerCase();
-      return t.contains("id") || t.contains("national") || t.contains("iqama");
-    }).toList();
+    // Group documents exactly by category
+    final Map<String, List<dynamic>> groupedDocs = {};
+    for (var doc in docs) {
+      String type = doc.documentType ?? TranslationKeys.others;
+      
+      // Attempt to map older hardcoded names to universal keys for consistency,
+      // while keeping any other distinct documentType exactly as was saved.
+      final t = type.toLowerCase();
+      if (t == "national id" || t == "nationalid" || t == "هوية وطنية" || t == "بطاقة" || t == "شناختی") {
+        type = TranslationKeys.nationalID;
+      } else if (t == "iqama" || t == "إقامة" || t == "اقامہ") {
+        type = TranslationKeys.iqama;
+      } else if (t == "passport" || t == "جواز" || t == "پاسپورٹ") {
+        type = TranslationKeys.passport;
+      } else if (t == "visa" || t == "تأشيرة" || t == "ویزا") {
+        type = TranslationKeys.visa;
+      } else if (t == "degree certificate" || t == "education" || t == "certificate" || t == "شهادة" || t == "تعلیم" || t.contains("ڈگری")) {
+        type = TranslationKeys.degreeCertificate;
+      } else if (t == "others" || t == "أخرى" || t == "دیگر") {
+        type = TranslationKeys.others;
+      }
 
-    final passports = docs.where((d) {
-      final t = (d.documentType ?? "").toLowerCase();
-      return t.contains("passport");
-    }).toList();
-
-    final visas = docs.where((d) {
-      final t = (d.documentType ?? "").toLowerCase();
-      return t.contains("visa");
-    }).toList();
-
-    final education = docs.where((d) {
-      final t = (d.documentType ?? "").toLowerCase();
-      return t.contains("degree") || t.contains("education") || t.contains("certificate");
-    }).toList();
-
-    // "Others" are those not in above lists
-    final others = docs.where((d) {
-      return !idCards.contains(d) && !passports.contains(d) && !visas.contains(d) && !education.contains(d);
-    }).toList();
-
+      if (!groupedDocs.containsKey(type)) {
+        groupedDocs[type] = [];
+      }
+      groupedDocs[type]!.add(doc);
+    }
 
     return ListView(
       padding: const EdgeInsets.only(bottom: 20),
@@ -158,12 +159,10 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
         // Header Stats
         _buildHeaderStats(),
 
-        // Sections
-        if (idCards.isNotEmpty) _buildDocTypeSection(TranslationKeys.idCards.tr, idCards),
-        if (passports.isNotEmpty) _buildDocTypeSection(TranslationKeys.passport.tr, passports),
-        if (visas.isNotEmpty) _buildDocTypeSection(TranslationKeys.visa.tr, visas),
-        if (education.isNotEmpty) _buildDocTypeSection(TranslationKeys.education.tr, education),
-        if (others.isNotEmpty) _buildDocTypeSection(TranslationKeys.others.tr, others),
+        // Dynamic Sections
+        ...groupedDocs.entries.map((entry) {
+          return _buildDocTypeSection(entry.key.tr, entry.value);
+        }).toList(),
         
         const SizedBox(height: 20),
       ],
@@ -546,7 +545,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kText(
-                            text: doc.documentType ?? TranslationKeys.document.tr,
+                            text: (doc.documentType ?? TranslationKeys.document).toString().tr,
                             fSize: 16,
                             fWeight: FontWeight.bold,
                             tColor: Colors.black87,

@@ -501,6 +501,7 @@ class EnglishLocal {
       TranslationKeys.enterLoanAmount: "Enter Loan Amount",
       TranslationKeys.startMonth: "Start Month (YYYY-MM)",
       TranslationKeys.purposeOfLoan: "Purpose of Loan",
+      TranslationKeys.purpose: "Purpose",
       TranslationKeys.importantCompanyUpdate: "Important Company Update",
       TranslationKeys.todayAtTime: "Today, 2:30 PM",
       TranslationKeys.announcementBrief:

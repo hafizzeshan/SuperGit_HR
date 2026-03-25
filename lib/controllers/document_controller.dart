@@ -76,6 +76,7 @@ class DocumentController extends GetxController {
         issueDate.isEmpty ||
         expiryDate.isEmpty ||
         filePath.isEmpty) {
+      FocusManager.instance.primaryFocus?.unfocus();
       Utils.snackBar(TranslationKeys.pleaseFillAllRequiredFields.tr, true);
       return;
     }
@@ -84,6 +85,7 @@ class DocumentController extends GetxController {
       final issue = DateTime.parse(issueDate);
       final expiry = DateTime.parse(expiryDate);
       if (expiry.isBefore(issue)) {
+        FocusManager.instance.primaryFocus?.unfocus();
         Utils.snackBar(TranslationKeys.endDateCannotBeBeforeStartDate.tr, true);
         return;
       }

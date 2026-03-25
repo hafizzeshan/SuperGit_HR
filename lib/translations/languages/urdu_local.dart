@@ -508,6 +508,7 @@ class UrduLocal {
       TranslationKeys.enterLoanAmount: "قرض کی رقم درج کریں",
       TranslationKeys.startMonth: "شروع کا مہینہ (YYYY-MM)",
       TranslationKeys.purposeOfLoan: "قرض کا مقصد",
+      TranslationKeys.purpose: "مقصد",
       TranslationKeys.importantCompanyUpdate: "کمپنی کی اہم اپ ڈیٹ",
       TranslationKeys.todayAtTime: "آج، دوپہر 2:30 بجے",
       TranslationKeys.announcementBrief:

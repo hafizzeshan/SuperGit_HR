@@ -76,6 +76,7 @@ class TranslationKeys {
   static const String chat = "chat";
   static const String setting = "setting";
   static const String cancel = "Cancel";
+  static const String invalidTime = "invalidTime";
   static const String editProfile = "editProfile";
   static const String phone = "phone";
   static const String email = "email";

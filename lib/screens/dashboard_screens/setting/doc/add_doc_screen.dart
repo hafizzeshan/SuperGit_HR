@@ -71,7 +71,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                           Expanded(
                             child: kText(
                               text: controller.documentTypeController.text.isNotEmpty
-                                  ? controller.documentTypeController.text
+                                  ? controller.documentTypeController.text.tr
                                   : TranslationKeys.documentType.tr,
                               fSize: 15.0,
                               textalign: TextAlign.start,
@@ -233,7 +233,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                   final type = docTypes[index];
                   return InkWell(
                     onTap: () {
-                      controller.documentTypeController.text = type['name'].toString().tr;
+                      controller.documentTypeController.text = type['name'].toString();
                       Get.back();
                       setState(() {});
                     },

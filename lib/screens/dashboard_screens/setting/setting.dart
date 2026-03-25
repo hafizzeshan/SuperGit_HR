@@ -1,7 +1,10 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
+import 'package:package_info_plus/package_info_plus.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
@@ -34,10 +37,25 @@ class AboutScreen extends StatefulWidget {
 
 class _AboutScreenState extends State<AboutScreen> {
   ProfileController profileController = Get.find<ProfileController>();
+  String _version = '';
+  String _buildNumber = '';
+  bool _isPlayStore = false;
+
   @override
   void initState() {
     super.initState();
-    // pr.getUserData();
+    _loadVersion();
+  }
+
+  Future<void> _loadVersion() async {
+    final info = await PackageInfo.fromPlatform();
+    final isPlayStore =
+        Platform.isAndroid && info.installerStore == 'com.android.vending';
+    setState(() {
+      _version = info.version;
+      _buildNumber = info.buildNumber;
+      _isPlayStore = isPlayStore;
+    });
   }
 
   @override
@@ -50,14 +68,13 @@ class _AboutScreenState extends State<AboutScreen> {
 
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitoutAction(
+      appBar: appBarrWitAction(
         title: TranslationKeys.about.tr,
-        leadingWidget: SizedBox(),
+        leadingWidget: const SizedBox(),
+        actionwidget: _buildVersionBadge(),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: CustomAnimatedListView(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
           itemCount: 9, // 1 Spacer + 1 Profile + 1 Spacer + 6 Actions
@@ -655,9 +672,11 @@ class _AboutScreenState extends State<AboutScreen> {
 
       // 2. Clear SharedPreferences data but PRESERVE the language setting
       final prefs = await SharedPreferences.getInstance();
-      final String? currentLocal = prefs.getString("local"); // Save current language
+      final String? currentLocal = prefs.getString(
+        "local",
+      ); // Save current language
       await prefs.clear();
-      
+
       if (currentLocal != null) {
         await prefs.setString("local", currentLocal); // Restore language
         print("✅ Language preference preserved: $currentLocal");
@@ -718,6 +737,54 @@ class _AboutScreenState extends State<AboutScreen> {
       // Even if there's an error, still try to navigate to splash
       Get.offAll(() => const SplashScreen());
     }
+  }
+
+  Widget _buildVersionBadge() {
+    final String label;
+    final Color badgeColor;
+
+    if (Platform.isAndroid) {
+      label = _isPlayStore ? 'Live' : 'Sideload';
+      badgeColor =
+          _isPlayStore ? const Color(0xFF2E7D32) : const Color(0xFFE65100);
+    } else {
+      label = 'TestFlight';
+      badgeColor = const Color(0xFF1565C0);
+    }
+    final versionText = _version.isNotEmpty ? 'v$_version ($_buildNumber)' : '';
+
+    return Container(
+      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+      decoration: BoxDecoration(
+        color: badgeColor.withValues(alpha: 0.1),
+        borderRadius: BorderRadius.circular(5),
+        border: Border.all(color: badgeColor.withValues(alpha: 0.4)),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        crossAxisAlignment: CrossAxisAlignment.center,
+        children: [
+          Text(
+            label,
+            style: TextStyle(
+              fontSize: 10,
+              fontWeight: FontWeight.bold,
+              color: badgeColor,
+              letterSpacing: 0.5,
+            ),
+          ),
+          UIHelper.horizontalSpaceSm10,
+          if (versionText.isNotEmpty)
+            Text(
+              versionText,
+              style: TextStyle(
+                fontSize: 9,
+                color: badgeColor.withOpacity(0.85),
+              ),
+            ),
+        ],
+      ),
+    );
   }
 
   Widget _buildProfileCard({required String name, required String phone}) {
@@ -800,15 +867,15 @@ class _AboutScreenState extends State<AboutScreen> {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        margin: const EdgeInsets.only(bottom: 12), // Add vertical margin for list view spacing
+        margin: const EdgeInsets.only(
+          bottom: 12,
+        ), // Add vertical margin for list view spacing
         width: Get.width,
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(16),
-          border: Border.all(
-            color: Colors.grey.shade200,
-          ),
+          border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.05),

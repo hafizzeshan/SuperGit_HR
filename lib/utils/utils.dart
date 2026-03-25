@@ -65,7 +65,7 @@ class Utils {
                       radius: 15,
                       backgroundColor: whiteColor,
                       child: Image.asset(
-                        "assets/icons/logo1.png",
+                        "assets/icons/newlogo.png",
                         height: 25.sp,
                         width: 25.sp,
                       ),
@@ -107,7 +107,10 @@ class Utils {
     );
 
     Future.delayed(Duration.zero, () {
-      delightToast.show(context ?? Get.context!);
+      final ctx = context ?? Get.overlayContext ?? Get.context;
+      if (ctx != null) {
+        delightToast.show(ctx);
+      }
     });
   }
 

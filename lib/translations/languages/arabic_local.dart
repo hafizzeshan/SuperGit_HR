@@ -505,6 +505,7 @@ class ArabicLocal {
       TranslationKeys.enterLoanAmount: "أدخل مبلغ القرض",
       TranslationKeys.startMonth: "شهر البداية (YYYY-MM)",
       TranslationKeys.purposeOfLoan: "الغرض من القرض",
+      TranslationKeys.purpose: "الغرض",
       TranslationKeys.importantCompanyUpdate: "تحديث مهم للشركة",
       TranslationKeys.todayAtTime: "اليوم، 2:30 مساءً",
       TranslationKeys.announcementBrief:

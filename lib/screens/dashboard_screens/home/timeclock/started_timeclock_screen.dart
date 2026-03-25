@@ -302,11 +302,12 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
 
             // Date Picker
             Future<void> pickDate() async {
+              final now = DateTime.now();
               final picked = await showDatePicker(
                 context: context,
-                initialDate: selectedDate,
+                initialDate: selectedDate.isAfter(now) ? now : selectedDate,
                 firstDate: DateTime(2000),
-                lastDate: DateTime(2100),
+                lastDate: now,
                 builder: (context, child) {
                   return Theme(
                     data: Theme.of(context).copyWith(
@@ -399,7 +400,8 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
 
                       // Date Selection Card
                       InkWell(
-                        onTap: pickDate,
+                        onTap:(){},
+                        // pickDate,
                         borderRadius: BorderRadius.circular(16),
                         child: Container(
                           padding: const EdgeInsets.all(16),
@@ -638,6 +640,32 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                         isLoading: false,
                         text: TranslationKeys.sendForApproval.tr,
                         onTap: () async {
+                          // Validation against future times
+                          final now = DateTime.now();
+                          final dtStart = DateTime(
+                            selectedDate.year,
+                            selectedDate.month,
+                            selectedDate.day,
+                            startTime.hour,
+                            startTime.minute,
+                          );
+                          var dtEnd = DateTime(
+                            selectedDate.year,
+                            selectedDate.month,
+                            selectedDate.day,
+                            endTime.hour,
+                            endTime.minute,
+                          );
+
+                          if (dtEnd.isBefore(dtStart)) {
+                            dtEnd = dtEnd.add(const Duration(days: 1));
+                          }
+
+                          if (dtStart.isAfter(now) || dtEnd.isAfter(now)) {
+                            Utils.snackBar(TranslationKeys.invalidTime.tr, true); // Fallback to a localized or safe string
+                            return;
+                          }
+
                           Navigator.pop(context);
                           
                           // Ensure we have coords
