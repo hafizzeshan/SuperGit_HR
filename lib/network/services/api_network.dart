@@ -60,10 +60,10 @@ class ApiNetworkService {
 
           // ✅ Handle 401 Unauthorized - Session expired
           // BUT: Skip this for login endpoint (401 there means wrong credentials)
-          if (e.response?.statusCode == 401 && 
+          if (e.response?.statusCode == 401 &&
               !e.requestOptions.path.contains('auth/login')) {
             print(
-              '🔐 401 Unauthorized - Clearing token and redirecting to login'
+              '🔐 401 Unauthorized - Clearing token and redirecting to login',
             );
             await clearAuthToken();
 

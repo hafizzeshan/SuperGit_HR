@@ -305,10 +305,9 @@ class _AboutScreenState extends State<AboutScreen> {
       );
 
       // Get LocationController
-      final locationController =
-          Get.isRegistered<LocationController>()
-              ? Get.find<LocationController>()
-              : Get.put(LocationController());
+      final locationController = Get.isRegistered<LocationController>()
+          ? Get.find<LocationController>()
+          : Get.put(LocationController());
 
       // Get current location and address
       await locationController.getCurrentLocation();
@@ -347,193 +346,191 @@ class _AboutScreenState extends State<AboutScreen> {
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder:
-          (context) => Container(
-            decoration: const BoxDecoration(
-              gradient: kMainBackgroundGradient,
-              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+      builder: (context) => Container(
+        decoration: const BoxDecoration(
+          gradient: kMainBackgroundGradient,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
+        ),
+        padding: EdgeInsets.only(
+          left: 20,
+          right: 20,
+          top: 20,
+          bottom: MediaQuery.of(context).padding.bottom + 20,
+        ),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Drag Handle
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(10),
+                ),
+              ),
             ),
-            padding: EdgeInsets.only(
-              left: 20,
-              right: 20,
-              top: 20,
-              bottom: MediaQuery.of(context).padding.bottom + 20,
-            ),
-            child: Column(
-              mainAxisSize: MainAxisSize.min,
-              crossAxisAlignment: CrossAxisAlignment.start,
+            const SizedBox(height: 24),
+
+            // Title Row
+            Row(
               children: [
-                // Drag Handle
-                Center(
-                  child: Container(
-                    width: 40,
-                    height: 4,
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade300,
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                  ),
-                ),
-                const SizedBox(height: 24),
-
-                // Title Row
-                Row(
-                  children: [
-                    Container(
-                      padding: const EdgeInsets.all(12),
-                      decoration: BoxDecoration(
-                        color: Colors.orange.withOpacity(0.1),
-                        shape: BoxShape.circle,
-                      ),
-                      child: const Icon(
-                        Icons.warning_amber_rounded,
-                        color: Colors.orange,
-                        size: 28,
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          kText(
-                            text: TranslationKeys.clockOutRequired.tr,
-                            fSize: 18.0,
-                            fWeight: FontWeight.bold,
-                            tColor: Colors.black87,
-                          ),
-                          const SizedBox(height: 4),
-                          kText(
-                            text: TranslationKeys.currentlyClockedInMessage.tr,
-                            fSize: 13.0,
-                            tColor: Colors.grey.shade600,
-                          ),
-                        ],
-                      ),
-                    ),
-                  ],
-                ),
-
-                const SizedBox(height: 24),
-
-                // Location Card
                 Container(
-                  padding: const EdgeInsets.all(16),
+                  padding: const EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(16),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
-                        blurRadius: 10,
-                        offset: const Offset(0, 4),
-                      ),
-                    ],
+                    color: Colors.orange.withOpacity(0.1),
+                    shape: BoxShape.circle,
                   ),
-                  child: Row(
+                  child: const Icon(
+                    Icons.warning_amber_rounded,
+                    color: Colors.orange,
+                    size: 28,
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Container(
-                        padding: const EdgeInsets.all(8),
-                        decoration: BoxDecoration(
-                          color: kPrimaryColor.withOpacity(0.08),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Icon(
-                          Icons.location_on_rounded,
-                          color: kPrimaryColor,
-                          size: 20,
-                        ),
+                      kText(
+                        text: TranslationKeys.clockOutRequired.tr,
+                        fSize: 18.0,
+                        fWeight: FontWeight.bold,
+                        tColor: Colors.black87,
                       ),
-                      const SizedBox(width: 14),
-                      Expanded(
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            kText(
-                              text: TranslationKeys.clockOutLocation.tr,
-                              fSize: 12.0,
-                              fWeight: FontWeight.w600,
-                              tColor: Colors.grey.shade600,
-                            ),
-                            const SizedBox(height: 6),
-                            kText(
-                              text:
-                                  address.isNotEmpty
-                                      ? address
-                                      : TranslationKeys.gettingAddress.tr,
-                              fSize: 14.0,
-                              tColor: Colors.black87,
-                              maxLines: 3,
-                              textalign: TextAlign.left,
-                            ),
-                          ],
-                        ),
+                      const SizedBox(height: 4),
+                      kText(
+                        text: TranslationKeys.currentlyClockedInMessage.tr,
+                        fSize: 13.0,
+                        tColor: Colors.grey.shade600,
                       ),
                     ],
                   ),
-                ),
-
-                const SizedBox(height: 24),
-
-                kText(
-                  text: TranslationKeys.proceedWithLogoutAndClockOut.tr,
-                  fSize: 14.0,
-                  fWeight: FontWeight.w600,
-                  tColor: Colors.black87,
-                ),
-
-                const SizedBox(height: 24),
-
-                // Buttons
-                Row(
-                  children: [
-                    Expanded(
-                      child: OutlinedButton(
-                        onPressed: () => Navigator.pop(context),
-                        style: OutlinedButton.styleFrom(
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          side: BorderSide(color: Colors.grey.shade300),
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: kText(
-                          text: TranslationKeys.cancel.tr,
-                          fSize: 15.0,
-                          fWeight: FontWeight.w600,
-                          tColor: Colors.black87,
-                        ),
-                      ),
-                    ),
-                    const SizedBox(width: 16),
-                    Expanded(
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.pop(context);
-                          _autoClockOutAndLogout(coords: coords);
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: Colors.redAccent,
-                          padding: const EdgeInsets.symmetric(vertical: 16),
-                          elevation: 0,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(16),
-                          ),
-                        ),
-                        child: kText(
-                          text: TranslationKeys.yesLogout.tr,
-                          fSize: 15.0,
-                          fWeight: FontWeight.w600,
-                          tColor: Colors.white,
-                        ),
-                      ),
-                    ),
-                  ],
                 ),
               ],
             ),
-          ),
+
+            const SizedBox(height: 24),
+
+            // Location Card
+            Container(
+              padding: const EdgeInsets.all(16),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withOpacity(0.05),
+                    blurRadius: 10,
+                    offset: const Offset(0, 4),
+                  ),
+                ],
+              ),
+              child: Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    padding: const EdgeInsets.all(8),
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor.withOpacity(0.08),
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Icon(
+                      Icons.location_on_rounded,
+                      color: kPrimaryColor,
+                      size: 20,
+                    ),
+                  ),
+                  const SizedBox(width: 14),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        kText(
+                          text: TranslationKeys.clockOutLocation.tr,
+                          fSize: 12.0,
+                          fWeight: FontWeight.w600,
+                          tColor: Colors.grey.shade600,
+                        ),
+                        const SizedBox(height: 6),
+                        kText(
+                          text: address.isNotEmpty
+                              ? address
+                              : TranslationKeys.gettingAddress.tr,
+                          fSize: 14.0,
+                          tColor: Colors.black87,
+                          maxLines: 3,
+                          textalign: TextAlign.left,
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+
+            const SizedBox(height: 24),
+
+            kText(
+              text: TranslationKeys.proceedWithLogoutAndClockOut.tr,
+              fSize: 14.0,
+              fWeight: FontWeight.w600,
+              tColor: Colors.black87,
+            ),
+
+            const SizedBox(height: 24),
+
+            // Buttons
+            Row(
+              children: [
+                Expanded(
+                  child: OutlinedButton(
+                    onPressed: () => Navigator.pop(context),
+                    style: OutlinedButton.styleFrom(
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      side: BorderSide(color: Colors.grey.shade300),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: kText(
+                      text: TranslationKeys.cancel.tr,
+                      fSize: 15.0,
+                      fWeight: FontWeight.w600,
+                      tColor: Colors.black87,
+                    ),
+                  ),
+                ),
+                const SizedBox(width: 16),
+                Expanded(
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.pop(context);
+                      _autoClockOutAndLogout(coords: coords);
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.redAccent,
+                      padding: const EdgeInsets.symmetric(vertical: 16),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(16),
+                      ),
+                    ),
+                    child: kText(
+                      text: TranslationKeys.yesLogout.tr,
+                      fSize: 15.0,
+                      fWeight: FontWeight.w600,
+                      tColor: Colors.white,
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -578,10 +575,9 @@ class _AboutScreenState extends State<AboutScreen> {
       print("📍 Using location: ${coords.latitude}, ${coords.longitude}");
 
       // Get LocationController for address
-      final locationController =
-          Get.isRegistered<LocationController>()
-              ? Get.find<LocationController>()
-              : Get.put(LocationController());
+      final locationController = Get.isRegistered<LocationController>()
+          ? Get.find<LocationController>()
+          : Get.put(LocationController());
 
       // Clock out with coordinates from LocationController
       if (Get.isRegistered<AttendanceController>()) {
@@ -591,10 +587,9 @@ class _AboutScreenState extends State<AboutScreen> {
         await attendanceController.clockOut(
           method: "auto",
           sourceDevice: "mobile",
-          remarks:
-              locationController.address.value.isNotEmpty
-                  ? locationController.address.value
-                  : TranslationKeys.autoClockOutOnLogout.tr,
+          remarks: locationController.address.value.isNotEmpty
+              ? locationController.address.value
+              : TranslationKeys.autoClockOutOnLogout.tr,
           coords: coords, // ✅ Use coordinates from LocationController
         );
 
@@ -670,18 +665,24 @@ class _AboutScreenState extends State<AboutScreen> {
       await apiService.clearAuthToken();
       print("✅ Auth token cleared from API service");
 
-      // 2. Clear SharedPreferences data but PRESERVE the language setting
+      // 2. Clear SharedPreferences data but PRESERVE language and saved credentials
       final prefs = await SharedPreferences.getInstance();
-      final String? currentLocal = prefs.getString(
-        "local",
-      ); // Save current language
+      final String? currentLocal = prefs.getString("local");
+      final String? savedEmployeeCode = prefs.getString("saved_employee_code");
+      final String? savedPassword = prefs.getString("saved_password");
       await prefs.clear();
 
       if (currentLocal != null) {
-        await prefs.setString("local", currentLocal); // Restore language
+        await prefs.setString("local", currentLocal);
         print("✅ Language preference preserved: $currentLocal");
       }
-      print("✅ Other SharedPreferences data cleared");
+      if (savedEmployeeCode != null) {
+        await prefs.setString("saved_employee_code", savedEmployeeCode);
+      }
+      if (savedPassword != null) {
+        await prefs.setString("saved_password", savedPassword);
+      }
+      print("✅ Other SharedPreferences data cleared, credentials preserved");
 
       // 3. Reset all controllers to clear any cached data
       try {
@@ -745,8 +746,9 @@ class _AboutScreenState extends State<AboutScreen> {
 
     if (Platform.isAndroid) {
       label = _isPlayStore ? 'Live' : 'Sideload';
-      badgeColor =
-          _isPlayStore ? const Color(0xFF2E7D32) : const Color(0xFFE65100);
+      badgeColor = _isPlayStore
+          ? const Color(0xFF2E7D32)
+          : const Color(0xFFE65100);
     } else {
       label = 'TestFlight';
       badgeColor = const Color(0xFF1565C0);

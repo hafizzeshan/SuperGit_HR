@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/models/all_logs_model.dart';
 import 'package:supergithr/models/today_logs_model.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -32,12 +33,44 @@ class AttendanceHistoryController extends GetxController {
       if (response != null) {
         todayLogsModel.value = TodayLogsModel.fromMap(response);
         log("✅ Loaded Today's Logs");
+
+        // Auto clock-out if server says not clocked in but local timer is running
+        _checkAndAutoClockOut();
       }
     } catch (e, st) {
       // Don't show error message - let the 401 interceptor handle session expiry
       log("❌ Error loading today's logs: $e", stackTrace: st);
     } finally {
       isLoadingToday.value = false;
+    }
+  }
+
+  /// ✅ Auto clock-out if server says not clocked in but local timer is running,
+  /// or if clock-in time exceeds 13 hours
+  void _checkAndAutoClockOut() {
+    if (!Get.isRegistered<AttendanceController>()) return;
+    final attendanceController = Get.find<AttendanceController>();
+    final isLocallyRunning = attendanceController.clockInTime.value != null;
+
+    if (!isLocallyRunning) return;
+
+    final todayLogs = todayLogsModel.value;
+
+    // Case 1: Server says not clocked in but local timer is running
+    if (todayLogs != null && !todayLogs.currentlyClockedIn) {
+      log(
+        "⚠️ Server says not clocked in, but local timer is running. Auto stopping timer.",
+      );
+      attendanceController.autoStopLocalTimer();
+      return;
+    }
+
+    // Case 2: Clock-in time exceeds 13 hours
+    final clockInTime = attendanceController.clockInTime.value!;
+    final elapsed = DateTime.now().difference(clockInTime);
+    if (elapsed.inHours >= 13) {
+      log("⚠️ Clock-in exceeded 13 hours. Auto calling clock-out API.");
+      attendanceController.autoClockOut();
     }
   }
 

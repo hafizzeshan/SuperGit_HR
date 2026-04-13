@@ -11,16 +11,16 @@ import 'package:supergithr/controllers/announcement_controller.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/screens/auth/login_Screen.dart';
 import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
+import 'package:supergithr/services/force_update_service.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/app_assets.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
+import 'package:supergithr/views/force_update_dialog.dart';
 
 class SplashScreen extends StatefulWidget {
   const SplashScreen({super.key});
-
-  
 
   @override
   _SplashScreenState createState() => _SplashScreenState();
@@ -41,6 +41,17 @@ class _SplashScreenState extends State<SplashScreen> {
   Future<void> initializeApp() async {
     print("🔹 Initializing App...");
     await Future.delayed(const Duration(seconds: 2));
+
+    // ✅ Check for force update before anything else
+    final updateInfo = await ForceUpdateService().checkForUpdate();
+    if (updateInfo != null && mounted) {
+      print(
+        "🔹 Force update required: v${updateInfo.currentVersion} → v${updateInfo.minVersion}",
+      );
+      if (mounted) setState(() => isLoading = false);
+      ForceUpdateDialog.show(context, updateInfo);
+      return;
+    }
 
     final pref = await SharedPreferences.getInstance();
     final token = pref.getString("authToken") ?? "";
@@ -89,7 +100,8 @@ class _SplashScreenState extends State<SplashScreen> {
         attendanceHistoryController.getTodayLogs();
         holidayController.fetchHolidays(); // ✅ Fetch holidays in splash
         loanController.fetchLoans(); // ✅ Fetch loans in splash
-        announcementController.fetchAnnouncements(); // ✅ Fetch announcements in splash
+        announcementController
+            .fetchAnnouncements(); // ✅ Fetch announcements in splash
 
         Get.offAll(() => DashBorad(index: 0));
         print("🔹 Token valid, navigating to Dashboard.");
@@ -114,9 +126,7 @@ class _SplashScreenState extends State<SplashScreen> {
       body: Container(
         width: double.infinity,
         height: double.infinity,
-        decoration: const BoxDecoration(
-          gradient: splashGradient,
-        ),
+        decoration: const BoxDecoration(gradient: splashGradient),
         child: Center(
           child: Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20),
@@ -140,7 +150,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   child: Image.asset(AppAssets.splashLogo2),
                 ),
                 Spacer(),
-                
+
                 // Loading Indicator with WHITE color since bg is blue/gradient
                 SizedBox(
                   height: 20.sp,
@@ -151,7 +161,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   ),
                 ),
                 SizedBox(height: 2.h),
-                
+
                 // Text in WHITE
                 kText(
                   text: TranslationKeys.loading.tr,
@@ -159,7 +169,7 @@ class _SplashScreenState extends State<SplashScreen> {
                   fWeight: FontWeight.bold,
                   tColor: kPrimaryColor,
                 ),
-                
+
                 Spacer(),
               ],
             ),

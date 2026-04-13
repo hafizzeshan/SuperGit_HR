@@ -186,6 +186,44 @@ class AttendanceController extends GetxController {
     }
   }
 
+  /// ✅ Auto stop local timer (when server says not clocked in)
+  Future<void> autoStopLocalTimer() async {
+    print("🔹 Auto stopping local timer - server says not clocked in");
+    _stopTimer();
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.remove('clock_in_time');
+    await prefs.remove('clock_in_address');
+  }
+
+  /// ✅ Auto clock-out via API (when clock-in exceeds 13 hours)
+  Future<void> autoClockOut() async {
+    print("🔹 Auto clock-out triggered - exceeded 13 hours");
+    final prefs = await SharedPreferences.getInstance();
+    final String employeeId = prefs.getString('employee_id') ?? "";
+
+    final data = {
+      "method": "App",
+      "source_device": "Mobile",
+      "location": {"latitude": 0.0, "longitude": 0.0},
+      "remarks": "Auto clock-out: exceeded 13 hours",
+      "employee_id": employeeId,
+    };
+
+    final response = await _repo.clockOut(data: data);
+    if (response != null) {
+      _stopTimer();
+      await prefs.remove('clock_in_time');
+      await prefs.remove('clock_in_address');
+      print("✅ Auto clock-out successful");
+    } else {
+      // If API fails, still stop local timer to stay in sync
+      _stopTimer();
+      await prefs.remove('clock_in_time');
+      await prefs.remove('clock_in_address');
+      print("⚠️ Auto clock-out API failed, local timer stopped");
+    }
+  }
+
   /// ✅ Timer handling
   void _startTimer() {
     _timer?.cancel();

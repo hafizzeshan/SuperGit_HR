@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
 import 'package:supergithr/controllers/login_controller.dart';
 import 'package:supergithr/views/CustomButton.dart';
@@ -34,15 +35,40 @@ class _LoginScreenState extends State<LoginScreen> {
   LoginController loginController = Get.find<LoginController>();
 
   @override
+  void initState() {
+    super.initState();
+    _loadSavedCredentials();
+  }
+
+  Future<void> _loadSavedCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    final savedCode = prefs.getString('saved_employee_code') ?? '';
+    final savedPassword = prefs.getString('saved_password') ?? '';
+    if (savedCode.isNotEmpty) {
+      employeeCodeController.text = savedCode;
+    }
+    if (savedPassword.isNotEmpty) {
+      passwordController.text = savedPassword;
+    }
+  }
+
+  Future<void> _saveCredentials() async {
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString(
+      'saved_employee_code',
+      employeeCodeController.text.trim(),
+    );
+    await prefs.setString('saved_password', passwordController.text.trim());
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Scaffold(
       extendBodyBehindAppBar: true,
       body: Container(
         height: Get.height,
         width: Get.width,
-        decoration: const BoxDecoration(
-          gradient: linearGradient2,
-        ),
+        decoration: const BoxDecoration(gradient: linearGradient2),
         child: Center(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
@@ -52,8 +78,10 @@ class _LoginScreenState extends State<LoginScreen> {
               children: [
                 // 🔹 Modern Card
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 24, vertical: 40),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 24,
+                    vertical: 40,
+                  ),
                   decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.circular(24),
@@ -175,6 +203,7 @@ class _LoginScreenState extends State<LoginScreen> {
                             onTap: () {
                               if (formKey.currentState!.validate()) {
                                 FocusManager.instance.primaryFocus?.unfocus();
+                                _saveCredentials();
                                 final payload = {
                                   "employee_code":
                                       employeeCodeController.text.trim(),
@@ -198,7 +227,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 30),
 
                 // 🔹 Language Selection Button
@@ -214,9 +243,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     decoration: BoxDecoration(
                       color: Colors.white.withOpacity(0.2),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(
-                        color: Colors.white.withOpacity(0.3),
-                      ),
+                      border: Border.all(color: Colors.white.withOpacity(0.3)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -238,9 +265,9 @@ class _LoginScreenState extends State<LoginScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 20),
-                
+
                 // Footer text
                 Text(
                   "© 2026 SuperGit HR. ${TranslationKeys.allRightsReserved.tr}",

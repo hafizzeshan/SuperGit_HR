@@ -1,8 +1,8 @@
 class AppURL {
   // shamas
   // static const String baseUrl = 'https://jzq6qslp-8080.asse.devtunnels.ms/api/';
-  // live
-  static const String baseUrl = 'https://hr1.api.supergitsa.com/api/';
+  // live (default — can be overridden by Firebase Remote Config)
+  static String baseUrl = 'https://hr1.api.supergitsa.com/api/';
 
   static String attendanceHistory(
     String employeeId,
@@ -11,17 +11,8 @@ class AppURL {
   ) =>
       "${baseUrl}attendance/history?employee_id=$employeeId&start_date=$startDate&end_date=$endDate";
 
-
   static const String loginApi = 'auth/login';
   static const String updateProfile = 'update-profile';
-  static const String getBusiness = 'business/list';
-  static const String getBranch = 'branch/list';
-  static const String getDepartment = 'department/getList';
-
-  static const String getDepartmentByIdd = 'practitioner/getByDepartment';
-  static const String getDoctorSlots = 'visit/getPractitionerSlots';
-  static const String createAppointment = 'appointment/create';
-  static const String business = 'business/list';
 
   static const String registerApi = 'register';
   static const String otpVerificationApi = 'verify_otp';
@@ -30,9 +21,6 @@ class AppURL {
 
   static const String confirmForgotPasswordApi = 'recover-password-confirm';
   static const String logOutApi = '/logout';
-  static const String visitsToday = '/visit/getPatientVisitById';
-  static const String forms = '/form/all?request_type=visit';
-  static const String submitDynamicForm = '/visit/internal-result-upload';
 
   // 🕒 Attendance APIs
   static const String clockInApi = "attendance/clock-in";
@@ -57,10 +45,6 @@ class AppURL {
 
   static const String loanApplyApi = 'payroll/loans';
 
-  static String category(v) {
-    return '/category/all/$v?request_type=visit';
-  }
-
   static String leaveHistory(v) {
     return 'employees/$v/leaves';
   }
@@ -73,24 +57,13 @@ class AppURL {
     return 'employees/$v';
   }
 
-  static String playStoreURL =
-      'https://play.google.com/store/apps/details?id=com.groomifysa';
-  static String appStoreURL =
-      'https://https://www.apple.com/app-store/?id=com.bytes.groomify';
+  static String playStoreURL = '';
+  static String appStoreURL = '';
 
-  static void updateBaseUrl(String? newUrl) {
-    //  baseUrl = newUrl ?? "https://fairly-notable-koala.ngrok-free.app/api/v3";
+  static void updateBaseUrl(String newUrl) {
+    if (newUrl.isNotEmpty) {
+      baseUrl = newUrl;
+      print("🔹 Base URL updated to: $baseUrl");
+    }
   }
-
-  // static void updateAppURL({
-  //   required String? playStore,
-  //   required String? appStore,
-  // }) {
-  //   playStoreURL =
-  //       playStore ??
-  //       "https://play.google.com/store/apps/details?id=com.groomifysa";
-  //   appStoreURL =
-  //       appStore ??
-  //       "https://https://www.apple.com/app-store/?id=com.bytes.groomify";
-  // }
 }

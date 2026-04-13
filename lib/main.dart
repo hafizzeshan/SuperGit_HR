@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:supergithr/firebase_options.dart';
 import 'package:supergithr/dependency_binding/dependency_bindings.dart';
 import 'package:supergithr/splash.dart';
 import 'package:supergithr/translations/translations/app_localizations.dart';
@@ -10,22 +12,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/controllers/translation_controller.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
-// @pragma('vm:entry-point')
-// // ✅ Background message handler
-// Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
-//   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-//   debugPrint("💤 Background message received: ${message.data}");
-// }
-
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await initializeDateFormatting();
-  // 1️⃣ Initialize Firebase first
-  // await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  // 2️⃣ Register background handler
-  // FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
-  // // 3️⃣ Initialize notification service
-  // await NotificationService().init();
+  // 1️⃣ Initialize Firebase
+  await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
   // 4️⃣ Shared preferences for translations
   SharedPreferences preferences = await SharedPreferences.getInstance();
   Get.put(TranslationController(preferences: preferences));
