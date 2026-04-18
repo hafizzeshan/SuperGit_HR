@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:supergithr/controllers/air_ticket_controller.dart';
 import 'package:supergithr/controllers/announcement_controller.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/document_controller.dart';
@@ -27,5 +28,6 @@ class DependencyBindings implements Bindings {
     Get.put(LoanController());
     Get.put(HolidayController());
     Get.put(AnnouncementController());
+    Get.put(AirTicketController());
   }
 }

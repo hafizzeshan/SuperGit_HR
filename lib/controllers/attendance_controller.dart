@@ -1,7 +1,9 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart' as geo;
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
+import 'package:location/location.dart' as loc;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/screens/dashboard_screens/home/timeclock/started_timeclock_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
@@ -10,6 +12,7 @@ import 'package:supergithr/network/repository/attendance_repo/attendance_repo.da
 import 'package:supergithr/models/attendance_history_model.dart';
 import 'package:supergithr/models/attendance_edit_request_model.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
+import 'package:supergithr/views/customText.dart';
 
 import '../translations/translations/translation_keys.dart';
 
@@ -40,6 +43,24 @@ class AttendanceController extends GetxController {
       clockInAddress.value = savedAddress ?? "";
       _startTimer();
     }
+  }
+
+  /// ✅ Sync local clock-in state from server's clock_time
+  /// Used when the app opens and the server says the user is clocked in —
+  /// timer is anchored to the server timestamp so elapsed time is accurate
+  /// even if the user was clocked in for hours before opening the app.
+  Future<void> syncClockInFromServer(
+    DateTime serverClockTime, {
+    String? address,
+  }) async {
+    clockInTime.value = serverClockTime;
+    if (address != null) clockInAddress.value = address;
+    final prefs = await SharedPreferences.getInstance();
+    await prefs.setString('clock_in_time', serverClockTime.toIso8601String());
+    if (address != null) {
+      await prefs.setString('clock_in_address', address);
+    }
+    _startTimer();
   }
 
   /// ✅ Clock-In (Start timer)
@@ -196,15 +217,101 @@ class AttendanceController extends GetxController {
   }
 
   /// ✅ Auto clock-out via API (when clock-in exceeds 13 hours)
-  Future<void> autoClockOut() async {
+  /// Forces user to enable GPS if off, fetches real coords, then posts clock-out.
+  /// Returns true on success; false if user cancelled GPS / denied permission / API failed.
+  Future<bool> autoClockOut() async {
     print("🔹 Auto clock-out triggered - exceeded 13 hours");
+
+    // 1. Force-enable GPS service if off
+    final location = loc.Location();
+    bool serviceEnabled = await location.serviceEnabled();
+    if (!serviceEnabled) {
+      final shouldEnable = await Get.dialog<bool>(
+        AlertDialog(
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(16),
+          ),
+          title: Row(
+            children: [
+              const Icon(Icons.location_off, color: Colors.orange, size: 28),
+              const SizedBox(width: 12),
+              Expanded(
+                child: kText(
+                  text: TranslationKeys.locationRequired.tr,
+                  fSize: 18.0,
+                  fWeight: FontWeight.bold,
+                  tColor: Colors.black87,
+                ),
+              ),
+            ],
+          ),
+          content: kText(
+            text: TranslationKeys.locationServicesRequiredForClockOut.tr,
+            fSize: 14.0,
+            tColor: Colors.black87,
+          ),
+          actions: [
+            ElevatedButton(
+              onPressed: () => Get.back(result: true),
+              style: ElevatedButton.styleFrom(
+                backgroundColor: Colors.blue,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(8),
+                ),
+              ),
+              child: kText(
+                text: TranslationKeys.enableLocation.tr,
+                fSize: 14.0,
+                fWeight: FontWeight.w600,
+                tColor: Colors.white,
+              ),
+            ),
+          ],
+        ),
+        barrierDismissible: false,
+      );
+      if (shouldEnable != true) return false;
+      serviceEnabled = await location.requestService();
+      if (!serviceEnabled) {
+        Utils.snackBar(TranslationKeys.locationServiceRequiredBeforeLogout.tr, true);
+        return false;
+      }
+    }
+
+    // 2. Request permission
+    var permission = await geo.Geolocator.checkPermission();
+    if (permission == geo.LocationPermission.denied) {
+      permission = await geo.Geolocator.requestPermission();
+      if (permission == geo.LocationPermission.denied ||
+          permission == geo.LocationPermission.deniedForever) {
+        Utils.snackBar(TranslationKeys.locationPermissionRequired.tr, true);
+        return false;
+      }
+    }
+    if (permission == geo.LocationPermission.deniedForever) {
+      Utils.snackBar(TranslationKeys.locationPermissionRequired.tr, true);
+      return false;
+    }
+
+    // 3. Fetch real coordinates
+    double lat = 0.0;
+    double lng = 0.0;
+    try {
+      final position = await geo.Geolocator.getCurrentPosition();
+      lat = position.latitude;
+      lng = position.longitude;
+    } catch (e) {
+      print("⚠️ Failed to fetch position for auto clock-out: $e");
+      return false;
+    }
+
+    // 4. Call clock-out API with real location
     final prefs = await SharedPreferences.getInstance();
     final String employeeId = prefs.getString('employee_id') ?? "";
-
     final data = {
       "method": "App",
       "source_device": "Mobile",
-      "location": {"latitude": 0.0, "longitude": 0.0},
+      "location": {"latitude": lat, "longitude": lng},
       "remarks": "Auto clock-out: exceeded 13 hours",
       "employee_id": employeeId,
     };
@@ -215,13 +322,10 @@ class AttendanceController extends GetxController {
       await prefs.remove('clock_in_time');
       await prefs.remove('clock_in_address');
       print("✅ Auto clock-out successful");
-    } else {
-      // If API fails, still stop local timer to stay in sync
-      _stopTimer();
-      await prefs.remove('clock_in_time');
-      await prefs.remove('clock_in_address');
-      print("⚠️ Auto clock-out API failed, local timer stopped");
+      return true;
     }
+    print("⚠️ Auto clock-out API failed");
+    return false;
   }
 
   /// ✅ Timer handling

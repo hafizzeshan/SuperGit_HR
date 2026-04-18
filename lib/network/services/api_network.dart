@@ -231,6 +231,27 @@ class ApiNetworkService {
     }
   }
 
+  /// DELETE Request
+  Future<Response?> deleteRequest(String endpoint, {dynamic data}) async {
+    await _attachToken();
+    try {
+      print("🔹 DELETE Request to: ${AppURL.baseUrl}$endpoint");
+      final response = await dio.delete(endpoint, data: data);
+      if (response.statusCode == 200 || response.statusCode == 204) {
+        print("✅ DELETE $endpoint Success → ${response.data}");
+        return response;
+      } else {
+        print(
+          "❌ DELETE Request to ${AppURL.baseUrl}$endpoint Failed → ${response.data}",
+        );
+        return response;
+      }
+    } on DioException catch (e) {
+      _handleError(e);
+      return e.response;
+    }
+  }
+
   /// GET Request
   Future<Response?> getRequest(String endpoint) async {
     await _attachToken();

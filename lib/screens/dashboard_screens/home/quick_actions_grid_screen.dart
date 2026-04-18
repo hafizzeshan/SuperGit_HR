@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
+import 'package:supergithr/screens/dashboard_screens/home/air_tickets/air_tickets_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/announcements/announcements_list.dart';
 import 'package:supergithr/screens/dashboard_screens/home/holidays/holidays.dart';
 import 'package:supergithr/screens/dashboard_screens/home/leave_summary/show_leavers.dart';
@@ -86,6 +87,13 @@ class QuickActionsGridScreen extends StatelessWidget {
         'title': TranslationKeys.personalDocuments.tr,
         'onTap': () {
           Get.to(() => PersonalDocumentsScreen());
+        },
+      },
+      {
+        'icon': Icons.flight_takeoff_rounded,
+        'title': "Air Tickets",
+        'onTap': () {
+          Get.to(() => const AirTicketsScreen());
         },
       },
     ];

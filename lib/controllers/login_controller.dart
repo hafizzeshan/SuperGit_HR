@@ -76,6 +76,14 @@ class LoginController extends GetxController {
           print("✅ user_id saved: $userId");
         }
 
+        // ✅ Save tenant (needed for tenant-scoped APIs like air tickets)
+        final tenantData = response['data']['tenant'];
+        if (tenantData is Map && tenantData['id'] != null) {
+          await prefs.setString('tenant', jsonEncode(tenantData));
+          await prefs.setString('tenant_id', tenantData['id']);
+          print("✅ tenant_id saved: ${tenantData['id']}");
+        }
+
         // ✅ Save basic user data from login response as fallback
         if (userData != null) {
           // Parse the full name into first and last name

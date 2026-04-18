@@ -57,6 +57,55 @@ class AppURL {
     return 'employees/$v';
   }
 
+  // ✈️ Air Ticket APIs (tenant-scoped)
+  static String airTicketsBase(String tenantId) =>
+      'v1/tenant/$tenantId/air-tickets';
+
+  static String airTicketEntitlement(String tenantId, String employeeId, {int? year}) {
+    final base = '${airTicketsBase(tenantId)}/entitlements/$employeeId';
+    return year != null ? '$base?year=$year' : base;
+  }
+
+  static String airTicketAllEntitlements(String tenantId, String employeeId) =>
+      '${airTicketsBase(tenantId)}/entitlements/$employeeId/all';
+
+  static String airTicketRequests(
+    String tenantId, {
+    String? employeeId,
+    String? status,
+    int page = 1,
+    int limit = 10,
+  }) {
+    final params = <String, String>{
+      'page': '$page',
+      'limit': '$limit',
+    };
+    if (employeeId != null && employeeId.isNotEmpty) {
+      params['employee_id'] = employeeId;
+    }
+    if (status != null && status.isNotEmpty) {
+      params['status'] = status;
+    }
+    final query = params.entries.map((e) => '${e.key}=${e.value}').join('&');
+    return '${airTicketsBase(tenantId)}/requests?$query';
+  }
+
+  static String airTicketCreateRequest(String tenantId) =>
+      '${airTicketsBase(tenantId)}/requests';
+
+  static String airTicketRequestDetails(String tenantId, String requestId) =>
+      '${airTicketsBase(tenantId)}/requests/$requestId';
+
+  static String airTicketCancelRequest(
+    String tenantId,
+    String requestId,
+    String employeeId,
+  ) =>
+      '${airTicketsBase(tenantId)}/requests/$requestId?employee_id=$employeeId';
+
+  static String airTicketBooking(String tenantId, String requestId) =>
+      '${airTicketsBase(tenantId)}/requests/$requestId/booking';
+
   static String playStoreURL = '';
   static String appStoreURL = '';
 
