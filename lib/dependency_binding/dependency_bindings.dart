@@ -12,6 +12,8 @@ import 'package:supergithr/controllers/login_controller.dart';
 import 'package:supergithr/controllers/salary_structure_controller.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/controllers/register_controller.dart';
+import 'package:supergithr/controllers/social_post_controller.dart';
+import 'package:supergithr/controllers/team_leave_controller.dart';
 
 class DependencyBindings implements Bindings {
   @override
@@ -29,5 +31,7 @@ class DependencyBindings implements Bindings {
     Get.put(HolidayController());
     Get.put(AnnouncementController());
     Get.put(AirTicketController());
+    Get.put(SocialPostController());
+    Get.put(TeamLeaveController());
   }
 }

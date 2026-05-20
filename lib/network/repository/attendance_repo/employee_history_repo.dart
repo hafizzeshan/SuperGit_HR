@@ -23,7 +23,7 @@ class AttendanceHistoryRepository {
         return response.data;
       } else {
         final message =
-            response.data?['message'] ?? "Failed to load today's logs";
+            Utils.extractApiError(response.data, "Failed to load today's logs");
         Utils.snackBar(message, true);
         log("❌ Fetch Today's Logs failed: $message");
         return null;
@@ -51,7 +51,7 @@ class AttendanceHistoryRepository {
         log("✅ All Logs: ${response.data}");
         return response.data;
       } else {
-        final message = response.data?['message'] ?? "Failed to load all logs";
+        final message = Utils.extractApiError(response.data, "Failed to load all logs");
         Utils.snackBar(message, true);
         log("❌ Fetch All Logs failed: $message");
         return null;

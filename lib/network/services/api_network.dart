@@ -42,19 +42,19 @@ class ApiNetworkService {
     dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) {
-          print('🌐 REQUEST[${options.method}] => PATH: ${options.path}');
+          print('🌐 REQUEST[${options.method}] => URL: ${options.uri}');
           print('🌐 Headers: ${options.headers}');
           return handler.next(options);
         },
         onResponse: (response, handler) {
           print(
-            '✅ RESPONSE[${response.statusCode}] => PATH: ${response.requestOptions.path}',
+            '✅ RESPONSE[${response.statusCode}] => URL: ${response.requestOptions.uri}',
           );
           return handler.next(response);
         },
         onError: (DioException e, handler) async {
           print(
-            '❌ ERROR[${e.response?.statusCode}] => PATH: ${e.requestOptions.path}',
+            '❌ ERROR[${e.response?.statusCode}] => URL: ${e.requestOptions.uri}',
           );
           print('❌ ERROR MESSAGE: ${e.message}');
 
@@ -227,6 +227,40 @@ class ApiNetworkService {
     } on DioException catch (e) {
       _handleError(e);
       // Return the error response if available so controller can extract error message
+      return e.response;
+    }
+  }
+
+  /// PUT Request
+  Future<Response?> putRequest(
+    String endpoint, {
+    dynamic data,
+    bool isMultipart = false,
+  }) async {
+    await _attachToken();
+    try {
+      print("🔹 PUT Request to: ${AppURL.baseUrl}$endpoint");
+      final response = await dio.put(
+        endpoint,
+        data: data,
+        options: Options(
+          headers:
+              isMultipart
+                  ? {'Content-Type': 'multipart/form-data'}
+                  : {'Content-Type': 'application/json'},
+        ),
+      );
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        print("✅ PUT $endpoint Success → ${response.data}");
+        return response;
+      } else {
+        print(
+          "❌ PUT Request to ${AppURL.baseUrl}$endpoint Failed → ${response.data}",
+        );
+        return response;
+      }
+    } on DioException catch (e) {
+      _handleError(e);
       return e.response;
     }
   }

@@ -24,12 +24,19 @@ class LoanModel {
     required this.totalPage,
   });
 
+  static int _toInt(dynamic v) {
+    if (v is num) return v.toInt();
+    return int.tryParse(v?.toString() ?? "") ?? 0;
+  }
+
   factory LoanModel.fromJson(Map<String, dynamic> json) => LoanModel(
-    data: List<LoanDatum>.from(json["data"].map((x) => LoanDatum.fromJson(x))),
-    page: json["page"],
-    pageSize: json["page_size"],
-    total: json["total"],
-    totalPage: json["total_page"],
+    data: List<LoanDatum>.from(
+      (json["data"] ?? []).map((x) => LoanDatum.fromJson(x)),
+    ),
+    page: _toInt(json["page"]),
+    pageSize: _toInt(json["page_size"]),
+    total: _toInt(json["total"]),
+    totalPage: _toInt(json["total_page"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -44,11 +51,11 @@ class LoanModel {
 class LoanDatum {
   final String id;
   final String employeeId;
-  final int amount;
+  final num amount;
   final String purpose;
   final int installments;
-  final int monthlyInstallment;
-  final int remainingAmount;
+  final num monthlyInstallment;
+  final num remainingAmount;
   final String startMonth;
   final String status;
   final dynamic approvedAt;
@@ -72,17 +79,20 @@ class LoanDatum {
     required this.deletedAt,
   });
 
+  /// Coerce any JSON number/string to num without throwing.
+  static num _toNum(dynamic v) {
+    if (v is num) return v;
+    return num.tryParse(v?.toString() ?? "") ?? 0;
+  }
+
   factory LoanDatum.fromJson(Map<String, dynamic> json) => LoanDatum(
     id: json["id"],
     employeeId: json["employee_id"],
-    amount: json["amount"],
+    amount: _toNum(json["amount"]),
     purpose: json["purpose"],
-    installments: json["installments"],
-    monthlyInstallment:
-        (json["monthly_installment"] is int)
-            ? json["monthly_installment"]
-            : (json["monthly_installment"] as double).toInt(),
-    remainingAmount: json["remaining_amount"],
+    installments: _toNum(json["installments"]).toInt(),
+    monthlyInstallment: _toNum(json["monthly_installment"]),
+    remainingAmount: _toNum(json["remaining_amount"]),
     startMonth: json["start_month"],
     status: json["status"],
     approvedAt: json["approved_at"],

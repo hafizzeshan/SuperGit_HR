@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:supergithr/models/leave_balance_model.dart';
 import 'package:supergithr/models/leave_request_model.dart';
 import 'package:supergithr/models/leave_type_model.dart';
 import 'package:supergithr/network/repository/attendance_repo/leave_repo.dart';
@@ -25,6 +26,11 @@ class LeaveController extends GetxController {
 
   var leaveTypes = <LeaveTypeModel>[].obs;
   var leaveHistory = <LeaveRequestModel>[].obs;
+
+  /// Leave balances (entitled / taken / remaining per type) for [balancesYear].
+  var leaveBalances = <LeaveBalance>[].obs;
+  var isBalancesLoading = false.obs;
+  var balancesYear = DateTime.now().year.obs;
   var selectedLeaveTypeId = RxnString();
   final attachedFile = Rxn<PlatformFile>();
 
@@ -116,6 +122,37 @@ class LeaveController extends GetxController {
     } finally {
       isLoading.value = false;
       isLoadingMore.value = false;
+    }
+  }
+
+  /// ✅ Fetch Leave Balances for the current employee/year
+  Future<void> fetchLeaveBalances({int? year}) async {
+    isBalancesLoading.value = true;
+    try {
+      final prefs = await SharedPreferences.getInstance();
+      final employeeId = prefs.getString('employee_id') ?? "";
+      if (employeeId.isEmpty) {
+        isBalancesLoading.value = false;
+        return;
+      }
+      final y = year ?? balancesYear.value;
+      balancesYear.value = y;
+
+      final response = await _repo.getLeaveBalances(employeeId, year: y);
+      if (response != null) {
+        final List raw = response["balances"] ?? response["data"] ?? [];
+        leaveBalances.assignAll(
+          raw.map((e) => LeaveBalance.fromMap(Map<String, dynamic>.from(e))),
+        );
+        log("✅ Loaded ${leaveBalances.length} leave balances for $y");
+      } else {
+        leaveBalances.clear();
+      }
+    } catch (e, st) {
+      log("❌ Error fetching leave balances: $e", stackTrace: st);
+      leaveBalances.clear();
+    } finally {
+      isBalancesLoading.value = false;
     }
   }
 

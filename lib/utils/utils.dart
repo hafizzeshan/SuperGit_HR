@@ -22,6 +22,29 @@ class Utils {
     FocusScope.of(context).requestFocus(nextFocus);
   }
 
+  /// Extract the exact error message the server returned.
+  /// Handles the common shapes: `{message}`, `{error}`, and
+  /// `{errors: {...}}` / `{errors: [...]}`. Falls back to [fallback]
+  /// only when no server-provided message can be found.
+  static String extractApiError(dynamic data, [String fallback = "Something went wrong"]) {
+    if (data is Map) {
+      final msg = data['message'] ?? data['error'];
+      if (msg is String && msg.trim().isNotEmpty) return msg;
+
+      final errors = data['errors'];
+      if (errors is Map && errors.isNotEmpty) {
+        final first = errors.values.first;
+        if (first is List && first.isNotEmpty) return first.first.toString();
+        return first.toString();
+      }
+      if (errors is List && errors.isNotEmpty) return errors.first.toString();
+      if (errors is String && errors.trim().isNotEmpty) return errors;
+    } else if (data is String && data.trim().isNotEmpty) {
+      return data;
+    }
+    return fallback;
+  }
+
   static void showToast(String content) {
     Fluttertoast.showToast(
       msg: content,

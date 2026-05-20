@@ -125,7 +125,9 @@ class AirTicketController extends GetxController {
   Future<String?> createRequest(CreateAirTicketRequestDTO dto) async {
     try {
       isSubmitting.value = true;
-      final data = await _repo.createRequest(dto.toJson());
+      final payload = dto.toJson();
+      log("✈️ Air ticket create payload: $payload");
+      final data = await _repo.createRequest(payload);
       if (data == null) return null;
       // Refresh list so user sees the new request
       await fetchMyRequests(page: 1);

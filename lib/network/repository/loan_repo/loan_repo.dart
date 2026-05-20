@@ -19,7 +19,7 @@ class LoanRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.data;
       } else {
-        final message = response.data?['message'] ?? "Failed to fetch loans";
+        final message = Utils.extractApiError(response.data, "Failed to fetch loans");
         Utils.snackBar(message, true);
         log("❌ Loans Fetch Failed: $message");
         return null;
@@ -49,7 +49,7 @@ class LoanRepository {
         );
         return response.data;
       } else {
-        final message = response.data?['message'] ?? "Loan application failed";
+        final message = Utils.extractApiError(response.data, "Loan application failed");
         Utils.snackBar(message, true);
         log("❌ Loan Application Failed: $message");
         return null;

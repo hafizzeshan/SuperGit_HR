@@ -21,6 +21,16 @@ class AttendanceHistoryController extends GetxController {
   Rxn<TodayLogsModel> todayLogsModel = Rxn<TodayLogsModel>();
   Rxn<AllLogsModel> allLogsModel = Rxn<AllLogsModel>();
 
+  /// Latest log with `clock_type == "In"` from today's logs, or null.
+  AttendanceLog? get latestClockInLog {
+    final logs = todayLogsModel.value?.logs;
+    if (logs == null || logs.isEmpty) return null;
+    return _latestClockInLog(logs);
+  }
+
+  /// Local-time clock-in timestamp from the latest "In" log, or null.
+  DateTime? get lastStartedAt => latestClockInLog?.clockTime.toLocal();
+
   /// ✅ Fetch Today's Logs
   Future<void> getTodayLogs() async {
     try {

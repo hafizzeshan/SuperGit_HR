@@ -2,11 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/screens/dashboard_screens/chat/chat.dart';
 import 'package:supergithr/screens/dashboard_screens/home/home.dart';
-import 'package:supergithr/screens/dashboard_screens/home/leave_summary/show_leavers.dart';
+import 'package:supergithr/screens/dashboard_screens/home/social_posts/social_feed_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/keey_aliver.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/setting.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/app_assets.dart';
+import 'package:supergithr/views/floating_timer_button.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
@@ -35,8 +36,6 @@ class _DashBoradState extends State<DashBorad> {
 
   @override
   Widget build(BuildContext context) {
-    final isKeyboardVisible = MediaQuery.of(context).viewInsets.bottom > 0;
-
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kMainBackgroundColor,
@@ -46,51 +45,59 @@ class _DashBoradState extends State<DashBorad> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              height: 70,
-              margin: EdgeInsets.only(
-                left: 20,
-                right: 20,
-                bottom: isKeyboardVisible ? 0 : 30,
-              ),
               decoration: BoxDecoration(
-                color: Colors.white, // Slightly transparent pill
-                borderRadius: BorderRadius.circular(35),
+                color: Colors.white,
                 boxShadow: [
                   BoxShadow(
                     color: Colors.black.withOpacity(0.1),
                     blurRadius: 20,
-                    offset: const Offset(0, 5),
+                    offset: const Offset(0, -2),
                   ),
                 ],
               ),
-              child: Row(
-                crossAxisAlignment: CrossAxisAlignment.center,
-                mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                children: [
-                  _buildNavItemWithDivider(
-                    index: 0,
-                    icon: AppAssets.home,
-                    label: TranslationKeys.home.tr,
+              child: SafeArea(
+                top: false,
+                child: SizedBox(
+                  height: 70,
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.center,
+                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                    children: [
+                      _buildNavItemWithDivider(
+                        index: 0,
+                        icon: AppAssets.home,
+                        label: TranslationKeys.home.tr,
+                      ),
+                      _buildNavItemWithDivider(
+                        index: 1,
+                        icon: AppAssets.approved,
+                        label: "Social",
+                      ),
+                      _buildNavItemWithDivider(
+                        index: 2,
+                        icon: AppAssets.chat,
+                        label: TranslationKeys.chat.tr,
+                      ),
+                      _buildNavItemWithDivider(
+                        index: 3,
+                        icon: AppAssets.setting,
+                        label: TranslationKeys.setting.tr,
+                      ),
+                    ],
                   ),
-                  _buildNavItemWithDivider(
-                    index: 1,
-                    icon: AppAssets.approved,
-                    label: TranslationKeys.requests.tr,
-                  ),
-                  _buildNavItemWithDivider(
-                    index: 2,
-                    icon: AppAssets.chat,
-                    label: TranslationKeys.chat.tr,
-                  ),
-                  _buildNavItemWithDivider(
-                    index: 3,
-                    icon: AppAssets.setting,
-                    label: TranslationKeys.setting.tr,
-                  ),
-                ],
+                ),
               ),
             ),
           ),
+          // Floating timer/map action button — right side, just above the
+          // nav bar. Lives in the Stack so it floats independently of pages.
+          // Only shown on the Home tab.
+          if (_selectedIndex == 0)
+            Positioned(
+              right: 20,
+              bottom: 70 + MediaQuery.of(context).padding.bottom + 16,
+              child: const FloatingTimerButton(),
+            ),
         ],
       ),
     );
@@ -152,9 +159,7 @@ class _DashBoradState extends State<DashBorad> {
       case 0:
         return KeepAliveWrapper(child: const HomeScreen());
       case 1:
-        return KeepAliveWrapper(
-          child: const LeaveSummaryScreen(showBackButton: false),
-        );
+        return KeepAliveWrapper(child: const SocialFeedScreen());
       case 2:
         return KeepAliveWrapper(child: ChatScreen());
       case 3:

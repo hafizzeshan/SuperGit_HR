@@ -13,6 +13,8 @@ import 'package:supergithr/controllers/announcement_controller.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
 import 'package:supergithr/controllers/holiday_controller.dart';
 import 'package:supergithr/controllers/loan_controller.dart';
+import 'package:supergithr/controllers/team_leave_controller.dart';
+import 'package:supergithr/controllers/social_post_controller.dart';
 
 class LoginController extends GetxController {
   final AuthRepository _repo = AuthRepository();
@@ -76,6 +78,29 @@ class LoginController extends GetxController {
           print("✅ user_id saved: $userId");
         }
 
+        // ✅ Save manager authorization flags (used for Team Leave Requests).
+        // Stored separately because the later profile fetch may overwrite
+        // user_model without these login-only flags.
+        await prefs.setBool('is_manager', userData['is_manager'] == true);
+        await prefs.setBool(
+          'is_department_head',
+          userData['is_department_head'] == true,
+        );
+        print(
+          "✅ Manager flags saved → is_manager: ${userData['is_manager']}, is_department_head: ${userData['is_department_head']}",
+        );
+
+        // ✅ Admin flag from roles (used to gate admin-only actions like
+        // creating social posts). Roles e.g. ["admin","employee","superadmin"].
+        final roles = (userData['roles'] is List)
+            ? (userData['roles'] as List).map((e) => '$e'.toLowerCase()).toList()
+            : <String>[];
+        final isAdmin = roles.contains('admin') ||
+            roles.contains('superadmin') ||
+            roles.contains('hr');
+        await prefs.setBool('is_admin', isAdmin);
+        print("✅ is_admin saved → $isAdmin (roles: $roles)");
+
         // ✅ Save tenant (needed for tenant-scoped APIs like air tickets)
         final tenantData = response['data']['tenant'];
         if (tenantData is Map && tenantData['id'] != null) {
@@ -123,12 +148,29 @@ class LoginController extends GetxController {
       Get.offAll(() => DashBorad(index: 0));
       
       // ✅ Refresh all data immediately after login
-      Future.delayed(const Duration(milliseconds: 200), () {
+      Future.delayed(const Duration(milliseconds: 200), () async {
         Get.find<LeaveController>().fetchLeaveTypes();
         Get.find<AnnouncementController>().fetchAnnouncements();
         Get.find<AttendanceHistoryController>().getTodayLogs();
         Get.find<HolidayController>().fetchHolidays();
         Get.find<LoanController>().fetchLoans();
+
+        // ✅ Reload manager flags now that they're saved in prefs, so the
+        // Team Leave card/quick action appear on first login (not just after
+        // a restart). Then load the pending count if the user can review.
+        if (Get.isRegistered<TeamLeaveController>()) {
+          final teamLeave = Get.find<TeamLeaveController>();
+          await teamLeave.loadAuth();
+          if (teamLeave.canReview) {
+            teamLeave.fetchRequests();
+          }
+        }
+
+        // ✅ Reload the admin flag so the "New Post" button shows for admins
+        // on first login.
+        if (Get.isRegistered<SocialPostController>()) {
+          Get.find<SocialPostController>().loadAuth();
+        }
         print("✅ Post-login data refresh triggered");
       });
     } else if (response != null) {

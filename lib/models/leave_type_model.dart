@@ -25,15 +25,24 @@ class LeaveTypeModel {
     this.deletedAt,
   });
 
+  /// Safely coerce a JSON value to int — handles int, double (e.g. 30.0),
+  /// and numeric strings without throwing.
+  static int? _toInt(dynamic v) {
+    if (v == null) return null;
+    if (v is int) return v;
+    if (v is num) return v.toInt();
+    return int.tryParse(v.toString());
+  }
+
   factory LeaveTypeModel.fromJson(Map<String, dynamic> json) {
     return LeaveTypeModel(
-      id: json["id"],
+      id: json["id"]?.toString(),
       nameEn: json["name_en"],
       nameAr: json["name_ar"],
       description: json["description"],
       isPaid: json["is_paid"],
-      annualDays: json["annual_days"],
-      maxPerYear: json["max_per_year"],
+      annualDays: _toInt(json["annual_days"]),
+      maxPerYear: _toInt(json["max_per_year"]),
       carryForward: json["carry_forward"],
       createdAt: json["created_at"],
       updatedAt: json["updated_at"],

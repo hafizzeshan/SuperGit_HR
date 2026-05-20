@@ -1,5 +1,6 @@
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
+import 'package:supergithr/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class AuthRepository {
@@ -28,7 +29,7 @@ class AuthRepository {
 
       return responseData;
     } else {
-      return {"error": true, "message": response.data?['message'] ?? "Login failed"};
+      return {"error": true, "message": Utils.extractApiError(response.data, "Login failed")};
     }
   }
 
@@ -55,7 +56,7 @@ class AuthRepository {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.data;
     } else {
-      return {"error": response.data?['message'] ?? "Something went wrong"};
+      return {"error": Utils.extractApiError(response.data, "Something went wrong")};
     }
   }
 
@@ -68,7 +69,7 @@ class AuthRepository {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.data;
     } else {
-      return {"error": response.data?['message'] ?? "OTP verification failed"};
+      return {"error": Utils.extractApiError(response.data, "OTP verification failed")};
     }
   }
 
@@ -86,7 +87,7 @@ class AuthRepository {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.data;
     } else {
-      return {"error": response.data?['message'] ?? "Password reset failed"};
+      return {"error": Utils.extractApiError(response.data, "Password reset failed")};
     }
   }
 

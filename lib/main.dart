@@ -22,17 +22,17 @@ Future<void> main() async {
   Get.put(TranslationController(preferences: preferences));
   // 5️⃣ Print FCM token for testing
   getFCMToken();
-  // 6️⃣ Run app
-  runApp(const MyApp());
-
-  // 7️⃣ System UI overlay
+  // 7️⃣ System UI overlay — dark status bar icons everywhere.
   SystemChrome.setSystemUIOverlayStyle(
     const SystemUiOverlayStyle(
       statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.light,
-      statusBarBrightness: Brightness.dark,
+      statusBarIconBrightness: Brightness.dark, // Android: dark icons
+      statusBarBrightness: Brightness.light, // iOS: dark icons
     ),
   );
+
+  // 6️⃣ Run app
+  runApp(const MyApp());
 }
 
 Future<void> getFCMToken() async {
@@ -65,6 +65,13 @@ class MyApp extends StatelessWidget {
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              appBarTheme: const AppBarTheme(
+                systemOverlayStyle: SystemUiOverlayStyle(
+                  statusBarColor: Colors.transparent,
+                  statusBarIconBrightness: Brightness.dark, // Android
+                  statusBarBrightness: Brightness.light, // iOS
+                ),
+              ),
             ),
             translations: GetLocalization(),
             initialBinding: DependencyBindings(),

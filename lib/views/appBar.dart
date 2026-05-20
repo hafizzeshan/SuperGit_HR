@@ -125,9 +125,9 @@ AppBar appBarrWitAction({
     leadingWidth: 70, // Increased width for better spacing
     backgroundColor: backgroundColor ?? kLightBlueBackgroundColor,
     systemOverlayStyle: const SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.light, // Black icons on Android
+      statusBarIconBrightness: Brightness.dark, // Dark icons on Android
       statusBarColor: Colors.transparent, // Transparent background
-      statusBarBrightness: Brightness.light, // Black icons on iOS
+      statusBarBrightness: Brightness.light, // Dark icons on iOS
     ),
     leading:
         leadingWidget ??

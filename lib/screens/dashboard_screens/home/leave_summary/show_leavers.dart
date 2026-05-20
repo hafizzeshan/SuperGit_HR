@@ -10,6 +10,7 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 
 import 'package:supergithr/controllers/leave_controller.dart';
+import 'package:supergithr/models/leave_balance_model.dart';
 import 'package:supergithr/models/leave_request_model.dart';
 import 'package:supergithr/models/leave_type_model.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -59,6 +60,9 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
           '✅ Using cached leave history (${controller.leaveHistory.length} items)',
         );
       }
+
+      // Leave balances (entitled / taken / remaining)
+      controller.fetchLeaveBalances();
     });
   }
 
@@ -101,13 +105,18 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
       ),
 
       body: Container(
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 10),
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
-        child: Obx(() {
-          if (controller.isHistoryLoading.value &&
-              controller.leaveHistory.isEmpty) {
-            return _buildShimmerList();
-          }
+        child: Column(
+          children: [
+            _buildBalancesSection(),
+            Expanded(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                child: Obx(() {
+        if (controller.isHistoryLoading.value &&
+            controller.leaveHistory.isEmpty) {
+          return _buildShimmerList();
+        }
 
           if (controller.leaveHistory.isEmpty) {
             return Center(
@@ -201,7 +210,325 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
               },
             ),
           );
+                }),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  // -------------------------------------------------------------------
+  //                 LEAVE BALANCES SECTION
+  // -------------------------------------------------------------------
+
+  static const List<Color> _balanceAccents = [
+    kPrimaryColor,
+    Color(0xff00A676),
+    Color(0xffF2994A),
+    Color(0xff9B51E0),
+  ];
+
+  Widget _buildBalancesSection() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        // Header with year filter
+        Padding(
+          padding: const EdgeInsets.fromLTRB(20, 14, 16, 10),
+          child: Row(
+            children: [
+              const Icon(Icons.account_balance_wallet_rounded,
+                  size: 18, color: kPrimaryColor),
+              const SizedBox(width: 8),
+              kText(
+                text: TranslationKeys.leaveBalance.tr,
+                fSize: 15.0,
+                fWeight: FontWeight.bold,
+                tColor: Colors.black87,
+              ),
+              const Spacer(),
+              _yearFilter(),
+            ],
+          ),
+        ),
+        Obx(() {
+          if (controller.isBalancesLoading.value &&
+              controller.leaveBalances.isEmpty) {
+            return _buildBalancesShimmer();
+          }
+          if (controller.leaveBalances.isEmpty) {
+            return Padding(
+              padding: const EdgeInsets.fromLTRB(20, 0, 20, 8),
+              child: kText(
+                text: TranslationKeys.noLeaveHistoryFound.tr,
+                fSize: 12.0,
+                tColor: Colors.grey.shade500,
+              ),
+            );
+          }
+          return Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 16),
+            child: Column(
+              children: List.generate(
+                controller.leaveBalances.length,
+                (index) =>
+                    _balanceRow(controller.leaveBalances[index], index),
+              ),
+            ),
+          );
         }),
+        const SizedBox(height: 6),
+      ],
+    );
+  }
+
+  /// Year selector pill — drives the `year` query param on the balances API.
+  Widget _yearFilter() {
+    return Obx(
+      () => GestureDetector(
+        onTap: _showYearPicker,
+        child: Container(
+          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
+          decoration: BoxDecoration(
+            color: kPrimaryColor.withOpacity(0.1),
+            borderRadius: BorderRadius.circular(30),
+          ),
+          child: Row(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              const Icon(Icons.calendar_today_rounded,
+                  size: 13, color: kPrimaryColor),
+              const SizedBox(width: 6),
+              kText(
+                text: "${controller.balancesYear.value}",
+                fSize: 12.5,
+                fWeight: FontWeight.w700,
+                tColor: kPrimaryColor,
+              ),
+              const SizedBox(width: 2),
+              const Icon(Icons.keyboard_arrow_down_rounded,
+                  size: 18, color: kPrimaryColor),
+            ],
+          ),
+        ),
+      ),
+    );
+  }
+
+  void _showYearPicker() {
+    final current = DateTime.now().year;
+    final years = List.generate(6, (i) => current - i); // last 6 years
+    showModalBottomSheet(
+      context: context,
+      backgroundColor: Colors.transparent,
+      builder: (_) => Container(
+        decoration: const BoxDecoration(
+          color: Colors.white,
+          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+        ),
+        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Center(
+              child: Container(
+                width: 40,
+                height: 4,
+                margin: const EdgeInsets.only(bottom: 16),
+                decoration: BoxDecoration(
+                  color: Colors.grey.shade300,
+                  borderRadius: BorderRadius.circular(2),
+                ),
+              ),
+            ),
+            kText(
+              text: TranslationKeys.leaveBalance.tr,
+              fSize: 16.0,
+              fWeight: FontWeight.bold,
+              tColor: Colors.black87,
+            ),
+            const SizedBox(height: 12),
+            ...years.map((y) {
+              final selected = y == controller.balancesYear.value;
+              return InkWell(
+                borderRadius: BorderRadius.circular(12),
+                onTap: () {
+                  Get.back();
+                  controller.fetchLeaveBalances(year: y);
+                },
+                child: Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+                  margin: const EdgeInsets.only(bottom: 8),
+                  decoration: BoxDecoration(
+                    color: selected
+                        ? kPrimaryColor.withOpacity(0.08)
+                        : Colors.grey.shade50,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(
+                      color: selected ? kPrimaryColor : Colors.transparent,
+                    ),
+                  ),
+                  child: Row(
+                    children: [
+                      Expanded(
+                        child: kText(
+                          text: "$y",
+                          fSize: 14.5,
+                          fWeight:
+                              selected ? FontWeight.w700 : FontWeight.w500,
+                          tColor: selected ? kPrimaryColor : Colors.black87,
+                        ),
+                      ),
+                      if (selected)
+                        const Icon(Icons.check_circle_rounded,
+                            color: kPrimaryColor, size: 20),
+                    ],
+                  ),
+                ),
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  /// Full-width list row for a single leave-type balance.
+  Widget _balanceRow(LeaveBalance b, int index) {
+    final accent = _balanceAccents[index % _balanceAccents.length];
+    final remainingFraction = b.entitled <= 0
+        ? 0.0
+        : (b.balance / b.entitled).clamp(0.0, 1.0).toDouble();
+
+    return Container(
+      margin: const EdgeInsets.only(bottom: 10),
+      padding: const EdgeInsets.all(14),
+      decoration: BoxDecoration(
+        color: Colors.white,
+        borderRadius: BorderRadius.circular(16),
+        border: Border.all(color: Colors.grey.shade100),
+        boxShadow: [
+          BoxShadow(
+            color: accent.withOpacity(0.08),
+            blurRadius: 12,
+            offset: const Offset(0, 5),
+          ),
+        ],
+      ),
+      child: Row(
+        children: [
+          // Leading circular ring with remaining balance
+          SizedBox(
+            width: 52,
+            height: 52,
+            child: Stack(
+              alignment: Alignment.center,
+              children: [
+                SizedBox(
+                  width: 52,
+                  height: 52,
+                  child: CircularProgressIndicator(
+                    value: remainingFraction,
+                    strokeWidth: 5,
+                    backgroundColor: accent.withOpacity(0.12),
+                    valueColor: AlwaysStoppedAnimation<Color>(accent),
+                    strokeCap: StrokeCap.round,
+                  ),
+                ),
+                kText(
+                  text: _fmtNum(b.balance),
+                  fSize: 16.0,
+                  fWeight: FontWeight.bold,
+                  tColor: accent,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 14),
+          // Title + taken/entitled
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kText(
+                  text: b.leaveTypeName ?? TranslationKeys.leaveType.tr,
+                  fSize: 14.5,
+                  fWeight: FontWeight.w700,
+                  tColor: Colors.black87,
+                  maxLines: 1,
+                  textoverflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 6),
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(6),
+                  child: LinearProgressIndicator(
+                    value: remainingFraction,
+                    minHeight: 5,
+                    backgroundColor: accent.withOpacity(0.12),
+                    valueColor: AlwaysStoppedAnimation<Color>(accent),
+                  ),
+                ),
+                const SizedBox(height: 6),
+                kText(
+                  text:
+                      "${TranslationKeys.taken.tr} ${_fmtNum(b.taken)}  •  ${TranslationKeys.entitled.tr} ${_fmtNum(b.entitled)}",
+                  fSize: 11.0,
+                  tColor: Colors.grey.shade600,
+                ),
+              ],
+            ),
+          ),
+          const SizedBox(width: 10),
+          // Trailing balance + "days left"
+          Column(
+            crossAxisAlignment: CrossAxisAlignment.end,
+            children: [
+              kText(
+                text: _fmtNum(b.balance),
+                fSize: 20.0,
+                fWeight: FontWeight.bold,
+                tColor: accent,
+                height: 1.0,
+              ),
+              kText(
+                text: TranslationKeys.daysLeft.tr,
+                fSize: 9.5,
+                fWeight: FontWeight.w600,
+                tColor: Colors.grey.shade500,
+              ),
+            ],
+          ),
+        ],
+      ),
+    );
+  }
+
+  String _fmtNum(num v) =>
+      v == v.roundToDouble() ? v.toInt().toString() : v.toString();
+
+  Widget _buildBalancesShimmer() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 16),
+      child: Column(
+        children: List.generate(
+          3,
+          (_) => Shimmer.fromColors(
+            baseColor: Colors.grey.shade200,
+            highlightColor: Colors.grey.shade100,
+            child: Container(
+              height: 80,
+              margin: const EdgeInsets.only(bottom: 10),
+              decoration: BoxDecoration(
+                color: Colors.white,
+                borderRadius: BorderRadius.circular(16),
+              ),
+            ),
+          ),
+        ),
       ),
     );
   }

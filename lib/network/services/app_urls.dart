@@ -2,7 +2,10 @@ class AppURL {
   // shamas
   // static const String baseUrl = 'https://jzq6qslp-8080.asse.devtunnels.ms/api/';
   // live (default — can be overridden by Firebase Remote Config)
-  static String baseUrl = 'https://hr1.api.supergitsa.com/api/';
+  // The compile-time default. Used to restore the URL when the Remote Config
+  // override is turned off from the app.
+  static const String defaultBaseUrl = 'https://hr1.api.supergitsa.com/api/';
+  static String baseUrl = defaultBaseUrl;
 
   static String attendanceHistory(
     String employeeId,
@@ -49,6 +52,11 @@ class AppURL {
     return 'employees/$v/leaves';
   }
 
+  static String leaveBalances(String employeeId, {int? year}) {
+    final base = 'ess/leave-balances/$employeeId';
+    return year != null ? '$base?year=$year' : base;
+  }
+
   static String employeeDocuments(String id) {
     return 'employees/$id/documents';
   }
@@ -61,7 +69,11 @@ class AppURL {
   static String airTicketsBase(String tenantId) =>
       'v1/tenant/$tenantId/air-tickets';
 
-  static String airTicketEntitlement(String tenantId, String employeeId, {int? year}) {
+  static String airTicketEntitlement(
+    String tenantId,
+    String employeeId, {
+    int? year,
+  }) {
     final base = '${airTicketsBase(tenantId)}/entitlements/$employeeId';
     return year != null ? '$base?year=$year' : base;
   }
@@ -76,10 +88,7 @@ class AppURL {
     int page = 1,
     int limit = 10,
   }) {
-    final params = <String, String>{
-      'page': '$page',
-      'limit': '$limit',
-    };
+    final params = <String, String>{'page': '$page', 'limit': '$limit'};
     if (employeeId != null && employeeId.isNotEmpty) {
       params['employee_id'] = employeeId;
     }
@@ -105,6 +114,45 @@ class AppURL {
 
   static String airTicketBooking(String tenantId, String requestId) =>
       '${airTicketsBase(tenantId)}/requests/$requestId/booking';
+
+  // 👔 Team Leave Requests (manager / department head)
+  static String teamLeaveRequests({
+    required String currentApproverId,
+    String status = 'PendingManager',
+    int page = 1,
+    int limit = 10,
+  }) {
+    final params = <String, String>{
+      'page': '$page',
+      'limit': '$limit',
+      'status': status,
+      'current_approver_id': currentApproverId,
+    };
+    final query = params.entries.map((e) => '${e.key}=${e.value}').join('&');
+    return '$leaveRequestsApi?$query';
+  }
+
+  static String teamLeaveApprove(String id) =>
+      '$leaveRequestsApi/$id/manager-approve';
+
+  static String teamLeaveReject(String id) => '$leaveRequestsApi/$id/reject';
+
+  // 📣 Social Posts APIs
+  static const String socialPostsBase = 'social-posts';
+
+  static String socialPostsList({int page = 1, int limit = 10}) =>
+      '$socialPostsBase?page=$page&limit=$limit';
+
+  static String socialPostDetails(String postId) => '$socialPostsBase/$postId';
+
+  static String socialPostLike(String postId) =>
+      '$socialPostsBase/$postId/like';
+
+  static String socialPostComments(String postId) =>
+      '$socialPostsBase/$postId/comments';
+
+  static String socialPostComment(String postId, String commentId) =>
+      '$socialPostsBase/$postId/comments/$commentId';
 
   static String playStoreURL = '';
   static String appStoreURL = '';

@@ -22,7 +22,7 @@ class LeaveRepository {
         return response.data;
       } else {
         final message =
-            response.data?['message'] ?? "Failed to fetch leave types";
+            Utils.extractApiError(response.data, "Failed to fetch leave types");
         Utils.snackBar(message, true);
         log("❌ Leave Types Fetch Failed: $message");
         return null;
@@ -94,6 +94,29 @@ class LeaveRepository {
     }
   }
 
+  /// ✅ Fetch Leave Balances for an employee/year
+  /// GET ess/leave-balances/:employee_id?year=YYYY
+  Future getLeaveBalances(String employeeId, {int? year}) async {
+    try {
+      final response = await _api.getRequest(
+        AppURL.leaveBalances(employeeId, year: year),
+      );
+      if (response == null) return null;
+      if (response.statusCode == 200 || response.statusCode == 201) {
+        return response.data;
+      } else {
+        Utils.snackBar(
+          Utils.extractApiError(response.data, "Failed to load leave balances"),
+          true,
+        );
+        return null;
+      }
+    } catch (e, st) {
+      log("❌ Error in getLeaveBalances: $e", stackTrace: st);
+      return null;
+    }
+  }
+
   /// ✅ Fetch Employee Leave History with Pagination
   Future getEmployeeLeaveHistory(
     String employeeId, {
@@ -113,7 +136,10 @@ class LeaveRepository {
         log("✅ Leave History Response: Page $page, Total: ${response.data?['total'] ?? 0}");
         return response.data;
       } else {
-        Utils.snackBar("Failed to fetch leave history", true);
+        Utils.snackBar(
+          Utils.extractApiError(response.data, "Failed to fetch leave history"),
+          true,
+        );
         return null;
       }
     } catch (e, st) {

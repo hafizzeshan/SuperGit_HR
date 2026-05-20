@@ -421,6 +421,10 @@ class TranslationKeys {
   static const String expiryDate = "expiryDate";
   static const String viewDocument = "viewDocument";
   static const String leaveType = "leaveType";
+  static const String leaveBalance = "leaveBalance";
+  static const String daysLeft = "daysLeft";
+  static const String taken = "taken";
+  static const String entitled = "entitled";
   static const String pullDownToRefresh = "pullDownToRefresh";
   static const String selectLeaveType = "selectLeaveType";
   static const String startDate = "startDate";

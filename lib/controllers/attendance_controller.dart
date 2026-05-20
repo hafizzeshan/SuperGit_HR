@@ -76,6 +76,14 @@ class AttendanceController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     final String employeeId = prefs.getString('employee_id') ?? "";
 
+    // Guard: never send an empty employee_id — the backend would otherwise
+    // fall back to the JWT sub (user UUID) and clock the wrong record.
+    if (employeeId.isEmpty) {
+      isClockInLoading.value = false;
+      Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
+      return;
+    }
+
     final data = {
       "method": method,
       "source_device": sourceDevice,
@@ -96,10 +104,10 @@ class AttendanceController extends GetxController {
       );
       await prefs.setString('clock_in_address', clockInAddress.value);
       _startTimer();
-      
+
       // ✅ Fetch today's logs to update history
       if (Get.isRegistered<AttendanceHistoryController>()) {
-         Get.find<AttendanceHistoryController>().getTodayLogs();
+        Get.find<AttendanceHistoryController>().getTodayLogs();
       }
 
       // Navigate to dashboard first, then to time clock screen
@@ -121,6 +129,14 @@ class AttendanceController extends GetxController {
     final prefs = await SharedPreferences.getInstance();
     final String employeeId = prefs.getString('employee_id') ?? "";
 
+    // Guard: never send an empty employee_id — the backend would otherwise
+    // fall back to the JWT sub (user UUID) and clock the wrong record.
+    if (employeeId.isEmpty) {
+      isClockOutLoading.value = false;
+      Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
+      return null;
+    }
+
     final data = {
       "method": method,
       "source_device": sourceDevice,
@@ -136,10 +152,10 @@ class AttendanceController extends GetxController {
       _stopTimer();
       await prefs.remove('clock_in_time');
       await prefs.remove('clock_in_address');
-      
+
       // ✅ Fetch today's logs to update history
       if (Get.isRegistered<AttendanceHistoryController>()) {
-         Get.find<AttendanceHistoryController>().getTodayLogs();
+        Get.find<AttendanceHistoryController>().getTodayLogs();
       }
 
       return response;
@@ -273,7 +289,10 @@ class AttendanceController extends GetxController {
       if (shouldEnable != true) return false;
       serviceEnabled = await location.requestService();
       if (!serviceEnabled) {
-        Utils.snackBar(TranslationKeys.locationServiceRequiredBeforeLogout.tr, true);
+        Utils.snackBar(
+          TranslationKeys.locationServiceRequiredBeforeLogout.tr,
+          true,
+        );
         return false;
       }
     }

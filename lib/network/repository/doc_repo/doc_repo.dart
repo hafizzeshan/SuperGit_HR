@@ -23,8 +23,10 @@ class DocumentRepository {
         print("✅ Employee Documents Response: ${response.data}");
         return response.data;
       } else {
-        final message =
-            response.data?['message'] ?? "Failed to fetch documents";
+        final message = Utils.extractApiError(
+          response.data,
+          "Failed to fetch documents",
+        );
         Utils.snackBar(message, true);
         log("❌ Fetch Failed: $message");
         return null;

@@ -654,6 +654,46 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
     );
   }
 
+  /// Sum time between In/Out pairs in [logs]. If the last log is an unmatched
+  /// "In" and [runningUntil] is provided, counts that session up to [runningUntil].
+  Duration _computeTotalFromLogs(List<Logs>? logs, {DateTime? runningUntil}) {
+    if (logs == null || logs.isEmpty) return Duration.zero;
+
+    final sorted = [...logs]..sort((a, b) {
+      final at = DateTime.tryParse(a.clockTime ?? '') ?? DateTime(0);
+      final bt = DateTime.tryParse(b.clockTime ?? '') ?? DateTime(0);
+      return at.compareTo(bt);
+    });
+
+    Duration total = Duration.zero;
+    DateTime? pendingIn;
+
+    for (final log in sorted) {
+      final t = DateTime.tryParse(log.clockTime ?? '');
+      if (t == null) continue;
+      final type = log.clockType?.toLowerCase();
+      if (type == 'in') {
+        pendingIn = t;
+      } else if (type == 'out' && pendingIn != null) {
+        total += t.difference(pendingIn);
+        pendingIn = null;
+      }
+    }
+
+    if (pendingIn != null && runningUntil != null) {
+      total += runningUntil.difference(pendingIn);
+    }
+
+    return total;
+  }
+
+  String _formatDuration(Duration d) {
+    final h = d.inHours.toString().padLeft(2, '0');
+    final m = (d.inMinutes % 60).toString().padLeft(2, '0');
+    final s = (d.inSeconds % 60).toString().padLeft(2, '0');
+    return "${h}h:${m}m:${s}s";
+  }
+
   Widget _buildDayCard(Days day) {
     if (day.logs == null || day.logs!.isEmpty) return const SizedBox();
 
@@ -687,12 +727,32 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                 tColor: Colors.black87,
               ),
               const Spacer(),
-              kText(
-                text: "${day.totalTime} ${TranslationKeys.hours.tr}",
-                fSize: 12.0,
-                fWeight: FontWeight.w600,
-                tColor: kPrimaryColor,
-              ),
+              Obx(() {
+                final todayStr = DateFormat(
+                  'yyyy-MM-dd',
+                ).format(DateTime.now());
+                final isToday = day.date == todayStr;
+                final isRunning = controller.clockInTime.value != null;
+                String text;
+                if (isToday && isRunning) {
+                  // Touch elapsedTime so this rebuilds every second.
+                  controller.elapsedTime.value;
+                  text = _formatDuration(
+                    _computeTotalFromLogs(
+                      day.logs,
+                      runningUntil: DateTime.now(),
+                    ),
+                  );
+                } else {
+                  text = day.totalTime ?? "00h:00m:00s";
+                }
+                return kText(
+                  text: text,
+                  fSize: 12.0,
+                  fWeight: FontWeight.w600,
+                  tColor: kPrimaryColor,
+                );
+              }),
             ],
           ),
         ),

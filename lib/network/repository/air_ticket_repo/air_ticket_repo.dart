@@ -35,7 +35,7 @@ class AirTicketRepository {
         final data = _unwrap(res.data);
         return data is Map<String, dynamic> ? data : null;
       }
-      Utils.snackBar(res.data?['message'] ?? "Failed to load entitlement", true);
+      Utils.snackBar(Utils.extractApiError(res.data, "Failed to load entitlement"), true);
       return null;
     } catch (e, st) {
       log("❌ getEntitlement: $e", stackTrace: st);
@@ -55,7 +55,7 @@ class AirTicketRepository {
         final data = _unwrap(res.data);
         return data is List ? data : null;
       }
-      Utils.snackBar(res.data?['message'] ?? "Failed to load entitlements", true);
+      Utils.snackBar(Utils.extractApiError(res.data, "Failed to load entitlements"), true);
       return null;
     } catch (e, st) {
       log("❌ getAllEntitlements: $e", stackTrace: st);
@@ -79,7 +79,7 @@ class AirTicketRepository {
         final body = _unwrap(res.data);
         return body is Map<String, dynamic> ? body : null;
       }
-      Utils.snackBar(res.data?['message'] ?? "Failed to create request", true);
+      Utils.snackBar(Utils.extractApiError(res.data, "Failed to create request"), true);
       return null;
     } catch (e, st) {
       log("❌ createRequest: $e", stackTrace: st);
@@ -111,7 +111,7 @@ class AirTicketRepository {
         final data = _unwrap(res.data);
         return data is Map<String, dynamic> ? data : null;
       }
-      Utils.snackBar(res.data?['message'] ?? "Failed to load requests", true);
+      Utils.snackBar(Utils.extractApiError(res.data, "Failed to load requests"), true);
       return null;
     } catch (e, st) {
       log("❌ getRequests: $e", stackTrace: st);
@@ -131,7 +131,7 @@ class AirTicketRepository {
         final data = _unwrap(res.data);
         return data is Map<String, dynamic> ? data : null;
       }
-      Utils.snackBar(res.data?['message'] ?? "Failed to load details", true);
+      Utils.snackBar(Utils.extractApiError(res.data, "Failed to load details"), true);
       return null;
     } catch (e, st) {
       log("❌ getRequestDetails: $e", stackTrace: st);
@@ -157,7 +157,7 @@ class AirTicketRepository {
         );
         return true;
       }
-      Utils.snackBar(res.data?['message'] ?? "Failed to cancel request", true);
+      Utils.snackBar(Utils.extractApiError(res.data, "Failed to cancel request"), true);
       return false;
     } catch (e, st) {
       log("❌ cancelRequest: $e", stackTrace: st);
@@ -179,7 +179,7 @@ class AirTicketRepository {
       }
       // 404 = no booking yet, don't show snackbar
       if (res.statusCode == 404) return null;
-      Utils.snackBar(res.data?['message'] ?? "Failed to load booking", true);
+      Utils.snackBar(Utils.extractApiError(res.data, "Failed to load booking"), true);
       return null;
     } catch (e, st) {
       log("❌ getBooking: $e", stackTrace: st);

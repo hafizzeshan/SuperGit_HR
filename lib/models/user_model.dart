@@ -20,7 +20,11 @@ class UserModel {
   final String? dateFormat;
   final String? managerId;
   final String? jobRoleId;
+  final String? jobRoleName;
   final String? managerName;
+  final String? departmentName;
+  final bool isManager;
+  final bool isDepartmentHead;
   final String? employmentStatus;
   final String? joinDate;
   final dynamic documents;
@@ -51,7 +55,11 @@ class UserModel {
     this.dateFormat,
     this.managerId,
     this.jobRoleId,
+    this.jobRoleName,
     this.managerName,
+    this.departmentName,
+    this.isManager = false,
+    this.isDepartmentHead = false,
     this.employmentStatus,
     this.joinDate,
     this.documents,
@@ -87,7 +95,11 @@ class UserModel {
       dateFormat: json['date_format'] as String?,
       managerId: json['manager_id'] as String?,
       jobRoleId: json['job_role_id'] as String?,
+      jobRoleName: json['job_role_name'] as String?,
       managerName: json['manager_name'] as String?,
+      departmentName: json['department_name'] as String?,
+      isManager: json['is_manager'] == true,
+      isDepartmentHead: json['is_department_head'] == true,
       employmentStatus: json['employment_status'] as String?,
       joinDate: json['join_date'] as String?,
       documents: json['documents'],
@@ -122,7 +134,11 @@ class UserModel {
       "date_format": dateFormat,
       "manager_id": managerId,
       "job_role_id": jobRoleId,
+      "job_role_name": jobRoleName,
       "manager_name": managerName,
+      "department_name": departmentName,
+      "is_manager": isManager,
+      "is_department_head": isDepartmentHead,
       "employment_status": employmentStatus,
       "join_date": joinDate,
       "documents": documents,

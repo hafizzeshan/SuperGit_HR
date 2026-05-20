@@ -24,7 +24,7 @@ class AttendanceRepository {
         // );
         return response.data;
       } else {
-        final message = response.data?['message'] ?? "Clock-In failed";
+        final message = Utils.extractApiError(response.data, "Clock-In failed");
         Utils.snackBar(message, true);
         log("❌ Clock-In Failed: $message");
         return null;
@@ -54,7 +54,7 @@ class AttendanceRepository {
         // );
         return response.data;
       } else {
-        final message = response.data?['message'] ?? "Clock-Out failed";
+        final message = Utils.extractApiError(response.data, "Clock-Out failed");
         Utils.snackBar(message, true);
         log("❌ Clock-Out Failed: $message");
       }
@@ -82,7 +82,10 @@ class AttendanceRepository {
       if (response.statusCode == 200 || response.statusCode == 201) {
         return response.data;
       } else {
-        Utils.snackBar("Failed to fetch attendance history", true);
+        Utils.snackBar(
+          Utils.extractApiError(response.data, "Failed to fetch attendance history"),
+          true,
+        );
         return null;
       }
     } catch (e, st) {
@@ -126,7 +129,7 @@ class AttendanceRepository {
         return response.data;
       } else {
         final message =
-            response.data?['message'] ?? "Failed to submit request";
+            Utils.extractApiError(response.data, "Failed to submit request");
         Utils.snackBar(message, true);
         log("❌ Edit Request Failed: $message");
         return null;

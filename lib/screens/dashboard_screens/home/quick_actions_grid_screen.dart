@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
+import 'package:supergithr/controllers/team_leave_controller.dart';
 import 'package:supergithr/screens/dashboard_screens/home/air_tickets/air_tickets_screen.dart';
+import 'package:supergithr/screens/dashboard_screens/home/team_leave/team_leave_requests_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/announcements/announcements_list.dart';
 import 'package:supergithr/screens/dashboard_screens/home/holidays/holidays.dart';
 import 'package:supergithr/screens/dashboard_screens/home/leave_summary/show_leavers.dart';
@@ -98,6 +100,18 @@ class QuickActionsGridScreen extends StatelessWidget {
       },
     ];
 
+    // Manager / department-head only: review team leave requests.
+    if (Get.isRegistered<TeamLeaveController>() &&
+        Get.find<TeamLeaveController>().canReview) {
+      actions.add({
+        'icon': Icons.fact_check_outlined,
+        'title': "Team Leave Requests",
+        'onTap': () {
+          Get.to(() => const TeamLeaveRequestsScreen());
+        },
+      });
+    }
+
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitoutAction(title: TranslationKeys.quickActions.tr),
@@ -138,7 +152,7 @@ class QuickActionsGridScreen extends StatelessWidget {
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           color: Colors.white,
-          borderRadius: BorderRadius.circular(24),
+          borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
               color: Colors.black.withOpacity(0.04),

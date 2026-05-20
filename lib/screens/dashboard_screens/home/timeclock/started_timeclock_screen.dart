@@ -4,6 +4,7 @@ import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:location/location.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
+import 'package:supergithr/controllers/employee_history_controller.dart';
 import 'package:supergithr/controllers/location_controller.dart';
 import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -26,6 +27,8 @@ class TimeClockStartedScreen extends StatefulWidget {
 
 class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
   final AttendanceController _controller = Get.find<AttendanceController>();
+  final AttendanceHistoryController _historyController =
+      Get.find<AttendanceHistoryController>();
   final LocationController locationController = Get.find<LocationController>();
 
   @override
@@ -821,7 +824,9 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Obx(() {
-                        final start = _controller.clockInTime.value;
+                        // Prefer latest "In" log from the server; fall back to local.
+                        final start = _historyController.lastStartedAt ??
+                            _controller.clockInTime.value?.toLocal();
                         final startStr =
                             start != null
                                 ? "${start.hour.toString().padLeft(2, '0')}:${start.minute.toString().padLeft(2, '0')}"

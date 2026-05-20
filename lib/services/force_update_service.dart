@@ -5,6 +5,11 @@ import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
 
 class ForceUpdateService {
+  /// 🔧 MANUAL SWITCH — set to `false` to ignore Firebase Remote Config
+  /// entirely (base_url override + force update) and use the local code
+  /// values from [AppURL.defaultBaseUrl]. Change here and rebuild.
+  static const bool applyRemoteConfig = true;
+
   static final ForceUpdateService _instance = ForceUpdateService._internal();
   factory ForceUpdateService() => _instance;
   ForceUpdateService._internal();
@@ -13,6 +18,16 @@ class ForceUpdateService {
   /// Returns null if no update is required.
   Future<ForceUpdateInfo?> checkForUpdate() async {
     try {
+      // Manual switch: when off, skip Remote Config entirely and use the
+      // local code base URL (no force update either).
+      if (!applyRemoteConfig) {
+        AppURL.baseUrl = AppURL.defaultBaseUrl;
+        ApiNetworkService().dio.options.baseUrl = AppURL.baseUrl;
+        print("⏭️ Remote Config disabled (manual) — using local base URL: "
+            "${AppURL.baseUrl}");
+        return null;
+      }
+
       final remoteConfig = FirebaseRemoteConfig.instance;
 
       // Set defaults
