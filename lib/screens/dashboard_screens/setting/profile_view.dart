@@ -27,9 +27,7 @@ class ProfileViewScreen extends StatelessWidget {
       ),
       backgroundColor: kMainBackgroundColor,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Obx(() {
           final model = _profileController.userModel.value;
 
@@ -76,8 +74,8 @@ class ProfileViewScreen extends StatelessWidget {
                         TranslationKeys.employeeCode.tr,
                         model.employeeCode,
                       ),
-// field removed
-                       _buildInfoTile(
+                      // field removed
+                      _buildInfoTile(
                         Icons.assignment_ind_outlined,
                         TranslationKeys.jobRoleId.tr,
                         model.jobRoleId,
@@ -95,8 +93,9 @@ class ProfileViewScreen extends StatelessWidget {
                       _buildInfoTile(
                         Icons.supervised_user_circle_outlined,
                         TranslationKeys.manager.tr,
-                        (model.managerName != null && model.managerName!.isNotEmpty) 
-                            ? model.managerName 
+                        (model.managerName != null &&
+                                model.managerName!.isNotEmpty)
+                            ? model.managerName
                             : model.managerId,
                       ),
                     ],
@@ -130,7 +129,6 @@ class ProfileViewScreen extends StatelessWidget {
                         TranslationKeys.maritalStatus.tr,
                         model.maritalStatus,
                       ),
-                   
                     ],
                   );
                 default:
@@ -146,9 +144,10 @@ class ProfileViewScreen extends StatelessWidget {
   Widget _buildProfileHeader(UserModel model) {
     final fullName =
         "${model.firstNameEn ?? ''} ${model.lastNameEn ?? ''}".trim();
-    final initials = fullName.isNotEmpty
-        ? fullName.trim().split(' ').take(2).map((e) => e[0]).join()
-        : "U";
+    final parts =
+        fullName.split(' ').where((e) => e.isNotEmpty).take(2).toList();
+    final initials =
+        parts.isNotEmpty ? parts.map((e) => e[0].toUpperCase()).join() : "U";
 
     return Container(
       margin: const EdgeInsets.only(bottom: 8, top: 5),
@@ -170,7 +169,10 @@ class ProfileViewScreen extends StatelessWidget {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               shape: BoxShape.circle,
-              border: Border.all(color: kPrimaryColor.withOpacity(0.1), width: 1),
+              border: Border.all(
+                color: kPrimaryColor.withOpacity(0.1),
+                width: 1,
+              ),
             ),
             child: CircleAvatar(
               radius: 35,
@@ -216,7 +218,10 @@ class ProfileViewScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildSection({required String title, required List<Widget> children}) {
+  Widget _buildSection({
+    required String title,
+    required List<Widget> children,
+  }) {
     // Filter out null/empty children
     final validChildren = children.where((c) => c is! SizedBox).toList();
     if (validChildren.isEmpty) return const SizedBox.shrink();
@@ -266,8 +271,12 @@ class ProfileViewScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildInfoTile(IconData icon, String label, String? value,
-      {String? subtitle}) {
+  Widget _buildInfoTile(
+    IconData icon,
+    String label,
+    String? value, {
+    String? subtitle,
+  }) {
     if (value == null || value.isEmpty) return const SizedBox.shrink();
 
     return Container(
