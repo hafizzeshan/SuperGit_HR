@@ -447,6 +447,8 @@ class EnglishLocal {
       TranslationKeys.selectLanguage: "Select Language",
       TranslationKeys.chooseYourPreferredLanguage: "Choose your preferred language",
       TranslationKeys.locationRequired: "Location Required",
+      TranslationKeys.locationOffProceedShifts:
+          "Please turn ON location to proceed with shifts",
       TranslationKeys.locationServicesRequiredForClockOut: "Location services are required to clock out. Please enable location to continue with logout.",
       TranslationKeys.enableLocation: "Enable Location",
       TranslationKeys.locationServiceRequiredBeforeLogout: "Location service is required to clock out before logout",

@@ -443,6 +443,8 @@ class ArabicLocal {
       TranslationKeys.chooseYourPreferredLanguage: "اختر لغتك المفضلة",
       TranslationKeys.location: "الموقع",
       TranslationKeys.locationRequired: "الموقع مطلوب",
+      TranslationKeys.locationOffProceedShifts:
+          "يرجى تشغيل الموقع للمتابعة مع المناوبات",
       TranslationKeys.locationServicesRequiredForClockOut:
           "خدمات الموقع مطلوبة لتسجيل الخروج. يرجى تفعيل الموقع للمتابعة.",
       TranslationKeys.enableLocation: "تفعيل الموقع",

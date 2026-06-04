@@ -1,5 +1,8 @@
+import 'dart:async';
+
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:supergithr/controllers/location_controller.dart';
@@ -22,14 +25,69 @@ class ClockInMapScreen extends StatefulWidget {
 class _ClockInMapScreenState extends State<ClockInMapScreen> {
   final LocationController locationController = Get.find<LocationController>();
 
+  /// Location milne tak baar baar try karne ke liye retry timer.
+  Timer? _retryTimer;
+
   @override
   void initState() {
     super.initState();
 
-    /// ✅ Fetch location only once after first frame
+    /// ✅ Location success hone tak baar baar fetch karo.
     WidgetsBinding.instance.addPostFrameCallback((_) {
+      _fetchUntilSuccess();
+    });
+  }
+
+  /// 🔁 Location (coords) milne tak har 3 second fetch retry karta hai.
+  /// Jaise hi coords mil jaate hain, loop band ho jata hai.
+  void _fetchUntilSuccess() {
+    _retryTimer?.cancel();
+
+    // Pehla attempt foran.
+    locationController.getCurrentLocation();
+
+    _retryTimer = Timer.periodic(const Duration(seconds: 3), (timer) {
+      // ✅ Location mil gayi → retry band.
+      if (locationController.currentLatLng.value != null) {
+        timer.cancel();
+        return;
+      }
+      // Pehle se fetch chal rahi hai → is tick ko skip karo.
+      if (locationController.isLoading.value) return;
+      // Dobara try karo (service on/permission grant hote hi success ho jayega).
       locationController.getCurrentLocation();
     });
+  }
+
+  @override
+  void dispose() {
+    _retryTimer?.cancel();
+    super.dispose();
+  }
+
+  /// 👆 Chip tap: dobara location fetch karo. Agar system permission dialog
+  /// aa sakta hai to woh dikhega; warna location/app settings screen kholo.
+  Future<void> _onLocationChipTap() async {
+    // 1️⃣ Location service (GPS) OFF → seedha device location settings kholo.
+    final serviceOn = await Geolocator.isLocationServiceEnabled();
+    if (!serviceOn) {
+      await Geolocator.openLocationSettings();
+      locationController.getCurrentLocation();
+      return;
+    }
+
+    // 2️⃣ Permission permanently denied → system dialog nahi aayega →
+    // app settings kholo taaki user manually allow kar sake.
+    final permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      await Geolocator.openAppSettings();
+      locationController.getCurrentLocation();
+      return;
+    }
+
+    // 3️⃣ denied (request ho sakti hai) ya granted → getCurrentLocation khud
+    // permission dialog dikhayega ya location fetch karega.
+    locationController.getCurrentLocation();
   }
 
   @override
@@ -37,6 +95,18 @@ class _ClockInMapScreenState extends State<ClockInMapScreen> {
     return Scaffold(
       appBar: appBarrWitoutAction(title: TranslationKeys.clockIn.tr),
       body: Obx(() {
+        // ✅ Location service (GPS) is OFF → show animated warning chip
+        if (!locationController.isLocationServiceOn.value) {
+          return Center(
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: _LocationWarningChip(
+                onRetry: _onLocationChipTap,
+              ),
+            ),
+          );
+        }
+
         if (locationController.isLoading.value ||
             locationController.currentLatLng.value == null) {
           return const MapShimmer();
@@ -300,5 +370,100 @@ class _ClockInMapViewState extends State<_ClockInMapView> {
         child: Icon(icon, color: Colors.grey.shade700, size: 24),
       ),
     );
+  }
+}
+
+/// ⚠️ Animated chip shown when the device location service (GPS) is OFF.
+/// Mimics the timer chip style and shows blinking dots to grab attention.
+/// Tap to re-check the location status.
+class _LocationWarningChip extends StatefulWidget {
+  final VoidCallback onRetry;
+
+  const _LocationWarningChip({required this.onRetry});
+
+  @override
+  State<_LocationWarningChip> createState() => _LocationWarningChipState();
+}
+
+class _LocationWarningChipState extends State<_LocationWarningChip>
+    with SingleTickerProviderStateMixin {
+  late final AnimationController _controller;
+
+  // Warning accent color (orange).
+  static const Color _warn = Color(0xFFE8590C);
+
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      vsync: this,
+      duration: const Duration(milliseconds: 1200),
+    )..repeat();
+  }
+
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return GestureDetector(
+      onTap: widget.onRetry,
+      child: AnimatedBuilder(
+        animation: _controller,
+        builder: (context, _) {
+          return Container(
+            padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
+            decoration: BoxDecoration(
+              color: _warn.withOpacity(0.10),
+              borderRadius: BorderRadius.circular(30),
+              border: Border.all(color: _warn.withOpacity(0.35), width: 1),
+            ),
+            child: Row(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                const Icon(Icons.location_off_rounded, color: _warn, size: 20),
+                const SizedBox(width: 10),
+                Flexible(
+                  child: kText(
+                    text: TranslationKeys.locationOffProceedShifts.tr,
+                    fSize: 13.5,
+                    fWeight: FontWeight.w600,
+                    tColor: _warn,
+                    maxLines: 2,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                ..._buildBlinkingDots(),
+              ],
+            ),
+          );
+        },
+      ),
+    );
+  }
+
+  /// Three dots that blink in a staggered sequence.
+  List<Widget> _buildBlinkingDots() {
+    return List.generate(3, (i) {
+      // Offset each dot's phase so they pulse one after another.
+      final double phase = (_controller.value + (i * 0.2)) % 1.0;
+      // Triangular wave → smooth fade in/out between 0.25 and 1.0 opacity.
+      final double wave = phase < 0.5 ? phase * 2 : (1 - phase) * 2;
+      final double opacity = 0.25 + (0.75 * wave);
+      return Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 2),
+        child: Container(
+          width: 6,
+          height: 6,
+          decoration: BoxDecoration(
+            color: _warn.withOpacity(opacity),
+            shape: BoxShape.circle,
+          ),
+        ),
+      );
+    });
   }
 }

@@ -440,6 +440,8 @@ class TurkishLocal {
       TranslationKeys.oneTime: "Bir seferlik",
       TranslationKeys.areYouSureWantToLogout: "Çıkış yapmak istediğinizden emin misiniz?",
       TranslationKeys.locationRequired: "Konum Gerekli",
+      TranslationKeys.locationOffProceedShifts:
+          "Lütfen vardiyalara devam etmek için konumu AÇIN",
       TranslationKeys.locationServicesRequiredForClockOut: "Çıkış yapmak için konum servisleri gereklidir. Lütfen devam etmek için konumu etkinleştirin.",
       TranslationKeys.enableLocation: "Konumu Etkinleştir",
       TranslationKeys.locationServiceRequiredBeforeLogout: "Çıkış yapmadan önce konum servisi gereklidir",

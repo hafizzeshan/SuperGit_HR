@@ -445,6 +445,7 @@ class TranslationKeys {
   static const String areYouSureWantToLogout = "areYouSureWantToLogout";
   static const String location = "location";
   static const String locationRequired = "locationRequired";
+  static const String locationOffProceedShifts = "locationOffProceedShifts";
   static const String locationServicesRequiredForClockOut =
       "locationServicesRequiredForClockOut";
   static const String enableLocation = "enableLocation";

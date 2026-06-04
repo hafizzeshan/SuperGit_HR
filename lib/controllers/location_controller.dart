@@ -10,6 +10,9 @@ class LocationController extends GetxController {
   var address = ''.obs;
   var currentLatLng = Rxn<LatLng>();
 
+  /// ✅ Whether the device's location service (GPS) is currently turned ON
+  var isLocationServiceOn = true.obs;
+
   /// 🗺️ Replace this with your actual API key
   final String googleApiKey = "AIzaSyA_y2gPOwCncoKN-MMK2zigootcYNpWZcg";
 
@@ -18,6 +21,14 @@ class LocationController extends GetxController {
     try {
       isLoading.value = true;
       address.value = '';
+
+      // ✅ Check if location service (GPS) is turned ON
+      final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
+      isLocationServiceOn.value = serviceEnabled;
+      if (!serviceEnabled) {
+        address.value = "Location services are off";
+        return;
+      }
 
       // ✅ Check permission
       LocationPermission permission = await Geolocator.checkPermission();
@@ -35,15 +46,33 @@ class LocationController extends GetxController {
         return;
       }
 
-      // ✅ Get position
-      Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-      );
+      // ✅ Quick fix from last known position (map jaldi dikhe).
+      try {
+        final last = await Geolocator.getLastKnownPosition();
+        if (last != null) {
+          currentLatLng.value = LatLng(last.latitude, last.longitude);
+        }
+      } catch (_) {}
 
-      currentLatLng.value = LatLng(position.latitude, position.longitude);
+      // ✅ Accurate fix WITH a hard timeout — taaki call hang na ho aur har
+      // retry attempt complete ho jaye.
+      try {
+        final position = await Geolocator.getCurrentPosition(
+          locationSettings: const LocationSettings(
+            accuracy: LocationAccuracy.high,
+            timeLimit: Duration(seconds: 15),
+          ),
+        );
+        currentLatLng.value = LatLng(position.latitude, position.longitude);
+      } catch (e) {
+        // Timed out / failed → last-known rakho agar mila tha, warna error.
+        if (currentLatLng.value == null) rethrow;
+      }
 
-      // ✅ Fetch address using API first
-      await getAddressFromLatLng(currentLatLng.value!);
+      // ✅ Fetch address for the resolved coordinates
+      if (currentLatLng.value != null) {
+        await getAddressFromLatLng(currentLatLng.value!);
+      }
     } catch (e) {
       address.value = "Unable to fetch current location";
     } finally {

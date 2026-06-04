@@ -445,6 +445,8 @@ class UrduLocal {
           "اپنی پسندیدہ زبان منتخب کریں",
       TranslationKeys.location: "مقام",
       TranslationKeys.locationRequired: "مقام درکار ہے",
+      TranslationKeys.locationOffProceedShifts:
+          "براہ کرم شفٹس کے ساتھ آگے بڑھنے کے لیے لوکیشن آن کریں",
       TranslationKeys.locationServicesRequiredForClockOut:
           "کلاک آؤٹ کے لیے مقام کی خدمات درکار ہیں۔ براہ کرم لاگ آؤٹ جاری رکھنے کے لیے مقام فعال کریں۔",
       TranslationKeys.enableLocation: "مقام فعال کریں",

@@ -3,12 +3,14 @@ import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/screens/dashboard_screens/home/timeclock/clock_in_map.dart';
+import 'package:supergithr/screens/dashboard_screens/home/timeclock/started_timeclock_screen.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
 
 /// A center-bottom floating action button that reflects the clock-in timer
 /// state: shows the live elapsed time when clocked in, or a map icon when not.
-/// Tapping always opens the clock-in Map screen (unless [onTap] is overridden).
+/// Tapping opens the running timer screen when clocked in, otherwise the
+/// clock-in Map screen (unless [onTap] is overridden).
 class FloatingTimerButton extends StatelessWidget {
   /// Override the default tap action (e.g. on the Map screen itself, where
   /// re-navigating would just stack another map). Defaults to opening the map.
@@ -42,6 +44,13 @@ class FloatingTimerButton extends StatelessWidget {
   void _handleTap() {
     if (onTap != null) {
       onTap!();
+      return;
+    }
+    // ✅ Home ke "Time Tracking" box jaisa: clocked-in hone par seedha timer
+    // screen, warna clock-in map screen.
+    final controller = Get.find<AttendanceController>();
+    if (controller.clockInTime.value != null) {
+      Get.to(() => const TimeClockStartedScreen());
     } else {
       Get.to(() => const ClockInMapScreen());
     }

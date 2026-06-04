@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
-import 'package:location/location.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
 import 'package:supergithr/controllers/location_controller.dart';
@@ -36,17 +35,29 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
     super.initState();
   }
 
-  /// ✅ End shift → open confirmation sheet
+  /// ✅ End shift → pehle location ON check karo, phir confirm sheet kholo
   Future<void> _onEndShiftPressed(BuildContext context) async {
-    // Show a small loading if location is not ready
-    if (locationController.currentLatLng.value == null) {
-      Get.dialog(
-        const Center(child: CircularProgressIndicator(color: kPrimaryColor)),
-        barrierDismissible: false,
-      );
-      await locationController.getCurrentLocation();
-      Get.back(); // Close loading
+    // 1️⃣ Sabse pehle: location service (GPS) ON hai ya nahi? (currentLatLng
+    // purani/stale ho sakti hai, is liye yahan seedha service check zaroori hai.)
+    final serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      final shouldEnable = await _askEnableLocation();
+      if (shouldEnable != true) return;
+      // ✅ Sirf ek cheez: seedha device location settings screen kholo.
+      // (requestService() peeche dusra system popup khol deta tha.)
+      await Geolocator.openLocationSettings();
+      // Settings se location ON karke wapas aayein, phir dobara Complete dabayein.
+      return;
     }
+
+    // 2️⃣ Location ON hai → ab fresh coordinates lo (stale coords pe bharosa
+    // mat karo; service abhi-abhi on hui ho sakti hai).
+    Get.dialog(
+      const Center(child: CircularProgressIndicator(color: kPrimaryColor)),
+      barrierDismissible: false,
+    );
+    await locationController.getCurrentLocation();
+    Get.back(); // Close loading
 
     if (locationController.currentLatLng.value == null) {
       Utils.snackBar(TranslationKeys.unableToFetchLocation.tr, true);
@@ -56,7 +67,63 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
     final coords = locationController.currentLatLng.value!;
 
     if (!mounted) return;
+    // 3️⃣ Sab theek → Confirm Hours wali end-shift sheet kholo.
     _showConfirmEndShiftSheet(context, coords);
+  }
+
+  /// 🔔 Location OFF hone par enable karne ka dialog.
+  Future<bool?> _askEnableLocation() {
+    return Get.dialog<bool>(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
+        title: Row(
+          children: [
+            const Icon(Icons.location_off, color: Colors.orange, size: 28),
+            const SizedBox(width: 12),
+            Expanded(
+              child: kText(
+                text: TranslationKeys.locationRequired.tr,
+                fSize: 18.0,
+                fWeight: FontWeight.bold,
+                tColor: Colors.black87,
+              ),
+            ),
+          ],
+        ),
+        content: kText(
+          text: TranslationKeys.locationServicesRequiredForClockOut.tr,
+          fSize: 14.0,
+          tColor: Colors.black87,
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: kText(
+              text: TranslationKeys.cancel.tr,
+              fSize: 14.0,
+              fWeight: FontWeight.w600,
+              tColor: Colors.grey,
+            ),
+          ),
+          ElevatedButton(
+            onPressed: () => Get.back(result: true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: kPrimaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
+            ),
+            child: kText(
+              text: TranslationKeys.enableLocation.tr,
+              fSize: 14.0,
+              fWeight: FontWeight.w600,
+              tColor: Colors.white,
+            ),
+          ),
+        ],
+      ),
+      barrierDismissible: false,
+    );
   }
 
   /// ✅ Confirmation Sheet (map + confirm/edit buttons)
