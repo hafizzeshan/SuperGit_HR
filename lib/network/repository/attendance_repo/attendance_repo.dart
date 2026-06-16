@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -12,7 +14,7 @@ class AttendanceRepository {
       final response = await _api.postRequest(AppURL.clockInApi, data: data);
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -31,7 +33,7 @@ class AttendanceRepository {
       }
     } catch (e, st) {
       log("❌ Exception in Clock-In: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong during Clock-In", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongClockIn.tr, true);
       return null;
     }
   }
@@ -42,7 +44,7 @@ class AttendanceRepository {
       final response = await _api.postRequest(AppURL.clockOutApi, data: data);
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -60,7 +62,7 @@ class AttendanceRepository {
       }
     } catch (e, st) {
       log("❌ Exception in Clock-Out: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong during Clock-Out", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongClockOut.tr, true);
     }
   }
 
@@ -75,7 +77,7 @@ class AttendanceRepository {
       final response = await _api.getRequest(url);
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -90,7 +92,7 @@ class AttendanceRepository {
       }
     } catch (e, st) {
       log("❌ Exception in getAttendanceHistory: $e", stackTrace: st);
-      Utils.snackBar("Error fetching attendance history", true);
+      Utils.snackBar(TranslationKeys.errorFetchingAttendanceHistory.tr, true);
       return null;
     }
   }
@@ -112,7 +114,7 @@ class AttendanceRepository {
 
       if (response == null) {
         print("❌ Edit Request Response: NULL (Network Error)");
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -136,7 +138,7 @@ class AttendanceRepository {
       }
     } catch (e, st) {
       log("❌ Exception in createEditRequest: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong during request submission", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongRequestSubmission.tr, true);
       return null;
     }
   }

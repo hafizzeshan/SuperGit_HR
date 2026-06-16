@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'dart:developer';
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
@@ -69,7 +70,7 @@ class Utils {
             padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 3.w),
             margin: EdgeInsets.symmetric(horizontal: 6.w, vertical: 8.w),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.8),
+              color: Colors.white.withValues(alpha: 0.8),
               borderRadius: BorderRadius.circular(10),
               boxShadow: const [
                 BoxShadow(
@@ -201,7 +202,7 @@ class Utils {
 
     permissionStatuses.forEach((permission, status) async {
       if (status.isDenied) {
-        Utils.showToast("Enable $permission Permission for better Experience");
+        Utils.showToast(TranslationKeys.enablePermission.trParams({'permission': permission.toString()}));
         //openAppSettings();
       } else if (status.isGranted) {
         debugPrint("Permission $permission $status");
@@ -236,7 +237,7 @@ class Utils {
               children: [
                 /// 🗑️ Title
                 Text(
-                  "Are you sure to remove selected data?",
+                  TranslationKeys.areYouSureRemoveData.tr,
                   style: Theme.of(
                     context,
                   ).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.w600),
@@ -252,7 +253,7 @@ class Utils {
                     GestureDetector(
                       onTap: () => Navigator.pop(context),
                       child: Text(
-                        "Cancel",
+                        TranslationKeys.cancel.tr,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),
@@ -267,7 +268,7 @@ class Utils {
                         Navigator.pop(context);
                       },
                       child: Text(
-                        "Confirm",
+                        TranslationKeys.confirm.tr,
                         style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                           fontWeight: FontWeight.bold,
                         ),

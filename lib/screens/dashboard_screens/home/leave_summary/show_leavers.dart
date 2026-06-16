@@ -96,7 +96,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
           icon: Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.1),
+              color: kPrimaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.add, color: kPrimaryColor, size: 22),
@@ -292,7 +292,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 7),
           decoration: BoxDecoration(
-            color: kPrimaryColor.withOpacity(0.1),
+            color: kPrimaryColor.withValues(alpha: 0.1),
             borderRadius: BorderRadius.circular(30),
           ),
           child: Row(
@@ -365,7 +365,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                   margin: const EdgeInsets.only(bottom: 8),
                   decoration: BoxDecoration(
                     color: selected
-                        ? kPrimaryColor.withOpacity(0.08)
+                        ? kPrimaryColor.withValues(alpha: 0.08)
                         : Colors.grey.shade50,
                     borderRadius: BorderRadius.circular(12),
                     border: Border.all(
@@ -413,7 +413,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
         border: Border.all(color: Colors.grey.shade100),
         boxShadow: [
           BoxShadow(
-            color: accent.withOpacity(0.08),
+            color: accent.withValues(alpha: 0.08),
             blurRadius: 12,
             offset: const Offset(0, 5),
           ),
@@ -434,7 +434,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                   child: CircularProgressIndicator(
                     value: remainingFraction,
                     strokeWidth: 5,
-                    backgroundColor: accent.withOpacity(0.12),
+                    backgroundColor: accent.withValues(alpha: 0.12),
                     valueColor: AlwaysStoppedAnimation<Color>(accent),
                     strokeCap: StrokeCap.round,
                   ),
@@ -468,7 +468,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                   child: LinearProgressIndicator(
                     value: remainingFraction,
                     minHeight: 5,
-                    backgroundColor: accent.withOpacity(0.12),
+                    backgroundColor: accent.withValues(alpha: 0.12),
                     valueColor: AlwaysStoppedAnimation<Color>(accent),
                   ),
                 ),
@@ -571,7 +571,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
             borderRadius: BorderRadius.circular(20),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.03),
+                color: Colors.black.withValues(alpha: 0.03),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -589,7 +589,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                     width: 50,
                     height: 50,
                     decoration: BoxDecoration(
-                      color: statusColor.withOpacity(0.1),
+                      color: statusColor.withValues(alpha: 0.1),
                       borderRadius: BorderRadius.circular(16),
                     ),
                     child: Column(
@@ -630,7 +630,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                             vertical: 2,
                           ),
                           decoration: BoxDecoration(
-                            color: statusColor.withOpacity(0.1),
+                            color: statusColor.withValues(alpha: 0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: kText(
@@ -741,7 +741,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.1),
+                    color: statusColor.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -848,7 +848,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                               vertical: 6,
                             ),
                             decoration: BoxDecoration(
-                              color: kPrimaryColor.withOpacity(0.08),
+                              color: kPrimaryColor.withValues(alpha: 0.08),
                               borderRadius: BorderRadius.circular(8),
                             ),
                             child: kText(
@@ -966,7 +966,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                             Container(
                               padding: const EdgeInsets.all(10),
                               decoration: BoxDecoration(
-                                color: kPrimaryColor.withOpacity(0.1),
+                                color: kPrimaryColor.withValues(alpha: 0.1),
                                 shape: BoxShape.circle,
                               ),
                               child: const Icon(
@@ -1050,7 +1050,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
             border: Border.all(color: Colors.grey.shade200),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),

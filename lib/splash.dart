@@ -70,7 +70,7 @@ class _SplashScreenState extends State<SplashScreen> {
         print("❌ Token expired (saved at: $savedAt, now: $now)");
         await pref.remove("authToken");
         await pref.remove("tokenSavedAt");
-        Utils.snackBar("Session expired. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.sessionExpired.tr, true);
         Get.offAll(() => const LoginScreen());
         if (mounted) setState(() => isLoading = false);
         return;
@@ -107,7 +107,7 @@ class _SplashScreenState extends State<SplashScreen> {
         print("🔹 Token valid, navigating to Dashboard.");
       } catch (e) {
         print("❌ Error during initialization: $e");
-        Utils.snackBar("Session expired. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.sessionExpired.tr, true);
         await pref.remove("authToken");
         await pref.remove("tokenSavedAt");
         Get.offAll(() => const LoginScreen());

@@ -14,7 +14,7 @@ class ShimmerTile extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: const Color.fromARGB(255, 184, 173, 173),
-      highlightColor: Colors.grey.withOpacity(0.5),
+      highlightColor: Colors.grey.withValues(alpha: 0.5),
       child: InkWell(
         onTap: () async {},
         child: Container(
@@ -81,7 +81,7 @@ class ShimmerListView extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: const Color.fromARGB(255, 184, 173, 173),
-      highlightColor: Colors.grey.withOpacity(0.5),
+      highlightColor: Colors.grey.withValues(alpha: 0.5),
       child: ListView.separated(
         itemCount: 10,
         separatorBuilder: (context, index) {

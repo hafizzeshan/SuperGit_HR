@@ -147,7 +147,7 @@ class _EmployeeSalaryStructureScreenState
           border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -160,7 +160,7 @@ class _EmployeeSalaryStructureScreenState
             Container(
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.08),
+                color: kPrimaryColor.withValues(alpha: 0.08),
                 shape: BoxShape.circle,
               ),
               child: Icon(
@@ -246,7 +246,7 @@ class _EmployeeSalaryStructureScreenState
                         Container(
                           padding: const EdgeInsets.all(14),
                           decoration: BoxDecoration(
-                            color: Colors.blue.withOpacity(0.12),
+                            color: Colors.blue.withValues(alpha: 0.12),
                             shape: BoxShape.circle,
                           ),
                           child: const Icon(
@@ -373,9 +373,9 @@ class _EmployeeSalaryStructureScreenState
     return Container(
       padding: const EdgeInsets.symmetric(vertical: 6, horizontal: 10),
       decoration: BoxDecoration(
-        color: color.withOpacity(0.1),
+        color: color.withValues(alpha: 0.1),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: color.withOpacity(0.2)),
+        border: Border.all(color: color.withValues(alpha: 0.2)),
       ),
       child: kText(
         text:

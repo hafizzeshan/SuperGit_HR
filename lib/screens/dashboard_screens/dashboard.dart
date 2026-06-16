@@ -49,7 +49,7 @@ class _DashBoradState extends State<DashBorad> {
                 color: Colors.white,
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 20,
                     offset: const Offset(0, -2),
                   ),
@@ -71,7 +71,7 @@ class _DashBoradState extends State<DashBorad> {
                       _buildNavItemWithDivider(
                         index: 1,
                         icon: AppAssets.approved,
-                        label: "Social",
+                        label: TranslationKeys.social.tr,
                       ),
                       _buildNavItemWithDivider(
                         index: 2,
@@ -107,7 +107,6 @@ class _DashBoradState extends State<DashBorad> {
     required int index,
     required String icon,
     required String label,
-    bool isEdge = false,
   }) {
     final isSelected = _selectedIndex == index;
 
@@ -120,7 +119,7 @@ class _DashBoradState extends State<DashBorad> {
         decoration:
             isSelected
                 ? BoxDecoration(
-                  color: kPrimaryColor.withOpacity(0.1),
+                  color: kPrimaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(30),
                 )
                 : const BoxDecoration(color: Colors.transparent),

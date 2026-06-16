@@ -9,7 +9,6 @@ import 'package:supergithr/views/CustomButton.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class UIHelper {
@@ -295,7 +294,7 @@ class UIHelper {
   //                               () {
   //                                 Get.back();
   //                               },
-  //                               text: "Cancel",
+  //                               text: TranslationKeys.cancel,
   //                               textcolor: Colors.white,
   //                               buttonBorderColor: Colors.transparent,
   //                               circleRadius: 25.0,
@@ -509,13 +508,13 @@ class UIHelper {
             mainAxisSize: MainAxisSize.min,
             children: [
               kText(
-                text: "Select Gender",
+                text: TranslationKeys.selectGender,
                 fSize: 16.0,
                 fWeight: FontWeight.bold,
               ),
               UIHelper.verticalSpaceSm20,
               ListTile(
-                title: kText(text: "Male", fSize: 14.0),
+                title: kText(text: TranslationKeys.male, fSize: 14.0),
                 onTap:
                     onTapM ??
                     () {
@@ -523,7 +522,7 @@ class UIHelper {
                     },
               ),
               ListTile(
-                title: kText(text: "Female", fSize: 14.0),
+                title: kText(text: TranslationKeys.female, fSize: 14.0),
                 onTap:
                     onTapF ??
                     () {
@@ -543,7 +542,7 @@ class UIHelper {
       builder:
           (BuildContext context) => CupertinoActionSheet(
             title: kText(
-              text: "Select an Option",
+              text: TranslationKeys.selectAnOption,
               fSize: 18.0,
               fWeight: fontWeightBold,
               tColor: appblueColor,
@@ -556,7 +555,7 @@ class UIHelper {
                     Icon(Icons.visibility, color: appblueColor),
                     SizedBox(width: 12),
                     kText(
-                      text: "View PDF",
+                      text: TranslationKeys.viewPdf,
                       fSize: 16.0,
                       fWeight: fontWeightBold,
                       tColor: Colors.black,
@@ -580,7 +579,7 @@ class UIHelper {
                     Icon(Icons.share, color: appblueColor),
                     SizedBox(width: 12),
                     kText(
-                      text: "Share PDF",
+                      text: TranslationKeys.sharePdf,
                       fSize: 16.0,
                       fWeight: fontWeightBold,
                       tColor: Colors.black,
@@ -598,7 +597,7 @@ class UIHelper {
             ],
             cancelButton: CupertinoActionSheetAction(
               isDefaultAction: true,
-              child: kText(text: "Cancel", tColor: Colors.red),
+              child: kText(text: TranslationKeys.cancel, tColor: Colors.red),
               onPressed: () => Navigator.pop(context),
             ),
           ),
@@ -868,7 +867,7 @@ class UIHelper {
                     controller: searchController,
                     onChanged: filterItems,
                     decoration: InputDecoration(
-                      hintText: "Search...",
+                      hintText: TranslationKeys.search.tr,
                       prefixIcon: Icon(Icons.search),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(8),
@@ -881,7 +880,7 @@ class UIHelper {
                   Expanded(
                     child:
                         filteredItems.isEmpty
-                            ? Center(child: Text("No items found"))
+                            ? Center(child: Text(TranslationKeys.noItemsFound.tr))
                             : ListView.builder(
                               itemCount: filteredItems.length,
                               itemBuilder: (context, index) {
@@ -929,7 +928,7 @@ class UIHelper {
                   /// **🔹 Confirm Button**
                   CustomButton(() {
                     Navigator.pop(context, selectedItems);
-                  }, text: "Confirm Selection"),
+                  }, text: TranslationKeys.confirmSelection.tr),
                 ],
               ),
             );

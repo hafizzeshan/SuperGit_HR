@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
@@ -83,7 +85,7 @@ class AirTicketRepository {
       return null;
     } catch (e, st) {
       log("❌ createRequest: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong while submitting request", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongSubmittingRequest.tr, true);
       return null;
     }
   }

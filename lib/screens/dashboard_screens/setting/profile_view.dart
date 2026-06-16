@@ -157,7 +157,7 @@ class ProfileViewScreen extends StatelessWidget {
         borderRadius: BorderRadius.circular(24),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 15,
             offset: const Offset(0, 5),
           ),
@@ -170,13 +170,13 @@ class ProfileViewScreen extends StatelessWidget {
             decoration: BoxDecoration(
               shape: BoxShape.circle,
               border: Border.all(
-                color: kPrimaryColor.withOpacity(0.1),
+                color: kPrimaryColor.withValues(alpha: 0.1),
                 width: 1,
               ),
             ),
             child: CircleAvatar(
               radius: 35,
-              backgroundColor: kPrimaryColor.withOpacity(0.08),
+              backgroundColor: kPrimaryColor.withValues(alpha: 0.08),
               child: kText(
                 text: initials.toUpperCase(),
                 fSize: 22,
@@ -201,7 +201,7 @@ class ProfileViewScreen extends StatelessWidget {
             Container(
               padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.06),
+                color: kPrimaryColor.withValues(alpha: 0.06),
                 borderRadius: BorderRadius.circular(20),
               ),
               child: kText(
@@ -246,7 +246,7 @@ class ProfileViewScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.02),
+                color: Colors.black.withValues(alpha: 0.02),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -287,7 +287,7 @@ class ProfileViewScreen extends StatelessWidget {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.08),
+              color: kPrimaryColor.withValues(alpha: 0.08),
               borderRadius: BorderRadius.circular(8),
             ),
             child: Icon(icon, color: kPrimaryColor, size: 20),

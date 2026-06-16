@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:get/get.dart' hide FormData, MultipartFile;
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:dio/dio.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
@@ -15,7 +17,7 @@ class DocumentRepository {
       );
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -33,7 +35,7 @@ class DocumentRepository {
       }
     } catch (e, st) {
       log("❌ Exception in getEmployeeDocuments: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong while fetching documents", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongFetchingDocuments.tr, true);
       return null;
     }
   }
@@ -68,7 +70,7 @@ class DocumentRepository {
         isMultipart: true, // ✅ Important: ensures proper headers
       );
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -104,7 +106,7 @@ class DocumentRepository {
       }
     } catch (e, st) {
       log("❌ Exception in addEmployeeDocument: $e", stackTrace: st);
-      Utils.snackBar("Error while adding document", true);
+      Utils.snackBar(TranslationKeys.errorWhileAddingDocument.tr, true);
       return null;
     }
   }

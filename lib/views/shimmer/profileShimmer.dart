@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:supergithr/views/ui_helpers.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 import '../custom_text_field.dart';
 
@@ -17,15 +19,30 @@ class ShimmerProfile extends StatelessWidget {
         child: Column(
           children: [
             CircleAvatar(radius: 45),
-            CustomTextField(required: true, hint: "Name", label: "Name"),
+            CustomTextField(
+                required: true,
+                hint: TranslationKeys.name.tr,
+                label: TranslationKeys.name.tr),
             UIHelper.verticalSpaceSm15,
-            CustomTextField(required: true, hint: "Phone", label: "Phone"),
+            CustomTextField(
+                required: true,
+                hint: TranslationKeys.phone.tr,
+                label: TranslationKeys.phone.tr),
             UIHelper.verticalSpaceSm15,
-            CustomTextField(required: true, hint: "Country", label: "Country"),
+            CustomTextField(
+                required: true,
+                hint: TranslationKeys.country.tr,
+                label: TranslationKeys.country.tr),
             UIHelper.verticalSpaceSm15,
-            CustomTextField(required: true, hint: "City", label: "City"),
+            CustomTextField(
+                required: true,
+                hint: TranslationKeys.city.tr,
+                label: TranslationKeys.city.tr),
             UIHelper.verticalSpaceSm15,
-            CustomTextField(required: true, hint: "Address", label: "Address"),
+            CustomTextField(
+                required: true,
+                hint: TranslationKeys.address.tr,
+                label: TranslationKeys.address.tr),
           ],
         ),
       ),

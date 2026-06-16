@@ -9,7 +9,7 @@ class ToastMsg {
         gravity: ToastGravity.BOTTOM,
         webPosition: "center",
         timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black.withOpacity(0.5),
+        backgroundColor: Colors.black.withValues(alpha: 0.5),
         textColor: Colors.white,
         fontSize: 16.0);
   }

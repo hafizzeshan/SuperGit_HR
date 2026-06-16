@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/network/repository/auth_repo.dart/auth_repo.dart';
 import 'package:supergithr/screens/dashboard_screens/dashboard.dart';
@@ -47,12 +48,12 @@ class RegisterController extends GetxController {
         familyName.isEmpty ||
         documentId.isEmpty ||
         providerId.isEmpty) {
-      Utils.snackBar("Please fill all fields", true);
+      Utils.snackBar(TranslationKeys.pleaseFillAllFields.tr, true);
       return;
     }
 
     if (password != confirmPassword) {
-      Utils.snackBar("Passwords do not match", true);
+      Utils.snackBar(TranslationKeys.passwordsDoNotMatch.tr, true);
       return;
     }
 
@@ -83,7 +84,7 @@ class RegisterController extends GetxController {
       print(response.toString());
       if (response != null) {
         ApiNetworkService().saveAuthToken(response['data']['token']);
-        Utils.snackBar("Registration Successful", false);
+        Utils.snackBar(TranslationKeys.registrationSuccessful.tr, false);
 
         // Profile endpoint returns 404 - should save user data from registration response instead
         // await _profileController.getProfile();
@@ -92,7 +93,7 @@ class RegisterController extends GetxController {
       }
     } catch (e) {
       isLoading.value = false;
-      Utils.snackBar("Something went wrong. Please try again.", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongTryAgain.tr, true);
     }
   }
 

@@ -37,7 +37,7 @@ class LoanController extends GetxController {
 
       if (token.isEmpty) {
         print("🔹 Auth token not found in preferences.");
-        // Utils.snackBar("Auth token not found. Please log in again.", true);
+        // Utils.snackBar(TranslationKeys.authTokenNotFound.tr, true);
         return;
       }
 

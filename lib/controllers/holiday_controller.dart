@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/models/holiday_model.dart';
 import 'package:supergithr/network/repository/attendance_repo/holiday_repo.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -58,7 +59,7 @@ class HolidayController extends GetxController {
         hasMore = false;
       }
     } catch (e) {
-      Utils.snackBar("Error fetching holidays: $e", true);
+      Utils.snackBar("${TranslationKeys.errorFetchingHolidays.tr}: $e", true);
     } finally {
       isLoading.value = false;
       isMoreLoading.value = false;

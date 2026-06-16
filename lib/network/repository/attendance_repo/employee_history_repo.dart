@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -14,7 +16,7 @@ class AttendanceHistoryRepository {
       );
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -30,7 +32,7 @@ class AttendanceHistoryRepository {
       }
     } catch (e, st) {
       log("❌ Exception in fetchTodayLogs: $e", stackTrace: st);
-      Utils.snackBar("Error loading today's logs", true);
+      Utils.snackBar(TranslationKeys.errorLoadingTodaysLogs.tr, true);
       return null;
     }
   }
@@ -43,7 +45,7 @@ class AttendanceHistoryRepository {
       );
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -58,7 +60,7 @@ class AttendanceHistoryRepository {
       }
     } catch (e, st) {
       log("❌ Exception in fetchAllLogs: $e", stackTrace: st);
-      Utils.snackBar("Error loading all logs", true);
+      Utils.snackBar(TranslationKeys.errorLoadingAllLogs.tr, true);
       return null;
     }
   }

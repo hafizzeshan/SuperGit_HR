@@ -2,6 +2,7 @@ import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
@@ -21,7 +22,7 @@ class MyProfileShimmer extends StatelessWidget {
           itemBuilder: (c, i) {
             return Column(
               children: [
-                titlewWidget(title: "My Orders", image: 'images/order.png'),
+                titlewWidget(title: TranslationKeys.myOrders.tr, image: 'images/order.png'),
                 horizontaldivider(
                   color: shimmerBlack3,
                   horizontalPadding: 0.0,
@@ -40,7 +41,7 @@ class MyProfileShimmer extends StatelessWidget {
       //  onTap: onTap ?? () {},
       leading: CircleAvatar(
         radius: 18,
-        backgroundColor: Colors.black.withOpacity(0.5),
+        backgroundColor: Colors.black.withValues(alpha: 0.5),
       ),
       title: kText(text: "-----------", fWeight: fontWeightMedium, fSize: 16.0),
       trailing: const Icon(Icons.arrow_forward_ios_rounded),

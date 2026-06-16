@@ -35,7 +35,7 @@ class DocumentController extends GetxController {
       final employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
-        Utils.snackBar("Employee ID not found. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         return;
       }
 
@@ -51,11 +51,11 @@ class DocumentController extends GetxController {
         documents.assignAll(docList);
         log("✅ Documents fetched: ${documents.length}");
       } else {
-        Utils.snackBar("No documents found.", true);
+        Utils.snackBar(TranslationKeys.noDocumentsFound.tr, true);
       }
     } catch (e, st) {
       log("❌ Error fetching documents: $e", stackTrace: st);
-      Utils.snackBar("Error fetching documents", true);
+      Utils.snackBar(TranslationKeys.errorFetchingDocuments.tr, true);
     } finally {
       isLoading.value = false;
     }
@@ -100,7 +100,7 @@ class DocumentController extends GetxController {
       final employeeId = prefs.getString('employee_id') ?? "";
 
       if (employeeId.isEmpty) {
-        Utils.snackBar("Employee ID not found. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         isSubmitting.value = false;
         return;
       }
@@ -128,11 +128,11 @@ class DocumentController extends GetxController {
         print("✅ Document Added: ${newDoc.toJson()}");
       } else {
         print(response.toString());
-        Utils.snackBar("Failed to add document", true);
+        Utils.snackBar(TranslationKeys.failedToAddDocument.tr, true);
       }
     } catch (e, st) {
       log("❌ Error adding document: $e", stackTrace: st);
-      Utils.snackBar("Error adding document", true);
+      Utils.snackBar(TranslationKeys.errorAddingDocument.tr, true);
     } finally {
       isSubmitting.value = false;
     }

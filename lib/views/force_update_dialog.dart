@@ -32,7 +32,7 @@ class ForceUpdateDialog {
                     color: Colors.white,
                     boxShadow: [
                       BoxShadow(
-                        color: kPrimaryColor.withOpacity(0.15),
+                        color: kPrimaryColor.withValues(alpha: 0.15),
                         blurRadius: 20,
                         offset: const Offset(0, 5),
                       ),

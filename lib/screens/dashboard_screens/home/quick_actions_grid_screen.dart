@@ -155,7 +155,7 @@ class QuickActionsGridScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.04),
+              color: Colors.black.withValues(alpha: 0.04),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -169,7 +169,7 @@ class QuickActionsGridScreen extends StatelessWidget {
               padding: const EdgeInsets.all(12),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: kPrimaryColor.withOpacity(0.08),
+                color: kPrimaryColor.withValues(alpha: 0.08),
               ),
               child: Icon(icon, color: kPrimaryColor, size: 28),
             ),

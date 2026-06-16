@@ -1,4 +1,5 @@
 import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/models/salary_structure_model.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -26,7 +27,7 @@ class SalaryStructureController extends GetxController {
     final employeeId = prefs.getString('employee_id') ?? "";
 
     if (employeeId.isEmpty) {
-      Utils.snackBar("Employee ID not found. Please log in again.", true);
+      Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
       return;
     }
 
@@ -70,7 +71,7 @@ class SalaryStructureController extends GetxController {
       final totalPages = response["totalPages"] ?? 1;
       hasMore = currentPage <= totalPages;
     } catch (e) {
-      Utils.snackBar("Error loading salary structure", true);
+      Utils.snackBar(TranslationKeys.errorLoadingSalaryStructure.tr, true);
     } finally {
       isLoading.value = false;
       isMoreLoading.value = false;

@@ -46,7 +46,7 @@ class _LoanScreenState extends State<LoanScreen> {
           icon: Container(
             padding: const EdgeInsets.all(6),
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.1),
+              color: kPrimaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.add, color: kPrimaryColor, size: 22),
@@ -137,7 +137,7 @@ class _LoanScreenState extends State<LoanScreen> {
               border: Border.all(color: Colors.grey.shade200),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black.withOpacity(0.05),
+                  color: Colors.black.withValues(alpha: 0.05),
                   blurRadius: 10,
                   offset: const Offset(0, 4),
                 ),
@@ -152,7 +152,7 @@ class _LoanScreenState extends State<LoanScreen> {
                       width: 50,
                       height: 50,
                       decoration: BoxDecoration(
-                        color: statusColor.withOpacity(0.1),
+                        color: statusColor.withValues(alpha: 0.1),
                         borderRadius: BorderRadius.circular(12),
                       ),
                       child: Icon(
@@ -252,7 +252,7 @@ class _LoanScreenState extends State<LoanScreen> {
                 Container(
                   padding: const EdgeInsets.all(20),
                   decoration: BoxDecoration(
-                    color: statusColor.withOpacity(0.1),
+                    color: statusColor.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
                   child: Icon(
@@ -333,9 +333,9 @@ class _LoanScreenState extends State<LoanScreen> {
       width: double.infinity,
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
       decoration: BoxDecoration(
-        color: kPrimaryColor.withOpacity(0.04),
+        color: kPrimaryColor.withValues(alpha: 0.04),
         borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: kPrimaryColor.withOpacity(0.1)),
+        border: Border.all(color: kPrimaryColor.withValues(alpha: 0.1)),
       ),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

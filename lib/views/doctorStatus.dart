@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/localization_helper.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';

@@ -87,7 +87,7 @@ class _LoginScreenState extends State<LoginScreen> {
                     borderRadius: BorderRadius.circular(24),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.15),
+                        color: Colors.black.withValues(alpha: 0.15),
                         blurRadius: 30,
                         offset: const Offset(0, 10),
                       ),
@@ -109,7 +109,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               color: Colors.white,
                               boxShadow: [
                                 BoxShadow(
-                                  color: kPrimaryColor.withOpacity(0.1),
+                                  color: kPrimaryColor.withValues(alpha: 0.1),
                                   blurRadius: 20,
                                   offset: const Offset(0, 5),
                                 ),
@@ -241,9 +241,9 @@ class _LoginScreenState extends State<LoginScreen> {
                       vertical: 8,
                     ),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.2),
+                      color: Colors.white.withValues(alpha: 0.2),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: Colors.white.withOpacity(0.3)),
+                      border: Border.all(color: Colors.white.withValues(alpha: 0.3)),
                     ),
                     child: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -272,7 +272,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 Text(
                   "© 2026 SuperGit HR. ${TranslationKeys.allRightsReserved.tr}",
                   style: textStyleMontserratRegular(
-                    color: Colors.white.withOpacity(0.7),
+                    color: Colors.white.withValues(alpha: 0.7),
                     fontSize: 12.0,
                   ),
                 ),

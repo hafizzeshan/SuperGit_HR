@@ -1,9 +1,6 @@
 import 'dart:developer';
 import 'package:dio/dio.dart';
 import 'package:cookie_jar/cookie_jar.dart';
-import 'package:dio_cookie_manager/dio_cookie_manager.dart';
-import 'package:get/get.dart' hide Response;
-import 'package:supergithr/utils/utils.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/network/services/app_urls.dart';
 
@@ -169,7 +166,7 @@ class ApiNetworkService {
   }
 
   /// Unified Error Handler - Only logs errors, no snackbars
-  void _handleError(DioException e, {bool showSnackbar = true}) {
+  void _handleError(DioException e) {
     String message = "Something went wrong";
     if (e.response != null && e.response?.data != null) {
       final data = e.response!.data;

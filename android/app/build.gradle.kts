@@ -1,5 +1,6 @@
 import java.util.Properties
 import java.io.FileInputStream
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     id("com.android.application")
     // START: FlutterFire Configuration
@@ -13,15 +14,11 @@ plugins {
 android {
     namespace = "com.bytes.supergithr"
     compileSdk = 36
-    ndkVersion = "27.0.12077973"
+    ndkVersion = "28.2.13676358"
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
         targetCompatibility = JavaVersion.VERSION_11
-    }
-
-    kotlinOptions {
-        jvmTarget = JavaVersion.VERSION_11.toString()
     }
 
     signingConfigs {
@@ -42,7 +39,7 @@ android {
         applicationId = "com.bytes.supergithr"
         minSdk = 26
         targetSdk = 36
-        versionCode = 7
+        versionCode = 8
         versionName = "1.0"
     }
 
@@ -51,6 +48,12 @@ android {
             // Signing with the release keys now
             signingConfig = signingConfigs.getByName("release")
         }
+    }
+}
+
+kotlin {
+    compilerOptions {
+        jvmTarget.set(JvmTarget.JVM_11)
     }
 }
 

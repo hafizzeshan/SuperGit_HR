@@ -82,7 +82,7 @@ class _HomeScreenState extends State<HomeScreen> {
             borderRadius: BorderRadius.circular(0),
             boxShadow: [
               BoxShadow(
-                color: kPrimaryColor.withOpacity(0.30),
+                color: kPrimaryColor.withValues(alpha: 0.30),
                 blurRadius: 20,
                 offset: const Offset(0, 10),
               ),
@@ -101,7 +101,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 110,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.10),
+                      color: Colors.white.withValues(alpha: 0.10),
                     ),
                   ),
                 ),
@@ -113,7 +113,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     height: 90,
                     decoration: BoxDecoration(
                       shape: BoxShape.circle,
-                      color: Colors.white.withOpacity(0.08),
+                      color: Colors.white.withValues(alpha: 0.08),
                     ),
                   ),
                 ),
@@ -129,10 +129,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         width: 44,
                         height: 44,
                         decoration: BoxDecoration(
-                          color: Colors.white.withOpacity(0.18),
+                          color: Colors.white.withValues(alpha: 0.18),
                           borderRadius: BorderRadius.circular(14),
                           border: Border.all(
-                            color: Colors.white.withOpacity(0.25),
+                            color: Colors.white.withValues(alpha: 0.25),
                           ),
                         ),
                         child: Center(
@@ -172,7 +172,7 @@ class _HomeScreenState extends State<HomeScreen> {
                                   : "No pending approvals",
                               style: textStyleMontserratMiddle(
                                 fontSize: 11.5,
-                                color: Colors.white.withOpacity(0.9),
+                                color: Colors.white.withValues(alpha: 0.9),
                               ),
                               maxLines: 1,
                               overflow: TextOverflow.ellipsis,
@@ -349,7 +349,7 @@ class _HomeScreenState extends State<HomeScreen> {
                             borderRadius: BorderRadius.circular(20),
                             boxShadow: [
                               BoxShadow(
-                                color: Colors.black.withOpacity(0.05),
+                                color: Colors.black.withValues(alpha: 0.05),
                                 blurRadius: 10,
                                 offset: const Offset(0, 4),
                               ),
@@ -679,7 +679,7 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.03),
+              color: Colors.black.withValues(alpha: 0.03),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -742,7 +742,7 @@ class _HomeScreenState extends State<HomeScreen> {
           borderRadius: BorderRadius.circular(14),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 15,
               offset: const Offset(0, 8),
             ),
@@ -760,7 +760,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     vertical: 8,
                   ),
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.6),
+                    color: Colors.white.withValues(alpha: 0.6),
                     borderRadius: BorderRadius.circular(20),
                   ),
                   child: Row(
@@ -859,7 +859,7 @@ class _HomeScreenState extends State<HomeScreen> {
           ), // Added border for visibility
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05), // Increased opacity
+              color: Colors.black.withValues(alpha: 0.05), // Increased opacity
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -870,7 +870,7 @@ class _HomeScreenState extends State<HomeScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.08),
+                color: kPrimaryColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, color: kPrimaryColor, size: 22),

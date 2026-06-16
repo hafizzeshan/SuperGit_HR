@@ -52,7 +52,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                       borderRadius: BorderRadius.circular(16),
                       boxShadow: [
                         BoxShadow(
-                          color: Colors.black.withOpacity(0.03),
+                          color: Colors.black.withValues(alpha: 0.03),
                           blurRadius: 10,
                           offset: const Offset(0, 4),
                         ),
@@ -250,7 +250,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                           Container(
                             padding: const EdgeInsets.all(10),
                             decoration: BoxDecoration(
-                              color: (type['color'] as Color).withOpacity(0.1),
+                              color: (type['color'] as Color).withValues(alpha: 0.1),
                               borderRadius: BorderRadius.circular(12),
                             ),
                             child: Icon(
@@ -360,7 +360,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                   width: double.infinity,
                   height: 180,
                   decoration: BoxDecoration(
-                    color: kPrimaryColor.withOpacity(0.04),
+                    color: kPrimaryColor.withValues(alpha: 0.04),
                     borderRadius: BorderRadius.circular(16),
                   ),
                   child: Column(
@@ -369,7 +369,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                       Container(
                         padding: const EdgeInsets.all(16),
                         decoration: BoxDecoration(
-                          color: kPrimaryColor.withOpacity(0.1),
+                          color: kPrimaryColor.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -409,7 +409,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
             border: Border.all(color: Colors.grey.shade300),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.05),
+                color: Colors.black.withValues(alpha: 0.05),
                 blurRadius: 10,
                 offset: const Offset(0, 4),
               ),
@@ -453,7 +453,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
             child: Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: Colors.black.withOpacity(0.6),
+                color: Colors.black.withValues(alpha: 0.6),
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 1.5),
               ),
@@ -468,7 +468,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
           child: Container(
             padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               borderRadius: const BorderRadius.vertical(
                 bottom: Radius.circular(16),
               ),

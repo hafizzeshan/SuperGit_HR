@@ -241,11 +241,11 @@ class _ClockInMapViewState extends State<_ClockInMapView> {
             child: Container(
               padding: const EdgeInsets.all(16),
               decoration: BoxDecoration(
-                color: Colors.white.withOpacity(0.9),
+                color: Colors.white.withValues(alpha: 0.9),
                 borderRadius: BorderRadius.circular(20),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 15,
                     offset: const Offset(0, 5),
                   ),
@@ -256,7 +256,7 @@ class _ClockInMapViewState extends State<_ClockInMapView> {
                   Container(
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
-                      color: kPrimaryColor.withOpacity(0.1),
+                      color: kPrimaryColor.withValues(alpha: 0.1),
                       shape: BoxShape.circle,
                     ),
                     child: const Icon(Icons.my_location, color: kPrimaryColor),
@@ -323,7 +323,7 @@ class _ClockInMapViewState extends State<_ClockInMapView> {
                 ),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.1),
+                    color: Colors.black.withValues(alpha: 0.1),
                     blurRadius: 20,
                     offset: const Offset(0, -5),
                   ),
@@ -361,7 +361,7 @@ class _ClockInMapViewState extends State<_ClockInMapView> {
           borderRadius: BorderRadius.circular(12),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.1),
+              color: Colors.black.withValues(alpha: 0.1),
               blurRadius: 8,
               offset: const Offset(0, 2),
             ),
@@ -417,9 +417,9 @@ class _LocationWarningChipState extends State<_LocationWarningChip>
           return Container(
             padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 12),
             decoration: BoxDecoration(
-              color: _warn.withOpacity(0.10),
+              color: _warn.withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: _warn.withOpacity(0.35), width: 1),
+              border: Border.all(color: _warn.withValues(alpha: 0.35), width: 1),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,
@@ -459,7 +459,7 @@ class _LocationWarningChipState extends State<_LocationWarningChip>
           width: 6,
           height: 6,
           decoration: BoxDecoration(
-            color: _warn.withOpacity(opacity),
+            color: _warn.withValues(alpha: opacity),
             shape: BoxShape.circle,
           ),
         ),

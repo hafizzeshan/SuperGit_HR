@@ -11,6 +11,8 @@ import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/social_video_player.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/views/customText.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class SocialPostDetailScreen extends StatefulWidget {
   final String postId;
@@ -50,7 +52,7 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitoutAction(title: "Post"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.post.tr),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Column(
@@ -63,8 +65,8 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
                 final post = c.selectedPost.value;
                 if (post == null) {
                   return Center(
-                    child: Text(
-                      "Post not found",
+                    child: kText(
+                      text: TranslationKeys.postNotFound,
                       style: TextStyle(color: Colors.grey.shade600),
                     ),
                   );
@@ -117,77 +119,80 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
     return Shimmer.fromColors(
       baseColor: Colors.grey.shade200,
       highlightColor: Colors.grey.shade100,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          // Media (16:9, full width like the real player)
-          ClipRRect(
-            borderRadius: const BorderRadius.vertical(
-              bottom: Radius.circular(10),
+      child: SingleChildScrollView(
+        physics: const NeverScrollableScrollPhysics(),
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            // Media (16:9, full width like the real player)
+            ClipRRect(
+              borderRadius: const BorderRadius.vertical(
+                bottom: Radius.circular(10),
+              ),
+              child: AspectRatio(
+                aspectRatio: 16 / 9,
+                child: Container(color: Colors.white),
+              ),
             ),
-            child: AspectRatio(
-              aspectRatio: 16 / 9,
-              child: Container(color: Colors.white),
-            ),
-          ),
-          Padding(
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                _bar(width: 200, height: 16), // title
-                const SizedBox(height: 10),
-                _bar(width: 120, height: 10), // date
-                const SizedBox(height: 14),
-                _bar(width: double.infinity, height: 10), // content
-                const SizedBox(height: 8),
-                _bar(width: double.infinity, height: 10),
-                const SizedBox(height: 8),
-                _bar(width: 160, height: 10),
-                const SizedBox(height: 18),
-                Row(
-                  children: [
-                    _bar(width: 60, height: 16),
-                    const SizedBox(width: 16),
-                    _bar(width: 90, height: 16),
-                  ],
-                ),
-                const SizedBox(height: 24),
-                // Comment rows
-                ...List.generate(
-                  3,
-                  (_) => Padding(
-                    padding: const EdgeInsets.only(bottom: 14),
-                    child: Row(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Container(
-                          width: 36,
-                          height: 36,
-                          decoration: const BoxDecoration(
-                            color: Colors.white,
-                            shape: BoxShape.circle,
+            Padding(
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  _bar(width: 200, height: 16), // title
+                  const SizedBox(height: 10),
+                  _bar(width: 120, height: 10), // date
+                  const SizedBox(height: 14),
+                  _bar(width: double.infinity, height: 10), // content
+                  const SizedBox(height: 8),
+                  _bar(width: double.infinity, height: 10),
+                  const SizedBox(height: 8),
+                  _bar(width: 160, height: 10),
+                  const SizedBox(height: 18),
+                  Row(
+                    children: [
+                      _bar(width: 60, height: 16),
+                      const SizedBox(width: 16),
+                      _bar(width: 90, height: 16),
+                    ],
+                  ),
+                  const SizedBox(height: 24),
+                  // Comment rows
+                  ...List.generate(
+                    3,
+                    (_) => Padding(
+                      padding: const EdgeInsets.only(bottom: 14),
+                      child: Row(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          Container(
+                            width: 36,
+                            height: 36,
+                            decoration: const BoxDecoration(
+                              color: Colors.white,
+                              shape: BoxShape.circle,
+                            ),
                           ),
-                        ),
-                        const SizedBox(width: 10),
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              _bar(width: 110, height: 11),
-                              const SizedBox(height: 8),
-                              _bar(width: double.infinity, height: 10),
-                            ],
+                          const SizedBox(width: 10),
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                _bar(width: 110, height: 11),
+                                const SizedBox(height: 8),
+                                _bar(width: double.infinity, height: 10),
+                              ],
+                            ),
                           ),
-                        ),
-                      ],
+                        ],
+                      ),
                     ),
                   ),
-                ),
-              ],
+                ],
+              ),
             ),
-          ),
-        ],
+          ],
+        ),
       ),
     );
   }
@@ -345,14 +350,18 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
         }
       },
       itemBuilder:
-          (_) => const [
+          (_) => [
             PopupMenuItem(
               value: 'edit',
               child: Row(
                 children: [
-                  Icon(Icons.edit_outlined, size: 18, color: kPrimaryColor),
-                  SizedBox(width: 8),
-                  Text("Edit"),
+                  const Icon(
+                    Icons.edit_outlined,
+                    size: 18,
+                    color: kPrimaryColor,
+                  ),
+                  const SizedBox(width: 8),
+                  Text(TranslationKeys.edit.tr),
                 ],
               ),
             ),
@@ -360,9 +369,9 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
               value: 'delete',
               child: Row(
                 children: [
-                  Icon(Icons.delete_outline, size: 18, color: Colors.red),
-                  SizedBox(width: 8),
-                  Text("Delete"),
+                  const Icon(Icons.delete_outline, size: 18, color: Colors.red),
+                  const SizedBox(width: 8),
+                  Text(TranslationKeys.delete.tr),
                 ],
               ),
             ),
@@ -380,8 +389,8 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
           color: kPrimaryColor,
         ),
         const SizedBox(width: 8),
-        Text(
-          "Comments ($count)",
+        kText(
+          text: "${TranslationKeys.comments.tr} ($count)",
           style: textStyleMontserratBold(fontSize: 14, color: Colors.black87),
         ),
         SizedBox(width: 16),
@@ -397,8 +406,8 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
         children: [
           Icon(Icons.forum_outlined, size: 36, color: Colors.grey.shade400),
           const SizedBox(height: 8),
-          Text(
-            "Be the first to comment",
+          kText(
+            text: TranslationKeys.beTheFirstToComment,
             style: TextStyle(
               color: Colors.grey.shade600,
               fontSize: 13,
@@ -422,7 +431,7 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
         color: Colors.white,
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, -2),
           ),
@@ -443,8 +452,8 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
                   controller: _commentCtrl,
                   textInputAction: TextInputAction.send,
                   onSubmitted: (_) => _send(),
-                  decoration: const InputDecoration(
-                    hintText: "Write a comment…",
+                  decoration: InputDecoration(
+                    hintText: TranslationKeys.writeAComment.tr,
                     border: InputBorder.none,
                   ),
                 ),
@@ -496,10 +505,13 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
     Get.dialog(
       AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text("Delete comment?"),
-        content: const Text("This action can't be undone."),
+        title: Text(TranslationKeys.deleteCommentQuestion.tr),
+        content: Text(TranslationKeys.thisActionCannotBeUndone.tr),
         actions: [
-          TextButton(onPressed: () => Get.back(), child: const Text("Cancel")),
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(TranslationKeys.cancel.tr),
+          ),
           ElevatedButton(
             onPressed: () async {
               Get.back();
@@ -509,7 +521,7 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
               );
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text("Delete"),
+            child: Text(TranslationKeys.delete.tr),
           ),
         ],
       ),
@@ -520,10 +532,13 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
     Get.dialog(
       AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text("Delete post?"),
-        content: const Text("This action can't be undone."),
+        title: Text(TranslationKeys.deletePostQuestion.tr),
+        content: Text(TranslationKeys.thisActionCannotBeUndone.tr),
         actions: [
-          TextButton(onPressed: () => Get.back(), child: const Text("Cancel")),
+          TextButton(
+            onPressed: () => Get.back(),
+            child: Text(TranslationKeys.cancel.tr),
+          ),
           ElevatedButton(
             onPressed: () async {
               Get.back();
@@ -531,7 +546,7 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
               if (ok) Get.back();
             },
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text("Delete"),
+            child: Text(TranslationKeys.delete.tr),
           ),
         ],
       ),
@@ -553,7 +568,7 @@ class _CommentTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final initial = comment.employee?.initial ?? '?';
-    final name = comment.employee?.fullName ?? "Employee";
+    final name = comment.employee?.fullName ?? TranslationKeys.employee.tr;
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
       padding: const EdgeInsets.all(12),
@@ -566,7 +581,7 @@ class _CommentTile extends StatelessWidget {
         children: [
           CircleAvatar(
             radius: 18,
-            backgroundColor: kPrimaryColor.withOpacity(0.15),
+            backgroundColor: kPrimaryColor.withValues(alpha: 0.15),
             child: Text(
               initial.toUpperCase(),
               style: textStyleMontserratBold(
@@ -632,7 +647,7 @@ class _CommentTile extends StatelessWidget {
   String _short(DateTime t) {
     final now = DateTime.now();
     final d = now.difference(t.toLocal());
-    if (d.inMinutes < 1) return "now";
+    if (d.inMinutes < 1) return TranslationKeys.now.tr;
     if (d.inMinutes < 60) return "${d.inMinutes}m";
     if (d.inHours < 24) return "${d.inHours}h";
     if (d.inDays < 7) return "${d.inDays}d";

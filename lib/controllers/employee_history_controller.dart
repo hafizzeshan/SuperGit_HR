@@ -1,6 +1,7 @@
 import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
@@ -135,7 +136,7 @@ class AttendanceHistoryController extends GetxController {
             const SizedBox(width: 12),
             Expanded(
               child: kText(
-                text: "Clock-In Active",
+                text: TranslationKeys.clockInActive,
                 fSize: 18.0,
                 fWeight: FontWeight.bold,
                 tColor: Colors.black87,
@@ -176,7 +177,7 @@ class AttendanceHistoryController extends GetxController {
       final employeeId = prefs.getString("employee_id") ?? "";
 
       if (employeeId.isEmpty) {
-        Utils.snackBar("Employee ID not found. Please log in again.", true);
+        Utils.snackBar(TranslationKeys.employeeIdNotFound.tr, true);
         return;
       }
 
@@ -187,7 +188,7 @@ class AttendanceHistoryController extends GetxController {
       }
     } catch (e, st) {
       log("❌ Error loading all logs: $e", stackTrace: st);
-      Utils.snackBar("Failed to load all logs", true);
+      Utils.snackBar(TranslationKeys.failedToLoadAllLogs.tr, true);
     } finally {
       isLoadingAll.value = false;
     }

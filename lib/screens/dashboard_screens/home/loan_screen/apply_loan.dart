@@ -104,7 +104,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
                 border: Border.all(color: Colors.grey.shade300),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.02),
+                    color: Colors.black.withValues(alpha: 0.02),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -140,7 +140,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
                   border: Border.all(color: Colors.grey.shade300),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.02),
+                      color: Colors.black.withValues(alpha: 0.02),
                       blurRadius: 6,
                       offset: const Offset(0, 2),
                     ),
@@ -182,7 +182,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
                 border: Border.all(color: Colors.grey.shade300),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.02),
+                    color: Colors.black.withValues(alpha: 0.02),
                     blurRadius: 6,
                     offset: const Offset(0, 2),
                   ),
@@ -248,7 +248,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -260,7 +260,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
           Container(
             padding: const EdgeInsets.all(10),
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.1),
+              color: kPrimaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(10),
             ),
             child: Icon(icon, color: kPrimaryColor, size: 20),

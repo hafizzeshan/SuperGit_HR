@@ -143,7 +143,7 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -157,7 +157,7 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
           Container(
             padding: const EdgeInsets.all(8),
             decoration: BoxDecoration(
-              color: indicatorColor.withOpacity(0.1),
+              color: indicatorColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(icon, color: indicatorColor, size: 20),

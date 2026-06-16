@@ -54,7 +54,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                     borderRadius: BorderRadius.circular(20),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.03),
+                        color: Colors.black.withValues(alpha: 0.03),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -65,7 +65,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                       Container(
                         padding: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: kPrimaryColor.withOpacity(0.1),
+                          color: kPrimaryColor.withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -158,12 +158,12 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
                         colors: [
-                          kPrimaryColor.withOpacity(0.1),
-                          kPrimaryColor.withOpacity(0.05),
+                          kPrimaryColor.withValues(alpha: 0.1),
+                          kPrimaryColor.withValues(alpha: 0.05),
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: kPrimaryColor.withOpacity(0.1)),
+                      border: Border.all(color: kPrimaryColor.withValues(alpha: 0.1)),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -180,7 +180,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                               text: TranslationKeys.totalDays.tr,
                               fSize: 14.0,
                               fWeight: FontWeight.w600,
-                              tColor: kPrimaryColor.withOpacity(0.8),
+                              tColor: kPrimaryColor.withValues(alpha: 0.8),
                             ),
                           ],
                         ),
@@ -244,7 +244,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                   focusedBorder: OutlineInputBorder(
                     borderRadius: BorderRadius.circular(20),
                     borderSide: BorderSide(
-                      color: kPrimaryColor.withOpacity(0.5),
+                      color: kPrimaryColor.withValues(alpha: 0.5),
                       width: 1.5,
                     ),
                   ),
@@ -276,7 +276,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                     ),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.03),
+                        color: Colors.black.withValues(alpha: 0.03),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -290,7 +290,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                           color: (leaveController.attachedFile.value != null
                                   ? kPrimaryColor
                                   : Colors.grey)
-                              .withOpacity(0.1),
+                              .withValues(alpha: 0.1),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(
@@ -351,7 +351,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 20,
               offset: const Offset(0, -5),
             ),
@@ -383,7 +383,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -524,7 +524,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                   ),
                   boxShadow: [
                     BoxShadow(
-                      color: kPrimaryColor.withOpacity(0.1),
+                      color: kPrimaryColor.withValues(alpha: 0.1),
                       blurRadius: 20,
                       offset: const Offset(0, -5),
                     ),
@@ -540,8 +540,8 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            kPrimaryColor.withOpacity(0.3),
-                            kPrimaryColor.withOpacity(0.6),
+                            kPrimaryColor.withValues(alpha: 0.3),
+                            kPrimaryColor.withValues(alpha: 0.6),
                           ],
                         ),
                         borderRadius: BorderRadius.circular(10),
@@ -557,7 +557,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            kPrimaryColor.withOpacity(0.05),
+                            kPrimaryColor.withValues(alpha: 0.05),
                             Colors.transparent,
                           ],
                           begin: Alignment.topCenter,
@@ -573,7 +573,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                               borderRadius: BorderRadius.circular(15),
                               boxShadow: [
                                 BoxShadow(
-                                  color: kPrimaryColor.withOpacity(0.3),
+                                  color: kPrimaryColor.withValues(alpha: 0.3),
                                   blurRadius: 8,
                                   offset: const Offset(0, 4),
                                 ),
@@ -620,7 +620,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                         gradient: LinearGradient(
                           colors: [
                             Colors.transparent,
-                            kPrimaryColor.withOpacity(0.2),
+                            kPrimaryColor.withValues(alpha: 0.2),
                             Colors.transparent,
                           ],
                         ),
@@ -759,8 +759,8 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
               isSelected
                   ? LinearGradient(
                     colors: [
-                      leaveColor.withOpacity(0.1),
-                      leaveColor.withOpacity(0.05),
+                      leaveColor.withValues(alpha: 0.1),
+                      leaveColor.withValues(alpha: 0.05),
                     ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
@@ -771,7 +771,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
           border: Border.all(
             color:
                 isSelected
-                    ? kPrimaryColor.withOpacity(0.5)
+                    ? kPrimaryColor.withValues(alpha: 0.5)
                     : Colors.grey.shade200,
             width: isSelected ? 2 : 1,
           ),
@@ -779,8 +779,8 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
             BoxShadow(
               color:
                   isSelected
-                      ? kPrimaryColor.withOpacity(0.2)
-                      : Colors.black.withOpacity(0.05),
+                      ? kPrimaryColor.withValues(alpha: 0.2)
+                      : Colors.black.withValues(alpha: 0.05),
               blurRadius: isSelected ? 12 : 8,
               offset: Offset(0, isSelected ? 6 : 3),
             ),
@@ -803,14 +803,14 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                     padding: const EdgeInsets.all(10),
                     decoration: BoxDecoration(
                       gradient: LinearGradient(
-                        colors: [leaveColor.withOpacity(0.8), leaveColor],
+                        colors: [leaveColor.withValues(alpha: 0.8), leaveColor],
                         begin: Alignment.topLeft,
                         end: Alignment.bottomRight,
                       ),
                       borderRadius: BorderRadius.circular(14),
                       boxShadow: [
                         BoxShadow(
-                          color: leaveColor.withOpacity(0.3),
+                          color: leaveColor.withValues(alpha: 0.3),
                           blurRadius: 6,
                           offset: const Offset(0, 3),
                         ),
@@ -852,7 +852,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.green.withOpacity(0.3),
+                                      color: Colors.green.withValues(alpha: 0.3),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),
@@ -893,7 +893,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                               Icon(
                                 Icons.calendar_today,
                                 size: 12,
-                                color: leaveColor.withOpacity(0.7),
+                                color: leaveColor.withValues(alpha: 0.7),
                               ),
                               const SizedBox(width: 4),
                               kText(
@@ -917,14 +917,14 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
-                            kPrimaryColor.withOpacity(0.8),
+                            kPrimaryColor.withValues(alpha: 0.8),
                             kPrimaryColor,
                           ],
                         ),
                         shape: BoxShape.circle,
                         boxShadow: [
                           BoxShadow(
-                            color: kPrimaryColor.withOpacity(0.4),
+                            color: kPrimaryColor.withValues(alpha: 0.4),
                             blurRadius: 6,
                             offset: const Offset(0, 2),
                           ),

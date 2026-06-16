@@ -12,7 +12,7 @@ class AddressShowShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: const Color.fromARGB(255, 184, 173, 173),
-      highlightColor: Colors.grey.withOpacity(0.5),
+      highlightColor: Colors.grey.withValues(alpha: 0.5),
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 15.0, vertical: 8),
         child: Row(

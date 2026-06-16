@@ -121,7 +121,7 @@ class AnnouncementsListScreen extends StatelessWidget {
           borderRadius: BorderRadius.circular(30), // Rounded modern style
           boxShadow: [
              BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 5),
             ),
@@ -136,7 +136,7 @@ class AnnouncementsListScreen extends StatelessWidget {
                    Container(
                     padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
                     decoration: BoxDecoration(
-                      color: Colors.white.withOpacity(0.6),
+                      color: Colors.white.withValues(alpha: 0.6),
                       borderRadius: BorderRadius.circular(15),
                     ),
                     child: Text(

@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -13,7 +15,7 @@ class LeaveRepository {
       final response = await _api.getRequest(url);
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -29,7 +31,7 @@ class LeaveRepository {
       }
     } catch (e, st) {
       log("❌ Exception in getLeaveTypes: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong while fetching leave types", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongFetchingLeaveTypes.tr, true);
       return null;
     }
   }
@@ -47,7 +49,7 @@ class LeaveRepository {
       );
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -87,7 +89,7 @@ class LeaveRepository {
     } catch (e, st) {
       log("❌ Exception in submitLeaveRequest: $e", stackTrace: st);
       Utils.snackBar(
-        "Something went wrong while submitting leave request",
+        TranslationKeys.somethingWentWrongSubmittingLeave.tr,
         true,
       );
       return null;
@@ -128,7 +130,7 @@ class LeaveRepository {
       final response = await _api.getRequest(url);
       
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
       
@@ -144,7 +146,7 @@ class LeaveRepository {
       }
     } catch (e, st) {
       log("❌ Error in getEmployeeLeaveHistory: $e", stackTrace: st);
-      Utils.snackBar("Error fetching leave history", true);
+      Utils.snackBar(TranslationKeys.errorFetchingLeaveHistory.tr, true);
       return null;
     }
   }

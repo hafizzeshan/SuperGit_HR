@@ -115,7 +115,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
         border: Border.all(color: Colors.grey.shade200),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -132,7 +132,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
                 width: 60,
                 height: 60,
                 decoration: BoxDecoration(
-                  color: kPrimaryColor.withOpacity(0.08),
+                  color: kPrimaryColor.withValues(alpha: 0.08),
                   shape: BoxShape.circle,
                 ),
                 child: Column(
@@ -148,7 +148,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
                       text: monthName.toUpperCase(),
                       fSize: 10.0,
                       fWeight: FontWeight.w600,
-                      tColor: kPrimaryColor.withOpacity(0.8),
+                      tColor: kPrimaryColor.withValues(alpha: 0.8),
                     ),
                   ],
                 ),
@@ -191,10 +191,10 @@ class _HolidayScreenState extends State<HolidayScreen> {
                   vertical: 5,
                 ),
                 decoration: BoxDecoration(
-                  color: kPrimaryColor.withOpacity(0.05),
+                  color: kPrimaryColor.withValues(alpha: 0.05),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(
-                    color: kPrimaryColor.withOpacity(0.1),
+                    color: kPrimaryColor.withValues(alpha: 0.1),
                     width: 1,
                   ),
                 ),

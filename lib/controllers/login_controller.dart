@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
@@ -34,7 +35,7 @@ class LoginController extends GetxController {
         password == null ||
         employeeCode.isEmpty ||
         password.isEmpty) {
-      Utils.snackBar("Please fill all fields", true);
+      Utils.snackBar(TranslationKeys.pleaseFillAllFields.tr, true);
       return;
     }
 

@@ -382,7 +382,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.orange.withOpacity(0.1),
+                        color: Colors.orange.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(
@@ -424,7 +424,7 @@ class _AboutScreenState extends State<AboutScreen> {
                     borderRadius: BorderRadius.circular(16),
                     boxShadow: [
                       BoxShadow(
-                        color: Colors.black.withOpacity(0.05),
+                        color: Colors.black.withValues(alpha: 0.05),
                         blurRadius: 10,
                         offset: const Offset(0, 4),
                       ),
@@ -436,7 +436,7 @@ class _AboutScreenState extends State<AboutScreen> {
                       Container(
                         padding: const EdgeInsets.all(8),
                         decoration: BoxDecoration(
-                          color: kPrimaryColor.withOpacity(0.08),
+                          color: kPrimaryColor.withValues(alpha: 0.08),
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: Icon(
@@ -785,7 +785,7 @@ class _AboutScreenState extends State<AboutScreen> {
               versionText,
               style: TextStyle(
                 fontSize: 9,
-                color: badgeColor.withOpacity(0.85),
+                color: badgeColor.withValues(alpha: 0.85),
               ),
             ),
         ],
@@ -805,7 +805,7 @@ class _AboutScreenState extends State<AboutScreen> {
           border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -817,7 +817,7 @@ class _AboutScreenState extends State<AboutScreen> {
               padding: const EdgeInsets.all(2),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
-                color: kPrimaryColor.withOpacity(0.08),
+                color: kPrimaryColor.withValues(alpha: 0.08),
               ),
               child: CircleAvatar(
                 radius: 25,
@@ -854,7 +854,7 @@ class _AboutScreenState extends State<AboutScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.08),
+                color: kPrimaryColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(
@@ -884,7 +884,7 @@ class _AboutScreenState extends State<AboutScreen> {
           border: Border.all(color: Colors.grey.shade200),
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 4),
             ),
@@ -895,7 +895,7 @@ class _AboutScreenState extends State<AboutScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.08),
+                color: kPrimaryColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(icon, color: kPrimaryColor, size: 22),
@@ -915,7 +915,7 @@ class _AboutScreenState extends State<AboutScreen> {
             Container(
               padding: const EdgeInsets.all(8),
               decoration: BoxDecoration(
-                color: kPrimaryColor.withOpacity(0.08),
+                color: kPrimaryColor.withValues(alpha: 0.08),
                 borderRadius: BorderRadius.circular(10),
               ),
               child: Icon(

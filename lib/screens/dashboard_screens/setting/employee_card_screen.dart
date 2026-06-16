@@ -61,7 +61,7 @@ class EmployeeCardScreen extends StatelessWidget {
                                 decoration: BoxDecoration(
                                   shape: BoxShape.circle,
                                   border: Border.all(
-                                    color: Colors.white.withOpacity(0.6),
+                                    color: Colors.white.withValues(alpha: 0.6),
                                     width: 1.5,
                                   ),
                                 ),
@@ -87,7 +87,7 @@ class EmployeeCardScreen extends StatelessWidget {
                                   kText(
                                     text: TranslationKeys.healthcareServices.tr,
                                     fSize: 11.0,
-                                    tColor: Colors.white.withOpacity(0.9),
+                                    tColor: Colors.white.withValues(alpha: 0.9),
                                   ),
                                 ],
                               ),
@@ -109,7 +109,7 @@ class EmployeeCardScreen extends StatelessWidget {
                         color: Colors.white,
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.12),
+                            color: Colors.black.withValues(alpha: 0.12),
                             blurRadius: 18,
                             offset: const Offset(0, 10),
                           ),

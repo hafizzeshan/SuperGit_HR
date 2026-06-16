@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class CustomTextField extends StatefulWidget {
   final String? hint;
@@ -48,7 +49,7 @@ class CustomTextField extends StatefulWidget {
   var textAlignVertical;
   var prefixText;
   bool isMobileNumber;
-  String validationText;
+  String? validationText;
   List<TextInputFormatter>? inputFormatters;
 
   CustomTextField({
@@ -56,7 +57,7 @@ class CustomTextField extends StatefulWidget {
     this.maxLength,
     this.controller,
     this.cursorColor,
-    this.validationText = "Required*",
+    this.validationText,
     this.isMobileNumber = false,
     this.suffixIcon,
     this.textDirection,
@@ -137,7 +138,7 @@ class _CustomTextFieldState extends State<CustomTextField> {
           widget.validator ??
           (value) {
             if (value == null || value.isEmpty) {
-              return widget.validationText ?? "Enter Some Text";
+              return widget.validationText ?? TranslationKeys.requiredField.tr;
             }
             return null;
           },

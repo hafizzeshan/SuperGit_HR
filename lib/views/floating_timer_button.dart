@@ -60,7 +60,7 @@ class FloatingTimerButton extends StatelessWidget {
     return Material(
       key: key,
       elevation: 8,
-      shadowColor: kPrimaryColor.withOpacity(0.5),
+      shadowColor: kPrimaryColor.withValues(alpha: 0.5),
       color: kPrimaryColor,
       borderRadius: BorderRadius.circular(14),
       child: InkWell(
@@ -106,7 +106,7 @@ class FloatingTimerButton extends StatelessWidget {
     return Material(
       key: key,
       elevation: 8,
-      shadowColor: kPrimaryColor.withOpacity(0.5),
+      shadowColor: kPrimaryColor.withValues(alpha: 0.5),
       color: kPrimaryColor,
       shape: const CircleBorder(),
       child: InkWell(

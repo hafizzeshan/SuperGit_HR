@@ -2,7 +2,6 @@
 //
 //     final loanModel = loanModelFromJson(jsonString);
 
-import 'package:meta/meta.dart';
 import 'dart:convert';
 
 LoanModel loanModelFromJson(String str) => LoanModel.fromJson(json.decode(str));

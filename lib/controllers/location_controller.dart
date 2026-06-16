@@ -1,4 +1,5 @@
 import 'dart:convert';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:geolocator/geolocator.dart';
@@ -26,7 +27,7 @@ class LocationController extends GetxController {
       final bool serviceEnabled = await Geolocator.isLocationServiceEnabled();
       isLocationServiceOn.value = serviceEnabled;
       if (!serviceEnabled) {
-        address.value = "Location services are off";
+        address.value = TranslationKeys.locationServicesAreOff.tr;
         return;
       }
 
@@ -35,14 +36,14 @@ class LocationController extends GetxController {
       if (permission == LocationPermission.denied) {
         permission = await Geolocator.requestPermission();
         if (permission == LocationPermission.denied) {
-          address.value = "Location permission denied";
+          address.value = TranslationKeys.locationPermissionDenied.tr;
           return;
         }
       }
 
       if (permission == LocationPermission.deniedForever) {
         address.value =
-            "Location permissions permanently denied. Enable from settings.";
+            TranslationKeys.locationPermanentlyDenied.tr;
         return;
       }
 
@@ -74,7 +75,7 @@ class LocationController extends GetxController {
         await getAddressFromLatLng(currentLatLng.value!);
       }
     } catch (e) {
-      address.value = "Unable to fetch current location";
+      address.value = TranslationKeys.unableToFetchLocation.tr;
     } finally {
       isLoading.value = false;
     }
@@ -145,10 +146,10 @@ class LocationController extends GetxController {
 
         print('📍 Local Geocoding Address: ${address.value}');
       } else {
-        address.value = "Unknown location";
+        address.value = TranslationKeys.unknownLocation.tr;
       }
     } catch (e) {
-      address.value = "Unable to fetch address locally";
+      address.value = TranslationKeys.unableToFetchAddressLocally.tr;
     }
   }
 }

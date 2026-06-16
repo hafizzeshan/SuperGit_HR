@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:get/get.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -12,7 +14,7 @@ class LoanRepository {
       final response = await _api.getRequest(AppURL.loanApi(employeeId));
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -26,7 +28,7 @@ class LoanRepository {
       }
     } catch (e, st) {
       log("❌ Exception in getEmployeeLoans: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong while fetching loans", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongFetchingLoans.tr, true);
       return null;
     }
   }
@@ -37,7 +39,7 @@ class LoanRepository {
       final response = await _api.postRequest(AppURL.loanApplyApi, data: data);
 
       if (response == null) {
-        Utils.snackBar("Unable to reach server. Please try again.", true);
+        Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
 
@@ -56,7 +58,7 @@ class LoanRepository {
       }
     } catch (e, st) {
       log("❌ Exception in applyLoan: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong while applying for loan", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongApplyingLoan.tr, true);
       return null;
     }
   }

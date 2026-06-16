@@ -1,4 +1,6 @@
 import 'dart:developer';
+import 'package:get/get.dart' hide FormData, MultipartFile;
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:dio/dio.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
@@ -98,7 +100,7 @@ class SocialPostRepository {
       return null;
     } catch (e, st) {
       log("❌ createPost: $e", stackTrace: st);
-      Utils.snackBar("Something went wrong while creating post", true);
+      Utils.snackBar(TranslationKeys.somethingWentWrongCreatingPost.tr, true);
       return null;
     }
   }

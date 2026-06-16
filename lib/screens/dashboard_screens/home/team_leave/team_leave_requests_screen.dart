@@ -8,6 +8,7 @@ import 'package:supergithr/models/team_leave_request_model.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class TeamLeaveRequestsScreen extends StatefulWidget {
   const TeamLeaveRequestsScreen({super.key});
@@ -50,7 +51,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitoutAction(title: "Team Leave Requests"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.teamLeaveRequests.tr),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: RefreshIndicator(
@@ -96,7 +97,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
           padding: const EdgeInsets.symmetric(vertical: 20),
           child: Center(
             child: Text(
-              "No more requests",
+              TranslationKeys.noMoreRequests.tr,
               style: TextStyle(fontSize: 12, color: Colors.grey.shade500),
             ),
           ),
@@ -116,7 +117,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
             width: 84,
             height: 84,
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.1),
+              color: kPrimaryColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.task_alt_rounded,
@@ -126,14 +127,14 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
         const SizedBox(height: 16),
         Center(
           child: Text(
-            "No pending leave requests",
+            TranslationKeys.noPendingLeaveRequests.tr,
             style: textStyleMontserratBold(fontSize: 16, color: Colors.black87),
           ),
         ),
         const SizedBox(height: 6),
         Center(
           child: Text(
-            "You're all caught up with your team's approvals",
+            TranslationKeys.allCaughtUpApprovals.tr,
             style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
           ),
         ),
@@ -204,7 +205,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                     width: 40,
                     height: 40,
                     decoration: BoxDecoration(
-                      color: color.withOpacity(0.12),
+                      color: color.withValues(alpha: 0.12),
                       shape: BoxShape.circle,
                     ),
                     child: Icon(
@@ -218,7 +219,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      approve ? "Approve Leave Request?" : "Reject Leave Request?",
+                      approve ? TranslationKeys.approveLeaveRequest.tr : TranslationKeys.rejectLeaveRequest.tr,
                       style: textStyleMontserratBold(
                         fontSize: 16,
                         color: Colors.black87,
@@ -228,17 +229,17 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                 ],
               ),
               const SizedBox(height: 14),
-              _kv("Employee", "${r.displayName} (${r.employeeCode ?? '-'})"),
-              _kv("Leave Type", r.leaveTypeName ?? '-'),
-              _kv("Duration", _range(r)),
+              _kv(TranslationKeys.employee.tr, "${r.displayName} (${r.employeeCode ?? '-'})"),
+              _kv(TranslationKeys.leaveType.tr, r.leaveTypeName ?? '-'),
+              _kv(TranslationKeys.duration.tr, _range(r)),
               const SizedBox(height: 12),
               TextField(
                 controller: remarksCtrl,
                 maxLines: 3,
                 decoration: InputDecoration(
                   hintText: approve
-                      ? "Remarks (optional)"
-                      : "Reason for rejection (recommended)",
+                      ? TranslationKeys.remarksOptional.tr
+                      : TranslationKeys.reasonForRejection.tr,
                   hintStyle:
                       TextStyle(color: Colors.grey.shade400, fontSize: 13),
                   filled: true,
@@ -271,7 +272,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                         ),
                       ),
                       child: Text(
-                        "Cancel",
+                        TranslationKeys.cancel.tr,
                         style: TextStyle(
                           color: Colors.grey.shade700,
                           fontWeight: FontWeight.w600,
@@ -300,7 +301,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                         ),
                       ),
                       child: Text(
-                        approve ? "Approve" : "Reject",
+                        approve ? TranslationKeys.approve.tr : TranslationKeys.reject.tr,
                         style: textStyleMontserratBold(
                           fontSize: 14,
                           color: Colors.white,
@@ -382,7 +383,7 @@ class _RequestCard extends StatelessWidget {
         borderRadius: BorderRadius.circular(18),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.05),
+            color: Colors.black.withValues(alpha: 0.05),
             blurRadius: 14,
             offset: const Offset(0, 5),
           ),
@@ -395,7 +396,7 @@ class _RequestCard extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 20,
-                backgroundColor: kPrimaryColor.withOpacity(0.12),
+                backgroundColor: kPrimaryColor.withValues(alpha: 0.12),
                 child: Text(
                   request.initial,
                   style: textStyleMontserratBold(
@@ -431,11 +432,11 @@ class _RequestCard extends StatelessWidget {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                 decoration: BoxDecoration(
-                  color: kPrimaryColor.withOpacity(0.08),
+                  color: kPrimaryColor.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(20),
                 ),
                 child: Text(
-                  request.leaveTypeName ?? "Leave",
+                  request.leaveTypeName ?? TranslationKeys.leave.tr,
                   style: textStyleMontserratBold(
                     fontSize: 11,
                     color: kPrimaryColor,
@@ -496,7 +497,7 @@ class _RequestCard extends StatelessWidget {
             return Row(
               children: [
                 _OutlineBtn(
-                  label: "View",
+                  label: TranslationKeys.view.tr,
                   icon: Icons.visibility_outlined,
                   color: Colors.grey.shade700,
                   onTap: onView,
@@ -504,7 +505,7 @@ class _RequestCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _SolidBtn(
-                    label: "Approve",
+                    label: TranslationKeys.approve.tr,
                     icon: Icons.check_rounded,
                     color: kSecondaryColor,
                     onTap: onApprove,
@@ -513,7 +514,7 @@ class _RequestCard extends StatelessWidget {
                 const SizedBox(width: 8),
                 Expanded(
                   child: _SolidBtn(
-                    label: "Reject",
+                    label: TranslationKeys.reject.tr,
                     icon: Icons.close_rounded,
                     color: Colors.red,
                     onTap: onReject,
@@ -597,7 +598,7 @@ class _SolidBtn extends StatelessWidget {
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 10),
         decoration: BoxDecoration(
-          color: color.withOpacity(0.1),
+          color: color.withValues(alpha: 0.1),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Row(
@@ -660,7 +661,7 @@ class _DetailsSheet extends StatelessWidget {
             children: [
               CircleAvatar(
                 radius: 24,
-                backgroundColor: kPrimaryColor.withOpacity(0.12),
+                backgroundColor: kPrimaryColor.withValues(alpha: 0.12),
                 child: Text(
                   request.initial,
                   style: textStyleMontserratBold(
@@ -695,21 +696,21 @@ class _DetailsSheet extends StatelessWidget {
             ],
           ),
           const SizedBox(height: 18),
-          _row("Leave Type", request.leaveTypeName ?? '-'),
-          _row("Start Date", _TeamLeaveRequestsScreenState._fmt(request.startDate)),
-          _row("End Date", _TeamLeaveRequestsScreenState._fmt(request.endDate)),
-          _row("Total Days",
+          _row(TranslationKeys.leaveType.tr, request.leaveTypeName ?? '-'),
+          _row(TranslationKeys.startDate.tr, _TeamLeaveRequestsScreenState._fmt(request.startDate)),
+          _row(TranslationKeys.endDate.tr, _TeamLeaveRequestsScreenState._fmt(request.endDate)),
+          _row(TranslationKeys.totalDays.tr,
               request.totalDays != null ? "${request.totalDays}" : '-'),
-          _row("Status", request.status ?? '-'),
+          _row(TranslationKeys.status.tr, request.status ?? '-'),
           if (request.currentApproverName != null)
-            _row("Approver", request.currentApproverName!),
+            _row(TranslationKeys.approver.tr, request.currentApproverName!),
           if (request.createdAt != null)
-            _row("Requested On",
+            _row(TranslationKeys.requestedOn.tr,
                 _TeamLeaveRequestsScreenState._fmt(request.createdAt)),
           const SizedBox(height: 6),
           if (request.reason != null && request.reason!.isNotEmpty) ...[
             Text(
-              "Reason",
+              TranslationKeys.reason.tr,
               style: TextStyle(fontSize: 12.5, color: Colors.grey.shade600),
             ),
             const SizedBox(height: 4),
@@ -737,9 +738,9 @@ class _DetailsSheet extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: onReject,
                   icon: const Icon(Icons.close_rounded, size: 18),
-                  label: const Text("Reject"),
+                  label: Text(TranslationKeys.reject.tr),
                   style: ElevatedButton.styleFrom(
-                    backgroundColor: Colors.red.withOpacity(0.1),
+                    backgroundColor: Colors.red.withValues(alpha: 0.1),
                     foregroundColor: Colors.red,
                     elevation: 0,
                     padding: const EdgeInsets.symmetric(vertical: 14),
@@ -754,7 +755,7 @@ class _DetailsSheet extends StatelessWidget {
                 child: ElevatedButton.icon(
                   onPressed: onApprove,
                   icon: const Icon(Icons.check_rounded, size: 18),
-                  label: const Text("Approve"),
+                  label: Text(TranslationKeys.approve.tr),
                   style: ElevatedButton.styleFrom(
                     backgroundColor: kSecondaryColor,
                     foregroundColor: Colors.white,

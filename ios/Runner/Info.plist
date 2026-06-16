@@ -46,17 +46,9 @@
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to accurately record your clock-in and clock-out activities for attendance management.</string>
-	<key>NSLocationAlwaysUsageDescription</key>
-	<string>We need your location to accurately record your clock-in and clock-out activities even when the app is in the background.</string>
-	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string>We need your location to accurately record your clock-in and clock-out activities for attendance management.</string>
+	<string>We need your location only while the app is open to record your clock-in and clock-out activities for attendance management.</string>
 	<key>io.flutter.embedded_views_preview</key>
 	<true/>
-<key>UIBackgroundModes</key>
-<array>
-  <string>location</string>
-</array>
 <key>NSDocumentsFolderUsageDescription</key>
 <string>App needs access to documents</string>
 <key>NSPhotoLibraryUsageDescription</key>

@@ -8,6 +8,7 @@ import 'package:supergithr/screens/dashboard_screens/home/air_tickets/create_air
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class AirTicketsScreen extends StatefulWidget {
   const AirTicketsScreen({super.key});
@@ -39,7 +40,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitoutAction(title: "Air Tickets"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.airTickets.tr),
       floatingActionButton: FloatingActionButton.extended(
         backgroundColor: kPrimaryColor,
         onPressed: () async {
@@ -49,8 +50,8 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
           c.fetchMyRequests();
         },
         icon: const Icon(Icons.add, color: Colors.white),
-        label: const Text("New Request",
-            style: TextStyle(color: Colors.white)),
+        label: Text(TranslationKeys.newRequest.tr,
+            style: const TextStyle(color: Colors.white)),
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
@@ -61,7 +62,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
             children: [
               _entitlementCard(),
               const SizedBox(height: 16),
-              Text("My Requests",
+              Text(TranslationKeys.myRequests.tr,
                   style: textStyleMontserratBold(
                       fontSize: 16, color: Colors.black87)),
               const SizedBox(height: 8),
@@ -88,7 +89,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
         return _cardShell(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Text("No entitlement found for this year.",
+            child: Text(TranslationKeys.noEntitlementFoundForYear.tr,
                 style: textStyleMontserratBold(
                     fontSize: 14, color: Colors.black54)),
           ),
@@ -107,7 +108,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
                 children: [
                   const Icon(Icons.flight_takeoff, color: kPrimaryColor),
                   const SizedBox(width: 8),
-                  Text("Entitlement · ${e.year}",
+                  Text("${TranslationKeys.entitlement.tr} · ${e.year}",
                       style: textStyleMontserratBold(
                           fontSize: 15, color: Colors.black87)),
                   const Spacer(),
@@ -126,9 +127,10 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text("Used: ${e.usedTickets}/${e.eligibleTickets}",
+                  Text(
+                      "${TranslationKeys.used.tr}: ${e.usedTickets}/${e.eligibleTickets}",
                       style: const TextStyle(color: Colors.black87)),
-                  Text("Remaining: ${e.remainingTickets}",
+                  Text("${TranslationKeys.remaining.tr}: ${e.remainingTickets}",
                       style: textStyleMontserratBold(
                           fontSize: 13, color: kPrimaryColor)),
                 ],
@@ -157,7 +159,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
                 Icon(Icons.airplanemode_inactive,
                     size: 40, color: Colors.grey.shade400),
                 const SizedBox(height: 8),
-                Text("No air ticket requests yet.",
+                Text(TranslationKeys.noAirTicketRequestsYet.tr,
                     style: textStyleMontserratBold(
                         fontSize: 14, color: Colors.black54)),
               ],
@@ -198,7 +200,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
               ],
             ),
             const SizedBox(height: 6),
-            Text("Departure: $dep",
+            Text("${TranslationKeys.departure.tr}: $dep",
                 style: const TextStyle(color: Colors.black54, fontSize: 13)),
             const SizedBox(height: 2),
             Text(
@@ -260,7 +262,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

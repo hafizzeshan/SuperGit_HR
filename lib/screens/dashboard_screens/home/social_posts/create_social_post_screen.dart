@@ -9,6 +9,7 @@ import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class CreateSocialPostScreen extends StatefulWidget {
   /// If non-null, screen runs in edit mode for the existing post.
@@ -61,7 +62,7 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
   Future<void> _submit() async {
     if (!_formKey.currentState!.validate()) return;
     if (!_isEdit && _picked == null) {
-      Utils.snackBar("Please select a media file", true);
+      Utils.snackBar(TranslationKeys.pleaseSelectMediaFile.tr, true);
       return;
     }
 
@@ -98,19 +99,19 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
             children: [
               _sectionCard(
                 icon: Icons.perm_media_rounded,
-                title: "Media",
+                title: TranslationKeys.media.tr,
                 subtitle:
                     _isEdit
-                        ? "Replace the current image or video (optional)"
-                        : "Pick an image or video to share",
+                        ? TranslationKeys.replaceMediaOptional.tr
+                        : TranslationKeys.pickImageOrVideo.tr,
                 children: [
                   if (!_isEdit) ...[
-                    _fieldLabel("Media Type"),
+                    _fieldLabel(TranslationKeys.mediaType.tr),
                     Row(
                       children: [
                         Expanded(
                           child: _typeChip(
-                            label: "Image",
+                            label: TranslationKeys.image.tr,
                             icon: Icons.image_outlined,
                             selected: _mediaType == 'image',
                             onTap: () {
@@ -124,7 +125,7 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
                         const SizedBox(width: 10),
                         Expanded(
                           child: _typeChip(
-                            label: "Video",
+                            label: TranslationKeys.video.tr,
                             icon: Icons.videocam_outlined,
                             selected: _mediaType == 'video',
                             onTap: () {
@@ -145,24 +146,26 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
               const SizedBox(height: 16),
               _sectionCard(
                 icon: Icons.title_rounded,
-                title: "Post Details",
-                subtitle: "Add a title and a short description",
+                title: TranslationKeys.postDetails.tr,
+                subtitle: TranslationKeys.addTitleAndDescription.tr,
                 children: [
-                  _fieldLabel("Title"),
+                  _fieldLabel(TranslationKeys.title.tr),
                   _textField(
                     controller: _title,
                     icon: Icons.short_text_rounded,
-                    hint: "What's the headline?",
+                    hint: TranslationKeys.postTitleHint.tr,
                     validator:
                         (v) =>
-                            (v == null || v.trim().isEmpty) ? "Required" : null,
+                            (v == null || v.trim().isEmpty)
+                                ? TranslationKeys.required.tr
+                                : null,
                   ),
                   const SizedBox(height: 16),
-                  _fieldLabel("Description"),
+                  _fieldLabel(TranslationKeys.description.tr),
                   _textField(
                     controller: _content,
                     icon: Icons.notes_rounded,
-                    hint: "Optional content",
+                    hint: TranslationKeys.optionalContent.tr,
                     maxLines: 5,
                   ),
                 ],

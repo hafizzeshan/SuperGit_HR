@@ -1,6 +1,8 @@
 import 'package:chewie/chewie.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:supergithr/views/colors.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:video_player/video_player.dart';
 
 /// A lightweight video poster: initializes the video, holds it on the first
@@ -71,7 +73,7 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: Colors.white.withOpacity(0.9),
+              color: Colors.white.withValues(alpha: 0.9),
               shape: BoxShape.circle,
             ),
             child: const Icon(Icons.play_arrow_rounded,
@@ -88,13 +90,14 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
               color: Colors.black54,
               borderRadius: BorderRadius.circular(6),
             ),
-            child: const Row(
+            child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                Icon(Icons.videocam_rounded, color: Colors.white, size: 14),
-                SizedBox(width: 4),
-                Text("Video",
-                    style: TextStyle(color: Colors.white, fontSize: 11)),
+                const Icon(Icons.videocam_rounded,
+                    color: Colors.white, size: 14),
+                const SizedBox(width: 4),
+                Text(TranslationKeys.video.tr,
+                    style: const TextStyle(color: Colors.white, fontSize: 11)),
               ],
             ),
           ),

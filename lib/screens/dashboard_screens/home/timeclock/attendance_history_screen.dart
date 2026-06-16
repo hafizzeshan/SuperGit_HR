@@ -191,8 +191,8 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                                       isSelected
                                           ? [
                                             BoxShadow(
-                                              color: kPrimaryColor.withOpacity(
-                                                0.4,
+                                              color: kPrimaryColor.withValues(
+                                                alpha: 0.4,
                                               ),
                                               blurRadius: 6,
                                               offset: const Offset(0, 3),
@@ -278,8 +278,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                   return _buildEmptyState();
                 }
 
-                if (monthData == null ||
-                    monthData.weeks == null ||
+                if (monthData.weeks == null ||
                     monthData.weeks!.isEmpty) {
                   return _buildEmptyState();
                 }
@@ -346,7 +345,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                 borderRadius: BorderRadius.circular(15),
                 boxShadow: [
                   BoxShadow(
-                    color: Colors.black.withOpacity(0.05),
+                    color: Colors.black.withValues(alpha: 0.05),
                     blurRadius: 10,
                     offset: const Offset(0, 4),
                   ),
@@ -395,8 +394,8 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
             BoxShadow(
               color:
                   isSelected
-                      ? kPrimaryColor.withOpacity(0.3)
-                      : Colors.black.withOpacity(0.05),
+                      ? kPrimaryColor.withValues(alpha: 0.3)
+                      : Colors.black.withValues(alpha: 0.05),
               blurRadius: 8,
               offset: const Offset(0, 4),
             ),
@@ -450,7 +449,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: isSelected ? kPrimaryColor.withOpacity(0.1) : Colors.white,
+              color: isSelected ? kPrimaryColor.withValues(alpha: 0.1) : Colors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isSelected ? kPrimaryColor : Colors.grey.shade300,
@@ -470,7 +469,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                       "${(index * 7) + 1} - ${index == weeksInMonth - 1 ? lastDayOfMonth.day : (index + 1) * 7}",
                   fSize: 10.0,
                   tColor:
-                      isSelected ? kPrimaryColor.withOpacity(0.7) : Colors.grey,
+                      isSelected ? kPrimaryColor.withValues(alpha: 0.7) : Colors.grey,
                 ),
               ],
             ),
@@ -508,7 +507,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                   isSelected
                       ? [
                         BoxShadow(
-                          color: kPrimaryColor.withOpacity(0.3),
+                          color: kPrimaryColor.withValues(alpha: 0.3),
                           blurRadius: 4,
                           offset: const Offset(0, 2),
                         ),
@@ -781,7 +780,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.03),
+            color: Colors.black.withValues(alpha: 0.03),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),
@@ -797,8 +796,8 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
             decoration: BoxDecoration(
               color:
                   isClockIn
-                      ? Colors.green.withOpacity(0.1)
-                      : Colors.red.withOpacity(0.1),
+                      ? Colors.green.withValues(alpha: 0.1)
+                      : Colors.red.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(

@@ -170,7 +170,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.red.withOpacity(0.1),
+                        color: Colors.red.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(Icons.logout_rounded,
@@ -202,7 +202,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                   border: Border.all(color: Colors.grey.shade200),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.05),
+                      color: Colors.black.withValues(alpha: 0.05),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -485,7 +485,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                               Container(
                                 padding: const EdgeInsets.all(10),
                                 decoration: BoxDecoration(
-                                  color: Colors.blue.withOpacity(0.1),
+                                  color: Colors.blue.withValues(alpha: 0.1),
                                   shape: BoxShape.circle,
                                 ),
                                 child: const Icon(
@@ -626,10 +626,10 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                           horizontal: 16,
                         ),
                         decoration: BoxDecoration(
-                          color: kPrimaryColor.withOpacity(0.05),
+                          color: kPrimaryColor.withValues(alpha: 0.05),
                           borderRadius: BorderRadius.circular(12),
                           border: Border.all(
-                            color: kPrimaryColor.withOpacity(0.1),
+                            color: kPrimaryColor.withValues(alpha: 0.1),
                           ),
                         ),
                         child: Row(
@@ -826,7 +826,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                   borderRadius: BorderRadius.circular(24),
                   boxShadow: [
                     BoxShadow(
-                      color: kPrimaryColor.withOpacity(0.1),
+                      color: kPrimaryColor.withValues(alpha: 0.1),
                       blurRadius: 20,
                       offset: const Offset(0, 10),
                     ),
@@ -887,7 +887,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                         vertical: 8,
                       ),
                       decoration: BoxDecoration(
-                        color: kPrimaryColor.withOpacity(0.05),
+                        color: kPrimaryColor.withValues(alpha: 0.05),
                         borderRadius: BorderRadius.circular(20),
                       ),
                       child: Obx(() {
@@ -901,7 +901,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                         return kText(
                           text: "${TranslationKeys.startedAt.tr} $startStr",
                           fSize: 14.0,
-                          tColor: kPrimaryColor.withOpacity(0.8),
+                          tColor: kPrimaryColor.withValues(alpha: 0.8),
                           fWeight: FontWeight.w500,
                         );
                       }),
@@ -916,12 +916,12 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
               Container(
                 padding: const EdgeInsets.all(20),
                 decoration: BoxDecoration(
-                  color: Colors.white.withOpacity(0.8),
+                  color: Colors.white.withValues(alpha: 0.8),
                   borderRadius: BorderRadius.circular(20),
                   border: Border.all(color: Colors.white),
                   boxShadow: [
                     BoxShadow(
-                      color: Colors.black.withOpacity(0.03),
+                      color: Colors.black.withValues(alpha: 0.03),
                       blurRadius: 10,
                       offset: const Offset(0, 4),
                     ),
@@ -932,7 +932,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                     Container(
                       padding: const EdgeInsets.all(12),
                       decoration: BoxDecoration(
-                        color: Colors.blue.withOpacity(0.1),
+                        color: Colors.blue.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
                       child: const Icon(

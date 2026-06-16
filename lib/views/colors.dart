@@ -20,9 +20,9 @@ const Color genderBoxColor = Color(0xffEDE0D4);
 const Color appbottombarColor = Color(0xffF2DFD1);
 const Color appdarkIconColor = Color(0xff51443A);
 
-Color shimmerBlack1 = Colors.black.withOpacity(0.1);
-Color shimmerBlack2 = Colors.black.withOpacity(0.3);
-Color shimmerBlack3 = Colors.black.withOpacity(0.5);
+Color shimmerBlack1 = Colors.black.withValues(alpha: 0.1);
+Color shimmerBlack2 = Colors.black.withValues(alpha: 0.3);
+Color shimmerBlack3 = Colors.black.withValues(alpha: 0.5);
 
 const Color greyColor = Colors.grey;
 const Color lightButtonColor = Color(0xffF8FAF7);
@@ -33,7 +33,7 @@ const Color splashcolor = Color(0xff2D587A);
 
 const Color redColor = Colors.red;
 const Color appBlurTextColor = Color(0xff7E7670);
-Color appBlurPinkColor = Colors.pink.withOpacity(0.1);
+Color appBlurPinkColor = Colors.pink.withValues(alpha: 0.1);
 
 const Color kPrimaryColor = Color(0xff0076CE);
 const Color kSecondaryColor = Color(0xff00A676);

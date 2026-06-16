@@ -628,4 +628,204 @@ class TranslationKeys {
   static const String selectedDocument = "selectedDocument";
   static const String uploadDocument = "uploadDocument";
   static const String noFileSelected = "noFileSelected";
+
+  // Air tickets, social posts, team leave & shared widgets
+  static const String add = "add";
+  static const String keep = "keep";
+  static const String cancelRequest = "cancelRequest";
+  static const String cancelRequestQuestion = "cancelRequestQuestion";
+  static const String requestNotFound = "requestNotFound";
+  static const String noApprovalActionsYet = "noApprovalActionsYet";
+  static const String newRequest = "newRequest";
+  static const String myRequests = "myRequests";
+  static const String noEntitlementFoundForYear = "noEntitlementFoundForYear";
+  static const String entitlement = "entitlement";
+  static const String used = "used";
+  static const String noAirTicketRequestsYet = "noAirTicketRequestsYet";
+  static const String departure = "departure";
+  static const String approve = "approve";
+  static const String reject = "reject";
+  static const String writeAComment = "writeAComment";
+  static const String deleteCommentQuestion = "deleteCommentQuestion";
+  static const String thisActionCannotBeUndone = "thisActionCannotBeUndone";
+  static const String deletePostQuestion = "deletePostQuestion";
+  static const String noItemsFound = "noItemsFound";
+  static const String video = "video";
+  static const String noDataFound = "noDataFound";
+  static const String errorWhileGettingOnlineItems =
+      "errorWhileGettingOnlineItems";
+
+  // Air tickets - details & create form
+  static const String requestDetails = "requestDetails";
+  static const String newAirTicketRequest = "newAirTicketRequest";
+  static const String tripDetails = "tripDetails";
+  static const String whereAndWhenFlying = "whereAndWhenFlying";
+  static const String requestType = "requestType";
+  static const String chooseRequestType = "chooseRequestType";
+  static const String fromCity = "fromCity";
+  static const String toCity = "toCity";
+  static const String returnOptional = "returnOptional";
+  static const String travelClass = "travelClass";
+  static const String chooseClass = "chooseClass";
+  static const String preferredAirline = "preferredAirline";
+  static const String optional = "optional";
+  static const String travelParty = "travelParty";
+  static const String whoIsTravelling = "whoIsTravelling";
+  static const String travelType = "travelType";
+  static const String chooseTravelType = "chooseTravelType";
+  static const String notes = "notes";
+  static const String anythingElseToKnow = "anythingElseToKnow";
+  static const String optionalNotesForHr = "optionalNotesForHr";
+  static const String pleaseSelectDepartureDate = "pleaseSelectDepartureDate";
+  static const String addAtLeastOnePassenger = "addAtLeastOnePassenger";
+  static const String fillNameAndPassport = "fillNameAndPassport";
+  static const String pickDobForEveryPassenger = "pickDobForEveryPassenger";
+  static const String employeeIdMissingLogin = "employeeIdMissingLogin";
+  static const String passengers = "passengers";
+  static const String passenger = "passenger";
+  static const String approvalTimeline = "approvalTimeline";
+  static const String booking = "booking";
+  static const String requested = "requested";
+  static const String estimatedCost = "estimatedCost";
+  static const String finalCost = "finalCost";
+  static const String invoice = "invoice";
+  static const String cancelRequestConfirm = "cancelRequestConfirm";
+  static const String returnLabel = "returnLabel";
+  static const String ticket = "ticket";
+  static const String agency = "agency";
+  static const String issued = "issued";
+  static const String egRiyadh = "egRiyadh";
+  static const String egDubai = "egDubai";
+  static const String added = "added";
+  static const String fullName = "fullName";
+  static const String relationship = "relationship";
+  static const String selectRelationship = "selectRelationship";
+  static const String passportNumber = "passportNumber";
+  static const String iqamaNumber = "iqamaNumber";
+  static const String selectDob = "selectDob";
+  static const String passengerName = "passengerName";
+  static const String selfOnly = "selfOnly";
+  static const String selfFamily = "selfFamily";
+
+  // Social posts & team leave
+  static const String post = "post";
+  static const String media = "media";
+  static const String postDetails = "postDetails";
+  static const String teamLeaveRequests = "teamLeaveRequests";
+  static const String pleaseSelectMediaFile = "pleaseSelectMediaFile";
+  static const String addTitleAndDescription = "addTitleAndDescription";
+  static const String optionalContent = "optionalContent";
+  static const String postTitleHint = "postTitleHint";
+  static const String image = "image";
+  static const String mediaType = "mediaType";
+  static const String replaceMediaOptional = "replaceMediaOptional";
+  static const String pickImageOrVideo = "pickImageOrVideo";
+  static const String requiredField = "requiredField";
+
+  // Controller snackbar/toast messages
+  static const String failedToLoadAllLogs = "failedToLoadAllLogs";
+  static const String passwordsDoNotMatch = "passwordsDoNotMatch";
+  static const String registrationSuccessful = "registrationSuccessful";
+  static const String somethingWentWrongTryAgain = "somethingWentWrongTryAgain";
+  static const String somethingWentWrong = "somethingWentWrong";
+  static const String pleaseEnterYourEmail = "pleaseEnterYourEmail";
+  static const String pleaseEnterOtp = "pleaseEnterOtp";
+  static const String passwordMustBeAtLeast6 = "passwordMustBeAtLeast6";
+  static const String otpResentSuccessfully = "otpResentSuccessfully";
+  static const String authTokenNotFound = "authTokenNotFound";
+  static const String noDocumentsFound = "noDocumentsFound";
+  static const String errorFetchingDocuments = "errorFetchingDocuments";
+  static const String failedToAddDocument = "failedToAddDocument";
+  static const String errorAddingDocument = "errorAddingDocument";
+  static const String errorLoadingSalaryStructure =
+      "errorLoadingSalaryStructure";
+  static const String errorFetchingHolidays = "errorFetchingHolidays";
+  static const String errorLoadingProfile = "errorLoadingProfile";
+  static const String errorChangingPassword = "errorChangingPassword";
+  static const String country = "country";
+  static const String city = "city";
+  static const String social = "social";
+  static const String view = "view";
+  static const String airTickets = "airTickets";
+  static const String myOrders = "myOrders";
+
+  // Social feed & post detail
+  static const String newPost = "newPost";
+  static const String socialFeed = "socialFeed";
+  static const String stayConnectedWithTeam = "stayConnectedWithTeam";
+  static const String noPostsYet = "noPostsYet";
+  static const String beTheFirstToShare = "beTheFirstToShare";
+  static const String youreAllCaughtUp = "youreAllCaughtUp";
+  static const String now = "now";
+  static const String postNotFound = "postNotFound";
+  static const String comments = "comments";
+  static const String beTheFirstToComment = "beTheFirstToComment";
+  static const String employee = "employee";
+
+  // Repository / network error messages & misc screens
+  static const String unableToReachServer = "unableToReachServer";
+  static const String unableToReachServerShort = "unableToReachServerShort";
+  static const String somethingWentWrongSubmittingRequest =
+      "somethingWentWrongSubmittingRequest";
+  static const String somethingWentWrongClockIn = "somethingWentWrongClockIn";
+  static const String somethingWentWrongClockOut = "somethingWentWrongClockOut";
+  static const String errorFetchingAttendanceHistory =
+      "errorFetchingAttendanceHistory";
+  static const String somethingWentWrongRequestSubmission =
+      "somethingWentWrongRequestSubmission";
+  static const String errorLoadingTodaysLogs = "errorLoadingTodaysLogs";
+  static const String errorLoadingAllLogs = "errorLoadingAllLogs";
+  static const String failedToFetchHolidays = "failedToFetchHolidays";
+  static const String errorLoadingHolidays = "errorLoadingHolidays";
+  static const String somethingWentWrongFetchingLeaveTypes =
+      "somethingWentWrongFetchingLeaveTypes";
+  static const String somethingWentWrongSubmittingLeave =
+      "somethingWentWrongSubmittingLeave";
+  static const String errorFetchingLeaveHistory = "errorFetchingLeaveHistory";
+  static const String failedToFetchSalaryStructure =
+      "failedToFetchSalaryStructure";
+  static const String somethingWentWrongFetchingDocuments =
+      "somethingWentWrongFetchingDocuments";
+  static const String errorWhileAddingDocument = "errorWhileAddingDocument";
+  static const String somethingWentWrongFetchingLoans =
+      "somethingWentWrongFetchingLoans";
+  static const String somethingWentWrongApplyingLoan =
+      "somethingWentWrongApplyingLoan";
+  static const String somethingWentWrongCreatingPost =
+      "somethingWentWrongCreatingPost";
+  static const String teamLeave = "teamLeave";
+  static const String clockedInAt = "clockedInAt";
+  static const String noMoreRequests = "noMoreRequests";
+  static const String noPendingLeaveRequests = "noPendingLeaveRequests";
+  static const String allCaughtUpApprovals = "allCaughtUpApprovals";
+  static const String sessionExpired = "sessionExpired";
+  static const String areYouSureRemoveData = "areYouSureRemoveData";
+  static const String updateRequired = "updateRequired";
+  static const String updateNow = "updateNow";
+  static const String status = "status";
+  static const String approver = "approver";
+  static const String review = "review";
+  static const String selectAnOption = "selectAnOption";
+  static const String viewPdf = "viewPdf";
+  static const String sharePdf = "sharePdf";
+  static const String confirmSelection = "confirmSelection";
+  static const String noPendingApprovals = "noPendingApprovals";
+  static const String approveLeaveRequest = "approveLeaveRequest";
+  static const String rejectLeaveRequest = "rejectLeaveRequest";
+  static const String remarksOptional = "remarksOptional";
+  static const String reasonForRejection = "reasonForRejection";
+  static const String enablePermission = "enablePermission";
+  static const String mobile = "mobile";
+  static const String locationServicesAreOff = "locationServicesAreOff";
+  static const String locationPermissionDenied = "locationPermissionDenied";
+  static const String locationPermanentlyDenied = "locationPermanentlyDenied";
+  static const String unknownLocation = "unknownLocation";
+  static const String unableToFetchAddressLocally =
+      "unableToFetchAddressLocally";
+  static const String clockInActive = "clockInActive";
+  static const String loadingMoreHistory = "loadingMoreHistory";
+  static const String passwordResetSuccessfully = "passwordResetSuccessfully";
+  static const String errorSubmittingLeaveRequest =
+      "errorSubmittingLeaveRequest";
+  static const String networkError = "networkError";
 }

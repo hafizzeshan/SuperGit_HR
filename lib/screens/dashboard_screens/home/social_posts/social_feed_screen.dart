@@ -10,6 +10,8 @@ import 'package:supergithr/screens/dashboard_screens/home/social_posts/create_so
 import 'package:supergithr/screens/dashboard_screens/home/social_posts/social_post_detail_screen.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/social_video_player.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
+import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
 
 class SocialFeedScreen extends StatefulWidget {
@@ -99,8 +101,8 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
                 child: FloatingActionButton.extended(
                   backgroundColor: kPrimaryColor,
                   icon: const Icon(Icons.add_rounded, color: Colors.white),
-                  label: Text(
-                    "New Post",
+                  label: kText(
+                    text: TranslationKeys.newPost,
                     style: textStyleMontserratBold(
                         fontSize: 14, color: Colors.white),
                   ),
@@ -121,7 +123,7 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
             width: 40,
             height: 40,
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.1),
+              color: kPrimaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
             child: const Icon(Icons.dynamic_feed_rounded,
@@ -132,15 +134,15 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Text(
-                  "Social Feed",
+                kText(
+                  text: TranslationKeys.socialFeed,
                   style: textStyleMontserratBold(
                     fontSize: 20,
                     color: const Color(0xff1A1A1A),
                   ),
                 ),
-                Text(
-                  "Stay connected with your team",
+                kText(
+                  text: TranslationKeys.stayConnectedWithTeam,
                   style: TextStyle(
                     fontSize: 12,
                     color: Colors.grey.shade600,
@@ -173,7 +175,7 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
             width: 80,
             height: 80,
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.1),
+              color: kPrimaryColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: const Icon(
@@ -185,8 +187,8 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
         ),
         const SizedBox(height: 16),
         Center(
-          child: Text(
-            "No posts yet",
+          child: kText(
+            text: TranslationKeys.noPostsYet,
             style: textStyleMontserratBold(
               fontSize: 16,
               color: Colors.black87,
@@ -195,8 +197,9 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
         ),
         const SizedBox(height: 6),
         Center(
-          child: Text(
-            "Be the first to share something with the team",
+          child: kText(
+            text: TranslationKeys.beTheFirstToShare,
+            textalign: TextAlign.center,
             style: TextStyle(
               fontSize: 13,
               color: Colors.grey.shade600,
@@ -212,61 +215,82 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
       padding: const EdgeInsets.only(top: 4, bottom: 120),
       physics: const AlwaysScrollableScrollPhysics(),
       itemCount: 4,
-      itemBuilder: (_, __) => Padding(
-        padding: const EdgeInsets.only(bottom: 16),
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey.shade200,
-          highlightColor: Colors.grey.shade100,
-          child: Container(
-            color: Colors.white,
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                // Media (16:9, matches _PostMedia)
-                ClipRRect(
-                  child: AspectRatio(
-                    aspectRatio: 16 / 9,
-                    child: Container(color: Colors.white),
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 14, 14, 0),
-                  child: _bar(width: 180, height: 14),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 10, 14, 0),
-                  child: _bar(width: double.infinity, height: 10),
-                ),
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 8, 60, 0),
-                  child: _bar(width: double.infinity, height: 10),
-                ),
-                // Action row (like + comment)
-                Padding(
-                  padding: const EdgeInsets.fromLTRB(14, 14, 14, 16),
-                  child: Row(
-                    children: [
-                      _bar(width: 60, height: 16),
-                      const SizedBox(width: 16),
-                      _bar(width: 80, height: 16),
-                    ],
-                  ),
-                ),
-              ],
+      // White card + shadow live OUTSIDE the shimmer so the card shape and the
+      // gaps between placeholders stay white — only the skeleton shapes shimmer.
+      itemBuilder: (_, __) => Container(
+        margin: const EdgeInsets.only(bottom: 16),
+        decoration: BoxDecoration(
+          color: Colors.white,
+          boxShadow: [
+            BoxShadow(
+              color: Colors.black.withValues(alpha: 0.05),
+              blurRadius: 16,
+              offset: const Offset(0, 6),
             ),
+          ],
+        ),
+        child: Shimmer.fromColors(
+          baseColor: Colors.grey.shade300,
+          highlightColor: Colors.grey.shade100,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // Media (16:9, matches _PostMedia)
+              AspectRatio(
+                aspectRatio: 16 / 9,
+                child: _box(width: double.infinity, height: double.infinity,
+                    radius: 0),
+              ),
+              // Title row + time (matches Padding(14, 12, 8, 4))
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 12, 8, 4),
+                child: Row(
+                  children: [
+                    Expanded(child: _box(width: 180, height: 15)),
+                    const SizedBox(width: 8),
+                    _box(width: 30, height: 11),
+                  ],
+                ),
+              ),
+              // Content lines (matches Padding(14, 0, 14, 0))
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 6, 14, 0),
+                child: _box(width: double.infinity, height: 11),
+              ),
+              Padding(
+                padding: const EdgeInsets.fromLTRB(14, 8, 60, 0),
+                child: _box(width: double.infinity, height: 11),
+              ),
+              const SizedBox(height: 10),
+              // Action row (matches like + comment buttons, Padding(8, 0, 8, 8))
+              Padding(
+                padding: const EdgeInsets.fromLTRB(20, 8, 8, 18),
+                child: Row(
+                  children: [
+                    _box(width: 46, height: 22),
+                    const SizedBox(width: 30),
+                    _box(width: 70, height: 22),
+                  ],
+                ),
+              ),
+            ],
           ),
         ),
       ),
     );
   }
 
-  Widget _bar({required double width, required double height}) {
+  Widget _box({
+    required double width,
+    required double height,
+    double radius = 6,
+  }) {
     return Container(
       width: width,
       height: height,
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(6),
+        borderRadius: BorderRadius.circular(radius),
       ),
     );
   }
@@ -284,8 +308,8 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
         return Padding(
           padding: const EdgeInsets.symmetric(vertical: 24),
           child: Center(
-            child: Text(
-              "You're all caught up",
+            child: kText(
+              text: TranslationKeys.youreAllCaughtUp,
               style: TextStyle(
                 fontSize: 12,
                 color: Colors.grey.shade500,
@@ -329,7 +353,7 @@ class _PostCard extends StatelessWidget {
           color: Colors.white,
           boxShadow: [
             BoxShadow(
-              color: Colors.black.withOpacity(0.05),
+              color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 16,
               offset: const Offset(0, 6),
             ),
@@ -398,7 +422,7 @@ class _PostCard extends StatelessWidget {
                   _ActionButton(
                     icon: Icons.mode_comment_outlined,
                     color: Colors.grey.shade700,
-                    label: "Comment",
+                    label: TranslationKeys.comment.tr,
                     onTap: onCommentTap,
                   ),
                 ],
@@ -413,7 +437,7 @@ class _PostCard extends StatelessWidget {
   String _relativeTime(DateTime t) {
     final now = DateTime.now();
     final d = now.difference(t.toLocal());
-    if (d.inMinutes < 1) return "now";
+    if (d.inMinutes < 1) return TranslationKeys.now.tr;
     if (d.inMinutes < 60) return "${d.inMinutes}m";
     if (d.inHours < 24) return "${d.inHours}h";
     if (d.inDays < 7) return "${d.inDays}d";

@@ -6,6 +6,7 @@ import 'package:supergithr/models/air_ticket_models.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class AirTicketDetailsScreen extends StatefulWidget {
   final String requestId;
@@ -30,19 +31,19 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
     final confirmed = await Get.dialog<bool>(
       AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: const Text("Cancel Request?"),
+        title: Text(TranslationKeys.cancelRequestQuestion.tr),
         content: Text(
-          "This will cancel request ${req.requestId}. This action cannot be undone.",
+          TranslationKeys.cancelRequestConfirm.trParams({'id': req.requestId}),
         ),
         actions: [
           TextButton(
             onPressed: () => Get.back(result: false),
-            child: const Text("Keep"),
+            child: Text(TranslationKeys.keep.tr),
           ),
           ElevatedButton(
             onPressed: () => Get.back(result: true),
             style: ElevatedButton.styleFrom(backgroundColor: Colors.red),
-            child: const Text("Cancel Request"),
+            child: Text(TranslationKeys.cancelRequest.tr),
           ),
         ],
       ),
@@ -56,7 +57,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitoutAction(title: "Request Details"),
+      appBar: appBarrWitoutAction(title: TranslationKeys.requestDetails.tr),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Obx(() {
@@ -65,7 +66,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
           }
           final d = c.selectedRequest.value;
           if (d == null) {
-            return const Center(child: Text("Request not found"));
+            return Center(child: Text(TranslationKeys.requestNotFound.tr));
           }
           return ListView(
             padding: const EdgeInsets.all(16),
@@ -75,15 +76,15 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
               _tripCard(d.request),
               const SizedBox(height: 14),
               if (d.passengers.isNotEmpty) ...[
-                _sectionTitle("Passengers"),
+                _sectionTitle(TranslationKeys.passengers.tr),
                 ...d.passengers.map(_passengerTile),
                 const SizedBox(height: 14),
               ],
-              _sectionTitle("Approval Timeline"),
+              _sectionTitle(TranslationKeys.approvalTimeline.tr),
               _approvalTimeline(d.approvals),
               const SizedBox(height: 14),
               if (d.booking != null) ...[
-                _sectionTitle("Booking"),
+                _sectionTitle(TranslationKeys.booking.tr),
                 _bookingCard(d.booking!),
                 const SizedBox(height: 14),
               ],
@@ -105,7 +106,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
                               ),
                             )
                           : Text(
-                              "Cancel Request",
+                              TranslationKeys.cancelRequest.tr,
                               style: textStyleMontserratBold(
                                 fontSize: 14,
                                 color: Colors.white,
@@ -161,7 +162,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
             if (r.createdAt != null) ...[
               const SizedBox(height: 4),
               Text(
-                "Requested ${DateFormat('MMM d, yyyy').format(r.createdAt!)}",
+                "${TranslationKeys.requested.tr} ${DateFormat('MMM d, yyyy').format(r.createdAt!)}",
                 style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
               ),
             ],
@@ -183,17 +184,18 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
         padding: const EdgeInsets.all(16),
         child: Column(
           children: [
-            _kv("Request Type", _pretty(r.requestType)),
-            _kv("Travel Type", _pretty(r.travelType)),
-            _kv("Travel Class", r.travelClass.toUpperCase()),
-            _kv("Departure", dep),
-            _kv("Return", ret),
+            _kv(TranslationKeys.requestType.tr, _pretty(r.requestType)),
+            _kv(TranslationKeys.travelType.tr, _pretty(r.travelType)),
+            _kv(TranslationKeys.travelClass.tr, r.travelClass.toUpperCase()),
+            _kv(TranslationKeys.departure.tr, dep),
+            _kv(TranslationKeys.returnLabel.tr, ret),
             if ((r.preferredAirline ?? '').isNotEmpty)
-              _kv("Preferred Airline", r.preferredAirline!),
+              _kv(TranslationKeys.preferredAirline.tr, r.preferredAirline!),
             if (r.estimatedCost != null)
-              _kv("Estimated Cost",
+              _kv(TranslationKeys.estimatedCost.tr,
                   "${r.estimatedCost!.toStringAsFixed(2)} ${r.currency ?? ''}"),
-            if ((r.remarks ?? '').isNotEmpty) _kv("Remarks", r.remarks!),
+            if ((r.remarks ?? '').isNotEmpty)
+              _kv(TranslationKeys.remarks.tr, r.remarks!),
           ],
         ),
       ),
@@ -214,7 +216,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
             Row(
               children: [
                 CircleAvatar(
-                  backgroundColor: kPrimaryColor.withOpacity(0.1),
+                  backgroundColor: kPrimaryColor.withValues(alpha: 0.1),
                   child: const Icon(Icons.person, color: kPrimaryColor),
                 ),
                 const SizedBox(width: 12),
@@ -238,9 +240,10 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
               ],
             ),
             const SizedBox(height: 8),
-            _kv("Passport", p.passportNumber),
-            if ((p.iqamaNumber ?? '').isNotEmpty) _kv("Iqama", p.iqamaNumber!),
-            if (dob.isNotEmpty) _kv("DOB", dob),
+            _kv(TranslationKeys.passport.tr, p.passportNumber),
+            if ((p.iqamaNumber ?? '').isNotEmpty)
+              _kv(TranslationKeys.iqama.tr, p.iqamaNumber!),
+            if (dob.isNotEmpty) _kv(TranslationKeys.dateOfBirth.tr, dob),
           ],
         ),
       ),
@@ -252,7 +255,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
       return _card(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text("No approval actions yet.",
+          child: Text(TranslationKeys.noApprovalActionsYet.tr,
               style: TextStyle(color: Colors.grey.shade600)),
         ),
       );
@@ -274,7 +277,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
                         width: 28,
                         height: 28,
                         decoration: BoxDecoration(
-                          color: _actionColor(a.action).withOpacity(0.15),
+                          color: _actionColor(a.action).withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                         ),
                         child: Icon(_actionIcon(a.action),
@@ -346,14 +349,15 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
             ),
             const SizedBox(height: 8),
             _kv("PNR", b.pnr),
-            _kv("Ticket", b.ticketNumber),
+            _kv(TranslationKeys.ticket.tr, b.ticketNumber),
             if ((b.travelAgency ?? '').isNotEmpty)
-              _kv("Agency", b.travelAgency!),
-            _kv("Final Cost", b.finalCost.toStringAsFixed(2)),
+              _kv(TranslationKeys.agency.tr, b.travelAgency!),
+            _kv(TranslationKeys.finalCost.tr, b.finalCost.toStringAsFixed(2)),
             if ((b.invoiceNumber ?? '').isNotEmpty)
-              _kv("Invoice", b.invoiceNumber!),
+              _kv(TranslationKeys.invoice.tr, b.invoiceNumber!),
             if (b.issuedAt != null)
-              _kv("Issued", DateFormat('MMM d, yyyy').format(b.issuedAt!)),
+              _kv(TranslationKeys.issued.tr,
+                  DateFormat('MMM d, yyyy').format(b.issuedAt!)),
           ],
         ),
       ),
@@ -396,7 +400,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
         borderRadius: BorderRadius.circular(16),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 10,
             offset: const Offset(0, 4),
           ),

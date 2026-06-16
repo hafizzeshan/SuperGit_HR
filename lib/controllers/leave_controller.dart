@@ -6,13 +6,10 @@ import 'package:supergithr/models/leave_balance_model.dart';
 import 'package:supergithr/models/leave_request_model.dart';
 import 'package:supergithr/models/leave_type_model.dart';
 import 'package:supergithr/network/repository/attendance_repo/leave_repo.dart';
-import 'dart:io';
 import 'package:file_picker/file_picker.dart';
 import 'package:dio/dio.dart' as dio;
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/utils.dart';
-import 'package:supergithr/views/colors.dart';
-import 'package:supergithr/views/customText.dart';
 
 class LeaveController extends GetxController {
   final LeaveRepository _repo = LeaveRepository();
@@ -291,7 +288,7 @@ class LeaveController extends GetxController {
       isSubmitting.value = false;
       log("❌ Error submitting leave request: $e");
 
-      String errorMessage = "Error submitting leave request";
+      String errorMessage = TranslationKeys.errorSubmittingLeaveRequest.tr;
 
       if (e is dio.DioException) {
         if (e.response != null && e.response!.data != null) {
@@ -306,7 +303,7 @@ class LeaveController extends GetxController {
                 "Server Error: ${e.response?.statusCode}";
           }
         } else {
-          errorMessage = e.message ?? "Network Error";
+          errorMessage = e.message ?? TranslationKeys.networkError.tr;
         }
       } else {
         errorMessage = e.toString();

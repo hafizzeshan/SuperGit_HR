@@ -446,7 +446,7 @@ class UrduLocal {
       TranslationKeys.location: "مقام",
       TranslationKeys.locationRequired: "مقام درکار ہے",
       TranslationKeys.locationOffProceedShifts:
-          "براہ کرم شفٹس کے ساتھ آگے بڑھنے کے لیے لوکیشن آن کریں",
+          "براہ کرم بہتر کارکردگی کے لیے لوکیشن آن کریں اور ایپ کو دوبارہ شروع کریں۔",
       TranslationKeys.locationServicesRequiredForClockOut:
           "کلاک آؤٹ کے لیے مقام کی خدمات درکار ہیں۔ براہ کرم لاگ آؤٹ جاری رکھنے کے لیے مقام فعال کریں۔",
       TranslationKeys.enableLocation: "مقام فعال کریں",
@@ -657,6 +657,32 @@ class UrduLocal {
       TranslationKeys.selectedDocument: "منتخب کردہ دستاویز",
       TranslationKeys.uploadDocument: "دستاویز اپ لوڈ کریں",
       TranslationKeys.noFileSelected: "کوئی فائل منتخب نہیں کی گئی",
+      TranslationKeys.add: "شامل کریں",
+      TranslationKeys.keep: "رہنے دیں",
+      TranslationKeys.cancelRequest: "درخواست منسوخ کریں",
+      TranslationKeys.cancelRequestQuestion: "درخواست منسوخ کریں؟",
+      TranslationKeys.requestNotFound: "درخواست نہیں ملی",
+      TranslationKeys.noApprovalActionsYet: "ابھی تک کوئی منظوری کارروائی نہیں۔",
+      TranslationKeys.newRequest: "نئی درخواست",
+      TranslationKeys.myRequests: "میری درخواستیں",
+      TranslationKeys.noEntitlementFoundForYear:
+          "اس سال کے لیے کوئی استحقاق نہیں ملا۔",
+      TranslationKeys.entitlement: "استحقاق",
+      TranslationKeys.used: "استعمال شدہ",
+      TranslationKeys.noAirTicketRequestsYet:
+          "ابھی تک کوئی ایئر ٹکٹ درخواست نہیں۔",
+      TranslationKeys.departure: "روانگی",
+      TranslationKeys.approve: "منظور کریں",
+      TranslationKeys.reject: "مسترد کریں",
+      TranslationKeys.writeAComment: "تبصرہ لکھیں…",
+      TranslationKeys.deleteCommentQuestion: "تبصرہ حذف کریں؟",
+      TranslationKeys.thisActionCannotBeUndone: "یہ عمل واپس نہیں کیا جا سکتا۔",
+      TranslationKeys.deletePostQuestion: "پوسٹ حذف کریں؟",
+      TranslationKeys.noItemsFound: "کوئی آئٹم نہیں ملا",
+      TranslationKeys.video: "ویڈیو",
+      TranslationKeys.noDataFound: "کوئی ڈیٹا نہیں ملا",
+      TranslationKeys.errorWhileGettingOnlineItems:
+          "آن لائن آئٹمز حاصل کرتے وقت خرابی",
     };
   }
 }

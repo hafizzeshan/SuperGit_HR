@@ -140,7 +140,7 @@ class ProfileController extends GetxController {
   //     }
   //   } catch (e) {
   //     isLoading.value = false;
-  //     Utils.snackBar("Error loading profile: $e", true);
+  //     Utils.snackBar("${TranslationKeys.errorLoadingProfile.tr}: $e", true);
   //   }
   // }
 
@@ -226,7 +226,7 @@ class ProfileController extends GetxController {
       }
     } catch (e) {
       isLoading.value = false;
-      Utils.snackBar("Error changing password: $e", true);
+      Utils.snackBar("${TranslationKeys.errorChangingPassword.tr}: $e", true);
     }
   }
 

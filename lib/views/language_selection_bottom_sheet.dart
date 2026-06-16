@@ -7,7 +7,7 @@ import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 
 /// Modern Language Selection Bottom Sheet
-/// Supports English, Arabic, and Urdu languages
+/// Supports English and Arabic languages
 class LanguageSelectionBottomSheet {
   static void show(BuildContext context) {
     final TranslationController translationController =
@@ -89,19 +89,6 @@ class LanguageSelectionBottomSheet {
                       Navigator.pop(context);
                     },
                   ),
-                  UIHelper.verticalSpaceSm10,
-                  _buildLanguageTile(
-                    context: context,
-                    language: Language.urdu,
-                    title: "اردو",
-                    subtitle: "Urdu",
-                    flag: "🇵🇰",
-                    isSelected: currentLanguage == Language.urdu,
-                    onTap: () async {
-                      await translationController.changeLanguage(Language.urdu);
-                      Navigator.pop(context);
-                    },
-                  ),
                 ],
               );
             }),
@@ -144,7 +131,7 @@ class LanguageSelectionBottomSheet {
               height: 50,
               decoration: BoxDecoration(
                 color: isSelected
-                    ? Colors.white.withOpacity(0.2)
+                    ? Colors.white.withValues(alpha: 0.2)
                     : Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
@@ -170,7 +157,7 @@ class LanguageSelectionBottomSheet {
                     text: subtitle,
                     fSize: 13.0,
                     tColor: isSelected
-                        ? Colors.white.withOpacity(0.9)
+                        ? Colors.white.withValues(alpha: 0.9)
                         : Colors.grey.shade600,
                   ),
                 ],

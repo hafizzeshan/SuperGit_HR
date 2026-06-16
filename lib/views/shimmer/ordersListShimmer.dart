@@ -17,7 +17,7 @@ class OrderListShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     return Shimmer.fromColors(
       baseColor: const Color.fromARGB(255, 184, 173, 173),
-      highlightColor: Colors.grey.withOpacity(0.5),
+      highlightColor: Colors.grey.withValues(alpha: 0.5),
       child: ListView.builder(
         itemCount: 5,
         itemBuilder: (context, index) {
