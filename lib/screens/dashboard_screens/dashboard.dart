@@ -9,7 +9,6 @@ import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/app_assets.dart';
 import 'package:supergithr/views/floating_timer_button.dart';
 import 'package:supergithr/views/colors.dart';
-import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
 
 class DashBorad extends StatefulWidget {

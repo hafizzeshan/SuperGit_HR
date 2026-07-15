@@ -3,12 +3,9 @@ import 'package:get/get.dart';
 import 'package:supergithr/controllers/loan_controller.dart';
 import 'package:supergithr/models/loan_model.dart';
 import 'package:supergithr/screens/dashboard_screens/home/loan_screen/apply_loan.dart';
-import 'package:supergithr/views/CustomButton.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
-import 'package:supergithr/views/custom_text_field.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/localization_helper.dart';
 

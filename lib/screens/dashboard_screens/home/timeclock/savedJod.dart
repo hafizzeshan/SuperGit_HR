@@ -5,8 +5,6 @@ import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/location_controller.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
-import 'package:supergithr/views/text_styles.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class SavedJobsSheet extends StatelessWidget {

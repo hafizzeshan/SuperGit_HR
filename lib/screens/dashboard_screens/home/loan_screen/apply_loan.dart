@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/loan_controller.dart';
-import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/CustomButton.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
-import 'package:supergithr/views/custom_text_field.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class ApplyLoanScreen extends StatefulWidget {

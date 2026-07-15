@@ -6,7 +6,6 @@ import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/colors.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
 import 'package:supergithr/models/user_model.dart';
 

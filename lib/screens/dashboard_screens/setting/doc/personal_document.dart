@@ -9,7 +9,6 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/doc/document_viewer.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
-import 'package:supergithr/views/custom_animated_views.dart';
 
 class PersonalDocumentsScreen extends StatefulWidget {
   PersonalDocumentsScreen({super.key});

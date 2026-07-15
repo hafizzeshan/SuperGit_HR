@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
-import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/appBar.dart';
 

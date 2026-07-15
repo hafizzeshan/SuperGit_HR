@@ -10,7 +10,6 @@ import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/custom_text_field.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class AddDocumentScreen extends StatefulWidget {

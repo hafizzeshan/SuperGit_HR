@@ -15,7 +15,6 @@ import 'package:supergithr/models/leave_request_model.dart';
 import 'package:supergithr/models/leave_type_model.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/localization_helper.dart';
-import 'package:supergithr/views/custom_animated_views.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/doc/document_viewer.dart';
 
 class LeaveSummaryScreen extends StatefulWidget {

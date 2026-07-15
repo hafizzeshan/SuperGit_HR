@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 
 class HolidayShimmer extends StatelessWidget {
   const HolidayShimmer({super.key});

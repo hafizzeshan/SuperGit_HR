@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:shimmer/shimmer.dart';
-import 'package:get/get.dart';
-import 'package:supergithr/views/colors.dart';
 
 class MapShimmer extends StatelessWidget {
   const MapShimmer({super.key});

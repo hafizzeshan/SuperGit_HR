@@ -26,7 +26,6 @@ import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/views/language_selection_bottom_sheet.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
-import 'package:supergithr/screens/dashboard_screens/setting/employee_card_screen.dart';
 
 class AboutScreen extends StatefulWidget {
   const AboutScreen({super.key});

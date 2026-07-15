@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/models/leave_type_model.dart';
-import 'package:file_picker/file_picker.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';

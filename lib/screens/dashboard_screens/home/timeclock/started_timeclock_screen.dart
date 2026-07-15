@@ -11,7 +11,6 @@ import 'package:supergithr/views/CustomButton.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 

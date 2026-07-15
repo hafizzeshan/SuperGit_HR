@@ -7,7 +7,6 @@ import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/shimmer/holiday_shimmer.dart';
-import 'package:supergithr/views/ui_helpers.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
 

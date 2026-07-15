@@ -324,7 +324,7 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
             width: 56,
             height: 56,
             decoration: BoxDecoration(
-              color: kPrimaryColor.withOpacity(0.1),
+              color: kPrimaryColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
             child: Icon(
@@ -423,7 +423,7 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
         borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
-            color: Colors.black.withOpacity(0.04),
+            color: Colors.black.withValues(alpha: 0.04),
             blurRadius: 14,
             offset: const Offset(0, 4),
           ),
@@ -438,7 +438,7 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
                 width: 38,
                 height: 38,
                 decoration: BoxDecoration(
-                  color: kPrimaryColor.withOpacity(0.1),
+                  color: kPrimaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(icon, color: kPrimaryColor, size: 20),
@@ -551,7 +551,7 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           color:
-              selected ? kPrimaryColor.withOpacity(0.08) : Colors.grey.shade50,
+              selected ? kPrimaryColor.withValues(alpha: 0.08) : Colors.grey.shade50,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: selected ? kPrimaryColor : Colors.grey.shade200,
