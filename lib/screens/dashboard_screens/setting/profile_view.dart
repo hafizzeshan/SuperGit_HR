@@ -8,6 +8,7 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
 import 'package:supergithr/models/user_model.dart';
+import 'package:supergithr/screens/dashboard_screens/setting/edit_profile_screen.dart';
 
 class ProfileViewScreen extends StatelessWidget {
   ProfileViewScreen({super.key});
@@ -176,12 +177,19 @@ class ProfileViewScreen extends StatelessWidget {
             child: CircleAvatar(
               radius: 35,
               backgroundColor: kPrimaryColor.withValues(alpha: 0.08),
-              child: kText(
-                text: initials.toUpperCase(),
-                fSize: 22,
-                fWeight: FontWeight.bold,
-                tColor: kPrimaryColor,
-              ),
+              backgroundImage:
+                  model.avatarUrl != null && model.avatarUrl!.isNotEmpty
+                      ? NetworkImage(model.avatarUrl!) as ImageProvider
+                      : null,
+              child:
+                  model.avatarUrl == null || model.avatarUrl!.isEmpty
+                      ? kText(
+                        text: initials.toUpperCase(),
+                        fSize: 22,
+                        fWeight: FontWeight.bold,
+                        tColor: kPrimaryColor,
+                      )
+                      : null,
             ),
           ),
           const SizedBox(width: 10),
@@ -196,22 +204,50 @@ class ProfileViewScreen extends StatelessWidget {
             textoverflow: TextOverflow.ellipsis,
           ),
           const SizedBox(width: 8),
-          if (model.jobTitle != null && model.jobTitle!.isNotEmpty)
-            Container(
-              padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 6),
-              decoration: BoxDecoration(
-                color: kPrimaryColor.withValues(alpha: 0.06),
-                borderRadius: BorderRadius.circular(20),
-              ),
-              child: kText(
-                text: model.jobTitle!,
-                fSize: 13,
-                fWeight: FontWeight.w600,
-                tColor: kPrimaryColor,
-                maxLines: 1,
-                textoverflow: TextOverflow.ellipsis,
-              ),
+          Expanded(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                kText(
+                  text:
+                      fullName.isNotEmpty ? fullName : TranslationKeys.user.tr,
+                  fSize: 18,
+                  fWeight: FontWeight.bold,
+                  tColor: Colors.black87,
+                  letterSpacing: -0.5,
+                  textalign: TextAlign.center,
+                  maxLines: 1,
+                  textoverflow: TextOverflow.ellipsis,
+                ),
+                const SizedBox(height: 8),
+                if (model.jobTitle != null && model.jobTitle!.isNotEmpty)
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 6,
+                    ),
+                    decoration: BoxDecoration(
+                      color: kPrimaryColor.withValues(alpha: 0.06),
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    child: kText(
+                      text: model.jobTitle!,
+                      fSize: 13,
+                      fWeight: FontWeight.w600,
+                      tColor: kPrimaryColor,
+                      maxLines: 1,
+                      textoverflow: TextOverflow.ellipsis,
+                    ),
+                  ),
+              ],
             ),
+          ),
+          IconButton(
+            icon: const Icon(Icons.edit, color: Colors.black54),
+            onPressed: () {
+              Get.to(() => EditProfileScreen());
+            },
+          ),
         ],
       ),
     );

@@ -13,6 +13,7 @@ class UserModel {
   final String? maritalStatus;
   final String? mobileNumber;
   final String? email;
+  final String? avatarUrl;
   final String? emergencyContactName;
   final String? emergencyContactNumber;
   final String? jobTitle;
@@ -48,6 +49,7 @@ class UserModel {
     this.maritalStatus,
     this.mobileNumber,
     this.email,
+    this.avatarUrl,
     this.emergencyContactName,
     this.emergencyContactNumber,
     this.jobTitle,
@@ -88,6 +90,7 @@ class UserModel {
       maritalStatus: json['marital_status'] as String?,
       mobileNumber: json['mobile_number'] as String?,
       email: json['email'] as String?,
+      avatarUrl: json['avatar_url'] as String?,
       emergencyContactName: json['emergency_contact_name'] as String?,
       emergencyContactNumber: json['emergency_contact_number'] as String?,
       jobTitle: json['job_title'] as String?,
@@ -127,6 +130,7 @@ class UserModel {
       "marital_status": maritalStatus,
       "mobile_number": mobileNumber,
       "email": email,
+      "avatar_url": avatarUrl,
       "emergency_contact_name": emergencyContactName,
       "emergency_contact_number": emergencyContactNumber,
       "job_title": jobTitle,

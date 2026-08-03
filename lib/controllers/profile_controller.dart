@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'package:dio/dio.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
+import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/models/user_model.dart';
 import 'package:supergithr/network/repository/profile_repo/profile_repo.dart';
@@ -16,6 +18,10 @@ class ProfileController extends GetxController {
   final TextEditingController familyNameController = TextEditingController();
   final TextEditingController emailController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
+  final TextEditingController nationalIdController = TextEditingController();
+  final TextEditingController nationalityController = TextEditingController();
+  final TextEditingController genderController = TextEditingController();
+  final TextEditingController dateOfBirthController = TextEditingController();
 
   /// ✅ Change Password Controllers
   final TextEditingController oldPasswordController = TextEditingController();
@@ -26,6 +32,7 @@ class ProfileController extends GetxController {
   /// ✅ Observables
   final isLoading = false.obs;
   final updateLoading = false.obs;
+  final selectedAvatar = Rxn<PlatformFile>();
 
   final userModel = UserModel().obs;
 
@@ -43,6 +50,11 @@ class ProfileController extends GetxController {
       familyNameController.text = userModel.value.lastNameEn ?? "";
       emailController.text = userModel.value.email ?? "";
       phoneController.text = userModel.value.mobileNumber ?? "";
+      nationalIdController.text = userModel.value.documentId ?? "";
+      nationalityController.text = userModel.value.nationality ?? "";
+      genderController.text = userModel.value.gender ?? "";
+      dateOfBirthController.text = userModel.value.dateOfBirth ?? "";
+      selectedAvatar.value = null;
     }
   }
 
@@ -68,7 +80,7 @@ class ProfileController extends GetxController {
       print(
         "🔹 Fetching profile for ID: $idToUse (user_id: $userId, employee_id: $employeeId)",
       );
-      final response = await _repo.getProfile(employeeId);
+      final response = await _repo.getProfile(idToUse);
       isLoading.value = false;
 
       if (response != null && response["data"] != null) {
@@ -83,6 +95,11 @@ class ProfileController extends GetxController {
         familyNameController.text = model.lastNameEn ?? "";
         emailController.text = model.email ?? "";
         phoneController.text = model.mobileNumber ?? "";
+        nationalIdController.text = model.documentId ?? "";
+        nationalityController.text = model.nationality ?? "";
+        genderController.text = model.gender ?? "";
+        dateOfBirthController.text = model.dateOfBirth ?? "";
+        selectedAvatar.value = null;
 
         print("✅ Profile loaded successfully from API");
         print("User Model: ${model.toJson()}");
@@ -109,6 +126,66 @@ class ProfileController extends GetxController {
         Utils.snackBar(TranslationKeys.unableToLoadUserProfile.tr, true);
       }
     }
+  }
+
+  /// ✅ Pick profile avatar image from device
+  Future<void> pickAvatar() async {
+    try {
+      final result = await FilePicker.platform.pickFiles(
+        type: FileType.image,
+        allowMultiple: false,
+      );
+      if (result != null && result.files.isNotEmpty) {
+        selectedAvatar.value = result.files.first;
+      }
+    } catch (e) {
+      Utils.snackBar(TranslationKeys.failedToPickImage.tr, true);
+    }
+  }
+
+  Future<bool> _uploadSelectedAvatar(String employeeId) async {
+    final avatarFile = selectedAvatar.value;
+    if (avatarFile == null ||
+        avatarFile.path == null ||
+        avatarFile.path!.isEmpty) {
+      return true;
+    }
+
+    try {
+      final formData = FormData.fromMap({
+        'avatar': await MultipartFile.fromFile(
+          avatarFile.path!,
+          filename: avatarFile.name,
+        ),
+      });
+
+      final response = await _repo.uploadAvatar(
+        employeeId: employeeId,
+        formData: formData,
+      );
+
+      if (response != null && response["data"] != null) {
+        final responseData = response["data"];
+        if (responseData is Map<String, dynamic>) {
+          final avatarUrl = responseData['avatar_url'] as String?;
+          if (avatarUrl != null && avatarUrl.isNotEmpty) {
+            final updatedJson = userModel.value.toJson();
+            updatedJson['avatar_url'] = avatarUrl;
+            userModel.value = UserModel.fromJson(updatedJson);
+            final prefs = await SharedPreferences.getInstance();
+            await prefs.setString(
+              'user_model',
+              jsonEncode(userModel.value.toJson()),
+            );
+          }
+        }
+        selectedAvatar.value = null;
+        return true;
+      }
+    } catch (e) {
+      print('⚠️ Avatar upload failed: $e');
+    }
+    return false;
   }
 
   // /// ✅ Fetch User Profile (and cache it)
@@ -145,30 +222,60 @@ class ProfileController extends GetxController {
   // }
 
   /// ✅ Update User Profile
-  Future<void> updateProfile() async {
+  Future<bool> updateProfile() async {
     final givenName = givenNameController.text.trim();
     final familyName = familyNameController.text.trim();
     final email = emailController.text.trim();
     final phone = phoneController.text.trim();
+    final nationalId = nationalIdController.text.trim();
+    final nationality = nationalityController.text.trim();
+    final gender = genderController.text.trim();
+    final dateOfBirth = dateOfBirthController.text.trim();
 
-    if (givenName.isEmpty ||
-        familyName.isEmpty ||
+    final fullName =
+        "$givenName ${familyName.isNotEmpty ? familyName : ''}".trim();
+
+    if (fullName.isEmpty ||
         email.isEmpty ||
-        phone.isEmpty) {
+        phone.isEmpty ||
+        nationalId.isEmpty ||
+        nationality.isEmpty ||
+        gender.isEmpty ||
+        dateOfBirth.isEmpty) {
       Utils.snackBar(TranslationKeys.pleaseFillAllFields.tr, true);
-      return;
+      return false;
     }
 
     updateLoading.value = true;
     try {
       final data = {
+        "name": fullName,
         "first_name_en": givenName,
         "last_name_en": familyName,
-        "email": email,
+        "national_id": nationalId,
+        "document_id": nationalId,
+        "nationality": nationality,
+        "gender": gender,
+        "phone": phone,
+        "phone_number": phone,
         "mobile_number": phone,
+        "email": email,
+        "date_of_birth": dateOfBirth,
       };
+      final avatarUrl = userModel.value.avatarUrl;
+      if (avatarUrl != null && avatarUrl.isNotEmpty) {
+        data["avatar_url"] = avatarUrl;
+      }
 
-      final response = await _repo.updateProfile(data: data);
+      final prefs = await SharedPreferences.getInstance();
+      final employeeId = prefs.getString('employee_id');
+      final response =
+          employeeId != null && employeeId.isNotEmpty
+              ? await _repo.updateEmployeeProfile(
+                employeeId: employeeId,
+                data: data,
+              )
+              : await _repo.updateProfile(data: data);
       updateLoading.value = false;
 
       if (response != null && response["data"] != null) {
@@ -179,13 +286,26 @@ class ProfileController extends GetxController {
         final prefs = await SharedPreferences.getInstance();
         await prefs.setString('user_model', jsonEncode(updatedModel.toJson()));
 
+        if (selectedAvatar.value != null &&
+            employeeId != null &&
+            employeeId.isNotEmpty) {
+          final uploaded = await _uploadSelectedAvatar(employeeId);
+          if (!uploaded) {
+            Utils.snackBar(TranslationKeys.failedToUpdateProfile.tr, true);
+            return false;
+          }
+        }
+
         Utils.snackBar(TranslationKeys.profileUpdatedSuccessfully.tr, false);
+        return true;
       } else {
         Utils.snackBar(TranslationKeys.failedToUpdateProfile.tr, true);
+        return false;
       }
     } catch (e) {
       updateLoading.value = false;
       Utils.snackBar("${TranslationKeys.error.tr}: $e", true);
+      return false;
     }
   }
 
@@ -242,6 +362,10 @@ class ProfileController extends GetxController {
     familyNameController.dispose();
     emailController.dispose();
     phoneController.dispose();
+    nationalIdController.dispose();
+    nationalityController.dispose();
+    genderController.dispose();
+    dateOfBirthController.dispose();
     oldPasswordController.dispose();
     newPasswordController.dispose();
     confirmPasswordController.dispose();

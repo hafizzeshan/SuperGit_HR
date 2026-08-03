@@ -17,6 +17,10 @@ class AppURL {
   static const String loginApi = 'auth/login';
   static const String updateProfile = 'update-profile';
 
+  static String employeeProfile(String employeeId) => 'employees/$employeeId';
+  static String employeeAvatar(String employeeId) =>
+      'employees/$employeeId/avatar';
+
   static const String registerApi = 'register';
   static const String otpVerificationApi = 'verify_otp';
   static const String forgotPasswordApi = 'recover-password';
