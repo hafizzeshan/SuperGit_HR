@@ -27,8 +27,28 @@ class Utils {
   /// Handles the common shapes: `{message}`, `{error}`, and
   /// `{errors: {...}}` / `{errors: [...]}`. Falls back to [fallback]
   /// only when no server-provided message can be found.
-  static String extractApiError(dynamic data, [String fallback = "Something went wrong"]) {
+  static String extractApiError(
+    dynamic data, [
+    String fallback = "Something went wrong",
+  ]) {
     if (data is Map) {
+      // Field-level validation errors are more useful than the generic
+      // "Validation failed" message, so surface those first.
+      // Shape: details: [{field, message, value}, ...]
+      final details = data['details'];
+      if (details is List && details.isNotEmpty) {
+        // Set dedupes identical messages (the API validates duplicate keys
+        // like phone/phone_number/mobile_number with the same message).
+        final lines = <String>{};
+        for (final d in details) {
+          if (d is Map) {
+            final msg = d['message']?.toString().trim() ?? '';
+            if (msg.isNotEmpty) lines.add(msg);
+          }
+        }
+        if (lines.isNotEmpty) return lines.join('\n');
+      }
+
       final msg = data['message'] ?? data['error'];
       if (msg is String && msg.trim().isNotEmpty) return msg;
 
@@ -44,6 +64,37 @@ class Utils {
       return data;
     }
     return fallback;
+  }
+
+  /// Saudi mobile in any common form: +9665XXXXXXXX, 9665XXXXXXXX,
+  /// 05XXXXXXXX or 5XXXXXXXX (spaces/dashes ignored).
+  static final RegExp _saudiMobileRe = RegExp(r'^(?:\+?9665|05|5)\d{8}$');
+
+  static bool isValidSaudiMobile(String value) =>
+      _saudiMobileRe.hasMatch(value.replaceAll(RegExp(r'[\s-]'), ''));
+
+  /// Strip +966 / 966 / leading 0 to get the 9-digit local part (5XXXXXXXX)
+  /// for display in a field that has a fixed "+966" prefix.
+  static String saudiLocalPart(String value) {
+    var v = value.replaceAll(RegExp(r'[\s-]'), '');
+    if (v.startsWith('+966')) {
+      v = v.substring(4);
+    } else if (v.startsWith('966')) {
+      v = v.substring(3);
+    }
+    if (v.startsWith('0')) v = v.substring(1);
+    return v;
+  }
+
+  /// Normalize any accepted Saudi mobile input to the +9665XXXXXXXX form
+  /// the API expects.
+  static String normalizeSaudiMobile(String value) {
+    final v = value.replaceAll(RegExp(r'[\s-]'), '');
+    if (v.startsWith('+966')) return v;
+    if (v.startsWith('966')) return '+$v';
+    if (v.startsWith('05')) return '+966${v.substring(1)}';
+    if (v.startsWith('5')) return '+966$v';
+    return v;
   }
 
   static void showToast(String content) {
@@ -134,6 +185,10 @@ class Utils {
       final ctx = context ?? Get.overlayContext ?? Get.context;
       if (ctx != null) {
         delightToast.show(ctx);
+        // DelightToastBar inserts its overlay in a post-frame callback but
+        // never schedules a frame itself, so on an idle screen the toast only
+        // appears after something else (e.g. a scroll) triggers a frame.
+        WidgetsBinding.instance.scheduleFrame();
       }
     });
   }
@@ -202,7 +257,11 @@ class Utils {
 
     permissionStatuses.forEach((permission, status) async {
       if (status.isDenied) {
-        Utils.showToast(TranslationKeys.enablePermission.trParams({'permission': permission.toString()}));
+        Utils.showToast(
+          TranslationKeys.enablePermission.trParams({
+            'permission': permission.toString(),
+          }),
+        );
         //openAppSettings();
       } else if (status.isGranted) {
         debugPrint("Permission $permission $status");

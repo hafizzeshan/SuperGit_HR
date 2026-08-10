@@ -748,6 +748,10 @@ class ArabicLocal {
           "استبدل الصورة أو الفيديو الحالي (اختياري)",
       TranslationKeys.pickImageOrVideo: "اختر صورة أو فيديو للمشاركة",
       TranslationKeys.requiredField: "مطلوب*",
+      TranslationKeys.invalidSaudiMobile:
+          "يرجى إدخال رقم جوال سعودي صحيح (مثال: +966501234567)",
+      TranslationKeys.documentIdMin8:
+          "يجب أن يتكون رقم الوثيقة من 8 أحرف على الأقل",
       TranslationKeys.failedToLoadAllLogs: "فشل تحميل جميع السجلات",
       TranslationKeys.passwordsDoNotMatch: "كلمتا المرور غير متطابقتين",
       TranslationKeys.registrationSuccessful: "تم التسجيل بنجاح",

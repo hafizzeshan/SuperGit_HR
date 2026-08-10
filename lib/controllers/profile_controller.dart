@@ -49,7 +49,10 @@ class ProfileController extends GetxController {
       givenNameController.text = userModel.value.firstNameEn ?? "";
       familyNameController.text = userModel.value.lastNameEn ?? "";
       emailController.text = userModel.value.email ?? "";
-      phoneController.text = userModel.value.mobileNumber ?? "";
+      // Field shows a fixed +966 prefix, so keep only the local part
+      phoneController.text = Utils.saudiLocalPart(
+        userModel.value.mobileNumber ?? "",
+      );
       nationalIdController.text = userModel.value.documentId ?? "";
       nationalityController.text = userModel.value.nationality ?? "";
       genderController.text = userModel.value.gender ?? "";
@@ -94,7 +97,8 @@ class ProfileController extends GetxController {
         givenNameController.text = model.firstNameEn ?? "";
         familyNameController.text = model.lastNameEn ?? "";
         emailController.text = model.email ?? "";
-        phoneController.text = model.mobileNumber ?? "";
+        // Field shows a fixed +966 prefix, so keep only the local part
+        phoneController.text = Utils.saudiLocalPart(model.mobileNumber ?? "");
         nationalIdController.text = model.documentId ?? "";
         nationalityController.text = model.nationality ?? "";
         genderController.text = model.gender ?? "";
@@ -221,16 +225,35 @@ class ProfileController extends GetxController {
   //   }
   // }
 
+  /// Map the localized gender label shown in the UI back to the API enum.
+  /// The API only accepts: Male, Female, Other (capitalized).
+  String _normalizeGender(String value) {
+    if (value == TranslationKeys.male.tr) return 'Male';
+    if (value == TranslationKeys.female.tr) return 'Female';
+    switch (value.toLowerCase()) {
+      case 'male':
+        return 'Male';
+      case 'female':
+        return 'Female';
+      case 'other':
+        return 'Other';
+      default:
+        return value;
+    }
+  }
+
   /// ✅ Update User Profile
   Future<bool> updateProfile() async {
     final givenName = givenNameController.text.trim();
     final familyName = familyNameController.text.trim();
     final email = emailController.text.trim();
-    final phone = phoneController.text.trim();
+    // API only accepts the +9665XXXXXXXX form
+    final phone = Utils.normalizeSaudiMobile(phoneController.text.trim());
     final nationalId = nationalIdController.text.trim();
     final nationality = nationalityController.text.trim();
-    final gender = genderController.text.trim();
-    final dateOfBirth = dateOfBirthController.text.trim();
+    final gender = _normalizeGender(genderController.text.trim());
+    // API expects YYYY-MM-DD; profile API may return a full ISO timestamp
+    final dateOfBirth = dateOfBirthController.text.trim().split('T').first;
 
     final fullName =
         "$givenName ${familyName.isNotEmpty ? familyName : ''}".trim();
@@ -299,7 +322,13 @@ class ProfileController extends GetxController {
         Utils.snackBar(TranslationKeys.profileUpdatedSuccessfully.tr, false);
         return true;
       } else {
-        Utils.snackBar(TranslationKeys.failedToUpdateProfile.tr, true);
+        Utils.snackBar(
+          Utils.extractApiError(
+            response,
+            TranslationKeys.failedToUpdateProfile.tr,
+          ),
+          true,
+        );
         return false;
       }
     } catch (e) {

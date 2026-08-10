@@ -36,6 +36,8 @@ class ProfileRepository {
   }
 
   /// ✅ Update employee profile by employee ID
+  /// On failure returns the error body (if any) so the caller can show the
+  /// server's message — check for `data` key to detect success.
   Future<Map<String, dynamic>?> updateEmployeeProfile({
     required String employeeId,
     required Map<String, dynamic> data,
@@ -47,8 +49,7 @@ class ProfileRepository {
 
     if (response == null) return null;
 
-    if ((response.statusCode == 200 || response.statusCode == 201) &&
-        response.data != null) {
+    if (response.data is Map<String, dynamic>) {
       return response.data;
     }
     return null;

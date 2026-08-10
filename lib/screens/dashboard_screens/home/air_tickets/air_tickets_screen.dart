@@ -8,6 +8,7 @@ import 'package:supergithr/screens/dashboard_screens/home/air_tickets/create_air
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
+import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 
 class AirTicketsScreen extends StatefulWidget {
@@ -41,18 +42,30 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitoutAction(title: TranslationKeys.airTickets.tr),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: kPrimaryColor,
-        onPressed: () async {
-          await Get.to(() => const CreateAirTicketRequestScreen());
-          // Controller already refreshes list after successful create;
-          // this extra refresh covers the case the user came back manually.
-          c.fetchMyRequests();
-        },
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: Text(TranslationKeys.newRequest.tr,
-            style: const TextStyle(color: Colors.white)),
-      ),
+      floatingActionButton: Obx(() {
+        final e = c.entitlement.value;
+        final canApply = e?.canApply ?? false;
+        return FloatingActionButton.extended(
+          backgroundColor: canApply ? kPrimaryColor : Colors.grey,
+          onPressed: () async {
+            if (!canApply) {
+              final reason = e != null && e.eligibilityReason.isNotEmpty
+                  ? e.eligibilityReason
+                  : TranslationKeys.noEntitlementFoundForYear.tr;
+              Utils.snackBar(reason, true);
+              return;
+            }
+            await Get.to(() => const CreateAirTicketRequestScreen());
+            // Controller already refreshes list after successful create;
+            // this extra refresh covers the case the user came back manually.
+            c.fetchMyRequests();
+            c.fetchEntitlement();
+          },
+          icon: const Icon(Icons.add, color: Colors.white),
+          label: Text(TranslationKeys.newRequest.tr,
+              style: const TextStyle(color: Colors.white)),
+        );
+      }),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: RefreshIndicator(
@@ -135,11 +148,57 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
                           fontSize: 13, color: kPrimaryColor)),
                 ],
               ),
+              if (_frequencyLabel(e.ticketFrequency) != null) ...[
+                const SizedBox(height: 6),
+                Text(
+                  _frequencyLabel(e.ticketFrequency)!,
+                  style:
+                      TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                ),
+              ],
+              if (!e.canApply && e.eligibilityReason.isNotEmpty) ...[
+                const SizedBox(height: 10),
+                Container(
+                  padding: const EdgeInsets.all(10),
+                  decoration: BoxDecoration(
+                    color: Colors.orange.shade50,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Icon(Icons.info_outline,
+                          size: 18, color: Colors.orange.shade800),
+                      const SizedBox(width: 8),
+                      Expanded(
+                        child: Text(
+                          e.eligibilityReason,
+                          style: TextStyle(
+                              color: Colors.orange.shade900, fontSize: 12),
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
             ],
           ),
         ),
       );
     });
+  }
+
+  String? _frequencyLabel(String frequency) {
+    switch (frequency) {
+      case 'annual':
+        return 'Once every year';
+      case 'biennial':
+        return 'Once every 2 years';
+      case 'none':
+        return 'No tickets';
+      default:
+        return null;
+    }
   }
 
   Widget _requestsList() {

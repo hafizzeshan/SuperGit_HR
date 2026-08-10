@@ -144,12 +144,7 @@ class AirTicketController extends GetxController {
   Future<bool> cancelRequest(String requestId) async {
     try {
       isCancelling.value = true;
-      final empId = await _employeeId();
-      if (empId.isEmpty) return false;
-      final ok = await _repo.cancelRequest(
-        requestId: requestId,
-        employeeId: empId,
-      );
+      final ok = await _repo.cancelRequest(requestId);
       if (ok) {
         // Remove locally for instant feedback
         requests.removeWhere((r) => r.requestId == requestId);

@@ -1,7 +1,6 @@
 import 'dart:developer';
 import 'package:get/get.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 import 'package:supergithr/network/services/api_network.dart';
 import 'package:supergithr/network/services/app_urls.dart';
 import 'package:supergithr/utils/utils.dart';
@@ -9,28 +8,19 @@ import 'package:supergithr/utils/utils.dart';
 class AirTicketRepository {
   final ApiNetworkService _api = ApiNetworkService();
 
-  /// Resolve the tenant id saved at login. Returns empty string if missing —
-  /// caller should bail out in that case.
-  Future<String> _tenantId() async {
-    final prefs = await SharedPreferences.getInstance();
-    return prefs.getString('tenant_id') ?? '';
-  }
-
   /// Extract `data` from the standardised `{success, message, data}` envelope.
   dynamic _unwrap(dynamic body) {
     if (body is Map && body.containsKey('data')) return body['data'];
     return body;
   }
 
-  /// 1.1 GET /entitlements/{employee_id}?year=YYYY
+  /// GET /air-tickets/entitlements/{employee_id}?year=YYYY
   Future<Map<String, dynamic>?> getEntitlement({
     required String employeeId,
     int? year,
   }) async {
     try {
-      final tenantId = await _tenantId();
-      if (tenantId.isEmpty) return null;
-      final url = AppURL.airTicketEntitlement(tenantId, employeeId, year: year);
+      final url = AppURL.airTicketEntitlement(employeeId, year: year);
       final res = await _api.getRequest(url);
       if (res == null) return null;
       if (res.statusCode == 200) {
@@ -45,12 +35,10 @@ class AirTicketRepository {
     }
   }
 
-  /// 1.2 GET /entitlements/{employee_id}/all
+  /// GET /air-tickets/entitlements/{employee_id}/all
   Future<List<dynamic>?> getAllEntitlements(String employeeId) async {
     try {
-      final tenantId = await _tenantId();
-      if (tenantId.isEmpty) return null;
-      final url = AppURL.airTicketAllEntitlements(tenantId, employeeId);
+      final url = AppURL.airTicketAllEntitlements(employeeId);
       final res = await _api.getRequest(url);
       if (res == null) return null;
       if (res.statusCode == 200) {
@@ -65,12 +53,10 @@ class AirTicketRepository {
     }
   }
 
-  /// 2.1 POST /requests
+  /// POST /air-tickets/requests
   Future<Map<String, dynamic>?> createRequest(Map<String, dynamic> data) async {
     try {
-      final tenantId = await _tenantId();
-      if (tenantId.isEmpty) return null;
-      final url = AppURL.airTicketCreateRequest(tenantId);
+      final url = AppURL.airTicketCreateRequest();
       final res = await _api.postRequest(url, data: data);
       if (res == null) return null;
       if (res.statusCode == 200 || res.statusCode == 201) {
@@ -90,7 +76,7 @@ class AirTicketRepository {
     }
   }
 
-  /// 2.2 GET /requests
+  /// GET /air-tickets/requests?employee_id=...&status=...&page=...&limit=...
   Future<Map<String, dynamic>?> getRequests({
     String? employeeId,
     String? status,
@@ -98,10 +84,7 @@ class AirTicketRepository {
     int limit = 10,
   }) async {
     try {
-      final tenantId = await _tenantId();
-      if (tenantId.isEmpty) return null;
       final url = AppURL.airTicketRequests(
-        tenantId,
         employeeId: employeeId,
         status: status,
         page: page,
@@ -121,12 +104,10 @@ class AirTicketRepository {
     }
   }
 
-  /// 2.3 GET /requests/{request_id}
+  /// GET /air-tickets/requests/{request_id}
   Future<Map<String, dynamic>?> getRequestDetails(String requestId) async {
     try {
-      final tenantId = await _tenantId();
-      if (tenantId.isEmpty) return null;
-      final url = AppURL.airTicketRequestDetails(tenantId, requestId);
+      final url = AppURL.airTicketRequestDetails(requestId);
       final res = await _api.getRequest(url);
       if (res == null) return null;
       if (res.statusCode == 200) {
@@ -141,15 +122,10 @@ class AirTicketRepository {
     }
   }
 
-  /// 2.4 DELETE /requests/{request_id}?employee_id=...
-  Future<bool> cancelRequest({
-    required String requestId,
-    required String employeeId,
-  }) async {
+  /// DELETE /air-tickets/requests/{request_id}
+  Future<bool> cancelRequest(String requestId) async {
     try {
-      final tenantId = await _tenantId();
-      if (tenantId.isEmpty) return false;
-      final url = AppURL.airTicketCancelRequest(tenantId, requestId, employeeId);
+      final url = AppURL.airTicketCancelRequest(requestId);
       final res = await _api.deleteRequest(url);
       if (res == null) return false;
       if (res.statusCode == 200 || res.statusCode == 204) {
@@ -167,12 +143,10 @@ class AirTicketRepository {
     }
   }
 
-  /// 4.2 GET /requests/{request_id}/booking
+  /// GET /air-tickets/requests/{request_id}/booking
   Future<Map<String, dynamic>?> getBooking(String requestId) async {
     try {
-      final tenantId = await _tenantId();
-      if (tenantId.isEmpty) return null;
-      final url = AppURL.airTicketBooking(tenantId, requestId);
+      final url = AppURL.airTicketBooking(requestId);
       final res = await _api.getRequest(url);
       if (res == null) return null;
       if (res.statusCode == 200) {

@@ -100,6 +100,10 @@ class UrduLocal {
       TranslationKeys.address: "پتہ",
       TranslationKeys.addressIsRequired: "پتہ درکار ہے",
       TranslationKeys.invalidEmail: "غلط ای میل",
+      TranslationKeys.invalidSaudiMobile:
+          "براہ کرم درست سعودی موبائل نمبر درج کریں (مثال: +966501234567)",
+      TranslationKeys.documentIdMin8:
+          "دستاویز آئی ڈی کم از کم 8 حروف کی ہونی چاہیے",
       TranslationKeys.enterPhoneNumber: "فون نمبر درج کریں",
       TranslationKeys.employees: "ملازمین",
       TranslationKeys.openMap: "نقشہ کھولیں",

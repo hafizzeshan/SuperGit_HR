@@ -257,6 +257,9 @@ class ApiNetworkService {
         return response;
       }
     } on DioException catch (e) {
+      print(
+        "❌ PUT $endpoint Failed → Status: ${e.response?.statusCode}, Body: ${e.response?.data}",
+      );
       _handleError(e);
       return e.response;
     }

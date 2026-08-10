@@ -69,24 +69,18 @@ class AppURL {
     return 'employees/$v';
   }
 
-  // ✈️ Air Ticket APIs (tenant-scoped)
-  static String airTicketsBase(String tenantId) =>
-      'v1/tenant/$tenantId/air-tickets';
+  // ✈️ Air Ticket APIs (base url already ends in /api/)
+  static const String airTicketsBase = 'air-tickets';
 
-  static String airTicketEntitlement(
-    String tenantId,
-    String employeeId, {
-    int? year,
-  }) {
-    final base = '${airTicketsBase(tenantId)}/entitlements/$employeeId';
+  static String airTicketEntitlement(String employeeId, {int? year}) {
+    final base = '$airTicketsBase/entitlements/$employeeId';
     return year != null ? '$base?year=$year' : base;
   }
 
-  static String airTicketAllEntitlements(String tenantId, String employeeId) =>
-      '${airTicketsBase(tenantId)}/entitlements/$employeeId/all';
+  static String airTicketAllEntitlements(String employeeId) =>
+      '$airTicketsBase/entitlements/$employeeId/all';
 
-  static String airTicketRequests(
-    String tenantId, {
+  static String airTicketRequests({
     String? employeeId,
     String? status,
     int page = 1,
@@ -100,24 +94,19 @@ class AppURL {
       params['status'] = status;
     }
     final query = params.entries.map((e) => '${e.key}=${e.value}').join('&');
-    return '${airTicketsBase(tenantId)}/requests?$query';
+    return '$airTicketsBase/requests?$query';
   }
 
-  static String airTicketCreateRequest(String tenantId) =>
-      '${airTicketsBase(tenantId)}/requests';
+  static String airTicketCreateRequest() => '$airTicketsBase/requests';
 
-  static String airTicketRequestDetails(String tenantId, String requestId) =>
-      '${airTicketsBase(tenantId)}/requests/$requestId';
+  static String airTicketRequestDetails(String requestId) =>
+      '$airTicketsBase/requests/$requestId';
 
-  static String airTicketCancelRequest(
-    String tenantId,
-    String requestId,
-    String employeeId,
-  ) =>
-      '${airTicketsBase(tenantId)}/requests/$requestId?employee_id=$employeeId';
+  static String airTicketCancelRequest(String requestId) =>
+      '$airTicketsBase/requests/$requestId';
 
-  static String airTicketBooking(String tenantId, String requestId) =>
-      '${airTicketsBase(tenantId)}/requests/$requestId/booking';
+  static String airTicketBooking(String requestId) =>
+      '$airTicketsBase/requests/$requestId/booking';
 
   // 👔 Team Leave Requests (manager / department head)
   static String teamLeaveRequests({

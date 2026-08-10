@@ -13,6 +13,9 @@ class AirTicketEntitlement {
   final int remainingTickets;
   final DateTime? lastIssuedAt;
   final String status;
+  final bool isEligible;
+  final String eligibilityReason;
+  final String ticketFrequency; // none | annual | biennial
 
   AirTicketEntitlement({
     required this.id,
@@ -24,7 +27,13 @@ class AirTicketEntitlement {
     required this.remainingTickets,
     this.lastIssuedAt,
     required this.status,
+    required this.isEligible,
+    this.eligibilityReason = '',
+    this.ticketFrequency = '',
   });
+
+  /// Apply button should only be enabled when this is true.
+  bool get canApply => isEligible && remainingTickets > 0;
 
   factory AirTicketEntitlement.fromMap(Map<String, dynamic> map) {
     DateTime? parseDate(dynamic v) =>
@@ -41,6 +50,9 @@ class AirTicketEntitlement {
       remainingTickets: (map['remaining_tickets'] ?? 0) as int,
       lastIssuedAt: parseDate(map['last_issued_at']),
       status: map['status'] ?? '',
+      isEligible: map['is_eligible'] == true,
+      eligibilityReason: map['eligibility_reason'] ?? '',
+      ticketFrequency: map['ticket_frequency'] ?? '',
     );
   }
 

@@ -721,6 +721,8 @@ class TranslationKeys {
   static const String replaceMediaOptional = "replaceMediaOptional";
   static const String pickImageOrVideo = "pickImageOrVideo";
   static const String requiredField = "requiredField";
+  static const String invalidSaudiMobile = "invalidSaudiMobile";
+  static const String documentIdMin8 = "documentIdMin8";
 
   // Controller snackbar/toast messages
   static const String failedToLoadAllLogs = "failedToLoadAllLogs";

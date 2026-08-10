@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -61,6 +62,14 @@ class EditProfileScreen extends StatelessWidget {
                   hint: TranslationKeys.documentID.tr,
                   required: true,
                   keyboardType: TextInputType.text,
+                  validator: (v) {
+                    final value = (v ?? '').trim();
+                    if (value.isEmpty) return TranslationKeys.requiredField.tr;
+                    if (value.length < 8) {
+                      return TranslationKeys.documentIdMin8.tr;
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 12),
                 CustomTextField(
@@ -112,6 +121,21 @@ class EditProfileScreen extends StatelessWidget {
                   hint: TranslationKeys.phone.tr,
                   required: true,
                   keyboardType: TextInputType.phone,
+                  // Fixed prefix — not part of the text, so it can't be erased
+                  prefixText: '+966 ',
+                  // Saudi mobile local part is exactly 9 digits (5XXXXXXXX)
+                  inputFormatters: [
+                    FilteringTextInputFormatter.digitsOnly,
+                    LengthLimitingTextInputFormatter(9),
+                  ],
+                  validator: (v) {
+                    final value = (v ?? '').trim();
+                    if (value.isEmpty) return TranslationKeys.requiredField.tr;
+                    if (!RegExp(r'^5\d{8}$').hasMatch(value)) {
+                      return TranslationKeys.invalidSaudiMobile.tr;
+                    }
+                    return null;
+                  },
                 ),
                 const SizedBox(height: 12),
                 CustomTextField(

@@ -193,17 +193,6 @@ class ProfileViewScreen extends StatelessWidget {
             ),
           ),
           const SizedBox(width: 10),
-          kText(
-            text: fullName.isNotEmpty ? fullName : TranslationKeys.user.tr,
-            fSize: 18,
-            fWeight: FontWeight.bold,
-            tColor: Colors.black87,
-            letterSpacing: -0.5,
-            textalign: TextAlign.center,
-            maxLines: 1,
-            textoverflow: TextOverflow.ellipsis,
-          ),
-          const SizedBox(width: 8),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

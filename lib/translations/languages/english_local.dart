@@ -349,7 +349,7 @@ class EnglishLocal {
       TranslationKeys.packages: "Packages",
       TranslationKeys.call: "Call",
       TranslationKeys.downloading: "Downloading invoice...",
-      
+
       // ========== HR APP SPECIFIC KEYS ==========
       TranslationKeys.goodMorning: "Good Morning",
       TranslationKeys.goodAfternoon: "Good Afternoon",
@@ -369,7 +369,8 @@ class EnglishLocal {
       TranslationKeys.new_: "New",
       TranslationKeys.changeLanguage: "Change Language",
       TranslationKeys.personalDocuments: "Personal Documents",
-      TranslationKeys.chooseYourPreferredLanguage: "Choose your preferred language",
+      TranslationKeys.chooseYourPreferredLanguage:
+          "Choose your preferred language",
       TranslationKeys.totalDays: "Total Days",
       TranslationKeys.from: "From",
       TranslationKeys.approved: "Approved",
@@ -381,19 +382,22 @@ class EnglishLocal {
       TranslationKeys.annualLeave: "Annual Leave",
       TranslationKeys.unpaidLeave: "Unpaid Leave",
       TranslationKeys.error: "Error",
-      TranslationKeys.pleaseFillAllFieldsCorrectly: "Please fill all fields correctly",
+      TranslationKeys.pleaseFillAllFieldsCorrectly:
+          "Please fill all fields correctly",
       TranslationKeys.clockIn: "Clock In",
       TranslationKeys.clockOut: "Clock Out",
       TranslationKeys.confirmEndShift: "Confirm End Shift",
       TranslationKeys.confirmHours: "Confirm hours",
       TranslationKeys.editShift: "Edit Shift",
-      TranslationKeys.unableToFetchLocation: "Unable to fetch current location. Please try again.",
+      TranslationKeys.unableToFetchLocation:
+          "Unable to fetch current location. Please try again.",
       TranslationKeys.requestEdit: "Request Edit",
       TranslationKeys.starts: "Starts",
       TranslationKeys.totalHours: "Total Hours",
       TranslationKeys.addANote: "Add a note",
       TranslationKeys.attachNoteToRequest: "Attach a note to your request",
-      TranslationKeys.allRequestsSentForApproval: "All requests will be sent for manager approval",
+      TranslationKeys.allRequestsSentForApproval:
+          "All requests will be sent for manager approval",
       TranslationKeys.sendForApproval: "Send for approval",
       TranslationKeys.shiftEditRequestSent: "Shift edit request sent!",
       TranslationKeys.workingAsEmployee: "Working as Employee",
@@ -412,7 +416,8 @@ class EnglishLocal {
       TranslationKeys.requestedOn: "Requested On",
       TranslationKeys.leave: "Leave",
       TranslationKeys.noDocumentsYet: "No Documents Yet",
-      TranslationKeys.addFirstDocument: "Add your first document to get started",
+      TranslationKeys.addFirstDocument:
+          "Add your first document to get started",
       TranslationKeys.verified: "Verified",
       TranslationKeys.expired: "Expired",
       TranslationKeys.document: "Document",
@@ -434,7 +439,8 @@ class EnglishLocal {
       TranslationKeys.submitRequest: "Submit Request",
       TranslationKeys.selectDate: "Select date",
       TranslationKeys.invalidDateRange: "Invalid Date Range",
-      TranslationKeys.endDateCannotBeBeforeStartDate: "End date cannot be before start date",
+      TranslationKeys.endDateCannotBeBeforeStartDate:
+          "End date cannot be before start date",
       TranslationKeys.chooseLeaveType: "Choose Leave Type",
       TranslationKeys.typesAvailable: "types available",
       TranslationKeys.paid: "Paid",
@@ -444,29 +450,39 @@ class EnglishLocal {
       TranslationKeys.recurring: "Recurring",
       TranslationKeys.oneTime: "One Time",
       TranslationKeys.noAnnouncementsAvailable: "No announcements available",
-      TranslationKeys.areYouSureWantToLogout: "Are you sure you want to logout?",
+      TranslationKeys.areYouSureWantToLogout:
+          "Are you sure you want to logout?",
       TranslationKeys.selectLanguage: "Select Language",
-      TranslationKeys.chooseYourPreferredLanguage: "Choose your preferred language",
+      TranslationKeys.chooseYourPreferredLanguage:
+          "Choose your preferred language",
       TranslationKeys.locationRequired: "Location Required",
       TranslationKeys.locationOffProceedShifts:
           "Please turn on location and restart the app for better performance.",
-      TranslationKeys.locationServicesRequiredForClockOut: "Location services are required to clock out. Please enable location to continue with logout.",
+      TranslationKeys.locationServicesRequiredForClockOut:
+          "Location services are required to clock out. Please enable location to continue with logout.",
       TranslationKeys.enableLocation: "Enable Location",
-      TranslationKeys.locationServiceRequiredBeforeLogout: "Location service is required to clock out before logout",
-      TranslationKeys.locationPermissionRequired: "Location permission is required to clock out",
+      TranslationKeys.locationServiceRequiredBeforeLogout:
+          "Location service is required to clock out before logout",
+      TranslationKeys.locationPermissionRequired:
+          "Location permission is required to clock out",
       TranslationKeys.permissionRequired: "Permission Required",
-      TranslationKeys.locationPermissionPermanentlyDenied: "Location permission is permanently denied. Please enable it in app settings to continue.",
+      TranslationKeys.locationPermissionPermanentlyDenied:
+          "Location permission is permanently denied. Please enable it in app settings to continue.",
       TranslationKeys.gettingYourLocation: "Getting your location...",
-      TranslationKeys.failedToGetLocation: "Failed to get location. Please try again.",
+      TranslationKeys.failedToGetLocation:
+          "Failed to get location. Please try again.",
       TranslationKeys.clockOutRequired: "Clock Out Required",
-      TranslationKeys.currentlyClockedInMessage: "You are currently clocked in. If you logout now, you will be automatically clocked out.",
+      TranslationKeys.currentlyClockedInMessage:
+          "You are currently clocked in. If you logout now, you will be automatically clocked out.",
       TranslationKeys.clockOutLocation: "Clock-out Location:",
       TranslationKeys.gettingAddress: "Getting address...",
-      TranslationKeys.proceedWithLogoutAndClockOut: "Do you want to proceed with logout and automatic clock out?",
+      TranslationKeys.proceedWithLogoutAndClockOut:
+          "Do you want to proceed with logout and automatic clock out?",
       TranslationKeys.yesLogout: "Yes, Logout",
       TranslationKeys.clockingOut: "Clocking out...",
       TranslationKeys.clockOutFailed: "Clock Out Failed",
-      TranslationKeys.failedToClockOutAutomatically: "Failed to clock out automatically. Do you still want to logout?",
+      TranslationKeys.failedToClockOutAutomatically:
+          "Failed to clock out automatically. Do you still want to logout?",
       TranslationKeys.logoutAnyway: "Logout Anyway",
       TranslationKeys.addDocument: "Add Document",
       TranslationKeys.documentType: "Document Type",
@@ -483,7 +499,8 @@ class EnglishLocal {
       TranslationKeys.clockedOut: "Clocked Out",
       TranslationKeys.activity: "Activity",
       TranslationKeys.salaryStructure: "Salary Structure",
-      TranslationKeys.noSalaryStructureAvailable: "No salary structure available",
+      TranslationKeys.noSalaryStructureAvailable:
+          "No salary structure available",
       TranslationKeys.allowances: "Allowances",
       TranslationKeys.salaryBreakdown: "Salary Breakdown",
       TranslationKeys.salaryComponents: "Salary Components",
@@ -570,8 +587,10 @@ class EnglishLocal {
       TranslationKeys.documentID: "Document ID",
       TranslationKeys.youAreHere: "You are here",
       TranslationKeys.yourLocation: "Your Location",
-      TranslationKeys.verifyLocationEndShift: "Verify your location and end your shift.",
-      TranslationKeys.verifyLocationClockIn: "Please verify your location before proceeding.",
+      TranslationKeys.verifyLocationEndShift:
+          "Verify your location and end your shift.",
+      TranslationKeys.verifyLocationClockIn:
+          "Please verify your location before proceeding.",
       TranslationKeys.detectedLocation: "Detected Location",
       TranslationKeys.week: "Week",
       TranslationKeys.day: "Day",
@@ -621,20 +640,27 @@ class EnglishLocal {
       TranslationKeys.passingYear: "Passing Year",
       TranslationKeys.remarks: "Remarks",
       TranslationKeys.pleaseFillAllFields: "Please fill all fields",
-      TranslationKeys.profileUpdatedSuccessfully: "Profile updated successfully",
+      TranslationKeys.profileUpdatedSuccessfully:
+          "Profile updated successfully",
       TranslationKeys.failedToUpdateProfile: "Failed to update profile",
-      TranslationKeys.passwordChangedSuccessfully: "Password changed successfully",
+      TranslationKeys.passwordChangedSuccessfully:
+          "Password changed successfully",
       TranslationKeys.failedToChangePassword: "Failed to change password",
       TranslationKeys.newPasswordsDoNotMatch: "New passwords do not match",
-      TranslationKeys.pleaseFillAllPasswordFields: "Please fill all password fields",
+      TranslationKeys.pleaseFillAllPasswordFields:
+          "Please fill all password fields",
       TranslationKeys.unableToLoadUserProfile: "Unable to load user profile",
-      TranslationKeys.employeeIdNotFound: "Employee ID not found. Please log in again.",
+      TranslationKeys.employeeIdNotFound:
+          "Employee ID not found. Please log in again.",
       TranslationKeys.failedToFetchLoans: "Failed to fetch loans",
-      TranslationKeys.pleaseFillAllRequiredFields: "Please fill all required fields",
-      TranslationKeys.leaveRequestSubmittedSuccessfully: "Leave request submitted successfully!",
+      TranslationKeys.pleaseFillAllRequiredFields:
+          "Please fill all required fields",
+      TranslationKeys.leaveRequestSubmittedSuccessfully:
+          "Leave request submitted successfully!",
       TranslationKeys.errorPickingFile: "Error picking file",
       TranslationKeys.noRecordsFor: "No records for",
-      TranslationKeys.failedToRetrieveAttendanceID: "Failed to retrieve attendance ID specific to this session.",
+      TranslationKeys.failedToRetrieveAttendanceID:
+          "Failed to retrieve attendance ID specific to this session.",
       TranslationKeys.attachDocumentOptional: "Attach Document (Optional)",
       TranslationKeys.selectedDocument: "Selected Document",
       TranslationKeys.uploadDocument: "Upload Document",
@@ -684,7 +710,8 @@ class EnglishLocal {
       TranslationKeys.notes: "Notes",
       TranslationKeys.anythingElseToKnow: "Anything else we should know?",
       TranslationKeys.optionalNotesForHr: "Optional notes for HR",
-      TranslationKeys.pleaseSelectDepartureDate: "Please select a departure date",
+      TranslationKeys.pleaseSelectDepartureDate:
+          "Please select a departure date",
       TranslationKeys.addAtLeastOnePassenger: "Add at least one passenger",
       TranslationKeys.fillNameAndPassport:
           "Fill name and passport for every passenger",
@@ -733,6 +760,10 @@ class EnglishLocal {
           "Replace the current image or video (optional)",
       TranslationKeys.pickImageOrVideo: "Pick an image or video to share",
       TranslationKeys.requiredField: "Required*",
+      TranslationKeys.invalidSaudiMobile:
+          "Please enter a valid Saudi mobile number (e.g., +966501234567)",
+      TranslationKeys.documentIdMin8:
+          "Document ID must be at least 8 characters long",
       TranslationKeys.failedToLoadAllLogs: "Failed to load all logs",
       TranslationKeys.passwordsDoNotMatch: "Passwords do not match",
       TranslationKeys.registrationSuccessful: "Registration Successful",
