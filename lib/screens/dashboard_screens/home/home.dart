@@ -251,30 +251,44 @@ class _HomeScreenState extends State<HomeScreen> {
                             },
                             child: Row(
                               children: [
-                                Container(
-                                  width: 45,
-                                  height: 45,
-                                  decoration: BoxDecoration(
-                                    shape: BoxShape.circle,
-                                    color: kPrimaryColor,
-                                    border: Border.all(
-                                      color: Colors.white,
-                                      width: 2,
-                                    ),
-                                  ),
-                                  child: Center(
-                                    child: Text(
-                                      firstName.isNotEmpty
-                                          ? firstName[0].toUpperCase()
-                                          : 'U',
-                                      style: const TextStyle(
+                                Obx(() {
+                                  final avatarUrl = _profileController
+                                      .userModel.value.avatarUrl;
+                                  final hasAvatar = avatarUrl != null &&
+                                      avatarUrl.isNotEmpty;
+                                  return Container(
+                                    width: 45,
+                                    height: 45,
+                                    decoration: BoxDecoration(
+                                      shape: BoxShape.circle,
+                                      color: kPrimaryColor,
+                                      border: Border.all(
                                         color: Colors.white,
-                                        fontWeight: FontWeight.bold,
-                                        fontSize: 18,
+                                        width: 2,
                                       ),
+                                      image: hasAvatar
+                                          ? DecorationImage(
+                                              image: NetworkImage(avatarUrl),
+                                              fit: BoxFit.cover,
+                                            )
+                                          : null,
                                     ),
-                                  ),
-                                ),
+                                    child: hasAvatar
+                                        ? null
+                                        : Center(
+                                            child: Text(
+                                              firstName.isNotEmpty
+                                                  ? firstName[0].toUpperCase()
+                                                  : 'U',
+                                              style: const TextStyle(
+                                                color: Colors.white,
+                                                fontWeight: FontWeight.bold,
+                                                fontSize: 18,
+                                              ),
+                                            ),
+                                          ),
+                                  );
+                                }),
                                 const SizedBox(width: 12),
                                 Expanded(
                                   child: Column(

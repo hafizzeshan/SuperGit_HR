@@ -50,19 +50,18 @@ class DefaultFirebaseOptions {
   }
 
   static const FirebaseOptions android = FirebaseOptions(
-    apiKey: 'AIzaSyBEeKB8O009HcTw0ps9q0MfwzKJDbomjoY',
-    appId: '1:695163487724:android:17c68723dc9e93c113ecc9',
-    messagingSenderId: '695163487724',
-    projectId: 'supergit-hr',
-    storageBucket: 'supergit-hr.firebasestorage.app',
+    apiKey: 'AIzaSyAH1urrM1EFAXMVHE_enjs2eEos2qaidBQ',
+    appId: '1:456854171447:android:3eca701e8db423317af4b2',
+    messagingSenderId: '456854171447',
+    projectId: 'hrms-62ff4',
+    storageBucket: 'hrms-62ff4.firebasestorage.app',
   );
-
   static const FirebaseOptions ios = FirebaseOptions(
-    apiKey: 'AIzaSyDTtNbWphrQH7jj88ZkOVrSm4yo47ikuSM',
-    appId: '1:695163487724:ios:4c3536ee3cb3217b13ecc9',
-    messagingSenderId: '695163487724',
-    projectId: 'supergit-hr',
-    storageBucket: 'supergit-hr.firebasestorage.app',
-    iosBundleId: 'com.bytes.supergithr',
+    apiKey: 'AIzaSyAgVdWb9Z7ctnzEEPpJiXAFFq1pNAt9UAk',
+    appId: '1:456854171447:ios:8da52710bec0dc157af4b2',
+    messagingSenderId: '456854171447',
+    projectId: 'hrms-62ff4',
+    storageBucket: 'hrms-62ff4.firebasestorage.app',
+    iosBundleId: 'com.bytes.supergithrios',
   );
 }

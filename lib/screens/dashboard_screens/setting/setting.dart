@@ -812,18 +812,31 @@ class _AboutScreenState extends State<AboutScreen> {
         ),
         child: Row(
           children: [
-            Container(
-              padding: const EdgeInsets.all(2),
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                color: kPrimaryColor.withValues(alpha: 0.08),
-              ),
-              child: CircleAvatar(
-                radius: 25,
-                backgroundColor: Colors.white,
-                child: Icon(Icons.person, size: 30, color: kPrimaryColor),
-              ),
-            ),
+            Obx(() {
+              final avatarUrl = profileController.userModel.value.avatarUrl;
+              final hasAvatar = avatarUrl != null && avatarUrl.isNotEmpty;
+              return Container(
+                padding: const EdgeInsets.all(2),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kPrimaryColor.withValues(alpha: 0.08),
+                ),
+                child: CircleAvatar(
+                  radius: 25,
+                  backgroundColor: Colors.white,
+                  backgroundImage:
+                      hasAvatar ? NetworkImage(avatarUrl) : null,
+                  child: hasAvatar
+                      ? null
+                      : kText(
+                          text: name.isNotEmpty ? name[0].toUpperCase() : 'U',
+                          fSize: 20.0,
+                          fWeight: FontWeight.bold,
+                          tColor: kPrimaryColor,
+                        ),
+                ),
+              );
+            }),
             const SizedBox(width: 16),
             Expanded(
               child: Column(

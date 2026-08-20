@@ -96,6 +96,7 @@ class _SplashScreenState extends State<SplashScreen> {
         print("✅ User data loaded from cache");
 
         // Make API calls to refresh data (these will run in background)
+        userController.getProfile(); // ✅ Refresh profile from server
         leaveController.fetchLeaveTypes();
         attendanceHistoryController.getTodayLogs();
         holidayController.fetchHolidays(); // ✅ Fetch holidays in splash

@@ -1,1 +1,33 @@
-{"flutter":{"platforms":{"android":{"default":{"projectId":"supergit-hr","appId":"1:695163487724:android:17c68723dc9e93c113ecc9","fileOutput":"android/app/google-services.json"}},"ios":{"default":{"projectId":"supergit-hr","appId":"1:695163487724:ios:4c3536ee3cb3217b13ecc9","uploadDebugSymbols":false,"fileOutput":"ios/Runner/GoogleService-Info.plist"}},"dart":{"lib/firebase_options.dart":{"projectId":"supergit-hr","configurations":{"android":"1:695163487724:android:17c68723dc9e93c113ecc9","ios":"1:695163487724:ios:4c3536ee3cb3217b13ecc9"}}}}}}
+{
+  "flutter": {
+    "platforms": {
+      "android": {
+        "default": {
+          "projectId": "hrms-62ff4",
+          "appId": "1:456854171447:android:3eca701e8db423317af4b2",
+          "fileOutput": "android/app/google-services.json"
+        }
+      },
+      "ios": {
+        "default": {
+          "projectId": "hrms-62ff4",
+          "appId": "1:456854171447:ios:8da52710bec0dc157af4b2",
+          "uploadDebugSymbols": false,
+          "fileOutput": "ios/Runner/GoogleService-Info.plist"
+        }
+      },
+      "dart": {
+        "lib/firebase_options.dart": {
+          "projectId": "hrms-62ff4",
+          "configurations": {
+            "android": "1:456854171447:android:3eca701e8db423317af4b2",
+            "ios": "1:456854171447:ios:8da52710bec0dc157af4b2"
+          }
+        }
+      }
+    }
+  },
+  "remoteconfig": {
+    "template": "remoteconfig.template.json"
+  }
+}

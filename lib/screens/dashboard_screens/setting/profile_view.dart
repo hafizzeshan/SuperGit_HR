@@ -9,6 +9,7 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
 import 'package:supergithr/models/user_model.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/edit_profile_screen.dart';
+import 'package:supergithr/views/full_image_view.dart';
 
 class ProfileViewScreen extends StatelessWidget {
   ProfileViewScreen({super.key});
@@ -165,31 +166,47 @@ class ProfileViewScreen extends StatelessWidget {
       ),
       child: Row(
         children: [
-          Container(
-            padding: const EdgeInsets.all(4),
-            decoration: BoxDecoration(
-              shape: BoxShape.circle,
-              border: Border.all(
-                color: kPrimaryColor.withValues(alpha: 0.1),
-                width: 1,
+          GestureDetector(
+            onTap: () {
+              final url = model.avatarUrl;
+              if (url != null && url.isNotEmpty) {
+                Get.to(
+                  () => FullImageViewScreen(
+                    imageUrl: url,
+                    heroTag: 'profile_avatar',
+                  ),
+                );
+              }
+            },
+            child: Hero(
+              tag: 'profile_avatar',
+              child: Container(
+                padding: const EdgeInsets.all(4),
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(
+                    color: kPrimaryColor.withValues(alpha: 0.1),
+                    width: 1,
+                  ),
+                ),
+                child: CircleAvatar(
+                  radius: 35,
+                  backgroundColor: kPrimaryColor.withValues(alpha: 0.08),
+                  backgroundImage:
+                      model.avatarUrl != null && model.avatarUrl!.isNotEmpty
+                          ? NetworkImage(model.avatarUrl!) as ImageProvider
+                          : null,
+                  child:
+                      model.avatarUrl == null || model.avatarUrl!.isEmpty
+                          ? kText(
+                            text: initials.toUpperCase(),
+                            fSize: 22,
+                            fWeight: FontWeight.bold,
+                            tColor: kPrimaryColor,
+                          )
+                          : null,
+                ),
               ),
-            ),
-            child: CircleAvatar(
-              radius: 35,
-              backgroundColor: kPrimaryColor.withValues(alpha: 0.08),
-              backgroundImage:
-                  model.avatarUrl != null && model.avatarUrl!.isNotEmpty
-                      ? NetworkImage(model.avatarUrl!) as ImageProvider
-                      : null,
-              child:
-                  model.avatarUrl == null || model.avatarUrl!.isEmpty
-                      ? kText(
-                        text: initials.toUpperCase(),
-                        fSize: 22,
-                        fWeight: FontWeight.bold,
-                        tColor: kPrimaryColor,
-                      )
-                      : null,
             ),
           ),
           const SizedBox(width: 10),

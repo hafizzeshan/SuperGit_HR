@@ -1,13 +1,13 @@
 {
   "project_info": {
-    "project_number": "695163487724",
-    "project_id": "supergit-hr",
-    "storage_bucket": "supergit-hr.firebasestorage.app"
+    "project_number": "456854171447",
+    "project_id": "hrms-62ff4",
+    "storage_bucket": "hrms-62ff4.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:695163487724:android:17c68723dc9e93c113ecc9",
+        "mobilesdk_app_id": "1:456854171447:android:3eca701e8db423317af4b2",
         "android_client_info": {
           "package_name": "com.bytes.supergithr"
         }
@@ -15,7 +15,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyBEeKB8O009HcTw0ps9q0MfwzKJDbomjoY"
+          "current_key": "AIzaSyAH1urrM1EFAXMVHE_enjs2eEos2qaidBQ"
         }
       ],
       "services": {

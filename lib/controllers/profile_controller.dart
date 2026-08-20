@@ -87,7 +87,20 @@ class ProfileController extends GetxController {
       isLoading.value = false;
 
       if (response != null && response["data"] != null) {
-        final model = UserModel.fromJson(response["data"]);
+        var model = UserModel.fromJson(response["data"]);
+
+        // Keep our cache-busted avatar URL if the server returned the same
+        // underlying URL, so a freshly updated picture doesn't go stale again.
+        final incoming = model.avatarUrl;
+        final current = userModel.value.avatarUrl;
+        if (incoming != null &&
+            current != null &&
+            current != incoming &&
+            _removeCacheBuster(current) == _removeCacheBuster(incoming)) {
+          final json = model.toJson();
+          json['avatar_url'] = current;
+          model = UserModel.fromJson(json);
+        }
         userModel.value = model;
 
         // ✅ Save in SharedPreferences for persistence
@@ -147,6 +160,10 @@ class ProfileController extends GetxController {
     }
   }
 
+  /// Remove the `v=<millis>` cache-buster we append to avatar URLs.
+  String _removeCacheBuster(String url) =>
+      url.replaceAll(RegExp(r'[?&]v=\d+$'), '');
+
   Future<bool> _uploadSelectedAvatar(String employeeId) async {
     final avatarFile = selectedAvatar.value;
     if (avatarFile == null ||
@@ -168,20 +185,42 @@ class ProfileController extends GetxController {
         formData: formData,
       );
 
+      print("🖼️ Avatar upload raw response: $response");
       if (response != null && response["data"] != null) {
         final responseData = response["data"];
+        String? newUrl;
         if (responseData is Map<String, dynamic>) {
-          final avatarUrl = responseData['avatar_url'] as String?;
-          if (avatarUrl != null && avatarUrl.isNotEmpty) {
-            final updatedJson = userModel.value.toJson();
-            updatedJson['avatar_url'] = avatarUrl;
-            userModel.value = UserModel.fromJson(updatedJson);
-            final prefs = await SharedPreferences.getInstance();
-            await prefs.setString(
-              'user_model',
-              jsonEncode(userModel.value.toJson()),
-            );
+          newUrl =
+              (responseData['avatar_url'] ?? responseData['avatarUrl'])
+                  as String?;
+        }
+        print("🖼️ avatar_url from response: $newUrl");
+        // Backend may not echo the URL back — the avatar endpoint is stable,
+        // so fall back to the URL we already have.
+        final oldUrl = userModel.value.avatarUrl;
+        if (newUrl == null || newUrl.isEmpty) newUrl = oldUrl;
+
+        if (newUrl != null && newUrl.isNotEmpty) {
+          // If the URL didn't change, Flutter's image cache would keep
+          // showing the old picture — evict it and append a cache-buster so
+          // every screen reloads the fresh image.
+          if (oldUrl != null && oldUrl.isNotEmpty) {
+            await NetworkImage(oldUrl).evict();
           }
+          if (_removeCacheBuster(newUrl) == _removeCacheBuster(oldUrl ?? '')) {
+            final base = _removeCacheBuster(newUrl);
+            final sep = base.contains('?') ? '&' : '?';
+            newUrl = "$base${sep}v=${DateTime.now().millisecondsSinceEpoch}";
+          }
+          final updatedJson = userModel.value.toJson();
+          updatedJson['avatar_url'] = newUrl;
+          userModel.value = UserModel.fromJson(updatedJson);
+          final prefs = await SharedPreferences.getInstance();
+          await prefs.setString(
+            'user_model',
+            jsonEncode(userModel.value.toJson()),
+          );
+          print("🖼️ Avatar URL now used by app: $newUrl");
         }
         selectedAvatar.value = null;
         return true;
@@ -287,7 +326,8 @@ class ProfileController extends GetxController {
       };
       final avatarUrl = userModel.value.avatarUrl;
       if (avatarUrl != null && avatarUrl.isNotEmpty) {
-        data["avatar_url"] = avatarUrl;
+        // Don't persist our local cache-buster param on the server
+        data["avatar_url"] = _removeCacheBuster(avatarUrl);
       }
 
       final prefs = await SharedPreferences.getInstance();
@@ -299,7 +339,6 @@ class ProfileController extends GetxController {
                 data: data,
               )
               : await _repo.updateProfile(data: data);
-      updateLoading.value = false;
 
       if (response != null && response["data"] != null) {
         final updatedModel = UserModel.fromJson(response["data"]);
@@ -320,6 +359,9 @@ class ProfileController extends GetxController {
         }
 
         Utils.snackBar(TranslationKeys.profileUpdatedSuccessfully.tr, false);
+        // Refresh from server in the background so the app holds the
+        // latest saved data (avatar cache-buster is preserved by getProfile).
+        getProfile();
         return true;
       } else {
         Utils.snackBar(
@@ -332,9 +374,11 @@ class ProfileController extends GetxController {
         return false;
       }
     } catch (e) {
-      updateLoading.value = false;
       Utils.snackBar("${TranslationKeys.error.tr}: $e", true);
       return false;
+    } finally {
+      // Keep the loader visible until everything (avatar upload included) ends
+      updateLoading.value = false;
     }
   }
 

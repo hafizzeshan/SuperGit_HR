@@ -22,13 +22,28 @@ class EditProfileScreen extends StatelessWidget {
       appBar: appBarrWitAction(
         title: TranslationKeys.editProfile.tr,
         context: context,
-        actionwidget: IconButton(
-          icon: const Icon(Icons.check, color: Colors.black87),
-          onPressed: () async {
-            if (_formKey.currentState?.validate() != true) return;
-            final success = await _profileController.updateProfile();
-            if (success) Get.back();
-          },
+        actionwidget: Obx(
+          () =>
+              _profileController.updateLoading.value
+                  ? const Padding(
+                    padding: EdgeInsets.all(12),
+                    child: SizedBox(
+                      width: 22,
+                      height: 22,
+                      child: CircularProgressIndicator(
+                        strokeWidth: 2.5,
+                        color: kPrimaryColor,
+                      ),
+                    ),
+                  )
+                  : IconButton(
+                    icon: const Icon(Icons.check, color: Colors.black87),
+                    onPressed: () async {
+                      if (_formKey.currentState?.validate() != true) return;
+                      final success = await _profileController.updateProfile();
+                      if (success) Get.back();
+                    },
+                  ),
         ),
       ),
       backgroundColor: kMainBackgroundColor,
@@ -145,28 +160,50 @@ class EditProfileScreen extends StatelessWidget {
                   keyboardType: TextInputType.emailAddress,
                 ),
                 const SizedBox(height: 24),
-                ElevatedButton(
-                  onPressed: () async {
-                    if (_formKey.currentState?.validate() != true) return;
-                    final success = await _profileController.updateProfile();
-                    if (success) Get.back();
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: kPrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(10),
+                Obx(() {
+                  final loading = _profileController.updateLoading.value;
+                  return ElevatedButton(
+                    onPressed:
+                        loading
+                            ? null
+                            : () async {
+                              if (_formKey.currentState?.validate() != true) {
+                                return;
+                              }
+                              final success =
+                                  await _profileController.updateProfile();
+                              if (success) Get.back();
+                            },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: kPrimaryColor,
+                      disabledBackgroundColor: kPrimaryColor.withValues(
+                        alpha: 0.7,
+                      ),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      padding: const EdgeInsets.symmetric(vertical: 14),
                     ),
-                    padding: const EdgeInsets.symmetric(vertical: 14),
-                  ),
-                  child: Center(
-                    child: kText(
-                      text: TranslationKeys.saveChanges.tr,
-                      fSize: 16,
-                      fWeight: FontWeight.w700,
-                      tColor: Colors.white,
+                    child: Center(
+                      child:
+                          loading
+                              ? const SizedBox(
+                                width: 20,
+                                height: 20,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2.5,
+                                  color: Colors.white,
+                                ),
+                              )
+                              : kText(
+                                text: TranslationKeys.saveChanges.tr,
+                                fSize: 16,
+                                fWeight: FontWeight.w700,
+                                tColor: Colors.white,
+                              ),
                     ),
-                  ),
-                ),
+                  );
+                }),
               ],
             ),
           ),

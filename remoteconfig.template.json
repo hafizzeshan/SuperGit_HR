@@ -1,0 +1,49 @@
+{
+  "parameters": {
+    "base_url": {
+      "defaultValue": { "value": "https://hr1.api.supergitsa.com/api/" },
+      "valueType": "STRING",
+      "description": "API base URL override. Must end with /api/. App falls back to the compiled default when empty."
+    },
+    "force_update": {
+      "defaultValue": { "value": "false" },
+      "valueType": "BOOLEAN",
+      "description": "When true, users below the minimum version/build are forced to update."
+    },
+    "min_version_android": {
+      "defaultValue": { "value": "1.0" },
+      "valueType": "STRING",
+      "description": "Minimum allowed Android app version (x.y.z)."
+    },
+    "min_version_ios": {
+      "defaultValue": { "value": "1.0.0" },
+      "valueType": "STRING",
+      "description": "Minimum allowed iOS app version (x.y.z)."
+    },
+    "min_build_number_android": {
+      "defaultValue": { "value": "10" },
+      "valueType": "NUMBER",
+      "description": "Minimum allowed Android build number."
+    },
+    "min_build_number_ios": {
+      "defaultValue": { "value": "1" },
+      "valueType": "NUMBER",
+      "description": "Minimum allowed iOS build number."
+    },
+    "update_message": {
+      "defaultValue": { "value": "A new version is available. Please update to continue." },
+      "valueType": "STRING",
+      "description": "Message shown on the force-update dialog."
+    },
+    "play_store_url": {
+      "defaultValue": { "value": "" },
+      "valueType": "STRING",
+      "description": "Play Store listing URL opened by the update dialog on Android."
+    },
+    "app_store_url": {
+      "defaultValue": { "value": "" },
+      "valueType": "STRING",
+      "description": "App Store listing URL opened by the update dialog on iOS."
+    }
+  }
+}
