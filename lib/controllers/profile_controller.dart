@@ -1,6 +1,8 @@
 import 'dart:convert';
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:file_picker/file_picker.dart';
+import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:shared_preferences/shared_preferences.dart';
@@ -153,10 +155,61 @@ class ProfileController extends GetxController {
         allowMultiple: false,
       );
       if (result != null && result.files.isNotEmpty) {
-        selectedAvatar.value = result.files.first;
+        final picked = result.files.first;
+        print(
+          "📎 Picked avatar → name: ${picked.name}, path: ${picked.path}, "
+          "size: ${picked.size}, ext: ${picked.extension}",
+        );
+        selectedAvatar.value = await _compressAvatar(picked);
       }
     } catch (e) {
       Utils.snackBar(TranslationKeys.failedToPickImage.tr, true);
+    }
+  }
+
+  /// Shrink a camera-roll photo before it goes up as an avatar.
+  ///
+  /// Straight-from-the-phone pictures run to several megabytes, which makes
+  /// the upload crawl and can trip server-side size limits. Falls back to the
+  /// original file whenever compression can't help.
+  Future<PlatformFile> _compressAvatar(PlatformFile file) async {
+    final sourcePath = file.path;
+    if (sourcePath == null || sourcePath.isEmpty) return file;
+
+    try {
+      // Write next to the picked file so no temp-directory plugin is needed.
+      final target =
+          "${File(sourcePath).parent.path}/"
+          "avatar_${DateTime.now().millisecondsSinceEpoch}.jpg";
+
+      final result = await FlutterImageCompress.compressAndGetFile(
+        sourcePath,
+        target,
+        quality: 85,
+        minWidth: 1080,
+        minHeight: 1080,
+        format: CompressFormat.jpeg,
+        // Drop EXIF: the plugin already applies the orientation, and stale
+        // EXIF is what makes uploaded photos show up sideways.
+        keepExif: false,
+      );
+      if (result == null) return file;
+
+      final compressed = File(result.path);
+      final size = await compressed.length();
+      print("🗜️ Avatar compressed: ${file.size} → $size bytes");
+
+      // Already-small images can come back bigger — keep the original then.
+      if (size >= file.size) return file;
+
+      return PlatformFile(
+        name: compressed.uri.pathSegments.last,
+        path: result.path,
+        size: size,
+      );
+    } catch (e) {
+      print("⚠️ Avatar compression failed, sending original: $e");
+      return file;
     }
   }
 
@@ -166,10 +219,18 @@ class ProfileController extends GetxController {
 
   Future<bool> _uploadSelectedAvatar(String employeeId) async {
     final avatarFile = selectedAvatar.value;
-    if (avatarFile == null ||
-        avatarFile.path == null ||
-        avatarFile.path!.isEmpty) {
-      return true;
+    // Nothing was picked — the profile save has no avatar work to do.
+    if (avatarFile == null) return true;
+
+    // Picked, but the plugin gave us no path (happens on iOS for iCloud
+    // assets that aren't downloaded locally). Reporting success here would
+    // upload nothing while the screen still says "updated".
+    if (avatarFile.path == null || avatarFile.path!.isEmpty) {
+      print(
+        "⚠️ Picked avatar has no path — nothing to upload "
+        "(name: ${avatarFile.name}, size: ${avatarFile.size})",
+      );
+      return false;
     }
 
     try {
