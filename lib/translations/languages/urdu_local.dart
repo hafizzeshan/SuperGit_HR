@@ -687,6 +687,29 @@ class UrduLocal {
       TranslationKeys.noDataFound: "کوئی ڈیٹا نہیں ملا",
       TranslationKeys.errorWhileGettingOnlineItems:
           "آن لائن آئٹمز حاصل کرتے وقت خرابی",
+
+      // ⏱️ Overtime
+      TranslationKeys.overtime: "اوور ٹائم",
+      TranslationKeys.overtimeRequests: "اوور ٹائم درخواستیں",
+      TranslationKeys.newOvertimeRequest: "نئی اوور ٹائم درخواست",
+      TranslationKeys.requestOvertime: "اوور ٹائم کی درخواست",
+      TranslationKeys.noOvertimeFound: "کوئی اوور ٹائم درخواست نہیں ملی",
+      TranslationKeys.overtimeDetails: "اوور ٹائم کی تفصیلات",
+      TranslationKeys.overtimeHours: "اوور ٹائم گھنٹے",
+      TranslationKeys.overtimeAmount: "اوور ٹائم رقم",
+      TranslationKeys.overtimeRate: "اوور ٹائم ریٹ",
+      TranslationKeys.hourlyRate: "فی گھنٹہ ریٹ",
+      TranslationKeys.reasonForOvertime: "اوور ٹائم کی وجہ",
+      TranslationKeys.selectOvertimeDuration: "دورانیہ منتخب کریں",
+      TranslationKeys.totalOvertime: "کل اوور ٹائم",
+      TranslationKeys.pendingRequests: "زیر التواء",
+      TranslationKeys.approvedRequests: "منظور شدہ",
+      TranslationKeys.overtimeRequestCreated: "اوور ٹائم درخواست کامیابی سے بن گئی",
+      TranslationKeys.overtimeRequestFailed: "اوور ٹائم درخواست بنانے میں ناکامی",
+      TranslationKeys.failedToFetchOvertime: "اوور ٹائم درخواستیں حاصل کرنے میں ناکامی",
+      TranslationKeys.somethingWentWrongFetchingOvertime: "اوور ٹائم حاصل کرتے وقت کچھ غلط ہو گیا",
+      TranslationKeys.somethingWentWrongCreatingOvertime: "اوور ٹائم درخواست بناتے وقت کچھ غلط ہو گیا",
+      TranslationKeys.version: "ورژن",
     };
   }
 }

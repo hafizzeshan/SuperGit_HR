@@ -66,11 +66,11 @@ class ProfileController extends GetxController {
     try {
       final prefs = await SharedPreferences.getInstance();
 
-      // Try user_id first (might be what the API expects)
+      // GET employees/{id} expects the EMPLOYEE id, not the user id
       String? userId = prefs.getString('user_id');
       String? employeeId = prefs.getString('employee_id');
 
-      String? idToUse = userId ?? employeeId;
+      String? idToUse = employeeId ?? userId;
 
       if (idToUse == null || idToUse.isEmpty) {
         isLoading.value = false;

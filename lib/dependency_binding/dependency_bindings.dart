@@ -7,6 +7,7 @@ import 'package:supergithr/controllers/employee_history_controller.dart';
 import 'package:supergithr/controllers/holiday_controller.dart';
 import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/controllers/loan_controller.dart';
+import 'package:supergithr/controllers/overtime_controller.dart';
 import 'package:supergithr/controllers/location_controller.dart';
 import 'package:supergithr/controllers/login_controller.dart';
 import 'package:supergithr/controllers/salary_structure_controller.dart';
@@ -28,6 +29,7 @@ class DependencyBindings implements Bindings {
     Get.put(DocumentController());
     Get.put(SalaryStructureController());
     Get.put(LoanController());
+    Get.put(OvertimeController());
     Get.put(HolidayController());
     Get.put(AnnouncementController());
     Get.put(AirTicketController());

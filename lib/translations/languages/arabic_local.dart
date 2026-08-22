@@ -860,6 +860,29 @@ class ArabicLocal {
           "تمت إعادة تعيين كلمة المرور بنجاح",
       TranslationKeys.errorSubmittingLeaveRequest: "خطأ في إرسال طلب الإجازة",
       TranslationKeys.networkError: "خطأ في الشبكة",
+
+      // ⏱️ Overtime
+      TranslationKeys.overtime: "العمل الإضافي",
+      TranslationKeys.overtimeRequests: "طلبات العمل الإضافي",
+      TranslationKeys.newOvertimeRequest: "طلب عمل إضافي جديد",
+      TranslationKeys.requestOvertime: "طلب عمل إضافي",
+      TranslationKeys.noOvertimeFound: "لا توجد طلبات عمل إضافي",
+      TranslationKeys.overtimeDetails: "تفاصيل العمل الإضافي",
+      TranslationKeys.overtimeHours: "ساعات العمل الإضافي",
+      TranslationKeys.overtimeAmount: "مبلغ العمل الإضافي",
+      TranslationKeys.overtimeRate: "معدل العمل الإضافي",
+      TranslationKeys.hourlyRate: "الأجر بالساعة",
+      TranslationKeys.reasonForOvertime: "سبب العمل الإضافي",
+      TranslationKeys.selectOvertimeDuration: "اختر المدة",
+      TranslationKeys.totalOvertime: "إجمالي العمل الإضافي",
+      TranslationKeys.pendingRequests: "قيد الانتظار",
+      TranslationKeys.approvedRequests: "معتمد",
+      TranslationKeys.overtimeRequestCreated: "تم إنشاء طلب العمل الإضافي بنجاح",
+      TranslationKeys.overtimeRequestFailed: "فشل في إنشاء طلب العمل الإضافي",
+      TranslationKeys.failedToFetchOvertime: "فشل في جلب طلبات العمل الإضافي",
+      TranslationKeys.somethingWentWrongFetchingOvertime: "حدث خطأ أثناء جلب العمل الإضافي",
+      TranslationKeys.somethingWentWrongCreatingOvertime: "حدث خطأ أثناء إنشاء طلب العمل الإضافي",
+      TranslationKeys.version: "الإصدار",
     };
   }
 }

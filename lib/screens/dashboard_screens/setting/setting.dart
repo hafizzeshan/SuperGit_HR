@@ -20,6 +20,8 @@ import 'package:supergithr/screens/dashboard_screens/setting/profile_view.dart';
 import 'package:supergithr/splash.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/appBar.dart';
+import 'package:supergithr/views/app_assets.dart';
+import 'package:supergithr/views/text_styles.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/ui_helpers.dart';
@@ -36,6 +38,7 @@ class AboutScreen extends StatefulWidget {
 
 class _AboutScreenState extends State<AboutScreen> {
   ProfileController profileController = Get.find<ProfileController>();
+  String _appName = '';
   String _version = '';
   String _buildNumber = '';
   bool _isPlayStore = false;
@@ -51,6 +54,7 @@ class _AboutScreenState extends State<AboutScreen> {
     final isPlayStore =
         Platform.isAndroid && info.installerStore == 'com.android.vending';
     setState(() {
+      _appName = info.appName;
       _version = info.version;
       _buildNumber = info.buildNumber;
       _isPlayStore = isPlayStore;
@@ -67,10 +71,9 @@ class _AboutScreenState extends State<AboutScreen> {
 
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitAction(
+      appBar: appBarrWitoutAction(
         title: TranslationKeys.about.tr,
         leadingWidget: const SizedBox(),
-        actionwidget: _buildVersionBadge(),
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
@@ -123,6 +126,8 @@ class _AboutScreenState extends State<AboutScreen> {
                   TranslationKeys.logout.tr,
                   () => _handleLogout(),
                 );
+              case 8:
+                return _buildVersionFooter();
               default:
                 return const SizedBox();
             }
@@ -744,49 +749,127 @@ class _AboutScreenState extends State<AboutScreen> {
     }
   }
 
-  Widget _buildVersionBadge() {
-    final String label;
-    final Color badgeColor;
+  /// App identity footer shown under the logout tile: logo, app name,
+  /// version + build, the distribution channel badge and a copyright line.
+  Widget _buildVersionFooter() {
+    final String channelLabel;
+    final Color channelColor;
 
     if (Platform.isAndroid) {
-      label = _isPlayStore ? 'Live' : 'Sideload';
-      badgeColor =
+      channelLabel = _isPlayStore ? 'Live' : 'Sideload';
+      channelColor =
           _isPlayStore ? const Color(0xFF2E7D32) : const Color(0xFFE65100);
     } else {
-      label = 'TestFlight';
-      badgeColor = const Color(0xFF1565C0);
+      channelLabel = 'TestFlight';
+      channelColor = const Color(0xFF1565C0);
     }
-    final versionText = _version.isNotEmpty ? 'v$_version ($_buildNumber)' : '';
 
-    return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
-      decoration: BoxDecoration(
-        color: badgeColor.withValues(alpha: 0.1),
-        borderRadius: BorderRadius.circular(5),
-        border: Border.all(color: badgeColor.withValues(alpha: 0.4)),
-      ),
-      child: Row(
-        mainAxisSize: MainAxisSize.min,
-        crossAxisAlignment: CrossAxisAlignment.center,
+    final versionText = _version.isEmpty
+        ? ''
+        : '${TranslationKeys.version.tr} $_version ($_buildNumber)';
+
+    return Padding(
+      padding: const EdgeInsets.only(top: 14, bottom: 28),
+      child: Column(
         children: [
-          Text(
-            label,
-            style: TextStyle(
-              fontSize: 10,
-              fontWeight: FontWeight.bold,
-              color: badgeColor,
-              letterSpacing: 0.5,
-            ),
+          // Soft divider so the footer reads as a separate, quiet zone.
+          Container(
+            width: 60,
+            height: 1,
+            color: Colors.grey.shade300,
           ),
-          UIHelper.horizontalSpaceSm10,
-          if (versionText.isNotEmpty)
-            Text(
-              versionText,
-              style: TextStyle(
-                fontSize: 9,
-                color: badgeColor.withValues(alpha: 0.85),
+          const SizedBox(height: 20),
+          Container(
+            padding: const EdgeInsets.all(10),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.circular(16),
+              border: Border.all(color: Colors.grey.shade200),
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.04),
+                  blurRadius: 10,
+                  offset: const Offset(0, 4),
+                ),
+              ],
+            ),
+            child: Image.asset(
+              AppAssets.logo,
+              height: 34,
+              width: 34,
+              fit: BoxFit.contain,
+              errorBuilder: (_, __, ___) => const Icon(
+                Icons.business_rounded,
+                size: 30,
+                color: kPrimaryColor,
               ),
             ),
+          ),
+          const SizedBox(height: 12),
+          Text(
+            _appName.isNotEmpty ? _appName : 'SuperGit HR',
+            style: textStyleMontserratBold(
+              fontSize: 14.0,
+              color: Colors.black87,
+            ),
+          ),
+          if (versionText.isNotEmpty) ...[
+            const SizedBox(height: 8),
+            Row(
+              mainAxisSize: MainAxisSize.min,
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  versionText,
+                  style: textStyleMontserratMiddle(
+                    fontSize: 12.0,
+                    color: Colors.grey.shade600,
+                  ),
+                ),
+                const SizedBox(width: 8),
+                Container(
+                  padding:
+                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  decoration: BoxDecoration(
+                    color: channelColor.withValues(alpha: 0.1),
+                    borderRadius: BorderRadius.circular(20),
+                    border:
+                        Border.all(color: channelColor.withValues(alpha: 0.3)),
+                  ),
+                  child: Row(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Container(
+                        width: 6,
+                        height: 6,
+                        decoration: BoxDecoration(
+                          color: channelColor,
+                          shape: BoxShape.circle,
+                        ),
+                      ),
+                      const SizedBox(width: 5),
+                      Text(
+                        channelLabel,
+                        style: textStyleMontserratBold(
+                          fontSize: 9.0,
+                          color: channelColor,
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
+          ],
+          const SizedBox(height: 14),
+          Text(
+            "© ${DateTime.now().year} SuperGit · ${TranslationKeys.allRightsReserved.tr}",
+            textAlign: TextAlign.center,
+            style: textStyleMontserratRegular(
+              fontSize: 10.0,
+              color: Colors.grey.shade400,
+            ),
+          ),
         ],
       ),
     );
