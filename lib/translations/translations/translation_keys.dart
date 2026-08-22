@@ -830,4 +830,27 @@ class TranslationKeys {
   static const String errorSubmittingLeaveRequest =
       "errorSubmittingLeaveRequest";
   static const String networkError = "networkError";
+
+  // ⏱️ Overtime
+  static const String overtime = "overtime";
+  static const String overtimeRequests = "overtimeRequests";
+  static const String newOvertimeRequest = "newOvertimeRequest";
+  static const String requestOvertime = "requestOvertime";
+  static const String noOvertimeFound = "noOvertimeFound";
+  static const String overtimeDetails = "overtimeDetails";
+  static const String overtimeHours = "overtimeHours";
+  static const String overtimeAmount = "overtimeAmount";
+  static const String overtimeRate = "overtimeRate";
+  static const String hourlyRate = "hourlyRate";
+  static const String reasonForOvertime = "reasonForOvertime";
+  static const String selectOvertimeDuration = "selectOvertimeDuration";
+  static const String totalOvertime = "totalOvertime";
+  static const String pendingRequests = "pendingRequests";
+  static const String approvedRequests = "approvedRequests";
+  static const String overtimeRequestCreated = "overtimeRequestCreated";
+  static const String overtimeRequestFailed = "overtimeRequestFailed";
+  static const String failedToFetchOvertime = "failedToFetchOvertime";
+  static const String somethingWentWrongFetchingOvertime = "somethingWentWrongFetchingOvertime";
+  static const String somethingWentWrongCreatingOvertime = "somethingWentWrongCreatingOvertime";
+  static const String version = "version";
 }

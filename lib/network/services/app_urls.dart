@@ -52,6 +52,15 @@ class AppURL {
 
   static const String loanApplyApi = 'payroll/loans';
 
+  // ⏱️ Overtime APIs
+  static const String overtimeApi = 'attendance/overtime';
+
+  static String overtimeList({
+    required String employeeId,
+    int page = 1,
+    int limit = 20,
+  }) => '$overtimeApi?employee_id=$employeeId&page=$page&limit=$limit';
+
   static String leaveHistory(v) {
     return 'employees/$v/leaves';
   }

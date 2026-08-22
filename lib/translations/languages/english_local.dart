@@ -876,6 +876,29 @@ class EnglishLocal {
       TranslationKeys.errorSubmittingLeaveRequest:
           "Error submitting leave request",
       TranslationKeys.networkError: "Network Error",
+
+      // ⏱️ Overtime
+      TranslationKeys.overtime: "Overtime",
+      TranslationKeys.overtimeRequests: "Overtime Requests",
+      TranslationKeys.newOvertimeRequest: "New Overtime Request",
+      TranslationKeys.requestOvertime: "Request Overtime",
+      TranslationKeys.noOvertimeFound: "No overtime requests found",
+      TranslationKeys.overtimeDetails: "Overtime Details",
+      TranslationKeys.overtimeHours: "Overtime Hours",
+      TranslationKeys.overtimeAmount: "Overtime Amount",
+      TranslationKeys.overtimeRate: "Overtime Rate",
+      TranslationKeys.hourlyRate: "Hourly Rate",
+      TranslationKeys.reasonForOvertime: "Reason for overtime",
+      TranslationKeys.selectOvertimeDuration: "Select Duration",
+      TranslationKeys.totalOvertime: "Total Overtime",
+      TranslationKeys.pendingRequests: "Pending",
+      TranslationKeys.approvedRequests: "Approved",
+      TranslationKeys.overtimeRequestCreated: "Overtime request created successfully",
+      TranslationKeys.overtimeRequestFailed: "Failed to create overtime request",
+      TranslationKeys.failedToFetchOvertime: "Failed to fetch overtime requests",
+      TranslationKeys.somethingWentWrongFetchingOvertime: "Something went wrong while fetching overtime",
+      TranslationKeys.somethingWentWrongCreatingOvertime: "Something went wrong while creating overtime request",
+      TranslationKeys.version: "Version",
     };
   }
 }

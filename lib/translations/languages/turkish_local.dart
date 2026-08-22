@@ -580,6 +580,29 @@ class TurkishLocal {
       TranslationKeys.noDataFound: "Veri bulunamadı",
       TranslationKeys.errorWhileGettingOnlineItems:
           "Çevrimiçi öğeler alınırken hata oluştu",
+
+      // ⏱️ Overtime
+      TranslationKeys.overtime: "Fazla Mesai",
+      TranslationKeys.overtimeRequests: "Fazla Mesai Talepleri",
+      TranslationKeys.newOvertimeRequest: "Yeni Fazla Mesai Talebi",
+      TranslationKeys.requestOvertime: "Fazla Mesai Talep Et",
+      TranslationKeys.noOvertimeFound: "Fazla mesai talebi bulunamadı",
+      TranslationKeys.overtimeDetails: "Fazla Mesai Detayları",
+      TranslationKeys.overtimeHours: "Fazla Mesai Saatleri",
+      TranslationKeys.overtimeAmount: "Fazla Mesai Tutarı",
+      TranslationKeys.overtimeRate: "Fazla Mesai Oranı",
+      TranslationKeys.hourlyRate: "Saatlik Ücret",
+      TranslationKeys.reasonForOvertime: "Fazla mesai nedeni",
+      TranslationKeys.selectOvertimeDuration: "Süre Seçin",
+      TranslationKeys.totalOvertime: "Toplam Fazla Mesai",
+      TranslationKeys.pendingRequests: "Beklemede",
+      TranslationKeys.approvedRequests: "Onaylandı",
+      TranslationKeys.overtimeRequestCreated: "Fazla mesai talebi başarıyla oluşturuldu",
+      TranslationKeys.overtimeRequestFailed: "Fazla mesai talebi oluşturulamadı",
+      TranslationKeys.failedToFetchOvertime: "Fazla mesai talepleri alınamadı",
+      TranslationKeys.somethingWentWrongFetchingOvertime: "Fazla mesai alınırken bir hata oluştu",
+      TranslationKeys.somethingWentWrongCreatingOvertime: "Fazla mesai talebi oluşturulurken bir hata oluştu",
+      TranslationKeys.version: "Sürüm",
     };
   }
 }

@@ -9,6 +9,7 @@ import 'package:supergithr/screens/dashboard_screens/home/announcements/announce
 import 'package:supergithr/screens/dashboard_screens/home/holidays/holidays.dart';
 import 'package:supergithr/screens/dashboard_screens/home/leave_summary/show_leavers.dart';
 import 'package:supergithr/screens/dashboard_screens/home/loan_screen/loans.dart';
+import 'package:supergithr/screens/dashboard_screens/home/overtime/overtime_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/timeclock/clock_in_map.dart';
 import 'package:supergithr/screens/dashboard_screens/home/timeclock/started_timeclock_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/today_history/today_history.dart';
@@ -54,6 +55,13 @@ class QuickActionsGridScreen extends StatelessWidget {
             c.getTodayLogs();
           }
           Get.to(() => TodayHistoryScreen());
+        },
+      },
+      {
+        'icon': Icons.more_time_rounded,
+        'title': TranslationKeys.overtime.tr,
+        'onTap': () {
+          Get.to(() => const OvertimeScreen());
         },
       },
       {
