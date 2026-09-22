@@ -14,6 +14,7 @@ import 'package:supergithr/screens/dashboard_screens/home/timeclock/clock_in_map
 import 'package:supergithr/screens/dashboard_screens/home/timeclock/started_timeclock_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/today_history/today_history.dart';
 import 'package:supergithr/screens/dashboard_screens/setting/doc/personal_document.dart';
+import 'package:supergithr/services/force_update_service.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/custom_animated_views.dart';
@@ -64,13 +65,15 @@ class QuickActionsGridScreen extends StatelessWidget {
           Get.to(() => const OvertimeScreen());
         },
       },
-      {
-        'icon': Icons.monetization_on_outlined,
-        'title': TranslationKeys.loansAndExpenses.tr,
-        'onTap': () {
-          Get.to(() => LoanScreen());
+      // Hidden unless the `show_loans` Remote Config flag is on.
+      if (ForceUpdateService.showLoans)
+        {
+          'icon': Icons.monetization_on_outlined,
+          'title': TranslationKeys.loansAndExpenses.tr,
+          'onTap': () {
+            Get.to(() => LoanScreen());
+          },
         },
-      },
       {
         'icon': Icons.calendar_today_outlined,
         'title': TranslationKeys.leaveSummary.tr,
@@ -99,13 +102,15 @@ class QuickActionsGridScreen extends StatelessWidget {
           Get.to(() => PersonalDocumentsScreen());
         },
       },
-      {
-        'icon': Icons.flight_takeoff_rounded,
-        'title': "Air Tickets",
-        'onTap': () {
-          Get.to(() => const AirTicketsScreen());
+      // Hidden unless the `show_air_tickets` Remote Config flag is on.
+      if (ForceUpdateService.showAirTickets)
+        {
+          'icon': Icons.flight_takeoff_rounded,
+          'title': "Air Tickets",
+          'onTap': () {
+            Get.to(() => const AirTicketsScreen());
+          },
         },
-      },
     ];
 
     // Manager / department-head only: review team leave requests.

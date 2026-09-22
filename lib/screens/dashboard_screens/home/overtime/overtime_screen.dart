@@ -93,7 +93,7 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
               physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 100),
+              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
               children: [
                 _summaryCard(),
                 const SizedBox(height: 20),
@@ -139,15 +139,6 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
             ),
           );
         }),
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: kPrimaryColor,
-        onPressed: _openCreate,
-        icon: const Icon(Icons.add, color: Colors.white),
-        label: Text(
-          TranslationKeys.requestOvertime.tr,
-          style: const TextStyle(color: Colors.white),
-        ),
       ),
     );
   }

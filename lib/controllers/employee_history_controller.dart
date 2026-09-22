@@ -91,9 +91,10 @@ class AttendanceHistoryController extends GetxController {
     // Anchor elapsed on the earlier of server/local (safer for the 13h check).
     final serverClockTime = latestIn.clockTime;
     final localClockTime = attendanceController.clockInTime.value;
-    final anchor = (localClockTime != null && localClockTime.isBefore(serverClockTime))
-        ? localClockTime
-        : serverClockTime;
+    final anchor =
+        (localClockTime != null && localClockTime.isBefore(serverClockTime))
+            ? localClockTime
+            : serverClockTime;
     final elapsed = DateTime.now().difference(anchor);
 
     // Case 1: 13+ hours → force-enable GPS + call clock-out API
@@ -126,7 +127,9 @@ class AttendanceHistoryController extends GetxController {
   }
 
   void _showCurrentlyClockedInDialog(AttendanceLog log) {
-    final formatted = DateFormat('MMM d, yyyy hh:mm a').format(log.clockTime.toLocal());
+    final formatted = DateFormat(
+      'MMM d, yyyy hh:mm a',
+    ).format(log.clockTime.toLocal());
     Get.dialog(
       AlertDialog(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -145,7 +148,8 @@ class AttendanceHistoryController extends GetxController {
           ],
         ),
         content: kText(
-          text: "You are currently clocked in from ${log.sourceDevice} at $formatted",
+          text:
+              "You are currently clocked in from ${log.sourceDevice} at $formatted",
           fSize: 14.0,
           tColor: Colors.black87,
         ),
@@ -154,7 +158,9 @@ class AttendanceHistoryController extends GetxController {
             onPressed: () => Get.back(),
             style: ElevatedButton.styleFrom(
               backgroundColor: Colors.blue,
-              shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(8),
+              ),
             ),
             child: kText(
               text: "OK",

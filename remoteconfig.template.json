@@ -1,49 +1,81 @@
 {
   "parameters": {
-    "base_url": {
-      "defaultValue": { "value": "https://hr1.api.supergitsa.com/api/" },
-      "valueType": "STRING",
-      "description": "API base URL override. Must end with /api/. App falls back to the compiled default when empty."
-    },
-    "force_update": {
-      "defaultValue": { "value": "false" },
-      "valueType": "BOOLEAN",
-      "description": "When true, users below the minimum version/build are forced to update."
-    },
-    "min_version_android": {
-      "defaultValue": { "value": "1.0" },
-      "valueType": "STRING",
-      "description": "Minimum allowed Android app version (x.y.z)."
-    },
-    "min_version_ios": {
-      "defaultValue": { "value": "1.0.0" },
-      "valueType": "STRING",
-      "description": "Minimum allowed iOS app version (x.y.z)."
-    },
     "min_build_number_android": {
-      "defaultValue": { "value": "10" },
-      "valueType": "NUMBER",
-      "description": "Minimum allowed Android build number."
-    },
-    "min_build_number_ios": {
-      "defaultValue": { "value": "1" },
-      "valueType": "NUMBER",
-      "description": "Minimum allowed iOS build number."
-    },
-    "update_message": {
-      "defaultValue": { "value": "A new version is available. Please update to continue." },
-      "valueType": "STRING",
-      "description": "Message shown on the force-update dialog."
-    },
-    "play_store_url": {
-      "defaultValue": { "value": "" },
-      "valueType": "STRING",
-      "description": "Play Store listing URL opened by the update dialog on Android."
+      "defaultValue": {
+        "value": "11"
+      },
+      "description": "Minimum allowed Android build number.",
+      "valueType": "NUMBER"
     },
     "app_store_url": {
-      "defaultValue": { "value": "" },
-      "valueType": "STRING",
-      "description": "App Store listing URL opened by the update dialog on iOS."
+      "defaultValue": {
+        "value": ""
+      },
+      "description": "App Store listing URL opened by the update dialog on iOS.",
+      "valueType": "STRING"
+    },
+    "base_url": {
+      "defaultValue": {
+        "value": "https://hr1.api.supergitsa.com/api/"
+      },
+      "description": "API base URL override. Must end with /api/. App falls back to the compiled default when empty.",
+      "valueType": "STRING"
+    },
+    "update_message": {
+      "defaultValue": {
+        "value": "A new version is available. Please update to continue."
+      },
+      "description": "Message shown on the force-update dialog.",
+      "valueType": "STRING"
+    },
+    "min_build_number_ios": {
+      "defaultValue": {
+        "value": "1"
+      },
+      "description": "Minimum allowed iOS build number.",
+      "valueType": "NUMBER"
+    },
+    "play_store_url": {
+      "defaultValue": {
+        "value": "https://play.google.com/store/apps/details?id=com.bytes.supergithr"
+      },
+      "description": "Play Store listing URL opened by the update dialog on Android.",
+      "valueType": "STRING"
+    },
+    "min_version_ios": {
+      "defaultValue": {
+        "value": "1.0.0"
+      },
+      "description": "Minimum allowed iOS app version (x.y.z).",
+      "valueType": "STRING"
+    },
+    "min_version_android": {
+      "defaultValue": {
+        "value": "1.0"
+      },
+      "description": "Minimum allowed Android app version (x.y.z).",
+      "valueType": "STRING"
+    },
+    "force_update": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "description": "When true, users below the minimum version/build are forced to update.",
+      "valueType": "BOOLEAN"
+    },
+    "show_loans": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "valueType": "BOOLEAN",
+      "description": "Set to true to show the Loans & Expenses tile on the Quick Actions screen. Hidden by default."
+    },
+    "show_air_tickets": {
+      "defaultValue": {
+        "value": "false"
+      },
+      "valueType": "BOOLEAN",
+      "description": "Set to true to show the Air Tickets tile on the Quick Actions screen. Hidden by default."
     }
   }
 }

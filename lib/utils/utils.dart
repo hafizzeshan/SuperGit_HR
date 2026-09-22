@@ -7,7 +7,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
-import 'package:supergithr/utils/app_assets.dart';
+import 'package:supergithr/views/app_assets.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:lottie/lottie.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -140,7 +140,7 @@ class Utils {
                       radius: 15,
                       backgroundColor: whiteColor,
                       child: Image.asset(
-                        "assets/icons/newlogo.png",
+                        AppAssets.logo,
                         height: 25.sp,
                         width: 25.sp,
                       ),

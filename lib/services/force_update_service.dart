@@ -10,9 +10,32 @@ class ForceUpdateService {
   /// values from [AppURL.defaultBaseUrl]. Change here and rebuild.
   static const bool applyRemoteConfig = true;
 
+  /// Whether the "Loans & Expenses" quick action is visible.
+  ///
+  /// Driven by the `show_loans` Remote Config flag and read at startup by
+  /// [QuickActionsGridScreen]. Defaults to hidden, so the tile stays off when
+  /// Remote Config is disabled, unreachable, or the flag was never published —
+  /// it only appears once `show_loans` is explicitly set to true.
+  static bool showLoans = false;
+
+  /// Whether the "Air Tickets" quick action is visible.
+  ///
+  /// Driven by the `show_air_tickets` Remote Config flag. Hidden by default,
+  /// same as [showLoans].
+  static bool showAirTickets = false;
+
   static final ForceUpdateService _instance = ForceUpdateService._internal();
   factory ForceUpdateService() => _instance;
   ForceUpdateService._internal();
+
+  /// Read a boolean Remote Config value, tolerating either param type: a
+  /// BOOLEAN param comes back as "true"/"false" from `getString`, a STRING one
+  /// as whatever was typed, and an unset one as "".
+  static bool _boolFlag(FirebaseRemoteConfig config, String key) {
+    final raw = config.getString(key);
+    if (raw.isNotEmpty) return raw.toLowerCase() == 'true';
+    return config.getBool(key);
+  }
 
   /// Checks Firebase Remote Config and returns update info if a force update is needed.
   /// Returns null if no update is required.
@@ -42,6 +65,8 @@ class ForceUpdateService {
         'play_store_url': '',
         'app_store_url': '',
         'base_url': AppURL.baseUrl,
+        'show_loans': false,
+        'show_air_tickets': false,
       });
 
       // Fetch with short cache for quick updates
@@ -85,6 +110,13 @@ class ForceUpdateService {
       print(
         "║ base_url:                  ${remoteConfig.getString('base_url')}",
       );
+      print(
+        "║ show_loans:                ${remoteConfig.getString('show_loans')}",
+      );
+      print(
+        "║ show_air_tickets:          "
+        "${remoteConfig.getString('show_air_tickets')}",
+      );
       print("╚══════════════════════════════════════════════════════");
 
       // ✅ Apply base URL from Remote Config
@@ -93,6 +125,12 @@ class ForceUpdateService {
         AppURL.updateBaseUrl(remoteBaseUrl);
         ApiNetworkService().dio.options.baseUrl = AppURL.baseUrl;
       }
+
+      // ✅ Feature flags — read before the force_update early return below,
+      // otherwise they'd only apply while a force update is active.
+      showLoans = _boolFlag(remoteConfig, 'show_loans');
+      showAirTickets = _boolFlag(remoteConfig, 'show_air_tickets');
+      print("🏷️ show_loans → $showLoans, show_air_tickets → $showAirTickets");
 
       // Handle force_update as both Boolean and String type
       final String forceUpdateStr = remoteConfig.getString('force_update');
