@@ -140,7 +140,7 @@ class Utils {
                       radius: 15,
                       backgroundColor: whiteColor,
                       child: Image.asset(
-                        AppAssets.logo,
+                        AppAssets.snackbarLogo,
                         height: 25.sp,
                         width: 25.sp,
                       ),
