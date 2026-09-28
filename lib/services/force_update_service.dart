@@ -24,9 +24,52 @@ class ForceUpdateService {
   /// same as [showLoans].
   static bool showAirTickets = false;
 
+  /// Kill switch for the Contact Support screen. When turned off in Remote
+  /// Config the screen still opens, but shows a "support is busy" notice
+  /// instead of the form.
+  static bool supportEnabled = true;
+
+  /// Web3Forms access key used to deliver support requests by email.
+  ///
+  /// Not a secret: Web3Forms keys are meant to sit in client code — every web
+  /// form using the service exposes one in its HTML. Remote Config can still
+  /// override it, so the key can be rotated without shipping a build.
+  static const String defaultSupportFormKey =
+      '179448d1-d1f8-4c75-810f-50b379b90004';
+
+  static String supportFormKey = defaultSupportFormKey;
+
   static final ForceUpdateService _instance = ForceUpdateService._internal();
   factory ForceUpdateService() => _instance;
   ForceUpdateService._internal();
+
+  static void _applyFeatureFlags(FirebaseRemoteConfig config) {
+    showLoans = _boolFlag(config, 'show_loans');
+    showAirTickets = _boolFlag(config, 'show_air_tickets');
+    supportEnabled = _boolFlag(config, 'support_enabled');
+    final remoteFormKey = config.getString('support_form_access_key').trim();
+    if (remoteFormKey.isNotEmpty) supportFormKey = remoteFormKey;
+    print(
+      "🏷️ show_loans → $showLoans, show_air_tickets → $showAirTickets, "
+      "support_enabled → $supportEnabled",
+    );
+  }
+
+  /// Re-read the feature flags without waiting for the next app launch.
+  ///
+  /// Support can be switched off from the console mid-session, and an employee
+  /// who already has the app open should see that immediately.
+  static Future<void> refreshFeatureFlags() async {
+    if (!applyRemoteConfig) return;
+    try {
+      final remoteConfig = FirebaseRemoteConfig.instance;
+      await remoteConfig.fetchAndActivate();
+      _applyFeatureFlags(remoteConfig);
+    } catch (e) {
+      // Offline or fetch failed — keep whatever we last had.
+      print("⚠️ Could not refresh feature flags: $e");
+    }
+  }
 
   /// Read a boolean Remote Config value, tolerating either param type: a
   /// BOOLEAN param comes back as "true"/"false" from `getString`, a STRING one
@@ -67,6 +110,8 @@ class ForceUpdateService {
         'base_url': AppURL.baseUrl,
         'show_loans': false,
         'show_air_tickets': false,
+        'support_enabled': true,
+        'support_form_access_key': defaultSupportFormKey,
       });
 
       // Fetch with short cache for quick updates
@@ -117,6 +162,14 @@ class ForceUpdateService {
         "║ show_air_tickets:          "
         "${remoteConfig.getString('show_air_tickets')}",
       );
+      print(
+        "║ support_enabled:           "
+        "${remoteConfig.getString('support_enabled')}",
+      );
+      print(
+        "║ support_form_access_key:   "
+        "${remoteConfig.getString('support_form_access_key').isEmpty ? '(empty)' : 'set'}",
+      );
       print("╚══════════════════════════════════════════════════════");
 
       // ✅ Apply base URL from Remote Config
@@ -128,9 +181,8 @@ class ForceUpdateService {
 
       // ✅ Feature flags — read before the force_update early return below,
       // otherwise they'd only apply while a force update is active.
-      showLoans = _boolFlag(remoteConfig, 'show_loans');
-      showAirTickets = _boolFlag(remoteConfig, 'show_air_tickets');
-      print("🏷️ show_loans → $showLoans, show_air_tickets → $showAirTickets");
+      _applyFeatureFlags(remoteConfig);
+      print("🏷️ support_enabled → $supportEnabled");
 
       // Handle force_update as both Boolean and String type
       final String forceUpdateStr = remoteConfig.getString('force_update');

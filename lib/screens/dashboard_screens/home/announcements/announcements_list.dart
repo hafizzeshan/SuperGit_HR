@@ -27,7 +27,7 @@ class AnnouncementsListScreen extends StatelessWidget {
           gradient: kMainBackgroundGradient,
         ),
         child: RefreshIndicator(
-          onRefresh: () => controller.fetchAnnouncements(),
+          onRefresh: () => controller.fetchAnnouncements(force: true),
           color: kPrimaryColor,
           child: Obx(() {
             if (controller.isLoading.value && controller.announcements.isEmpty) {

@@ -7,12 +7,20 @@ class AnnouncementController extends GetxController {
   final RxList<AnnouncementData> announcements = <AnnouncementData>[].obs;
   final RxBool isLoading = false.obs;
 
+  /// True once a fetch has finished, successfully or not. Drives the shimmer:
+  /// it is only shown before the very first result arrives.
+  final RxBool hasLoadedOnce = false.obs;
+
   @override
   void onInit() {
     super.onInit();
   }
 
-  Future<void> fetchAnnouncements() async {
+  /// Skips the network call when announcements are already in hand. Pass
+  /// [force] for pull-to-refresh, which should always re-read.
+  Future<void> fetchAnnouncements({bool force = false}) async {
+    if (hasLoadedOnce.value && !force) return;
+    if (isLoading.value) return; // a fetch is already in flight
     isLoading.value = true;
     try {
       final response = await _repo.getAnnouncements();
@@ -26,6 +34,7 @@ class AnnouncementController extends GetxController {
       print("Error fetching announcements: $e");
     } finally {
       isLoading.value = false;
+      hasLoadedOnce.value = true;
     }
   }
 

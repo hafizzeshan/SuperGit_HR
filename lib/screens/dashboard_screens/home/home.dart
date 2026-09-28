@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/shimmer/announcement_shimmer.dart';
+import 'package:supergithr/screens/dashboard_screens/support/contact_support_screen.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
@@ -49,9 +51,7 @@ class _HomeScreenState extends State<HomeScreen> {
     super.initState();
     // ✅ Refresh announcements if not already loaded (fixes login issue)
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (_announcementController.announcements.isEmpty) {
-        _announcementController.fetchAnnouncements();
-      }
+      _announcementController.fetchAnnouncements();
       // Load pending team-leave count for managers / dept heads.
       if (_teamLeaveController.canReview) {
         _teamLeaveController.fetchRequests();
@@ -252,10 +252,13 @@ class _HomeScreenState extends State<HomeScreen> {
                             child: Row(
                               children: [
                                 Obx(() {
-                                  final avatarUrl = _profileController
-                                      .userModel.value.avatarUrl;
-                                  final hasAvatar = avatarUrl != null &&
-                                      avatarUrl.isNotEmpty;
+                                  final avatarUrl =
+                                      _profileController
+                                          .userModel
+                                          .value
+                                          .avatarUrl;
+                                  final hasAvatar =
+                                      avatarUrl != null && avatarUrl.isNotEmpty;
                                   return Container(
                                     width: 45,
                                     height: 45,
@@ -266,27 +269,29 @@ class _HomeScreenState extends State<HomeScreen> {
                                         color: Colors.white,
                                         width: 2,
                                       ),
-                                      image: hasAvatar
-                                          ? DecorationImage(
-                                              image: NetworkImage(avatarUrl),
-                                              fit: BoxFit.cover,
-                                            )
-                                          : null,
+                                      image:
+                                          hasAvatar
+                                              ? DecorationImage(
+                                                image: NetworkImage(avatarUrl),
+                                                fit: BoxFit.cover,
+                                              )
+                                              : null,
                                     ),
-                                    child: hasAvatar
-                                        ? null
-                                        : Center(
-                                            child: Text(
-                                              firstName.isNotEmpty
-                                                  ? firstName[0].toUpperCase()
-                                                  : 'U',
-                                              style: const TextStyle(
-                                                color: Colors.white,
-                                                fontWeight: FontWeight.bold,
-                                                fontSize: 18,
+                                    child:
+                                        hasAvatar
+                                            ? null
+                                            : Center(
+                                              child: Text(
+                                                firstName.isNotEmpty
+                                                    ? firstName[0].toUpperCase()
+                                                    : 'U',
+                                                style: const TextStyle(
+                                                  color: Colors.white,
+                                                  fontWeight: FontWeight.bold,
+                                                  fontSize: 18,
+                                                ),
                                               ),
                                             ),
-                                          ),
                                   );
                                 }),
                                 const SizedBox(width: 12),
@@ -349,34 +354,38 @@ class _HomeScreenState extends State<HomeScreen> {
                             ),
                           ),
                         ),
-                        Container(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 16,
-                            vertical: 8,
-                          ),
-                          decoration: BoxDecoration(
-                            color: Colors.white,
-                            borderRadius: BorderRadius.circular(20),
-                            boxShadow: [
-                              BoxShadow(
-                                color: Colors.black.withValues(alpha: 0.05),
-                                blurRadius: 10,
-                                offset: const Offset(0, 4),
-                              ),
-                            ],
-                          ),
-                          child: Row(
-                            children: [
-                              const Icon(Icons.chat_bubble_outline, size: 18),
-                              const SizedBox(width: 6),
-                              Text(
-                                TranslationKeys.chat.tr,
-                                style: textStyleMontserratBold(
-                                  fontSize: 14.0,
-                                  color: Colors.black87,
+                        GestureDetector(
+                          onTap:
+                              () => Get.to(() => const ContactSupportScreen()),
+                          child: Container(
+                            padding: const EdgeInsets.symmetric(
+                              horizontal: 16,
+                              vertical: 8,
+                            ),
+                            decoration: BoxDecoration(
+                              color: Colors.white,
+                              borderRadius: BorderRadius.circular(20),
+                              boxShadow: [
+                                BoxShadow(
+                                  color: Colors.black.withValues(alpha: 0.05),
+                                  blurRadius: 10,
+                                  offset: const Offset(0, 4),
                                 ),
-                              ),
-                            ],
+                              ],
+                            ),
+                            child: Row(
+                              children: [
+                                const Icon(Icons.chat_bubble_outline, size: 18),
+                                const SizedBox(width: 6),
+                                Text(
+                                  TranslationKeys.chat.tr,
+                                  style: textStyleMontserratBold(
+                                    fontSize: 14.0,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ],
+                            ),
                           ),
                         ),
                       ],
@@ -556,10 +565,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           final isLoading =
                               _announcementController.isLoading.value;
 
-                          if (isLoading) {
-                            return const Center(
-                              child: CircularProgressIndicator(),
-                            );
+                          // Shimmer belongs to the very first load only. A
+                          // later refresh keeps the existing cards on screen
+                          // instead of blanking the row.
+                          if (isLoading &&
+                              !_announcementController.hasLoadedOnce.value) {
+                            return const AnnouncementShimmer();
                           }
 
                           if (announcements.isEmpty) {
@@ -667,7 +678,7 @@ class _HomeScreenState extends State<HomeScreen> {
 
   Future<void> _onRefresh() async {
     await Future.wait([
-      _announcementController.fetchAnnouncements(),
+      _announcementController.fetchAnnouncements(force: true),
       if (Get.isRegistered<AttendanceHistoryController>())
         Get.find<AttendanceHistoryController>().getTodayLogs(),
       if (_teamLeaveController.canReview) _teamLeaveController.fetchRequests(),

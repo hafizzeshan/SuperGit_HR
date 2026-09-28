@@ -76,6 +76,20 @@
       },
       "valueType": "BOOLEAN",
       "description": "Set to true to show the Air Tickets tile on the Quick Actions screen. Hidden by default."
+    },
+    "support_enabled": {
+      "defaultValue": {
+        "value": "true"
+      },
+      "valueType": "BOOLEAN",
+      "description": "When false, the Contact Support screen hides the form and shows a 'support is busy' notice."
+    },
+    "support_form_access_key": {
+      "defaultValue": {
+        "value": "179448d1-d1f8-4c75-810f-50b379b90004"
+      },
+      "valueType": "STRING",
+      "description": "Web3Forms access key used to email support requests. Empty = requests are stored in Firestore but no email is sent."
     }
   }
 }

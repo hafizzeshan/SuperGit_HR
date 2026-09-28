@@ -77,61 +77,67 @@ class _AboutScreenState extends State<AboutScreen> {
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
-        child: CustomAnimatedListView(
-          padding: const EdgeInsets.symmetric(horizontal: 12, vertical: 8),
-          itemCount: 9,
-          itemBuilder: (context, index) {
-            switch (index) {
-              case 0:
-                return const SizedBox(height: 12);
-              case 1:
-                return _buildProfileCard(name: fullName, phone: phone);
-              case 2:
-                return const SizedBox(height: 20);
-              case 3:
-                return _gridActionTile(
-                  Icons.folder_shared_rounded,
-                  TranslationKeys.personalDocuments.tr,
-                  () => Get.to(PersonalDocumentsScreen()),
-                );
-              case 4:
-                return _gridActionTile(
-                  Icons.language_rounded,
-                  TranslationKeys.changeLanguage.tr,
-                  () {
-                    LanguageSelectionBottomSheet.show(context);
-                  },
-                );
-              case 5:
-                return _gridActionTile(
-                  Icons.campaign_rounded,
-                  TranslationKeys.announcements.tr,
-                  () => Get.to(() => const AnnouncementsListScreen()),
-                );
-              case 6:
-                return _gridActionTile(
-                  Icons.flag_rounded,
-                  TranslationKeys.holidays.tr,
-                  () => Get.to(() => HolidayScreen()),
-                );
-              // case 7:
-              //   return _gridActionTile(
-              //     Icons.badge_rounded,
-              //     TranslationKeys.employeeCard.tr,
-              //     () => Get.to(() => const EmployeeCardScreen()),
-              //   );
-              case 7:
-                return _gridActionTile(
-                  Icons.logout_rounded,
-                  TranslationKeys.logout.tr,
-                  () => _handleLogout(),
-                );
-              case 8:
-                return _buildVersionFooter();
-              default:
-                return const SizedBox();
-            }
-          },
+        child: Column(
+          children: [
+            // Pinned: the profile card stays put while the options scroll.
+            Padding(
+              padding: const EdgeInsets.fromLTRB(12, 20, 12, 20),
+              child: _buildProfileCard(name: fullName, phone: phone),
+            ),
+            Expanded(
+              child: CustomAnimatedListView(
+                // The dashboard's nav bar floats over the page, so the last
+                // row needs room to clear it.
+                padding: EdgeInsets.fromLTRB(
+                  12,
+                  0,
+                  12,
+                  70 + MediaQuery.paddingOf(context).bottom + 16,
+                ),
+                itemCount: 6,
+                itemBuilder: (context, index) {
+                  switch (index) {
+                    case 0:
+                      return _gridActionTile(
+                        Icons.folder_shared_rounded,
+                        TranslationKeys.personalDocuments.tr,
+                        () => Get.to(PersonalDocumentsScreen()),
+                      );
+                    case 1:
+                      return _gridActionTile(
+                        Icons.language_rounded,
+                        TranslationKeys.changeLanguage.tr,
+                        () {
+                          LanguageSelectionBottomSheet.show(context);
+                        },
+                      );
+                    case 2:
+                      return _gridActionTile(
+                        Icons.campaign_rounded,
+                        TranslationKeys.announcements.tr,
+                        () => Get.to(() => const AnnouncementsListScreen()),
+                      );
+                    case 3:
+                      return _gridActionTile(
+                        Icons.flag_rounded,
+                        TranslationKeys.holidays.tr,
+                        () => Get.to(() => HolidayScreen()),
+                      );
+                    case 4:
+                      return _gridActionTile(
+                        Icons.logout_rounded,
+                        TranslationKeys.logout.tr,
+                        () => _handleLogout(),
+                      );
+                    case 5:
+                      return _buildVersionFooter();
+                    default:
+                      return const SizedBox();
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -764,20 +770,17 @@ class _AboutScreenState extends State<AboutScreen> {
       channelColor = const Color(0xFF1565C0);
     }
 
-    final versionText = _version.isEmpty
-        ? ''
-        : '${TranslationKeys.version.tr} $_version ($_buildNumber)';
+    final versionText =
+        _version.isEmpty
+            ? ''
+            : '${TranslationKeys.version.tr} $_version ($_buildNumber)';
 
     return Padding(
       padding: const EdgeInsets.only(top: 14, bottom: 28),
       child: Column(
         children: [
           // Soft divider so the footer reads as a separate, quiet zone.
-          Container(
-            width: 60,
-            height: 1,
-            color: Colors.grey.shade300,
-          ),
+          Container(width: 60, height: 1, color: Colors.grey.shade300),
           const SizedBox(height: 20),
           Container(
             padding: const EdgeInsets.all(10),
@@ -798,11 +801,12 @@ class _AboutScreenState extends State<AboutScreen> {
               height: 34,
               width: 34,
               fit: BoxFit.contain,
-              errorBuilder: (_, __, ___) => const Icon(
-                Icons.business_rounded,
-                size: 30,
-                color: kPrimaryColor,
-              ),
+              errorBuilder:
+                  (_, __, ___) => const Icon(
+                    Icons.business_rounded,
+                    size: 30,
+                    color: kPrimaryColor,
+                  ),
             ),
           ),
           const SizedBox(height: 12),
@@ -828,13 +832,16 @@ class _AboutScreenState extends State<AboutScreen> {
                 ),
                 const SizedBox(width: 8),
                 Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 8, vertical: 4),
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 8,
+                    vertical: 4,
+                  ),
                   decoration: BoxDecoration(
                     color: channelColor.withValues(alpha: 0.1),
                     borderRadius: BorderRadius.circular(20),
-                    border:
-                        Border.all(color: channelColor.withValues(alpha: 0.3)),
+                    border: Border.all(
+                      color: channelColor.withValues(alpha: 0.3),
+                    ),
                   ),
                   child: Row(
                     mainAxisSize: MainAxisSize.min,
@@ -907,16 +914,16 @@ class _AboutScreenState extends State<AboutScreen> {
                 child: CircleAvatar(
                   radius: 25,
                   backgroundColor: Colors.white,
-                  backgroundImage:
-                      hasAvatar ? NetworkImage(avatarUrl) : null,
-                  child: hasAvatar
-                      ? null
-                      : kText(
-                          text: name.isNotEmpty ? name[0].toUpperCase() : 'U',
-                          fSize: 20.0,
-                          fWeight: FontWeight.bold,
-                          tColor: kPrimaryColor,
-                        ),
+                  backgroundImage: hasAvatar ? NetworkImage(avatarUrl) : null,
+                  child:
+                      hasAvatar
+                          ? null
+                          : kText(
+                            text: name.isNotEmpty ? name[0].toUpperCase() : 'U',
+                            fSize: 20.0,
+                            fWeight: FontWeight.bold,
+                            tColor: kPrimaryColor,
+                          ),
                 ),
               );
             }),

@@ -10,6 +10,7 @@ import 'package:supergithr/models/attendance_logs.dart';
 import 'package:supergithr/models/today_logs_model.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/customText.dart';
+import 'package:supergithr/views/colors.dart';
 
 import '../network/repository/attendance_repo/employee_history_repo.dart';
 
@@ -127,53 +128,139 @@ class AttendanceHistoryController extends GetxController {
   }
 
   void _showCurrentlyClockedInDialog(AttendanceLog log) {
-    final formatted = DateFormat(
-      'MMM d, yyyy hh:mm a',
-    ).format(log.clockTime.toLocal());
+    final clockedIn = log.clockTime.toLocal();
+    // Short form keeps the value on one line — the full month name was
+    // getting cut off with an ellipsis on narrow phones.
+    final date = DateFormat('EEE, d MMM yyyy').format(clockedIn);
+    final time = DateFormat('hh:mm a').format(clockedIn);
+    final device = log.sourceDevice.trim();
+
     Get.dialog(
-      AlertDialog(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
-        title: Row(
-          children: [
-            const Icon(Icons.access_time, color: Colors.blue, size: 28),
-            const SizedBox(width: 12),
-            Expanded(
-              child: kText(
-                text: TranslationKeys.clockInActive,
-                fSize: 18.0,
-                fWeight: FontWeight.bold,
+      Dialog(
+        backgroundColor: Colors.white,
+        insetPadding: const EdgeInsets.symmetric(horizontal: 28),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(24)),
+        child: Padding(
+          padding: const EdgeInsets.fromLTRB(24, 28, 24, 20),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Container(
+                height: 64,
+                width: 64,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  color: kPrimaryColor.withValues(alpha: 0.10),
+                ),
+                child: const Icon(
+                  Icons.access_time_filled_rounded,
+                  color: kPrimaryColor,
+                  size: 32,
+                ),
+              ),
+              const SizedBox(height: 18),
+              kText(
+                text: TranslationKeys.clockInActive.tr,
+                fSize: 19.0,
+                fWeight: FontWeight.w700,
                 tColor: Colors.black87,
+                textalign: TextAlign.center,
               ),
-            ),
-          ],
-        ),
-        content: kText(
-          text:
-              "You are currently clocked in from ${log.sourceDevice} at $formatted",
-          fSize: 14.0,
-          tColor: Colors.black87,
-        ),
-        actions: [
-          ElevatedButton(
-            onPressed: () => Get.back(),
-            style: ElevatedButton.styleFrom(
-              backgroundColor: Colors.blue,
-              shape: RoundedRectangleBorder(
-                borderRadius: BorderRadius.circular(8),
+              const SizedBox(height: 6),
+              kText(
+                text: TranslationKeys.currentlyClockedIn.tr,
+                fSize: 13.0,
+                tColor: Colors.grey.shade600,
+                textalign: TextAlign.center,
               ),
-            ),
-            child: kText(
-              text: "OK",
-              fSize: 14.0,
-              fWeight: FontWeight.w600,
-              tColor: Colors.white,
-            ),
+              const SizedBox(height: 22),
+              Container(
+                decoration: BoxDecoration(
+                  color: kMainBackgroundColor,
+                  borderRadius: BorderRadius.circular(16),
+                ),
+                padding: const EdgeInsets.symmetric(horizontal: 16),
+                child: Column(
+                  children: [
+                    _clockedInDetailRow(
+                      Icons.calendar_today_rounded,
+                      TranslationKeys.date.tr,
+                      date,
+                    ),
+                    _clockedInRowDivider(),
+                    _clockedInDetailRow(
+                      Icons.schedule_rounded,
+                      TranslationKeys.clockTime.tr,
+                      time,
+                    ),
+                    if (device.isNotEmpty) ...[
+                      _clockedInRowDivider(),
+                      _clockedInDetailRow(
+                        Icons.phone_iphone_rounded,
+                        TranslationKeys.device.tr,
+                        device,
+                      ),
+                    ],
+                  ],
+                ),
+              ),
+              const SizedBox(height: 24),
+              SizedBox(
+                width: double.infinity,
+                height: 48,
+                child: ElevatedButton(
+                  onPressed: () => Get.back(),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: kPrimaryColor,
+                    elevation: 0,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14),
+                    ),
+                  ),
+                  child: kText(
+                    text: TranslationKeys.okay.tr,
+                    fSize: 15.0,
+                    fWeight: FontWeight.w600,
+                    tColor: Colors.white,
+                  ),
+                ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
       barrierDismissible: false,
     );
   }
+
+  /// One label/value line inside the clocked-in dialog's detail card.
+  Widget _clockedInDetailRow(IconData icon, String label, String value) {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 14),
+      child: Row(
+        children: [
+          Icon(icon, size: 18, color: kPrimaryColor),
+          const SizedBox(width: 12),
+          kText(text: label, fSize: 13.0, tColor: Colors.grey.shade600),
+          const SizedBox(width: 12),
+          Expanded(
+            child: kText(
+              text: value,
+              fSize: 13.5,
+              fWeight: FontWeight.w600,
+              tColor: Colors.black87,
+              textalign: TextAlign.end,
+              maxLines: 1,
+              textoverflow: TextOverflow.ellipsis,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
+
+  Widget _clockedInRowDivider() =>
+      Container(height: 1, color: Colors.grey.shade200);
 
   /// ✅ Fetch All Logs
   Future<void> getAllLogs() async {

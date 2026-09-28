@@ -151,7 +151,7 @@ class LoginController extends GetxController {
       // ✅ Refresh all data immediately after login
       Future.delayed(const Duration(milliseconds: 200), () async {
         Get.find<LeaveController>().fetchLeaveTypes();
-        Get.find<AnnouncementController>().fetchAnnouncements();
+        Get.find<AnnouncementController>().fetchAnnouncements(force: true);
         Get.find<AttendanceHistoryController>().getTodayLogs();
         Get.find<HolidayController>().fetchHolidays();
         Get.find<LoanController>().fetchLoans();

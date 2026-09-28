@@ -825,6 +825,26 @@ class TranslationKeys {
   static const String unableToFetchAddressLocally =
       "unableToFetchAddressLocally";
   static const String clockInActive = "clockInActive";
+  static const String currentlyClockedIn = "currentlyClockedIn";
+  static const String clockTime = "clockTime";
+  static const String device = "device";
+  static const String supportBusyTryLater = "supportBusyTryLater";
+  static const String yourEmail = "yourEmail";
+  static const String yourMessage = "yourMessage";
+  static const String writeYourMessageHere = "writeYourMessageHere";
+  static const String sendMessage = "sendMessage";
+  static const String todaysMessages = "todaysMessages";
+  static const String noMessagesToday = "noMessagesToday";
+  static const String messagesLeftToday = "messagesLeftToday";
+  static const String dailyMessageLimitReached = "dailyMessageLimitReached";
+  static const String messageSentToSupport = "messageSentToSupport";
+  static const String failedToSendMessage = "failedToSendMessage";
+  static const String failedToLoadRequests = "failedToLoadRequests";
+  static const String pleaseEnterValidEmail = "pleaseEnterValidEmail";
+  static const String pleaseEnterYourMessage = "pleaseEnterYourMessage";
+  static const String weWillReplyByEmail = "weWillReplyByEmail";
+  static const String supportUnavailable = "supportUnavailable";
+  static const String sent = "sent";
   static const String loadingMoreHistory = "loadingMoreHistory";
   static const String passwordResetSuccessfully = "passwordResetSuccessfully";
   static const String errorSubmittingLeaveRequest =
