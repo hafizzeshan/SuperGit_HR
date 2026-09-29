@@ -4,7 +4,7 @@ class AppURL {
   // live (default — can be overridden by Firebase Remote Config)
   // The compile-time default. Used to restore the URL when the Remote Config
   // override is turned off from the app.
-  static const String defaultBaseUrl = 'https://hr1.api.supergitsa.com/api/';
+  static const String defaultBaseUrl = 'https://hr2.api.supergitsa.com/api/';
   static String baseUrl = defaultBaseUrl;
 
   static String attendanceHistory(

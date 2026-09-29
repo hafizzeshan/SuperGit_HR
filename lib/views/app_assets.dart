@@ -1,16 +1,5 @@
-import 'package:flutter/foundation.dart';
-
 class AppAssets {
-  /// iOS ships the new HR artwork (App Store submission). Android keeps the
-  /// logo it was released with on Google Play, so the live app is unchanged.
-  static final bool _isIOS = defaultTargetPlatform == TargetPlatform.iOS;
-
-  static String logo =
-      _isIOS ? "assets/icons/app_logo.png" : "assets/icons/newlogo1.png";
-
-  /// Smaller mark used inside snackbars.
-  static String snackbarLogo =
-      _isIOS ? "assets/icons/app_logo.png" : "assets/icons/newlogo.png";
+  static String logo = "assets/icons/app_logo.png";
 
   static String splashLogo2 = "assets/icons/splashlogo2.png";
 

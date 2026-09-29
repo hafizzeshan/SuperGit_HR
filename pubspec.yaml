@@ -83,9 +83,7 @@ dev_dependencies:
     sdk: flutter
     
 flutter_launcher_icons:
-  # Android keeps its original launcher icon — the app is already live on
-  # Google Play. Only the iOS icon was changed for the App Store submission.
-  android: false
+  android: true
   ios: true
   image_path: "assets/launcher/app_icon.png" # Opaque, white background
   adaptive_icon_foreground: "assets/launcher/app_icon_foreground.png" # Padded PNG
