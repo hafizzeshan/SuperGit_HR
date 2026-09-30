@@ -14,10 +14,10 @@ class OvertimeScreen extends StatefulWidget {
   const OvertimeScreen({super.key});
 
   @override
-  State<OvertimeScreen> createState() => _OvertimeScreenState();
+  State<OvertimeScreen> createState() => OvertimeScreenState();
 }
 
-class _OvertimeScreenState extends State<OvertimeScreen> {
+class OvertimeScreenState extends State<OvertimeScreen> {
   final OvertimeController _c = Get.find<OvertimeController>();
   final ScrollController _scrollController = ScrollController();
 
@@ -44,19 +44,14 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
     super.dispose();
   }
 
-  Color _statusColor(String status) {
-    switch (status.toLowerCase()) {
-      case 'approved':
-        return kSecondaryColor;
-      case 'pending':
-        return const Color(0xffF2A33C);
-      case 'rejected':
-      case 'cancelled':
-        return const Color(0xffE05260);
-      default:
-        return kPrimaryColor;
-    }
-  }
+  Color _statusColor(String status) => OvertimeStageX.from(status).color;
+
+  static String stageLabel(OvertimeStage stage) => switch (stage) {
+    OvertimeStage.pendingManager => TranslationKeys.pendingLeadReview.tr,
+    OvertimeStage.pendingAdmin => TranslationKeys.pendingHrAdmin.tr,
+    OvertimeStage.approved => TranslationKeys.statusApproved.tr,
+    OvertimeStage.rejected => TranslationKeys.statusRejected.tr,
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -339,7 +334,7 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                             ),
                           ),
                           const Spacer(),
-                          _statusPill(item.status, color),
+                          Flexible(child: _statusPill(item.status, color)),
                         ],
                       ),
                       const SizedBox(height: 6),
@@ -367,6 +362,8 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                               Icons.payments_rounded,
                               "${item.overtimeAmount}",
                             ),
+                          const Spacer(),
+                          if (item.isEditable) _rowActions(item),
                         ],
                       ),
                     ],
@@ -380,6 +377,76 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
     );
   }
 
+  /// Edit and cancel, shown inline on a pending card.
+  Widget _rowActions(OvertimeDatum item) {
+    return Row(
+      mainAxisSize: MainAxisSize.min,
+      children: [
+        InkWell(
+          onTap: () async {
+            _c.selectedDate.value = item.date;
+            _c.hours.value = item.durationMinutes ~/ 60;
+            _c.minutes.value = item.durationMinutes % 60;
+            _c.reasonController.text = item.reason;
+            await Get.to(() => CreateOvertimeScreen(existing: item));
+          },
+          child: Padding(
+            padding: const EdgeInsets.only(left: 8),
+            child: Icon(
+              Icons.edit_outlined,
+              size: 17,
+              color: Colors.grey.shade600,
+            ),
+          ),
+        ),
+        InkWell(
+          onTap: () => _confirmDelete(item),
+          child: const Padding(
+            padding: EdgeInsets.only(left: 8),
+            child: Icon(
+              Icons.delete_outline_rounded,
+              size: 17,
+              color: Color(0xffEF4444),
+            ),
+          ),
+        ),
+      ],
+    );
+  }
+
+  Future<void> _confirmDelete(OvertimeDatum item) async {
+    final confirmed = await Get.dialog<bool>(
+      AlertDialog(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+        title: Text(
+          TranslationKeys.deleteRequestConfirm.tr,
+          style: textStyleMontserratBold(fontSize: 15.0, color: Colors.black87),
+        ),
+        actions: [
+          TextButton(
+            onPressed: () => Get.back(result: false),
+            child: Text(TranslationKeys.cancel.tr),
+          ),
+          ElevatedButton(
+            onPressed: () => Get.back(result: true),
+            style: ElevatedButton.styleFrom(
+              backgroundColor: const Color(0xffEF4444),
+              elevation: 0,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(10),
+              ),
+            ),
+            child: Text(
+              TranslationKeys.delete.tr,
+              style: const TextStyle(color: Colors.white),
+            ),
+          ),
+        ],
+      ),
+    );
+    if (confirmed == true) await _c.deleteOvertimeRequest(item.id);
+  }
+
   Widget _statusPill(String status, Color color) {
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
@@ -387,9 +454,20 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
         color: color.withValues(alpha: 0.12),
         borderRadius: BorderRadius.circular(20),
       ),
-      child: Text(
-        LocalizationHelper.getLoanStatus(status),
-        style: textStyleMontserratBold(fontSize: 10.0, color: color),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(OvertimeStageX.from(status).icon, size: 11, color: color),
+          const SizedBox(width: 4),
+          Flexible(
+            child: Text(
+              stageLabel(OvertimeStageX.from(status)),
+              maxLines: 1,
+              overflow: TextOverflow.ellipsis,
+              style: textStyleMontserratBold(fontSize: 10.0, color: color),
+            ),
+          ),
+        ],
       ),
     );
   }
@@ -424,11 +502,7 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
       padding: const EdgeInsets.only(top: 60),
       child: Column(
         children: [
-          Icon(
-            Icons.more_time_rounded,
-            size: 60,
-            color: Colors.grey.shade300,
-          ),
+          Icon(Icons.more_time_rounded, size: 60, color: Colors.grey.shade300),
           const SizedBox(height: 16),
           Text(
             TranslationKeys.noOvertimeFound.tr,
@@ -487,11 +561,7 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                     color: color.withValues(alpha: 0.1),
                     shape: BoxShape.circle,
                   ),
-                  child: Icon(
-                    Icons.more_time_rounded,
-                    color: color,
-                    size: 36,
-                  ),
+                  child: Icon(Icons.more_time_rounded, color: color, size: 36),
                 ),
                 const SizedBox(height: 14),
                 Text(
@@ -544,8 +614,8 @@ class _OvertimeScreenState extends State<OvertimeScreen> {
                         item.createdAt == null
                             ? "-"
                             : DateFormat(
-                                'dd MMM yyyy, hh:mm a',
-                              ).format(item.createdAt!),
+                              'dd MMM yyyy, hh:mm a',
+                            ).format(item.createdAt!),
                         isLast: item.reason.isEmpty,
                       ),
                       if (item.reason.isNotEmpty) ...[

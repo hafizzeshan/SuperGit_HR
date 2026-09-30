@@ -14,6 +14,9 @@ import 'package:supergithr/controllers/salary_structure_controller.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/controllers/register_controller.dart';
 import 'package:supergithr/controllers/social_post_controller.dart';
+import 'package:supergithr/controllers/discipline_controller.dart';
+import 'package:supergithr/controllers/ethics_controller.dart';
+import 'package:supergithr/controllers/remote_work_controller.dart';
 import 'package:supergithr/controllers/support_controller.dart';
 import 'package:supergithr/controllers/team_leave_controller.dart';
 
@@ -37,5 +40,8 @@ class DependencyBindings implements Bindings {
     Get.put(SocialPostController());
     Get.put(TeamLeaveController());
     Get.lazyPut(() => SupportController(), fenix: true);
+    Get.lazyPut(() => EthicsController(), fenix: true);
+    Get.lazyPut(() => RemoteWorkController(), fenix: true);
+    Get.lazyPut(() => DisciplineController(), fenix: true);
   }
 }

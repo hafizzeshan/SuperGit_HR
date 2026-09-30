@@ -195,6 +195,7 @@ class ApiNetworkService {
     String endpoint, {
     dynamic data,
     bool isMultipart = false, // ✅ New flag
+    Map<String, String>? headers,
   }) async {
     await _attachToken();
 
@@ -203,10 +204,11 @@ class ApiNetworkService {
         endpoint,
         data: data,
         options: Options(
-          headers:
-              isMultipart
-                  ? {'Content-Type': 'multipart/form-data'}
-                  : {'Content-Type': 'application/json'},
+          headers: {
+            'Content-Type':
+                isMultipart ? 'multipart/form-data' : 'application/json',
+            ...?headers,
+          },
         ),
       );
 
@@ -233,18 +235,25 @@ class ApiNetworkService {
     String endpoint, {
     dynamic data,
     bool isMultipart = false,
+    Map<String, String>? headers,
+    // Some services expect PATCH for partial updates; the plumbing is
+    // otherwise identical, so reuse this method rather than duplicating it.
+    bool usePatch = false,
   }) async {
     await _attachToken();
     try {
-      print("🔹 PUT Request to: ${AppURL.baseUrl}$endpoint");
-      final response = await dio.put(
+      print("🔹 ${usePatch ? 'PATCH' : 'PUT'} Request to: "
+          "${AppURL.baseUrl}$endpoint");
+      final request = usePatch ? dio.patch : dio.put;
+      final response = await request(
         endpoint,
         data: data,
         options: Options(
-          headers:
-              isMultipart
-                  ? {'Content-Type': 'multipart/form-data'}
-                  : {'Content-Type': 'application/json'},
+          headers: {
+            'Content-Type':
+                isMultipart ? 'multipart/form-data' : 'application/json',
+            ...?headers,
+          },
         ),
       );
       if (response.statusCode == 200 || response.statusCode == 201) {
@@ -266,11 +275,19 @@ class ApiNetworkService {
   }
 
   /// DELETE Request
-  Future<Response?> deleteRequest(String endpoint, {dynamic data}) async {
+  Future<Response?> deleteRequest(
+    String endpoint, {
+    dynamic data,
+    Map<String, String>? headers,
+  }) async {
     await _attachToken();
     try {
       print("🔹 DELETE Request to: ${AppURL.baseUrl}$endpoint");
-      final response = await dio.delete(endpoint, data: data);
+      final response = await dio.delete(
+        endpoint,
+        data: data,
+        options: Options(headers: headers),
+      );
       if (response.statusCode == 200 || response.statusCode == 204) {
         print("✅ DELETE $endpoint Success → ${response.data}");
         return response;
@@ -287,13 +304,19 @@ class ApiNetworkService {
   }
 
   /// GET Request
-  Future<Response?> getRequest(String endpoint) async {
+  Future<Response?> getRequest(
+    String endpoint, {
+    Map<String, String>? headers,
+  }) async {
     await _attachToken();
     try {
       print("🔹 GET Request to: ${AppURL.baseUrl}$endpoint");
       print("🔹 Headers: ${dio.options.headers}");
 
-      final response = await dio.get(endpoint);
+      final response = await dio.get(
+        endpoint,
+        options: Options(headers: headers),
+      );
 
       print("🔹 Response Status Code: ${response.statusCode}");
 

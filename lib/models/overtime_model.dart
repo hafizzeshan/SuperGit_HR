@@ -4,6 +4,8 @@
 
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
+
 OvertimeModel overtimeModelFromJson(String str) =>
     OvertimeModel.fromJson(json.decode(str));
 
@@ -16,16 +18,28 @@ class OvertimeModel {
 
   OvertimeModel({required this.data, required this.pagination});
 
-  factory OvertimeModel.fromJson(Map<String, dynamic> json) => OvertimeModel(
-    data: List<OvertimeDatum>.from(
-      (json["data"] ?? []).map(
-        (x) => OvertimeDatum.fromJson(Map<String, dynamic>.from(x)),
+  /// Handles both shapes the service returns: a bare `data` list with a
+  /// `pagination` object, and `data: { items: [...], total, page, pages }`.
+  factory OvertimeModel.fromJson(Map<String, dynamic> json) {
+    final raw = json["data"];
+    final isWrapped = raw is Map;
+    final items = isWrapped ? raw["items"] : raw;
+
+    return OvertimeModel(
+      data: List<OvertimeDatum>.from(
+        (items is List ? items : const []).map(
+          (x) => OvertimeDatum.fromJson(Map<String, dynamic>.from(x)),
+        ),
       ),
-    ),
-    pagination: OvertimePagination.fromJson(
-      Map<String, dynamic>.from(json["pagination"] ?? {}),
-    ),
-  );
+      pagination: OvertimePagination.fromJson(
+        Map<String, dynamic>.from(
+          isWrapped
+              ? Map<String, dynamic>.from(raw)
+              : (json["pagination"] ?? const {}),
+        ),
+      ),
+    );
+  }
 
   Map<String, dynamic> toJson() => {
     "data": List<dynamic>.from(data.map((x) => x.toJson())),
@@ -57,7 +71,8 @@ class OvertimePagination {
         limit: _toInt(json["limit"], 20),
         page: _toInt(json["page"], 1),
         total: _toInt(json["total"]),
-        totalPages: _toInt(json["totalPages"], 1),
+        // `totalPages` on the old service, `pages` on the new one.
+        totalPages: _toInt(json["totalPages"] ?? json["pages"], 1),
       );
 
   Map<String, dynamic> toJson() => {
@@ -83,6 +98,12 @@ class OvertimeDatum {
   final String status;
   final String employeeName;
   final String employeeCode;
+  final String managerName;
+  final String currentApproverName;
+  final DateTime? managerApprovedAt;
+  final String managerRemarks;
+  final String adminRemarks;
+  final String rejectionReason;
   final DateTime? createdAt;
   final DateTime? updatedAt;
   final dynamic deletedAt;
@@ -102,6 +123,12 @@ class OvertimeDatum {
     required this.status,
     required this.employeeName,
     required this.employeeCode,
+    this.managerName = '',
+    this.currentApproverName = '',
+    this.managerApprovedAt,
+    this.managerRemarks = '',
+    this.adminRemarks = '',
+    this.rejectionReason = '',
     required this.createdAt,
     required this.updatedAt,
     required this.deletedAt,
@@ -133,6 +160,12 @@ class OvertimeDatum {
     status: json["status"]?.toString() ?? "",
     employeeName: json["employee_name"]?.toString() ?? "",
     employeeCode: json["employee_code"]?.toString() ?? "",
+    managerName: json["manager_name"]?.toString() ?? "",
+    currentApproverName: json["current_approver_name"]?.toString() ?? "",
+    managerApprovedAt: _toDate(json["manager_approved_at"]),
+    managerRemarks: json["manager_remarks"]?.toString() ?? "",
+    adminRemarks: json["admin_remarks"]?.toString() ?? "",
+    rejectionReason: json["rejection_reason"]?.toString() ?? "",
     createdAt: _toDate(json["created_at"]),
     updatedAt: _toDate(json["updated_at"]),
     deletedAt: json["deleted_at"],
@@ -158,6 +191,15 @@ class OvertimeDatum {
     "deleted_at": deletedAt,
   };
 
+  OvertimeStage get stage => OvertimeStageX.from(status);
+
+  /// Employees may change a request only before the manager has acted.
+  bool get isEditable => stage == OvertimeStage.pendingManager;
+
+  bool get isPending =>
+      stage == OvertimeStage.pendingManager ||
+      stage == OvertimeStage.pendingAdmin;
+
   /// "2h 30m" style label built from `duration_minutes`.
   String get durationLabel {
     final h = durationMinutes ~/ 60;
@@ -166,4 +208,42 @@ class OvertimeDatum {
     if (h > 0) return "${h}h";
     return "${m}m";
   }
+}
+
+/// Where a request sits in the two-tier approval chain.
+enum OvertimeStage { pendingManager, pendingAdmin, approved, rejected }
+
+extension OvertimeStageX on OvertimeStage {
+  /// The API spells these several ways — `Pending`, `PendingManager`,
+  /// `PendingAdmin`, `Approved`, `Rejected` — so match on the lower-cased
+  /// value rather than exact strings.
+  static OvertimeStage from(String? raw) {
+    final key = (raw ?? '').toLowerCase().replaceAll('_', '');
+    if (key.contains('reject')) return OvertimeStage.rejected;
+    if (key.contains('approved')) return OvertimeStage.approved;
+    if (key.contains('admin')) return OvertimeStage.pendingAdmin;
+    return OvertimeStage.pendingManager;
+  }
+
+  Color get color => switch (this) {
+    OvertimeStage.pendingManager => const Color(0xffF59E0B),
+    OvertimeStage.pendingAdmin => const Color(0xff3B82F6),
+    OvertimeStage.approved => const Color(0xff10B981),
+    OvertimeStage.rejected => const Color(0xffEF4444),
+  };
+
+  IconData get icon => switch (this) {
+    OvertimeStage.pendingManager => Icons.hourglass_top_rounded,
+    OvertimeStage.pendingAdmin => Icons.fact_check_outlined,
+    OvertimeStage.approved => Icons.check_circle_rounded,
+    OvertimeStage.rejected => Icons.cancel_rounded,
+  };
+
+  /// Value the list endpoints expect in their `status` query parameter.
+  String get queryValue => switch (this) {
+    OvertimeStage.pendingManager => 'PendingManager',
+    OvertimeStage.pendingAdmin => 'PendingAdmin',
+    OvertimeStage.approved => 'Approved',
+    OvertimeStage.rejected => 'Rejected',
+  };
 }

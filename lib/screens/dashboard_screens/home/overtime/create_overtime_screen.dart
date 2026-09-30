@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:supergithr/models/overtime_model.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/overtime_controller.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -9,7 +10,10 @@ import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
 
 class CreateOvertimeScreen extends StatefulWidget {
-  const CreateOvertimeScreen({super.key});
+  /// When set, the screen edits this request instead of creating a new one.
+  final OvertimeDatum? existing;
+
+  const CreateOvertimeScreen({super.key, this.existing});
 
   @override
   State<CreateOvertimeScreen> createState() => _CreateOvertimeScreenState();
@@ -95,7 +99,14 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
                 () => LoadingButton(
                   isLoading: _c.isSubmitting.value,
                   text: TranslationKeys.submitRequest.tr,
-                  onTap: _c.createOvertimeRequest,
+                  onTap: () async {
+                    final existing = widget.existing;
+                    if (existing == null) {
+                      await _c.createOvertimeRequest();
+                    } else if (await _c.updateOvertimeRequest(existing.id)) {
+                      Get.back();
+                    }
+                  },
                 ),
               ),
               const SizedBox(height: 20),
@@ -297,9 +308,10 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
   Widget _presetChip(int totalMinutes) {
     final h = totalMinutes ~/ 60;
     final m = totalMinutes % 60;
-    final label = h > 0 && m > 0
-        ? "${h}h ${m}m"
-        : h > 0
+    final label =
+        h > 0 && m > 0
+            ? "${h}h ${m}m"
+            : h > 0
             ? "${h}h"
             : "${m}m";
     return Obx(() {
@@ -309,14 +321,16 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
         child: Container(
           padding: const EdgeInsets.symmetric(horizontal: 14, vertical: 8),
           decoration: BoxDecoration(
-            color: selected
-                ? kPrimaryColor
-                : kPrimaryColor.withValues(alpha: 0.06),
+            color:
+                selected
+                    ? kPrimaryColor
+                    : kPrimaryColor.withValues(alpha: 0.06),
             borderRadius: BorderRadius.circular(20),
             border: Border.all(
-              color: selected
-                  ? kPrimaryColor
-                  : kPrimaryColor.withValues(alpha: 0.15),
+              color:
+                  selected
+                      ? kPrimaryColor
+                      : kPrimaryColor.withValues(alpha: 0.15),
             ),
           ),
           child: Text(
@@ -407,17 +421,17 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
   }
 
   BoxDecoration _fieldDecoration() => BoxDecoration(
-        color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
-        border: Border.all(color: Colors.grey.shade300),
-        boxShadow: [
-          BoxShadow(
-            color: Colors.black.withValues(alpha: 0.02),
-            blurRadius: 6,
-            offset: const Offset(0, 2),
-          ),
-        ],
-      );
+    color: Colors.white,
+    borderRadius: BorderRadius.circular(12),
+    border: Border.all(color: Colors.grey.shade300),
+    boxShadow: [
+      BoxShadow(
+        color: Colors.black.withValues(alpha: 0.02),
+        blurRadius: 6,
+        offset: const Offset(0, 2),
+      ),
+    ],
+  );
 
   Widget _label(String text) {
     return Text(

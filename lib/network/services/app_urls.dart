@@ -156,6 +156,145 @@ class AppURL {
   static String socialPostComment(String postId, String commentId) =>
       '$socialPostsBase/$postId/comments/$commentId';
 
+  // ⚖️ Ethics Reports live on a separate service (hr2), so these are absolute
+  // URLs rather than paths appended to [baseUrl].
+  static const String ethicsBaseUrl = 'https://hr2.api.supergitsa.com/api';
+
+  static String ethicsMyReports({int page = 1, int pageSize = 10}) =>
+      '$ethicsBaseUrl/ethics-reports/my?page=$page&page_size=$pageSize';
+
+  static const String ethicsReports = '$ethicsBaseUrl/ethics-reports';
+
+  static String ethicsReport(String id) => '$ethicsBaseUrl/ethics-reports/$id';
+
+  static String ethicsAttachments(String id) =>
+      '$ethicsBaseUrl/ethics-reports/$id/attachments';
+
+  static String ethicsAttachment(String reportId, String attachmentId) =>
+      '$ethicsBaseUrl/ethics-reports/$reportId/attachments/$attachmentId';
+
+  // ⚖️ Discipline: incidents and warning letters (hr2 service).
+  static const String disciplineBase = '$ethicsBaseUrl/discipline';
+
+  static String disciplineMyIncidents({int page = 1, int pageSize = 20}) =>
+      '$disciplineBase/my-incidents?page=$page&page_size=$pageSize';
+
+  static const String disciplineMyWarnings = '$disciplineBase/my-warnings';
+
+  static String disciplineJustification(String incidentId) =>
+      '$disciplineBase/incidents/$incidentId/justification';
+
+  static const String disciplineIncidents = '$disciplineBase/incidents';
+
+  static String disciplineIncidentsList({
+    int page = 1,
+    int pageSize = 20,
+    String? status,
+    String? employeeId,
+  }) {
+    final params = <String>[
+      'page=$page',
+      'page_size=$pageSize',
+      if (status != null && status.isNotEmpty)
+        'status=${Uri.encodeQueryComponent(status)}',
+      if (employeeId != null && employeeId.isNotEmpty)
+        'employee_id=$employeeId',
+    ];
+    return '$disciplineIncidents?${params.join('&')}';
+  }
+
+  static String disciplineIncident(String id) => '$disciplineIncidents/$id';
+
+  static String disciplineIncidentStatus(String id) =>
+      '$disciplineIncidents/$id/status';
+
+  static String disciplineIncidentReview(String id) =>
+      '$disciplineIncidents/$id/review';
+
+  static String disciplineEligibility(String employeeId) =>
+      '$disciplineBase/employees/$employeeId/warning-eligibility';
+
+  static const String disciplineWarnings = '$disciplineBase/warnings';
+
+  static String disciplineWarningsList({int page = 1, int pageSize = 20}) =>
+      '$disciplineWarnings?page=$page&page_size=$pageSize';
+
+  static String disciplineWarning(String id) => '$disciplineWarnings/$id';
+
+  // ⏱️ Overtime moved to the hr2 service along with its two-tier approvals.
+  static const String overtimeBase = '$ethicsBaseUrl/attendance/overtime';
+
+  static String overtimeListV2({
+    String? employeeId,
+    String? currentApproverId,
+    int page = 1,
+    int limit = 10,
+    String? status,
+    String? month,
+    String? startDate,
+    String? endDate,
+  }) {
+    final params = <String>[
+      'page=$page',
+      'limit=$limit',
+      if (employeeId != null && employeeId.isNotEmpty)
+        'employee_id=$employeeId',
+      if (currentApproverId != null && currentApproverId.isNotEmpty)
+        'current_approver_id=$currentApproverId',
+      if (status != null && status.isNotEmpty) 'status=$status',
+      if (month != null && month.isNotEmpty) 'month=$month',
+      if (startDate != null && startDate.isNotEmpty) 'start_date=$startDate',
+      if (endDate != null && endDate.isNotEmpty) 'end_date=$endDate',
+    ];
+    return '$overtimeBase?${params.join('&')}';
+  }
+
+  static String overtimeRecord(String id) => '$overtimeBase/$id';
+
+  static String overtimeManagerApprove(String id) =>
+      '$overtimeBase/$id/manager-approve';
+
+  static String overtimeAdminApprove(String id) => '$overtimeBase/$id/approve';
+
+  static String overtimeReject(String id) => '$overtimeBase/$id/reject';
+
+  static String overtimeReportPdf({
+    required String employeeId,
+    required String month,
+  }) => '$overtimeBase/report/pdf?employee_id=$employeeId&month=$month';
+
+  // 🏠 Remote work lives on the same hr2 service as ethics reports.
+  static const String remoteWorkBase = '$ethicsBaseUrl/attendance/remote';
+
+  static const String remoteClockIn = '$remoteWorkBase/clock-in';
+  static const String remoteClockOut = '$remoteWorkBase/clock-out';
+
+  static String remoteMySessions({String? fromDate, String? toDate}) {
+    final params = <String>[
+      if (fromDate != null && fromDate.isNotEmpty) 'from_date=$fromDate',
+      if (toDate != null && toDate.isNotEmpty) 'to_date=$toDate',
+    ];
+    return '$remoteWorkBase/my${params.isEmpty ? '' : '?${params.join('&')}'}';
+  }
+
+  static String remotePending({
+    required bool isAdmin,
+    String? fromDate,
+    String? toDate,
+    String? status,
+  }) {
+    final params = <String>[
+      if (fromDate != null && fromDate.isNotEmpty) 'from_date=$fromDate',
+      if (toDate != null && toDate.isNotEmpty) 'to_date=$toDate',
+      if (status != null && status.isNotEmpty) 'status=$status',
+    ];
+    final path = isAdmin ? 'admin/pending' : 'team-lead/pending';
+    return '$remoteWorkBase/$path${params.isEmpty ? '' : '?${params.join('&')}'}';
+  }
+
+  static String remoteDecision({required String id, required bool isAdmin}) =>
+      '$remoteWorkBase/$id/${isAdmin ? 'admin-approval' : 'team-lead-approval'}';
+
   static String playStoreURL = '';
   static String appStoreURL = '';
 

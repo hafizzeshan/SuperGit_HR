@@ -3,17 +3,23 @@ import 'package:get/get.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
 import 'package:supergithr/controllers/team_leave_controller.dart';
+import 'package:supergithr/controllers/social_post_controller.dart';
 import 'package:supergithr/screens/dashboard_screens/home/air_tickets/air_tickets_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/team_leave/team_leave_requests_screen.dart';
-import 'package:supergithr/screens/dashboard_screens/home/announcements/announcements_list.dart';
 import 'package:supergithr/screens/dashboard_screens/home/holidays/holidays.dart';
 import 'package:supergithr/screens/dashboard_screens/home/leave_summary/show_leavers.dart';
 import 'package:supergithr/screens/dashboard_screens/home/loan_screen/loans.dart';
+import 'package:supergithr/screens/dashboard_screens/home/discipline/discipline_admin_screen.dart';
+import 'package:supergithr/screens/dashboard_screens/home/discipline/discipline_screen.dart';
+import 'package:supergithr/screens/dashboard_screens/home/remote_work/remote_approvals_screen.dart';
+import 'package:supergithr/screens/dashboard_screens/home/remote_work/remote_work_screen.dart';
+import 'package:supergithr/models/remote_work_model.dart';
+import 'package:supergithr/screens/dashboard_screens/home/ethics/ethics_reports_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/overtime/overtime_screen.dart';
+import 'package:supergithr/screens/dashboard_screens/home/overtime/overtime_approvals_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/timeclock/clock_in_map.dart';
 import 'package:supergithr/screens/dashboard_screens/home/timeclock/started_timeclock_screen.dart';
 import 'package:supergithr/screens/dashboard_screens/home/today_history/today_history.dart';
-import 'package:supergithr/screens/dashboard_screens/setting/doc/personal_document.dart';
 import 'package:supergithr/services/force_update_service.dart';
 import 'package:supergithr/utils/utils.dart';
 import 'package:supergithr/views/colors.dart';
@@ -30,6 +36,15 @@ class QuickActionsGridScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     final AttendanceController attendanceController =
         Get.find<AttendanceController>();
+
+    // Role flags, resolved once so the list below reads in plain order and
+    // each feature can sit next to its own approvals tile.
+    final bool canReview =
+        Get.isRegistered<TeamLeaveController>() &&
+        Get.find<TeamLeaveController>().canReview;
+    final bool isAdmin =
+        Get.isRegistered<SocialPostController>() &&
+        Get.find<SocialPostController>().isAdmin.value;
 
     final List<Map<String, dynamic>> actions = [
       {
@@ -58,6 +73,36 @@ class QuickActionsGridScreen extends StatelessWidget {
           Get.to(() => TodayHistoryScreen());
         },
       },
+
+      // ── remote work + its approvals ──────────────────────────────────
+      {
+        'icon': Icons.laptop_mac_rounded,
+        'title': TranslationKeys.remoteWork.tr,
+        'onTap': () {
+          Get.to(() => const RemoteWorkScreen());
+        },
+      },
+      if (canReview)
+        {
+          'icon': Icons.approval_rounded,
+          'title': TranslationKeys.remoteApprovals.tr,
+          'onTap': () {
+            Get.to(
+              () => const RemoteApprovalsScreen(mode: ApprovalMode.teamLead),
+            );
+          },
+        },
+      if (isAdmin)
+        {
+          'icon': Icons.verified_user_outlined,
+          'title':
+              "${TranslationKeys.remoteApprovals.tr} · ${TranslationKeys.adminReview.tr}",
+          'onTap': () {
+            Get.to(() => const RemoteApprovalsScreen(mode: ApprovalMode.admin));
+          },
+        },
+
+      // ── overtime + its approvals ─────────────────────────────────────
       {
         'icon': Icons.more_time_rounded,
         'title': TranslationKeys.overtime.tr,
@@ -65,7 +110,74 @@ class QuickActionsGridScreen extends StatelessWidget {
           Get.to(() => const OvertimeScreen());
         },
       },
-      // Hidden unless the `show_loans` Remote Config flag is on.
+      if (canReview)
+        {
+          'icon': Icons.fact_check_outlined,
+          'title': TranslationKeys.overtimeApprovals.tr,
+          'onTap': () {
+            Get.to(() => const OvertimeApprovalsScreen(isAdmin: false));
+          },
+        },
+      if (isAdmin)
+        {
+          'icon': Icons.payments_outlined,
+          'title':
+              "${TranslationKeys.overtimeApprovals.tr} · ${TranslationKeys.adminReview.tr}",
+          'onTap': () {
+            Get.to(() => const OvertimeApprovalsScreen(isAdmin: true));
+          },
+        },
+
+      // ── leave + team leave approvals ─────────────────────────────────
+      {
+        'icon': Icons.calendar_today_outlined,
+        'title': TranslationKeys.leaveSummary.tr,
+        'onTap': () {
+          Get.to(() => const LeaveSummaryScreen());
+        },
+      },
+      if (canReview)
+        {
+          'icon': Icons.playlist_add_check_rounded,
+          'title': "Team Leave Requests",
+          'onTap': () {
+            Get.to(() => const TeamLeaveRequestsScreen());
+          },
+        },
+
+      // ── conduct ──────────────────────────────────────────────────────
+      {
+        'icon': Icons.shield_outlined,
+        'title': TranslationKeys.ethicsReports.tr,
+        'onTap': () {
+          Get.to(() => const EthicsReportsScreen());
+        },
+      },
+      {
+        'icon': Icons.balance_rounded,
+        'title': TranslationKeys.discipline.tr,
+        'onTap': () {
+          Get.to(() => const DisciplineScreen());
+        },
+      },
+      if (isAdmin)
+        {
+          'icon': Icons.gavel_rounded,
+          'title': TranslationKeys.manageDiscipline.tr,
+          'onTap': () {
+            Get.to(() => const DisciplineAdminScreen());
+          },
+        },
+
+      {
+        'icon': Icons.calendar_month_rounded,
+        'title': TranslationKeys.holidays.tr,
+        'onTap': () {
+          Get.to(() => const HolidayScreen());
+        },
+      },
+
+      // Hidden unless the matching Remote Config flag is on.
       if (ForceUpdateService.showLoans)
         {
           'icon': Icons.monetization_on_outlined,
@@ -74,35 +186,6 @@ class QuickActionsGridScreen extends StatelessWidget {
             Get.to(() => LoanScreen());
           },
         },
-      {
-        'icon': Icons.calendar_today_outlined,
-        'title': TranslationKeys.leaveSummary.tr,
-        'onTap': () {
-          Get.to(() => const LeaveSummaryScreen());
-        },
-      },
-      {
-        'icon': Icons.campaign_rounded,
-        'title': TranslationKeys.announcements.tr,
-        'onTap': () {
-          Get.to(() => const AnnouncementsListScreen());
-        },
-      },
-      {
-        'icon': Icons.calendar_month_rounded,
-        'title': TranslationKeys.holidays.tr,
-        'onTap': () {
-          Get.to(() => const HolidayScreen());
-        },
-      },
-      {
-        'icon': Icons.folder_shared_rounded,
-        'title': TranslationKeys.personalDocuments.tr,
-        'onTap': () {
-          Get.to(() => PersonalDocumentsScreen());
-        },
-      },
-      // Hidden unless the `show_air_tickets` Remote Config flag is on.
       if (ForceUpdateService.showAirTickets)
         {
           'icon': Icons.flight_takeoff_rounded,
@@ -113,32 +196,32 @@ class QuickActionsGridScreen extends StatelessWidget {
         },
     ];
 
-    // Manager / department-head only: review team leave requests.
-    if (Get.isRegistered<TeamLeaveController>() &&
-        Get.find<TeamLeaveController>().canReview) {
-      actions.add({
-        'icon': Icons.fact_check_outlined,
-        'title': "Team Leave Requests",
-        'onTap': () {
-          Get.to(() => const TeamLeaveRequestsScreen());
-        },
-      });
-    }
-
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitoutAction(title: TranslationKeys.quickActions.tr),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        // Fill the whole body, including the area behind the home indicator,
+        // so no bare strip shows under the grid.
+        width: double.infinity,
+        height: double.infinity,
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: CustomAnimatedGridView(
-          padding: const EdgeInsets.all(20),
+          // Bottom padding follows the device inset, so the last row clears
+          // the home indicator instead of being cut off by it.
+          padding: EdgeInsets.fromLTRB(
+            16,
+            18,
+            16,
+            18 + MediaQuery.paddingOf(context).bottom,
+          ),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
-            crossAxisSpacing: 16,
-            mainAxisSpacing: 16,
-            childAspectRatio: 1.1,
+            crossAxisSpacing: 12,
+            mainAxisSpacing: 12,
+            // Flatter than square so more rows fit on small screens, while
+            // still leaving room for the icon plus a two-line title — checked
+            // down to a 320pt wide device.
+            childAspectRatio: 1.2,
           ),
           itemCount: actions.length,
           itemBuilder: (context, index) {
@@ -162,7 +245,7 @@ class QuickActionsGridScreen extends StatelessWidget {
     return GestureDetector(
       onTap: onTap,
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: const EdgeInsets.all(16),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.circular(14),
@@ -179,12 +262,12 @@ class QuickActionsGridScreen extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Container(
-              padding: const EdgeInsets.all(12),
+              padding: const EdgeInsets.all(10),
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 color: kPrimaryColor.withValues(alpha: 0.08),
               ),
-              child: Icon(icon, color: kPrimaryColor, size: 28),
+              child: Icon(icon, color: kPrimaryColor, size: 24),
             ),
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -194,7 +277,7 @@ class QuickActionsGridScreen extends StatelessWidget {
                   child: Text(
                     title,
                     style: textStyleMontserratBold(
-                      fontSize: 15.0,
+                      fontSize: 13.5,
                       color: Colors.black87,
                       height: 1.2,
                     ),
