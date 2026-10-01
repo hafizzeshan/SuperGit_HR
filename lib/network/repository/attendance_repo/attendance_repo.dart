@@ -56,7 +56,10 @@ class AttendanceRepository {
         // );
         return response.data;
       } else {
-        final message = Utils.extractApiError(response.data, "Clock-Out failed");
+        final message = Utils.extractApiError(
+          response.data,
+          "Clock-Out failed",
+        );
         Utils.snackBar(message, true);
         log("❌ Clock-Out Failed: $message");
       }
@@ -85,7 +88,10 @@ class AttendanceRepository {
         return response.data;
       } else {
         Utils.snackBar(
-          Utils.extractApiError(response.data, "Failed to fetch attendance history"),
+          Utils.extractApiError(
+            response.data,
+            "Failed to fetch attendance history",
+          ),
           true,
         );
         return null;
@@ -104,7 +110,7 @@ class AttendanceRepository {
   }) async {
     try {
       final url = AppURL.editAttendanceRequest(attendanceId);
-      
+
       print("\n================= EDIT REQUEST START =================");
       print("🔹 URL: ${AppURL.baseUrl}$url");
       print("🔹 Payload: $data");
@@ -130,15 +136,20 @@ class AttendanceRepository {
         );
         return response.data;
       } else {
-        final message =
-            Utils.extractApiError(response.data, "Failed to submit request");
+        final message = Utils.extractApiError(
+          response.data,
+          "Failed to submit request",
+        );
         Utils.snackBar(message, true);
         log("❌ Edit Request Failed: $message");
         return null;
       }
     } catch (e, st) {
       log("❌ Exception in createEditRequest: $e", stackTrace: st);
-      Utils.snackBar(TranslationKeys.somethingWentWrongRequestSubmission.tr, true);
+      Utils.snackBar(
+        TranslationKeys.somethingWentWrongRequestSubmission.tr,
+        true,
+      );
       return null;
     }
   }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/discipline_controller.dart';
@@ -60,12 +61,7 @@ class _DisciplineAdminScreenState extends State<DisciplineAdminScreen>
       StatefulBuilder(
         builder:
             (context, _) => Container(
-              padding: EdgeInsets.fromLTRB(
-                20,
-                20,
-                20,
-                MediaQuery.of(context).viewInsets.bottom + 24,
-              ),
+              padding: context.sheetPadding(),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -227,12 +223,7 @@ class _DisciplineAdminScreenState extends State<DisciplineAdminScreen>
               constraints: BoxConstraints(
                 maxHeight: MediaQuery.of(context).size.height * 0.88,
               ),
-              padding: EdgeInsets.fromLTRB(
-                20,
-                20,
-                20,
-                MediaQuery.of(context).viewInsets.bottom + 24,
-              ),
+              padding: context.sheetPadding(),
               decoration: const BoxDecoration(
                 color: Colors.white,
                 borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

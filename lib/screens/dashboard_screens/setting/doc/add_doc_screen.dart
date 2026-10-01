@@ -28,9 +28,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
       backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitoutAction(title: TranslationKeys.addDocument.tr),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Obx(
           () => SingleChildScrollView(
             padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
@@ -58,7 +56,11 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                       ],
                     ),
                     child: Directionality(
-                      textDirection: (Get.locale?.languageCode == 'ur' || Get.locale?.languageCode == 'ar') ? TextDirection.rtl : TextDirection.ltr,
+                      textDirection:
+                          (Get.locale?.languageCode == 'ur' ||
+                                  Get.locale?.languageCode == 'ar')
+                              ? TextDirection.rtl
+                              : TextDirection.ltr,
                       child: Row(
                         children: [
                           Icon(
@@ -69,17 +71,32 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                           const SizedBox(width: 12),
                           Expanded(
                             child: kText(
-                              text: controller.documentTypeController.text.isNotEmpty
-                                  ? controller.documentTypeController.text.tr
-                                  : TranslationKeys.documentType.tr,
+                              text:
+                                  controller
+                                          .documentTypeController
+                                          .text
+                                          .isNotEmpty
+                                      ? controller
+                                          .documentTypeController
+                                          .text
+                                          .tr
+                                      : TranslationKeys.documentType.tr,
                               fSize: 15.0,
                               textalign: TextAlign.start,
-                              fWeight: controller.documentTypeController.text.isNotEmpty
-                                  ? FontWeight.w600
-                                  : FontWeight.normal,
-                              tColor: controller.documentTypeController.text.isNotEmpty
-                                  ? Colors.black87
-                                  : Colors.grey.shade400,
+                              fWeight:
+                                  controller
+                                          .documentTypeController
+                                          .text
+                                          .isNotEmpty
+                                      ? FontWeight.w600
+                                      : FontWeight.normal,
+                              tColor:
+                                  controller
+                                          .documentTypeController
+                                          .text
+                                          .isNotEmpty
+                                      ? Colors.black87
+                                      : Colors.grey.shade400,
                             ),
                           ),
                           Icon(
@@ -92,7 +109,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                     ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 16),
 
                 // Document Name
@@ -178,110 +195,139 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
 
   void _showDocTypeSelector() {
     final List<Map<String, dynamic>> docTypes = [
-      {'name': TranslationKeys.nationalID, 'icon': Icons.badge_outlined, 'color': Colors.blue},
-      {'name': TranslationKeys.iqama, 'icon': Icons.perm_identity, 'color': Colors.indigo},
-      {'name': TranslationKeys.passport, 'icon': Icons.book_outlined, 'color': Colors.purple},
-      {'name': TranslationKeys.visa, 'icon': Icons.airplane_ticket_outlined, 'color': Colors.orange},
-      {'name': TranslationKeys.degreeCertificate, 'icon': Icons.school_outlined, 'color': Colors.green},
-      {'name': TranslationKeys.others, 'icon': Icons.folder_open_outlined, 'color': Colors.grey},
+      {
+        'name': TranslationKeys.nationalID,
+        'icon': Icons.badge_outlined,
+        'color': Colors.blue,
+      },
+      {
+        'name': TranslationKeys.iqama,
+        'icon': Icons.perm_identity,
+        'color': Colors.indigo,
+      },
+      {
+        'name': TranslationKeys.passport,
+        'icon': Icons.book_outlined,
+        'color': Colors.purple,
+      },
+      {
+        'name': TranslationKeys.visa,
+        'icon': Icons.airplane_ticket_outlined,
+        'color': Colors.orange,
+      },
+      {
+        'name': TranslationKeys.degreeCertificate,
+        'icon': Icons.school_outlined,
+        'color': Colors.green,
+      },
+      {
+        'name': TranslationKeys.others,
+        'icon': Icons.folder_open_outlined,
+        'color': Colors.grey,
+      },
     ];
 
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
-        ),
-        padding: const EdgeInsets.symmetric(vertical: 20),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            Container(
-              width: 40,
-              height: 4,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade300,
-                borderRadius: BorderRadius.circular(10),
-              ),
+      builder:
+          (context) => Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
             ),
-            const SizedBox(height: 20),
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Row(
-                children: [
-                  kText(
-                    text: TranslationKeys.selectDocumentType.tr,
-                    fSize: 18.0,
-                    fWeight: FontWeight.bold,
-                    tColor: Colors.black87,
+            padding: const EdgeInsets.symmetric(vertical: 20),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  width: 40,
+                  height: 4,
+                  decoration: BoxDecoration(
+                    color: Colors.grey.shade300,
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                ],
-              ),
-            ),
-            const SizedBox(height: 20),
-            Flexible(
-              child: ListView.separated(
-                shrinkWrap: true,
-                padding: const EdgeInsets.symmetric(horizontal: 20),
-                itemCount: docTypes.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  final type = docTypes[index];
-                  return InkWell(
-                    onTap: () {
-                      controller.documentTypeController.text = type['name'].toString();
-                      Get.back();
-                      setState(() {});
-                    },
-                    borderRadius: BorderRadius.circular(16),
-                    child: Container(
-                      padding: const EdgeInsets.all(16),
-                      decoration: BoxDecoration(
-                        color: Colors.grey.shade50,
+                ),
+                const SizedBox(height: 20),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 20),
+                  child: Row(
+                    children: [
+                      kText(
+                        text: TranslationKeys.selectDocumentType.tr,
+                        fSize: 18.0,
+                        fWeight: FontWeight.bold,
+                        tColor: Colors.black87,
+                      ),
+                    ],
+                  ),
+                ),
+                const SizedBox(height: 20),
+                Flexible(
+                  child: ListView.separated(
+                    shrinkWrap: true,
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    itemCount: docTypes.length,
+                    separatorBuilder: (_, __) => const SizedBox(height: 12),
+                    itemBuilder: (context, index) {
+                      final type = docTypes[index];
+                      return InkWell(
+                        onTap: () {
+                          controller.documentTypeController.text =
+                              type['name'].toString();
+                          Get.back();
+                          setState(() {});
+                        },
                         borderRadius: BorderRadius.circular(16),
-                        border: Border.all(color: Colors.grey.shade200),
-                      ),
-                      child: Row(
-                        children: [
-                          Container(
-                            padding: const EdgeInsets.all(10),
-                            decoration: BoxDecoration(
-                              color: (type['color'] as Color).withValues(alpha: 0.1),
-                              borderRadius: BorderRadius.circular(12),
-                            ),
-                            child: Icon(
-                              type['icon'] as IconData,
-                              color: type['color'] as Color,
-                              size: 24,
-                            ),
+                        child: Container(
+                          padding: const EdgeInsets.all(16),
+                          decoration: BoxDecoration(
+                            color: Colors.grey.shade50,
+                            borderRadius: BorderRadius.circular(16),
+                            border: Border.all(color: Colors.grey.shade200),
                           ),
-                          const SizedBox(width: 16),
-                          kText(
-                            text: type['name'].toString().tr,
-                            fSize: 16.0,
-                            fWeight: FontWeight.w600,
-                            tColor: Colors.black87,
+                          child: Row(
+                            children: [
+                              Container(
+                                padding: const EdgeInsets.all(10),
+                                decoration: BoxDecoration(
+                                  color: (type['color'] as Color).withValues(
+                                    alpha: 0.1,
+                                  ),
+                                  borderRadius: BorderRadius.circular(12),
+                                ),
+                                child: Icon(
+                                  type['icon'] as IconData,
+                                  color: type['color'] as Color,
+                                  size: 24,
+                                ),
+                              ),
+                              const SizedBox(width: 16),
+                              kText(
+                                text: type['name'].toString().tr,
+                                fSize: 16.0,
+                                fWeight: FontWeight.w600,
+                                tColor: Colors.black87,
+                              ),
+                              const Spacer(),
+                              Icon(
+                                Icons.arrow_forward_ios_rounded,
+                                size: 16,
+                                color: Colors.grey.shade400,
+                              ),
+                            ],
                           ),
-                          const Spacer(),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            size: 16,
-                            color: Colors.grey.shade400,
-                          ),
-                        ],
-                      ),
-                    ),
-                  );
-                },
-              ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+                const SizedBox(height: 20),
+              ],
             ),
-            const SizedBox(height: 20),
-          ],
-        ),
-      ),
+          ),
     );
   }
 

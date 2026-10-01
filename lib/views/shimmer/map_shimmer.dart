@@ -16,27 +16,61 @@ class MapShimmer extends StatelessWidget {
             children: [
               // Base background
               Container(color: Colors.white),
-              
+
               // Simulate Roads/Blocks
               Positioned(
-                top: 100, left: -20, right: -20,
-                child: Container(height: 20, color: Colors.white, transform: Matrix4.rotationZ(0.2)),
+                top: 100,
+                left: -20,
+                right: -20,
+                child: Container(
+                  height: 20,
+                  color: Colors.white,
+                  transform: Matrix4.rotationZ(0.2),
+                ),
               ),
               Positioned(
-                bottom: 200, left: -20, right: -20,
-                child: Container(height: 25, color: Colors.white, transform: Matrix4.rotationZ(-0.1)),
+                bottom: 200,
+                left: -20,
+                right: -20,
+                child: Container(
+                  height: 25,
+                  color: Colors.white,
+                  transform: Matrix4.rotationZ(-0.1),
+                ),
               ),
               Positioned(
-                top: 0, bottom: 0, left: 100,
-                child: Container(width: 20, color: Colors.white, transform: Matrix4.rotationZ(0.1)),
+                top: 0,
+                bottom: 0,
+                left: 100,
+                child: Container(
+                  width: 20,
+                  color: Colors.white,
+                  transform: Matrix4.rotationZ(0.1),
+                ),
               ),
-               Positioned(
-                top: 150, left: 40,
-                child: Container(width: 100, height: 100, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10))),
+              Positioned(
+                top: 150,
+                left: 40,
+                child: Container(
+                  width: 100,
+                  height: 100,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
-               Positioned(
-                bottom: 100, right: 40,
-                child: Container(width: 120, height: 120, decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10))),
+              Positioned(
+                bottom: 100,
+                right: 40,
+                child: Container(
+                  width: 120,
+                  height: 120,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
               ),
             ],
           ),
@@ -141,16 +175,16 @@ class MapShimmer extends StatelessWidget {
               ],
             ),
             child: Shimmer.fromColors(
-               baseColor: Colors.grey.shade300,
-               highlightColor: Colors.grey.shade100,
-               child: Container(
-                 width: double.infinity,
-                 height: 56,
-                 decoration: BoxDecoration(
-                   color: Colors.white,
-                   borderRadius: BorderRadius.circular(30),
-                 ),
-               ),
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              child: Container(
+                width: double.infinity,
+                height: 56,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(30),
+                ),
+              ),
             ),
           ),
         ),

@@ -54,13 +54,13 @@ class SocialPostController extends GetxController {
     try {
       final res = await _repo.getPosts(page: page.value, limit: limit);
       if (res != null) {
-        final list = (res['data'] as List? ?? [])
-            .map((e) => SocialPost.fromMap(Map<String, dynamic>.from(e)))
-            .toList();
+        final list =
+            (res['data'] as List? ?? [])
+                .map((e) => SocialPost.fromMap(Map<String, dynamic>.from(e)))
+                .toList();
         final pag = Map<String, dynamic>.from(res['pagination'] ?? {});
-        total.value = (pag['total'] is num)
-            ? (pag['total'] as num).toInt()
-            : list.length;
+        total.value =
+            (pag['total'] is num) ? (pag['total'] as num).toInt() : list.length;
         if (refresh) {
           posts.assignAll(list);
         } else {
@@ -102,14 +102,17 @@ class SocialPostController extends GetxController {
   /// Optimistic toggle of like/unlike. Reverts on API failure.
   Future<void> toggleLike(SocialPost post) async {
     final wasLiked = post.isLiked;
-    _replacePost(post.copyWith(
-      isLiked: !wasLiked,
-      likesCount: wasLiked ? post.likesCount - 1 : post.likesCount + 1,
-    ));
+    _replacePost(
+      post.copyWith(
+        isLiked: !wasLiked,
+        likesCount: wasLiked ? post.likesCount - 1 : post.likesCount + 1,
+      ),
+    );
 
-    final ok = wasLiked
-        ? await _repo.unlikePost(post.id)
-        : await _repo.likePost(post.id);
+    final ok =
+        wasLiked
+            ? await _repo.unlikePost(post.id)
+            : await _repo.likePost(post.id);
 
     if (!ok) {
       _replacePost(post); // revert

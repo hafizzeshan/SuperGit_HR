@@ -17,20 +17,20 @@ class AnnouncementsListScreen extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final AnnouncementController controller = Get.find<AnnouncementController>();
+    final AnnouncementController controller =
+        Get.find<AnnouncementController>();
 
     return Scaffold(
       backgroundColor: kMainBackgroundColor, // Match Home background
       appBar: appBarrWitAction(title: TranslationKeys.announcements.tr),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: RefreshIndicator(
           onRefresh: () => controller.fetchAnnouncements(force: true),
           color: kPrimaryColor,
           child: Obx(() {
-            if (controller.isLoading.value && controller.announcements.isEmpty) {
+            if (controller.isLoading.value &&
+                controller.announcements.isEmpty) {
               return const Center(
                 child: CircularProgressIndicator(color: kPrimaryColor),
               );
@@ -79,7 +79,11 @@ class AnnouncementsListScreen extends StatelessWidget {
                 itemCount: controller.announcements.length,
                 itemBuilder: (context, index) {
                   final announcement = controller.announcements[index];
-                  return _buildGridAnnouncementCard(context, announcement, index);
+                  return _buildGridAnnouncementCard(
+                    context,
+                    announcement,
+                    index,
+                  );
                 },
               ),
             );
@@ -89,37 +93,56 @@ class AnnouncementsListScreen extends StatelessWidget {
     );
   }
 
-  Widget _buildGridAnnouncementCard(BuildContext context, AnnouncementData announcement, int index) {
+  Widget _buildGridAnnouncementCard(
+    BuildContext context,
+    AnnouncementData announcement,
+    int index,
+  ) {
     final title = announcement.title ?? TranslationKeys.announcement.tr;
     final message = announcement.message ?? TranslationKeys.tapToViewDetails.tr;
-    final date = announcement.publishAt != null
-        ? DateFormat('dd MMM', Get.locale?.languageCode).format(DateTime.parse(announcement.publishAt!))
-        : TranslationKeys.today.tr;
-    final time = announcement.publishAt != null
-         ? DateFormat('HH:mm', Get.locale?.languageCode).format(DateTime.parse(announcement.publishAt!))
-         : "";
+    final date =
+        announcement.publishAt != null
+            ? DateFormat(
+              'dd MMM',
+              Get.locale?.languageCode,
+            ).format(DateTime.parse(announcement.publishAt!))
+            : TranslationKeys.today.tr;
+    final time =
+        announcement.publishAt != null
+            ? DateFormat(
+              'HH:mm',
+              Get.locale?.languageCode,
+            ).format(DateTime.parse(announcement.publishAt!))
+            : "";
 
     // Alternate card styles for visual variety
     final isSecondary = index % 2 != 0;
-     final bgGradient = isSecondary
-        ? const LinearGradient(
-            colors: [Color(0xffE8F0F2), Color(0xffE8F0F2)],
-          )
-        : const LinearGradient(
-            colors: [Color(0xffE3EEFF), Color(0xffF0F6FF)], // Bluish
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          );
+    final bgGradient =
+        isSecondary
+            ? const LinearGradient(
+              colors: [Color(0xffE8F0F2), Color(0xffE8F0F2)],
+            )
+            : const LinearGradient(
+              colors: [Color(0xffE3EEFF), Color(0xffF0F6FF)], // Bluish
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            );
 
     return GestureDetector(
-      onTap: () => _showAnnouncementDetail(context, title, message, date: "$date • $time"),
+      onTap:
+          () => _showAnnouncementDetail(
+            context,
+            title,
+            message,
+            date: "$date • $time",
+          ),
       child: Container(
         padding: const EdgeInsets.all(20),
         decoration: BoxDecoration(
           gradient: bgGradient,
           borderRadius: BorderRadius.circular(30), // Rounded modern style
           boxShadow: [
-             BoxShadow(
+            BoxShadow(
               color: Colors.black.withValues(alpha: 0.05),
               blurRadius: 10,
               offset: const Offset(0, 5),
@@ -129,25 +152,28 @@ class AnnouncementsListScreen extends StatelessWidget {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-             Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                   Container(
-                    padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 6),
-                    decoration: BoxDecoration(
-                      color: Colors.white.withValues(alpha: 0.6),
-                      borderRadius: BorderRadius.circular(15),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 10,
+                    vertical: 6,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white.withValues(alpha: 0.6),
+                    borderRadius: BorderRadius.circular(15),
+                  ),
+                  child: Text(
+                    date,
+                    style: textStyleMontserratBold(
+                      fontSize: 10.0,
+                      color: Colors.black54,
                     ),
-                    child: Text(
-                      date,
-                      style: textStyleMontserratBold(
-                        fontSize: 10.0,
-                        color: Colors.black54,
-                      ),
-                    ),
-                   ),
-                ],
-             ),
+                  ),
+                ),
+              ],
+            ),
             const Spacer(),
             Text(
               title,
@@ -162,7 +188,7 @@ class AnnouncementsListScreen extends StatelessWidget {
             const SizedBox(height: 8),
             Text(
               message,
-               style: textStyleMontserratMiddle(
+              style: textStyleMontserratMiddle(
                 fontSize: 11.0,
                 color: Colors.black54,
               ),
@@ -178,16 +204,25 @@ class AnnouncementsListScreen extends StatelessWidget {
                   color: Color(0xff2A2A2A),
                   shape: BoxShape.circle,
                 ),
-                child: const Icon(Icons.arrow_forward, color: Colors.white, size: 14),
+                child: const Icon(
+                  Icons.arrow_forward,
+                  color: Colors.white,
+                  size: 14,
+                ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 
-  void _showAnnouncementDetail(BuildContext context, String title, String body, {String? date}) {
+  void _showAnnouncementDetail(
+    BuildContext context,
+    String title,
+    String body, {
+    String? date,
+  }) {
     AnnouncementBottomSheet.show(
       context: context,
       title: title,

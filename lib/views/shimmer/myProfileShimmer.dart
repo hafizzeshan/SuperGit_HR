@@ -22,7 +22,10 @@ class MyProfileShimmer extends StatelessWidget {
           itemBuilder: (c, i) {
             return Column(
               children: [
-                titlewWidget(title: TranslationKeys.myOrders.tr, image: 'images/order.png'),
+                titlewWidget(
+                  title: TranslationKeys.myOrders.tr,
+                  image: 'images/order.png',
+                ),
                 horizontaldivider(
                   color: shimmerBlack3,
                   horizontalPadding: 0.0,

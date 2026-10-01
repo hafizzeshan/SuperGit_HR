@@ -35,7 +35,10 @@ class DocumentRepository {
       }
     } catch (e, st) {
       log("❌ Exception in getEmployeeDocuments: $e", stackTrace: st);
-      Utils.snackBar(TranslationKeys.somethingWentWrongFetchingDocuments.tr, true);
+      Utils.snackBar(
+        TranslationKeys.somethingWentWrongFetchingDocuments.tr,
+        true,
+      );
       return null;
     }
   }

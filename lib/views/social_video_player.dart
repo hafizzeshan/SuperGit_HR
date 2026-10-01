@@ -64,8 +64,11 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
           ),
         if (_error)
           const Center(
-            child: Icon(Icons.videocam_off_rounded,
-                color: Colors.white54, size: 36),
+            child: Icon(
+              Icons.videocam_off_rounded,
+              color: Colors.white54,
+              size: 36,
+            ),
           ),
         // Play overlay
         Center(
@@ -76,8 +79,11 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
               color: Colors.white.withValues(alpha: 0.9),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.play_arrow_rounded,
-                color: kPrimaryColor, size: 34),
+            child: const Icon(
+              Icons.play_arrow_rounded,
+              color: kPrimaryColor,
+              size: 34,
+            ),
           ),
         ),
         // "Video" badge
@@ -93,11 +99,16 @@ class _VideoThumbnailState extends State<VideoThumbnail> {
             child: Row(
               mainAxisSize: MainAxisSize.min,
               children: [
-                const Icon(Icons.videocam_rounded,
-                    color: Colors.white, size: 14),
+                const Icon(
+                  Icons.videocam_rounded,
+                  color: Colors.white,
+                  size: 14,
+                ),
                 const SizedBox(width: 4),
-                Text(TranslationKeys.video.tr,
-                    style: const TextStyle(color: Colors.white, fontSize: 11)),
+                Text(
+                  TranslationKeys.video.tr,
+                  style: const TextStyle(color: Colors.white, fontSize: 11),
+                ),
               ],
             ),
           ),
@@ -156,7 +167,8 @@ class _SocialVideoPlayerState extends State<SocialVideoPlayer> {
         looping: widget.looping,
         // Keep the video's true ratio so it isn't distorted; it's letterboxed
         // within the fixed-height box.
-        aspectRatio: (ratio.isFinite && ratio > 0) ? ratio : _displayAspectRatio,
+        aspectRatio:
+            (ratio.isFinite && ratio > 0) ? ratio : _displayAspectRatio,
         materialProgressColors: ChewieProgressColors(
           playedColor: kPrimaryColor,
           handleColor: kPrimaryColor,
@@ -192,8 +204,11 @@ class _SocialVideoPlayerState extends State<SocialVideoPlayer> {
       return Container(
         color: Colors.black,
         alignment: Alignment.center,
-        child: const Icon(Icons.videocam_off_rounded,
-            color: Colors.white54, size: 40),
+        child: const Icon(
+          Icons.videocam_off_rounded,
+          color: Colors.white54,
+          size: 40,
+        ),
       );
     }
 
@@ -210,9 +225,6 @@ class _SocialVideoPlayerState extends State<SocialVideoPlayer> {
       );
     }
 
-    return Container(
-      color: Colors.black,
-      child: Chewie(controller: chewie),
-    );
+    return Container(color: Colors.black, child: Chewie(controller: chewie));
   }
 }

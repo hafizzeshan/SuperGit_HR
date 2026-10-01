@@ -4,14 +4,15 @@ import 'package:fluttertoast/fluttertoast.dart';
 class ToastMsg {
   sendErrorMsg(msg) {
     return Fluttertoast.showToast(
-        msg: "$msg",
-        toastLength: Toast.LENGTH_SHORT,
-        gravity: ToastGravity.BOTTOM,
-        webPosition: "center",
-        timeInSecForIosWeb: 1,
-        backgroundColor: Colors.black.withValues(alpha: 0.5),
-        textColor: Colors.white,
-        fontSize: 16.0);
+      msg: "$msg",
+      toastLength: Toast.LENGTH_SHORT,
+      gravity: ToastGravity.BOTTOM,
+      webPosition: "center",
+      timeInSecForIosWeb: 1,
+      backgroundColor: Colors.black.withValues(alpha: 0.5),
+      textColor: Colors.white,
+      fontSize: 16.0,
+    );
   }
 
   sendSuccessMsg(msg) {

@@ -46,71 +46,70 @@ class NotificationScreen extends StatelessWidget {
       appBar: appBarrWitoutAction(title: TranslationKeys.notifications.tr),
       backgroundColor: kMainBackgroundColor,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
-        child: notifications.isEmpty
-              ? Center(
-                child: kText(
-                  text: TranslationKeys.noNotificationsAvailable.tr,
-                  fSize: 14,
-                  tColor: Colors.grey,
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
+        child:
+            notifications.isEmpty
+                ? Center(
+                  child: kText(
+                    text: TranslationKeys.noNotificationsAvailable.tr,
+                    fSize: 14,
+                    tColor: Colors.grey,
+                  ),
+                )
+                : ListView.separated(
+                  padding: const EdgeInsets.all(16),
+                  itemCount: notifications.length,
+                  separatorBuilder: (_, __) => const SizedBox(height: 12),
+                  itemBuilder: (context, index) {
+                    final item = notifications[index];
+                    return Container(
+                      padding: const EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.grey.shade50,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Row(
+                        children: [
+                          CircleAvatar(
+                            radius: 22,
+                            backgroundColor: item["color"].withOpacity(0.15),
+                            child: Icon(
+                              item["icon"],
+                              color: item["color"],
+                              size: 22,
+                            ),
+                          ),
+                          UIHelper.horizontalSpaceSm10,
+                          Expanded(
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                kText(
+                                  text: item["title"],
+                                  fWeight: FontWeight.bold,
+                                  fSize: 12.5,
+                                ),
+                                UIHelper.verticalSpaceSm5,
+                                kText(
+                                  text: item["message"],
+                                  fSize: 11.0,
+                                  tColor: Colors.grey.shade700,
+                                ),
+                              ],
+                            ),
+                          ),
+                          UIHelper.horizontalSpaceSm10,
+                          kText(
+                            text: item["time"],
+                            fSize: 11.5,
+                            tColor: Colors.grey,
+                          ),
+                        ],
+                      ),
+                    );
+                  },
                 ),
-              )
-              : ListView.separated(
-                padding: const EdgeInsets.all(16),
-                itemCount: notifications.length,
-                separatorBuilder: (_, __) => const SizedBox(height: 12),
-                itemBuilder: (context, index) {
-                  final item = notifications[index];
-                  return Container(
-                    padding: const EdgeInsets.all(12),
-                    decoration: BoxDecoration(
-                      color: Colors.grey.shade50,
-                      borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Colors.grey.shade300),
-                    ),
-                    child: Row(
-                      children: [
-                        CircleAvatar(
-                          radius: 22,
-                          backgroundColor: item["color"].withOpacity(0.15),
-                          child: Icon(
-                            item["icon"],
-                            color: item["color"],
-                            size: 22,
-                          ),
-                        ),
-                        UIHelper.horizontalSpaceSm10,
-                        Expanded(
-                          child: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              kText(
-                                text: item["title"],
-                                fWeight: FontWeight.bold,
-                                fSize: 12.5,
-                              ),
-                              UIHelper.verticalSpaceSm5,
-                              kText(
-                                text: item["message"],
-                                fSize: 11.0,
-                                tColor: Colors.grey.shade700,
-                              ),
-                            ],
-                          ),
-                        ),
-                        UIHelper.horizontalSpaceSm10,
-                        kText(
-                          text: item["time"],
-                          fSize: 11.5,
-                          tColor: Colors.grey,
-                        ),
-                      ],
-                    ),
-                  );
-                },
-              ),
       ),
     );
   }

@@ -370,27 +370,35 @@ class TurkishLocal {
       TranslationKeys.clockTime: "Saat",
       TranslationKeys.date: "Tarih",
       TranslationKeys.device: "Cihaz",
-      TranslationKeys.supportBusyTryLater: "Destek ekibimiz şu anda yoğun. Lütfen biraz sonra tekrar deneyin.",
+      TranslationKeys.supportBusyTryLater:
+          "Destek ekibimiz şu anda yoğun. Lütfen biraz sonra tekrar deneyin.",
       TranslationKeys.yourEmail: "E-posta adresiniz",
       TranslationKeys.yourMessage: "Mesajınız",
-      TranslationKeys.writeYourMessageHere: "Sorununuzu birkaç satırda anlatın…",
+      TranslationKeys.writeYourMessageHere:
+          "Sorununuzu birkaç satırda anlatın…",
       TranslationKeys.sendMessage: "Mesaj gönder",
       TranslationKeys.todaysMessages: "Bugünkü mesajlar",
       TranslationKeys.noMessagesToday: "Bugün henüz mesaj göndermediniz",
       TranslationKeys.messagesLeftToday: "mesaj hakkınız kaldı",
-      TranslationKeys.dailyMessageLimitReached: "Günlük 2 mesaj sınırına ulaştınız. Lütfen yarın tekrar deneyin.",
-      TranslationKeys.messageSentToSupport: "Mesajınız destek ekibine gönderildi",
-      TranslationKeys.failedToSendMessage: "Mesajınız gönderilemedi. Lütfen tekrar deneyin.",
+      TranslationKeys.dailyMessageLimitReached:
+          "Günlük 2 mesaj sınırına ulaştınız. Lütfen yarın tekrar deneyin.",
+      TranslationKeys.messageSentToSupport:
+          "Mesajınız destek ekibine gönderildi",
+      TranslationKeys.failedToSendMessage:
+          "Mesajınız gönderilemedi. Lütfen tekrar deneyin.",
       TranslationKeys.failedToLoadRequests: "Mesajlarınız yüklenemedi",
-      TranslationKeys.pleaseEnterValidEmail: "Lütfen geçerli bir e-posta adresi girin",
+      TranslationKeys.pleaseEnterValidEmail:
+          "Lütfen geçerli bir e-posta adresi girin",
       TranslationKeys.pleaseEnterYourMessage: "Lütfen mesajınızı yazın",
-      TranslationKeys.weWillReplyByEmail: "Ekibimiz size e-posta ile yanıt verecek",
+      TranslationKeys.weWillReplyByEmail:
+          "Ekibimiz size e-posta ile yanıt verecek",
       TranslationKeys.supportUnavailable: "Destek kullanılamıyor",
       TranslationKeys.sent: "Gönderildi",
       TranslationKeys.ethicsReports: "Etik Raporlar",
       TranslationKeys.newEthicsReport: "Yeni rapor",
       TranslationKeys.ethicsIntroTitle: "Sesini duyur",
-      TranslationKeys.ethicsIntroBody: "İşyeri sorunlarını gizlilik içinde bildirin. Raporunuz doğrudan İK ekibine ulaşır.",
+      TranslationKeys.ethicsIntroBody:
+          "İşyeri sorunlarını gizlilik içinde bildirin. Raporunuz doğrudan İK ekibine ulaşır.",
       TranslationKeys.noEthicsReports: "Henüz bir rapor göndermediniz",
       TranslationKeys.myReports: "Raporlarım",
       TranslationKeys.category: "Kategori",
@@ -399,7 +407,8 @@ class TurkishLocal {
       TranslationKeys.incidentLocation: "Olay yeri",
       TranslationKeys.peopleInvolved: "İlgili kişiler",
       TranslationKeys.immediateDanger: "Acil tehlike",
-      TranslationKeys.immediateDangerHint: "Yalnızca acil durum veya ivedi güvenlik riski varsa seçin",
+      TranslationKeys.immediateDangerHint:
+          "Yalnızca acil durum veya ivedi güvenlik riski varsa seçin",
       TranslationKeys.attachments: "Ekler",
       TranslationKeys.addAttachment: "Ek ekle",
       TranslationKeys.submitReport: "Raporu gönder",
@@ -410,22 +419,27 @@ class TurkishLocal {
       TranslationKeys.submittedOn: "Gönderilme",
       TranslationKeys.reference: "Referans",
       TranslationKeys.pleaseSelectCategory: "Lütfen bir kategori seçin",
-      TranslationKeys.descriptionMin20Chars: "Açıklama en az 20 karakter olmalı",
+      TranslationKeys.descriptionMin20Chars:
+          "Açıklama en az 20 karakter olmalı",
       TranslationKeys.fileTooLargeMax10Mb: "Dosya en fazla 10 MB olabilir",
       TranslationKeys.reportSubmittedSuccessfully: "Raporunuz gönderildi",
       TranslationKeys.reportUpdatedSuccessfully: "Rapor güncellendi",
-      TranslationKeys.failedToSubmitReport: "Rapor gönderilemedi. Lütfen tekrar deneyin.",
+      TranslationKeys.failedToSubmitReport:
+          "Rapor gönderilemedi. Lütfen tekrar deneyin.",
       TranslationKeys.failedToUpdateReport: "Rapor güncellenemedi",
       TranslationKeys.reportDeletedSuccessfully: "Rapor silindi",
       TranslationKeys.failedToDeleteReport: "Rapor silinemedi",
       TranslationKeys.failedToDeleteAttachment: "Ek silinemedi",
       TranslationKeys.attachmentUploadFailed: "Ek yüklenemedi",
-      TranslationKeys.deleteReportConfirm: "Bu rapor silinsin mi? Geri alınamaz.",
-      TranslationKeys.editableOnlyWhilePending: "Raporu yalnızca beklemede iken düzenleyebilirsiniz",
+      TranslationKeys.deleteReportConfirm:
+          "Bu rapor silinsin mi? Geri alınamaz.",
+      TranslationKeys.editableOnlyWhilePending:
+          "Raporu yalnızca beklemede iken düzenleyebilirsiniz",
       TranslationKeys.noUpdatesYet: "Henüz güncelleme yok",
       TranslationKeys.optional: "İsteğe bağlı",
       TranslationKeys.urgent: "Acil",
-      TranslationKeys.describeIncident: "Ne olduğunu, ne zaman ve kimlerin dahil olduğunu anlatın…",
+      TranslationKeys.describeIncident:
+          "Ne olduğunu, ne zaman ve kimlerin dahil olduğunu anlatın…",
       TranslationKeys.ethCatHarassment: "Taciz",
       TranslationKeys.ethCatDiscrimination: "Ayrımcılık",
       TranslationKeys.ethCatFraud: "Dolandırıcılık",
@@ -449,11 +463,14 @@ class TurkishLocal {
       TranslationKeys.clockedInAtTime: "Başlangıç",
       TranslationKeys.gpsActive: "GPS aktif",
       TranslationKeys.gpsWaiting: "Konumunuz alınıyor…",
-      TranslationKeys.clockOutConfirm: "Uzaktan çalışma oturumunu bitirmek istiyor musunuz?",
+      TranslationKeys.clockOutConfirm:
+          "Uzaktan çalışma oturumunu bitirmek istiyor musunuz?",
       TranslationKeys.remoteClockedIn: "Oturum başladı",
       TranslationKeys.remoteClockedOut: "Oturum bitti",
-      TranslationKeys.remoteClockInFailed: "Oturum başlatılamadı. Lütfen tekrar deneyin.",
-      TranslationKeys.remoteClockOutFailed: "Oturum bitirilemedi. Lütfen tekrar deneyin.",
+      TranslationKeys.remoteClockInFailed:
+          "Oturum başlatılamadı. Lütfen tekrar deneyin.",
+      TranslationKeys.remoteClockOutFailed:
+          "Oturum bitirilemedi. Lütfen tekrar deneyin.",
       TranslationKeys.totalSessions: "Toplam oturum",
       TranslationKeys.pendingApprovals: "Bekleyen",
       TranslationKeys.approvedSessions: "Onaylanan",
@@ -484,7 +501,8 @@ class TurkishLocal {
       TranslationKeys.startedAt: "Başlangıç",
       TranslationKeys.changeLanguage: "Dili Değiştir",
       TranslationKeys.personalDocuments: "Kişisel Belgeler",
-      TranslationKeys.chooseYourPreferredLanguage: "Tercih ettiğiniz dili seçin",
+      TranslationKeys.chooseYourPreferredLanguage:
+          "Tercih ettiğiniz dili seçin",
       TranslationKeys.totalDays: "Toplam Gün",
       TranslationKeys.from: "Kimden",
       TranslationKeys.approved: "Onaylandı",
@@ -496,7 +514,8 @@ class TurkishLocal {
       TranslationKeys.annualLeave: "Yıllık İzin",
       TranslationKeys.unpaidLeave: "Ücretsiz İzin",
       TranslationKeys.error: "Hata",
-      TranslationKeys.pleaseFillAllFieldsCorrectly: "Lütfen tüm alanları doğru doldurun",
+      TranslationKeys.pleaseFillAllFieldsCorrectly:
+          "Lütfen tüm alanları doğru doldurun",
       TranslationKeys.clockIn: "Giriş Yap",
       TranslationKeys.clockOut: "Çıkış Yap",
       TranslationKeys.requestDeleted: "Talep silindi",
@@ -504,7 +523,8 @@ class TurkishLocal {
       TranslationKeys.pendingLeadReview: "Lider onayı",
       TranslationKeys.pendingHrAdmin: "İK onayı",
       TranslationKeys.editRequest: "Talebi düzenle",
-      TranslationKeys.deleteRequestConfirm: "Bu fazla mesai talebi silinsin mi?",
+      TranslationKeys.deleteRequestConfirm:
+          "Bu fazla mesai talebi silinsin mi?",
       TranslationKeys.totalRequests: "Toplam talep",
       TranslationKeys.approvedHours: "Onaylanan saat",
       TranslationKeys.totalEarned: "Toplam tutar",
@@ -524,7 +544,8 @@ class TurkishLocal {
       TranslationKeys.submitJustification: "Savunma gönder",
       TranslationKeys.editJustification: "Savunmayı düzenle",
       TranslationKeys.yourExplanation: "Açıklamanız",
-      TranslationKeys.explainWhatHappened: "Ne olduğunu kendi sözlerinizle anlatın…",
+      TranslationKeys.explainWhatHappened:
+          "Ne olduğunu kendi sözlerinizle anlatın…",
       TranslationKeys.justificationSubmitted: "Savunmanız gönderildi",
       TranslationKeys.justificationRequested: "Savunmanız isteniyor",
       TranslationKeys.reviewerComments: "İK yorumları",
@@ -539,7 +560,8 @@ class TurkishLocal {
       TranslationKeys.issuedBy: "Düzenleyen",
       TranslationKeys.letterDate: "Mektup tarihi",
       TranslationKeys.incidentRef: "Olay referansı",
-      TranslationKeys.warningFileNotice: "Bu uyarı mektubunun bir kopyası iş mevzuatı uyarınca özlük dosyanıza konulmuştur.",
+      TranslationKeys.warningFileNotice:
+          "Bu uyarı mektubunun bir kopyası iş mevzuatı uyarınca özlük dosyanıza konulmuştur.",
       TranslationKeys.manageDiscipline: "Disiplin Yönetimi",
       TranslationKeys.startInvestigation: "İncelemeyi başlat",
       TranslationKeys.requestResponse: "Yanıt iste",
@@ -548,7 +570,8 @@ class TurkishLocal {
       TranslationKeys.confirmAsValid: "Geçerli olarak onayla",
       TranslationKeys.rejectAsInvalid: "Geçersiz olarak reddet",
       TranslationKeys.reviewComments: "Değerlendirme notları",
-      TranslationKeys.reviewCommentsRequired: "Lütfen değerlendirme notunu yazın",
+      TranslationKeys.reviewCommentsRequired:
+          "Lütfen değerlendirme notunu yazın",
       TranslationKeys.statusUpdated: "Durum güncellendi",
       TranslationKeys.issueWarning: "Uyarı mektubu düzenle",
       TranslationKeys.selectConfirmedIncident: "Onaylanmış bir olay seçin",
@@ -567,19 +590,23 @@ class TurkishLocal {
       TranslationKeys.confirmEndShift: "Vardiye Bitimini Onayla",
       TranslationKeys.confirmHours: "Saatleri Onayla",
       TranslationKeys.editShift: "Vardiye Düzenle",
-      TranslationKeys.unableToFetchLocation: "Konum alınamadı. Lütfen tekrar deneyin.",
+      TranslationKeys.unableToFetchLocation:
+          "Konum alınamadı. Lütfen tekrar deneyin.",
       TranslationKeys.requestEdit: "Düzenleme Talebi",
       TranslationKeys.starts: "Başlar",
       TranslationKeys.totalHours: "Toplam Saat",
       TranslationKeys.addANote: "Not ekle",
       TranslationKeys.attachNoteToRequest: "Talebinize bir not ekleyin",
-      TranslationKeys.allRequestsSentForApproval: "Tüm talepler yönetici onayına gönderilecektir",
+      TranslationKeys.allRequestsSentForApproval:
+          "Tüm talepler yönetici onayına gönderilecektir",
       TranslationKeys.sendForApproval: "Onaya gönder",
-      TranslationKeys.shiftEditRequestSent: "Vardiye düzenleme talebi gönderildi!",
+      TranslationKeys.shiftEditRequestSent:
+          "Vardiye düzenleme talebi gönderildi!",
       TranslationKeys.workingAsEmployee: "Çalışan olarak çalışıyor",
       TranslationKeys.requestsHistory: "Talep geçmişi",
       TranslationKeys.noLeaveRequestsFound: "İzin talebi bulunamadı",
-      TranslationKeys.clickBelowToMakeRequest: "Talepte bulunmak için aşağıya tıklayın",
+      TranslationKeys.clickBelowToMakeRequest:
+          "Talepte bulunmak için aşağıya tıklayın",
       TranslationKeys.makeARequest: "Talepte bulun",
       TranslationKeys.unknown: "Bilinmeyen",
       TranslationKeys.leaveDetails: "İzin Detayları",
@@ -610,7 +637,8 @@ class TurkishLocal {
       TranslationKeys.addReasonForLeave: "İzin sebebini ekleyin...",
       TranslationKeys.submitRequest: "Talebi Gönder",
       TranslationKeys.invalidDateRange: "Geçersiz Tarih Aralığı",
-      TranslationKeys.endDateCannotBeBeforeStartDate: "Bitiş tarihi başlangıç tarihinden önce olamaz",
+      TranslationKeys.endDateCannotBeBeforeStartDate:
+          "Bitiş tarihi başlangıç tarihinden önce olamaz",
       TranslationKeys.chooseLeaveType: "İzin Türünü Seçin",
       TranslationKeys.typesAvailable: "türler mevcut",
       TranslationKeys.daysPerYear: "gün/yıl",
@@ -618,27 +646,36 @@ class TurkishLocal {
       TranslationKeys.holiday: "Tatil",
       TranslationKeys.recurring: "Tekrarlanan",
       TranslationKeys.oneTime: "Bir seferlik",
-      TranslationKeys.areYouSureWantToLogout: "Çıkış yapmak istediğinizden emin misiniz?",
+      TranslationKeys.areYouSureWantToLogout:
+          "Çıkış yapmak istediğinizden emin misiniz?",
       TranslationKeys.locationRequired: "Konum Gerekli",
       TranslationKeys.locationOffProceedShifts:
           "Daha iyi performans için lütfen konumu açın ve uygulamayı yeniden başlatın.",
-      TranslationKeys.locationServicesRequiredForClockOut: "Çıkış yapmak için konum servisleri gereklidir. Lütfen devam etmek için konumu etkinleştirin.",
+      TranslationKeys.locationServicesRequiredForClockOut:
+          "Çıkış yapmak için konum servisleri gereklidir. Lütfen devam etmek için konumu etkinleştirin.",
       TranslationKeys.enableLocation: "Konumu Etkinleştir",
-      TranslationKeys.locationServiceRequiredBeforeLogout: "Çıkış yapmadan önce konum servisi gereklidir",
-      TranslationKeys.locationPermissionRequired: "Çıkış yapmak için konum izni gereklidir",
+      TranslationKeys.locationServiceRequiredBeforeLogout:
+          "Çıkış yapmadan önce konum servisi gereklidir",
+      TranslationKeys.locationPermissionRequired:
+          "Çıkış yapmak için konum izni gereklidir",
       TranslationKeys.permissionRequired: "İzin Gerekli",
-      TranslationKeys.locationPermissionPermanentlyDenied: "Konum izni kalıcı olarak reddedildi. Lütfen devam etmek için uygulama ayarlarından etkinleştirin.",
+      TranslationKeys.locationPermissionPermanentlyDenied:
+          "Konum izni kalıcı olarak reddedildi. Lütfen devam etmek için uygulama ayarlarından etkinleştirin.",
       TranslationKeys.gettingYourLocation: "Konumunuz alınıyor...",
-      TranslationKeys.failedToGetLocation: "Konum alınamadı. Lütfen tekrar deneyin.",
+      TranslationKeys.failedToGetLocation:
+          "Konum alınamadı. Lütfen tekrar deneyin.",
       TranslationKeys.clockOutRequired: "Çıkış Yapılması Gerekli",
-      TranslationKeys.currentlyClockedInMessage: "Şu anda giriş yapmış durumdasınız. Şimdi çıkış yaparsanız otomatik olarak sistemden de çıkışınız yapılacaktır.",
+      TranslationKeys.currentlyClockedInMessage:
+          "Şu anda giriş yapmış durumdasınız. Şimdi çıkış yaparsanız otomatik olarak sistemden de çıkışınız yapılacaktır.",
       TranslationKeys.clockOutLocation: "Çıkış Konumu:",
       TranslationKeys.gettingAddress: "Adres alınıyor...",
-      TranslationKeys.proceedWithLogoutAndClockOut: "Çıkış yapıp otomatik olarak sistemden de çıkmak istiyor musunuz?",
+      TranslationKeys.proceedWithLogoutAndClockOut:
+          "Çıkış yapıp otomatik olarak sistemden de çıkmak istiyor musunuz?",
       TranslationKeys.yesLogout: "Evet, Çıkış Yap",
       TranslationKeys.clockingOut: "Çıkış yapılıyor...",
       TranslationKeys.clockOutFailed: "Çıkış Başarısız",
-      TranslationKeys.failedToClockOutAutomatically: "Otomatik çıkış başarısız oldu. Yine de çıkış yapmak istiyor musunuz?",
+      TranslationKeys.failedToClockOutAutomatically:
+          "Otomatik çıkış başarısız oldu. Yine de çıkış yapmak istiyor musunuz?",
       TranslationKeys.logoutAnyway: "Yine de Çıkış Yap",
       TranslationKeys.addDocument: "Belge Ekle",
       TranslationKeys.documentType: "Belge Türü",
@@ -675,13 +712,17 @@ class TurkishLocal {
       TranslationKeys.purposeOfLoan: "Kredi Amacı",
       TranslationKeys.importantCompanyUpdate: "Önemli Şirket Güncellemesi",
       TranslationKeys.todayAtTime: "Bugün, 14:30",
-      TranslationKeys.announcementBrief: "Şirket politikaları ve yaklaşan etkinliklerle ilgili önemli güncellemelerimiz var.",
-      TranslationKeys.announcementFull: "Şirket politikaları ve yaklaşan etkinliklerle ilgili önemli güncellemelerimiz var. Herhangi bir sorunuz varsa İK ile iletişime geçin.",
+      TranslationKeys.announcementBrief:
+          "Şirket politikaları ve yaklaşan etkinliklerle ilgili önemli güncellemelerimiz var.",
+      TranslationKeys.announcementFull:
+          "Şirket politikaları ve yaklaşan etkinliklerle ilgili önemli güncellemelerimiz var. Herhangi bir sorunuz varsa İK ile iletişime geçin.",
       TranslationKeys.published: "Yayınlandı",
       TranslationKeys.details: "Detaylar",
-      TranslationKeys.contactHrMessage: "Sorularınız için lütfen İK departmanı ile iletişime geçin.",
+      TranslationKeys.contactHrMessage:
+          "Sorularınız için lütfen İK departmanı ile iletişime geçin.",
       TranslationKeys.noNotificationsAvailable: "Bildirim mevcut değil",
-      TranslationKeys.welcomeBackLoginToContinue: "Tekrar hoş geldiniz! Devam etmek için lütfen giriş yapın.",
+      TranslationKeys.welcomeBackLoginToContinue:
+          "Tekrar hoş geldiniz! Devam etmek için lütfen giriş yapın.",
       TranslationKeys.employeeID: "Çalışan Kimliği",
       TranslationKeys.enterYourEmployeeID: "Çalışan kimliğinizi girin",
       TranslationKeys.allRightsReserved: "Tüm hakları saklıdır.",
@@ -707,8 +748,10 @@ class TurkishLocal {
       TranslationKeys.documentID: "Belge Kimliği",
       TranslationKeys.youAreHere: "Buradasınız",
       TranslationKeys.yourLocation: "Konumunuz",
-      TranslationKeys.verifyLocationEndShift: "Konumunuzu doğrulayın ve vardiyayı bitirin.",
-      TranslationKeys.verifyLocationClockIn: "Lütfen devam etmeden önce konumunuzu doğrulayın.",
+      TranslationKeys.verifyLocationEndShift:
+          "Konumunuzu doğrulayın ve vardiyayı bitirin.",
+      TranslationKeys.verifyLocationClockIn:
+          "Lütfen devam etmeden önce konumunuzu doğrulayın.",
       TranslationKeys.detectedLocation: "Tespit Edilen Konum",
       TranslationKeys.week: "Hafta",
       TranslationKeys.history: "Geçmiş",
@@ -777,11 +820,15 @@ class TurkishLocal {
       TranslationKeys.totalOvertime: "Toplam Fazla Mesai",
       TranslationKeys.pendingRequests: "Beklemede",
       TranslationKeys.approvedRequests: "Onaylandı",
-      TranslationKeys.overtimeRequestCreated: "Fazla mesai talebi başarıyla oluşturuldu",
-      TranslationKeys.overtimeRequestFailed: "Fazla mesai talebi oluşturulamadı",
+      TranslationKeys.overtimeRequestCreated:
+          "Fazla mesai talebi başarıyla oluşturuldu",
+      TranslationKeys.overtimeRequestFailed:
+          "Fazla mesai talebi oluşturulamadı",
       TranslationKeys.failedToFetchOvertime: "Fazla mesai talepleri alınamadı",
-      TranslationKeys.somethingWentWrongFetchingOvertime: "Fazla mesai alınırken bir hata oluştu",
-      TranslationKeys.somethingWentWrongCreatingOvertime: "Fazla mesai talebi oluşturulurken bir hata oluştu",
+      TranslationKeys.somethingWentWrongFetchingOvertime:
+          "Fazla mesai alınırken bir hata oluştu",
+      TranslationKeys.somethingWentWrongCreatingOvertime:
+          "Fazla mesai talebi oluşturulurken bir hata oluştu",
       TranslationKeys.version: "Sürüm",
     };
   }

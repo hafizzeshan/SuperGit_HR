@@ -1,8 +1,44 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
+import 'package:supergithr/main.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
+
+/// Back button with a proper touch target.
+///
+/// The icon itself is only 20px, so wrapping just the icon left a tap area far
+/// below the 44pt (iOS) / 48dp (Material) minimum — people had to hit the
+/// glyph exactly. This gives it a 48x48 box, makes the whole box tappable
+/// (`HitTestBehavior.opaque`, not just the painted pixels) and adds a ripple
+/// so the tap is visibly registered.
+Widget appBarBackButton({bool isBlocked = false}) {
+  return Center(
+    child: SizedBox(
+      height: 48,
+      width: 48,
+      // GestureDetector rather than InkWell: the ripple drew a circle that
+      // made the (deliberately large) hit area visible on every tap. Opaque
+      // hit testing keeps the whole 48x48 box tappable with nothing to see.
+      child: GestureDetector(
+        behavior: HitTestBehavior.opaque,
+        onTap:
+            isBlocked
+                ? null
+                : () {
+                  final context = Get.context;
+                  if (context != null) Navigator.of(context).maybePop();
+                },
+        child: const Center(
+          child: Padding(
+            // Optical alignment: the chevron sits visually left of centre.
+            padding: EdgeInsets.only(left: 6.0),
+            child: Icon(Icons.arrow_back_ios, color: Colors.black87, size: 20),
+          ),
+        ),
+      ),
+    ),
+  );
+}
 
 AppBar appBarrWitoutAction({
   actionWidget,
@@ -20,33 +56,9 @@ AppBar appBarrWitoutAction({
   return AppBar(
     titleSpacing: 0.0,
     leadingWidth: 70, // Increased width for better spacing
-    systemOverlayStyle: const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark,
-    ),
+    systemOverlayStyle: kAppSystemUiStyle,
     backgroundColor: backgroundColor ?? kLightBlueBackgroundColor,
-    leading:
-        leadingWidget ??
-        Center(
-          // Center the button vertically and horizontally within leading area
-          child: GestureDetector(
-            onTap: () {
-              if (isBlockBack == true)
-                return; // Basic handling if functionality needed
-              Navigator.of(Get.context!).pop();
-            },
-            child: const Center(
-              child: Padding(
-                padding: EdgeInsets.only(left: 6.0), // Optical alignment
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black87,
-                  size: 20,
-                ),
-              ),
-            ),
-          ),
-        ),
+    leading: leadingWidget ?? appBarBackButton(isBlocked: isBlockBack == true),
 
     elevation: 0,
     centerTitle: centerTitle ?? true,
@@ -124,30 +136,8 @@ AppBar appBarrWitAction({
   return AppBar(
     leadingWidth: 70, // Increased width for better spacing
     backgroundColor: backgroundColor ?? kLightBlueBackgroundColor,
-    systemOverlayStyle: const SystemUiOverlayStyle(
-      statusBarIconBrightness: Brightness.dark, // Dark icons on Android
-      statusBarColor: Colors.transparent, // Transparent background
-      statusBarBrightness: Brightness.light, // Dark icons on iOS
-    ),
-    leading:
-        leadingWidget ??
-        Center(
-          child: GestureDetector(
-            onTap: () {
-              Navigator.of(Get.context!).pop();
-            },
-            child: const Center(
-              child: Padding(
-                padding: EdgeInsets.only(left: 6.0), // Optical alignment
-                child: Icon(
-                  Icons.arrow_back_ios,
-                  color: Colors.black87,
-                  size: 20,
-                ),
-              ),
-            ),
-          ),
-        ),
+    systemOverlayStyle: kAppSystemUiStyle,
+    leading: leadingWidget ?? appBarBackButton(),
 
     elevation: elevation ?? 0,
     centerTitle: centerTitle ?? true,
@@ -155,7 +145,7 @@ AppBar appBarrWitAction({
       title ?? "title",
       style: textStyleMontserratMiddle(
         color: titleColor ?? mainBlackcolor,
-        fontSize: titlefontSize ?? 18.0,
+        fontSize: titlefontSize,
       ),
     ),
     actions: [

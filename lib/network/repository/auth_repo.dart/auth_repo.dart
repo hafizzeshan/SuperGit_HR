@@ -29,7 +29,10 @@ class AuthRepository {
 
       return responseData;
     } else {
-      return {"error": true, "message": Utils.extractApiError(response.data, "Login failed")};
+      return {
+        "error": true,
+        "message": Utils.extractApiError(response.data, "Login failed"),
+      };
     }
   }
 
@@ -56,7 +59,9 @@ class AuthRepository {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.data;
     } else {
-      return {"error": Utils.extractApiError(response.data, "Something went wrong")};
+      return {
+        "error": Utils.extractApiError(response.data, "Something went wrong"),
+      };
     }
   }
 
@@ -69,7 +74,12 @@ class AuthRepository {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.data;
     } else {
-      return {"error": Utils.extractApiError(response.data, "OTP verification failed")};
+      return {
+        "error": Utils.extractApiError(
+          response.data,
+          "OTP verification failed",
+        ),
+      };
     }
   }
 
@@ -87,10 +97,9 @@ class AuthRepository {
     if (response.statusCode == 200 || response.statusCode == 201) {
       return response.data;
     } else {
-      return {"error": Utils.extractApiError(response.data, "Password reset failed")};
+      return {
+        "error": Utils.extractApiError(response.data, "Password reset failed"),
+      };
     }
   }
-
-
-
 }

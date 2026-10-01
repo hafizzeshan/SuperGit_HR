@@ -277,8 +277,7 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                   return _buildEmptyState();
                 }
 
-                if (monthData.weeks == null ||
-                    monthData.weeks!.isEmpty) {
+                if (monthData.weeks == null || monthData.weeks!.isEmpty) {
                   return _buildEmptyState();
                 }
 
@@ -448,7 +447,10 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
             alignment: Alignment.center,
             padding: const EdgeInsets.symmetric(horizontal: 16),
             decoration: BoxDecoration(
-              color: isSelected ? kPrimaryColor.withValues(alpha: 0.1) : Colors.white,
+              color:
+                  isSelected
+                      ? kPrimaryColor.withValues(alpha: 0.1)
+                      : Colors.white,
               borderRadius: BorderRadius.circular(12),
               border: Border.all(
                 color: isSelected ? kPrimaryColor : Colors.grey.shade300,
@@ -468,7 +470,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                       "${(index * 7) + 1} - ${index == weeksInMonth - 1 ? lastDayOfMonth.day : (index + 1) * 7}",
                   fSize: 10.0,
                   tColor:
-                      isSelected ? kPrimaryColor.withValues(alpha: 0.7) : Colors.grey,
+                      isSelected
+                          ? kPrimaryColor.withValues(alpha: 0.7)
+                          : Colors.grey,
                 ),
               ],
             ),

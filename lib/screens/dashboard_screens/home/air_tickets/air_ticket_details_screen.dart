@@ -90,14 +90,19 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
               ],
               if (d.request.status.toLowerCase() == 'pending') ...[
                 const SizedBox(height: 8),
-                Obx(() => ElevatedButton.icon(
-                      onPressed: c.isCancelling.value
-                          ? null
-                          : () => _confirmCancel(d.request),
-                      icon: const Icon(Icons.cancel_outlined,
-                          color: Colors.white),
-                      label: c.isCancelling.value
-                          ? const SizedBox(
+                Obx(
+                  () => ElevatedButton.icon(
+                    onPressed:
+                        c.isCancelling.value
+                            ? null
+                            : () => _confirmCancel(d.request),
+                    icon: const Icon(
+                      Icons.cancel_outlined,
+                      color: Colors.white,
+                    ),
+                    label:
+                        c.isCancelling.value
+                            ? const SizedBox(
                               height: 18,
                               width: 18,
                               child: CircularProgressIndicator(
@@ -105,21 +110,22 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
                                 strokeWidth: 2,
                               ),
                             )
-                          : Text(
+                            : Text(
                               TranslationKeys.cancelRequest.tr,
                               style: textStyleMontserratBold(
                                 fontSize: 14,
                                 color: Colors.white,
                               ),
                             ),
-                      style: ElevatedButton.styleFrom(
-                        backgroundColor: Colors.red,
-                        padding: const EdgeInsets.symmetric(vertical: 14),
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(14),
-                        ),
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: Colors.red,
+                      padding: const EdgeInsets.symmetric(vertical: 14),
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
                       ),
-                    )),
+                    ),
+                  ),
+                ),
               ],
               const SizedBox(height: 20),
             ],
@@ -140,14 +146,18 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
           children: [
             Row(
               children: [
-                const Icon(Icons.confirmation_number_outlined,
-                    color: kPrimaryColor),
+                const Icon(
+                  Icons.confirmation_number_outlined,
+                  color: kPrimaryColor,
+                ),
                 const SizedBox(width: 8),
                 Expanded(
                   child: Text(
                     r.requestId,
                     style: textStyleMontserratBold(
-                        fontSize: 16, color: Colors.black87),
+                      fontSize: 16,
+                      color: Colors.black87,
+                    ),
                   ),
                 ),
                 _statusChip(r.status),
@@ -157,7 +167,9 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
             Text(
               "${r.fromCity} → ${r.toCity}",
               style: textStyleMontserratBold(
-                  fontSize: 18, color: Colors.black87),
+                fontSize: 18,
+                color: Colors.black87,
+              ),
             ),
             if (r.createdAt != null) ...[
               const SizedBox(height: 4),
@@ -173,12 +185,14 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
   }
 
   Widget _tripCard(AirTicketRequest r) {
-    final dep = r.departureDate == null
-        ? '—'
-        : DateFormat('MMM d, yyyy').format(r.departureDate!);
-    final ret = r.returnDate == null
-        ? '—'
-        : DateFormat('MMM d, yyyy').format(r.returnDate!);
+    final dep =
+        r.departureDate == null
+            ? '—'
+            : DateFormat('MMM d, yyyy').format(r.departureDate!);
+    final ret =
+        r.returnDate == null
+            ? '—'
+            : DateFormat('MMM d, yyyy').format(r.returnDate!);
     return _card(
       child: Padding(
         padding: const EdgeInsets.all(16),
@@ -192,8 +206,10 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
             if ((r.preferredAirline ?? '').isNotEmpty)
               _kv(TranslationKeys.preferredAirline.tr, r.preferredAirline!),
             if (r.estimatedCost != null)
-              _kv(TranslationKeys.estimatedCost.tr,
-                  "${r.estimatedCost!.toStringAsFixed(2)} ${r.currency ?? ''}"),
+              _kv(
+                TranslationKeys.estimatedCost.tr,
+                "${r.estimatedCost!.toStringAsFixed(2)} ${r.currency ?? ''}",
+              ),
             if ((r.remarks ?? '').isNotEmpty)
               _kv(TranslationKeys.remarks.tr, r.remarks!),
           ],
@@ -203,9 +219,10 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
   }
 
   Widget _passengerTile(AirTicketPassenger p) {
-    final dob = p.dateOfBirth == null
-        ? ''
-        : DateFormat('MMM d, yyyy').format(p.dateOfBirth!);
+    final dob =
+        p.dateOfBirth == null
+            ? ''
+            : DateFormat('MMM d, yyyy').format(p.dateOfBirth!);
     return _card(
       margin: const EdgeInsets.only(bottom: 8),
       child: Padding(
@@ -224,15 +241,21 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(p.name,
-                          style: textStyleMontserratBold(
-                              fontSize: 14, color: Colors.black87)),
+                      Text(
+                        p.name,
+                        style: textStyleMontserratBold(
+                          fontSize: 14,
+                          color: Colors.black87,
+                        ),
+                      ),
                       if ((p.relationship ?? '').isNotEmpty ||
                           (p.passengerType ?? '').isNotEmpty)
                         Text(
                           _pretty(p.relationship ?? p.passengerType ?? ''),
                           style: TextStyle(
-                              color: Colors.grey.shade600, fontSize: 12),
+                            color: Colors.grey.shade600,
+                            fontSize: 12,
+                          ),
                         ),
                     ],
                   ),
@@ -255,8 +278,10 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
       return _card(
         child: Padding(
           padding: const EdgeInsets.all(16),
-          child: Text(TranslationKeys.noApprovalActionsYet.tr,
-              style: TextStyle(color: Colors.grey.shade600)),
+          child: Text(
+            TranslationKeys.noApprovalActionsYet.tr,
+            style: TextStyle(color: Colors.grey.shade600),
+          ),
         ),
       );
     }
@@ -280,12 +305,18 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
                           color: _actionColor(a.action).withValues(alpha: 0.15),
                           shape: BoxShape.circle,
                         ),
-                        child: Icon(_actionIcon(a.action),
-                            color: _actionColor(a.action), size: 16),
+                        child: Icon(
+                          _actionIcon(a.action),
+                          color: _actionColor(a.action),
+                          size: 16,
+                        ),
                       ),
                       if (!isLast)
                         Expanded(
-                          child: Container(width: 2, color: Colors.grey.shade200),
+                          child: Container(
+                            width: 2,
+                            color: Colors.grey.shade200,
+                          ),
                         ),
                     ],
                   ),
@@ -299,14 +330,19 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
                           Text(
                             "${_pretty(a.stage)} · ${_pretty(a.action)}",
                             style: textStyleMontserratBold(
-                                fontSize: 13, color: Colors.black87),
+                              fontSize: 13,
+                              color: Colors.black87,
+                            ),
                           ),
                           if (a.actionAt != null)
                             Text(
-                              DateFormat('MMM d, yyyy · hh:mm a')
-                                  .format(a.actionAt!.toLocal()),
+                              DateFormat(
+                                'MMM d, yyyy · hh:mm a',
+                              ).format(a.actionAt!.toLocal()),
                               style: TextStyle(
-                                  color: Colors.grey.shade600, fontSize: 11),
+                                color: Colors.grey.shade600,
+                                fontSize: 11,
+                              ),
                             ),
                           if ((a.comments ?? '').isNotEmpty)
                             Padding(
@@ -314,7 +350,9 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
                               child: Text(
                                 a.comments!,
                                 style: const TextStyle(
-                                    color: Colors.black87, fontSize: 13),
+                                  color: Colors.black87,
+                                  fontSize: 13,
+                                ),
                               ),
                             ),
                         ],
@@ -340,9 +378,13 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
               children: [
                 const Icon(Icons.airplane_ticket, color: kPrimaryColor),
                 const SizedBox(width: 8),
-                Text(b.airline,
-                    style: textStyleMontserratBold(
-                        fontSize: 15, color: Colors.black87)),
+                Text(
+                  b.airline,
+                  style: textStyleMontserratBold(
+                    fontSize: 15,
+                    color: Colors.black87,
+                  ),
+                ),
                 const Spacer(),
                 _statusChip(b.bookingStatus),
               ],
@@ -356,8 +398,10 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
             if ((b.invoiceNumber ?? '').isNotEmpty)
               _kv(TranslationKeys.invoice.tr, b.invoiceNumber!),
             if (b.issuedAt != null)
-              _kv(TranslationKeys.issued.tr,
-                  DateFormat('MMM d, yyyy').format(b.issuedAt!)),
+              _kv(
+                TranslationKeys.issued.tr,
+                DateFormat('MMM d, yyyy').format(b.issuedAt!),
+              ),
           ],
         ),
       ),
@@ -367,10 +411,12 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
   // ─── Shared ─────────────────────────────────────────────────
 
   Widget _sectionTitle(String t) => Padding(
-        padding: const EdgeInsets.only(bottom: 6, left: 4),
-        child: Text(t,
-            style: textStyleMontserratBold(fontSize: 14, color: Colors.black87)),
-      );
+    padding: const EdgeInsets.only(bottom: 6, left: 4),
+    child: Text(
+      t,
+      style: textStyleMontserratBold(fontSize: 14, color: Colors.black87),
+    ),
+  );
 
   Widget _kv(String k, String v) {
     return Padding(
@@ -380,12 +426,16 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
         children: [
           SizedBox(
             width: 120,
-            child: Text(k,
-                style: TextStyle(color: Colors.grey.shade600, fontSize: 12)),
+            child: Text(
+              k,
+              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+            ),
           ),
           Expanded(
-            child: Text(v,
-                style: const TextStyle(color: Colors.black87, fontSize: 13)),
+            child: Text(
+              v,
+              style: const TextStyle(color: Colors.black87, fontSize: 13),
+            ),
           ),
         ],
       ),
@@ -433,8 +483,10 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
     }
     return Container(
       padding: const EdgeInsets.symmetric(horizontal: 8, vertical: 3),
-      decoration:
-          BoxDecoration(color: bg, borderRadius: BorderRadius.circular(20)),
+      decoration: BoxDecoration(
+        color: bg,
+        borderRadius: BorderRadius.circular(20),
+      ),
       child: Text(
         status.isEmpty ? '—' : status,
         style: TextStyle(color: fg, fontSize: 11, fontWeight: FontWeight.w600),
@@ -464,8 +516,13 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
     }
   }
 
-  String _pretty(String v) => v.isEmpty
-      ? ''
-      : v.replaceAll('_', ' ').replaceFirstMapped(
-          RegExp(r'^[a-z]'), (m) => m[0]!.toUpperCase());
+  String _pretty(String v) =>
+      v.isEmpty
+          ? ''
+          : v
+              .replaceAll('_', ' ')
+              .replaceFirstMapped(
+                RegExp(r'^[a-z]'),
+                (m) => m[0]!.toUpperCase(),
+              );
 }

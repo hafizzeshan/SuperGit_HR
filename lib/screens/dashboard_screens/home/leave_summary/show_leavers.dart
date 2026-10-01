@@ -110,105 +110,114 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
             _buildBalancesSection(),
             Expanded(
               child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 16,
+                  vertical: 4,
+                ),
                 child: Obx(() {
-        if (controller.isHistoryLoading.value &&
-            controller.leaveHistory.isEmpty) {
-          return _buildShimmerList();
-        }
+                  if (controller.isHistoryLoading.value &&
+                      controller.leaveHistory.isEmpty) {
+                    return _buildShimmerList();
+                  }
 
-          if (controller.leaveHistory.isEmpty) {
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Icon(
-                    Icons.article_outlined,
-                    size: 60,
-                    color: Colors.grey.shade300,
-                  ),
-                  const SizedBox(height: 16),
-                  kText(
-                    text: TranslationKeys.noLeaveHistoryFound.tr,
-                    fSize: 15.0,
-                    tColor: Colors.grey.shade600,
-                  ),
-                  const SizedBox(height: 8),
-                  kText(
-                    text: TranslationKeys.pullDownToRefresh.tr,
-                    fSize: 12.0,
-                    tColor: Colors.grey.shade400,
-                  ),
-                ],
-              ),
-            );
-          }
+                  if (controller.leaveHistory.isEmpty) {
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Icon(
+                            Icons.article_outlined,
+                            size: 60,
+                            color: Colors.grey.shade300,
+                          ),
+                          const SizedBox(height: 16),
+                          kText(
+                            text: TranslationKeys.noLeaveHistoryFound.tr,
+                            fSize: 15.0,
+                            tColor: Colors.grey.shade600,
+                          ),
+                          const SizedBox(height: 8),
+                          kText(
+                            text: TranslationKeys.pullDownToRefresh.tr,
+                            fSize: 12.0,
+                            tColor: Colors.grey.shade400,
+                          ),
+                        ],
+                      ),
+                    );
+                  }
 
-          final types = controller.leaveTypes;
+                  final types = controller.leaveTypes;
 
-          return RefreshIndicator(
-            onRefresh: () async {
-              await controller.refreshLeaveHistory();
-              if (controller.leaveTypes.isEmpty) {
-                await controller.fetchLeaveTypes();
-              }
-            },
-            color: kPrimaryColor,
-            child: ListView.separated(
-              padding: const EdgeInsets.only(bottom: 50), // Extra space for better scroll experience
-              physics: const AlwaysScrollableScrollPhysics(
-                parent: BouncingScrollPhysics(),
-              ),
-              itemCount: controller.leaveHistory.length +
-                  (controller.hasMoreHistory.value ? 1 : 0),
-              separatorBuilder: (context, index) => const SizedBox(height: 12),
-              itemBuilder: (context, index) {
-                // Optimistic trigger: start loading when we are near the end
-                if (index >= controller.leaveHistory.length - 1 && 
-                    controller.hasMoreHistory.value && 
-                    !controller.isLoadingMoreHistory.value) {
-                  WidgetsBinding.instance.addPostFrameCallback((_) {
-                    print("📊 LEAVE SUMMARY => Near end (Index $index), triggering pagination");
-                    controller.loadMoreLeaveHistory();
-                  });
-                }
+                  return RefreshIndicator(
+                    onRefresh: () async {
+                      await controller.refreshLeaveHistory();
+                      if (controller.leaveTypes.isEmpty) {
+                        await controller.fetchLeaveTypes();
+                      }
+                    },
+                    color: kPrimaryColor,
+                    child: ListView.separated(
+                      padding: const EdgeInsets.only(
+                        bottom: 50,
+                      ), // Extra space for better scroll experience
+                      physics: const AlwaysScrollableScrollPhysics(
+                        parent: BouncingScrollPhysics(),
+                      ),
+                      itemCount:
+                          controller.leaveHistory.length +
+                          (controller.hasMoreHistory.value ? 1 : 0),
+                      separatorBuilder:
+                          (context, index) => const SizedBox(height: 12),
+                      itemBuilder: (context, index) {
+                        // Optimistic trigger: start loading when we are near the end
+                        if (index >= controller.leaveHistory.length - 1 &&
+                            controller.hasMoreHistory.value &&
+                            !controller.isLoadingMoreHistory.value) {
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            print(
+                              "📊 LEAVE SUMMARY => Near end (Index $index), triggering pagination",
+                            );
+                            controller.loadMoreLeaveHistory();
+                          });
+                        }
 
-                // Show loader at the very bottom
-                if (index == controller.leaveHistory.length) {
-                  return Container(
-                    padding: const EdgeInsets.symmetric(vertical: 24),
-                    alignment: Alignment.center,
-                    child: Column(
-                      children: [
-                        const CircularProgressIndicator(
-                          color: kPrimaryColor,
-                          strokeWidth: 2,
-                        ),
-                        UIHelper.verticalSpaceSm5,
-                        kText(
-                          text: "Loading more history...",
-                          fSize: 11.0,
-                          tColor: Colors.grey,
-                        ),
-                      ],
+                        // Show loader at the very bottom
+                        if (index == controller.leaveHistory.length) {
+                          return Container(
+                            padding: const EdgeInsets.symmetric(vertical: 24),
+                            alignment: Alignment.center,
+                            child: Column(
+                              children: [
+                                const CircularProgressIndicator(
+                                  color: kPrimaryColor,
+                                  strokeWidth: 2,
+                                ),
+                                UIHelper.verticalSpaceSm5,
+                                kText(
+                                  text: "Loading more history...",
+                                  fSize: 11.0,
+                                  tColor: Colors.grey,
+                                ),
+                              ],
+                            ),
+                          );
+                        }
+
+                        final leave = controller.leaveHistory[index];
+
+                        return _glassCard(
+                          date: formatDate(leave.startDate),
+                          type: getLeaveTypeName(leave.leaveTypeId, types),
+                          status: LocalizationHelper.getLeaveStatus(
+                            leave.status ?? "-",
+                          ),
+                          rawStatus: leave.status ?? "-",
+                          model: leave,
+                        );
+                      },
                     ),
                   );
-                }
-
-                final leave = controller.leaveHistory[index];
-
-                return _glassCard(
-                  date: formatDate(leave.startDate),
-                  type: getLeaveTypeName(leave.leaveTypeId, types),
-                  status: LocalizationHelper.getLeaveStatus(
-                    leave.status ?? "-",
-                  ),
-                  rawStatus: leave.status ?? "-",
-                  model: leave,
-                );
-              },
-            ),
-          );
                 }),
               ),
             ),
@@ -238,8 +247,11 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
           padding: const EdgeInsets.fromLTRB(20, 14, 16, 10),
           child: Row(
             children: [
-              const Icon(Icons.account_balance_wallet_rounded,
-                  size: 18, color: kPrimaryColor),
+              const Icon(
+                Icons.account_balance_wallet_rounded,
+                size: 18,
+                color: kPrimaryColor,
+              ),
               const SizedBox(width: 8),
               kText(
                 text: TranslationKeys.leaveBalance.tr,
@@ -272,8 +284,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
             child: Column(
               children: List.generate(
                 controller.leaveBalances.length,
-                (index) =>
-                    _balanceRow(controller.leaveBalances[index], index),
+                (index) => _balanceRow(controller.leaveBalances[index], index),
               ),
             ),
           );
@@ -297,8 +308,11 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
           child: Row(
             mainAxisSize: MainAxisSize.min,
             children: [
-              const Icon(Icons.calendar_today_rounded,
-                  size: 13, color: kPrimaryColor),
+              const Icon(
+                Icons.calendar_today_rounded,
+                size: 13,
+                color: kPrimaryColor,
+              ),
               const SizedBox(width: 6),
               kText(
                 text: "${controller.balancesYear.value}",
@@ -307,8 +321,11 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                 tColor: kPrimaryColor,
               ),
               const SizedBox(width: 2),
-              const Icon(Icons.keyboard_arrow_down_rounded,
-                  size: 18, color: kPrimaryColor),
+              const Icon(
+                Icons.keyboard_arrow_down_rounded,
+                size: 18,
+                color: kPrimaryColor,
+              ),
             ],
           ),
         ),
@@ -320,88 +337,97 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
     final current = DateTime.now().year;
     final years = List.generate(6, (i) => current - i); // last 6 years
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
-      builder: (_) => Container(
-        decoration: const BoxDecoration(
-          color: Colors.white,
-          borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
-        ),
-        padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Center(
-              child: Container(
-                width: 40,
-                height: 4,
-                margin: const EdgeInsets.only(bottom: 16),
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade300,
-                  borderRadius: BorderRadius.circular(2),
-                ),
-              ),
+      builder:
+          (_) => Container(
+            decoration: const BoxDecoration(
+              color: Colors.white,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            kText(
-              text: TranslationKeys.leaveBalance.tr,
-              fSize: 16.0,
-              fWeight: FontWeight.bold,
-              tColor: Colors.black87,
-            ),
-            const SizedBox(height: 12),
-            ...years.map((y) {
-              final selected = y == controller.balancesYear.value;
-              return InkWell(
-                borderRadius: BorderRadius.circular(12),
-                onTap: () {
-                  Get.back();
-                  controller.fetchLeaveBalances(year: y);
-                },
-                child: Container(
-                  padding:
-                      const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
-                  margin: const EdgeInsets.only(bottom: 8),
-                  decoration: BoxDecoration(
-                    color: selected
-                        ? kPrimaryColor.withValues(alpha: 0.08)
-                        : Colors.grey.shade50,
-                    borderRadius: BorderRadius.circular(12),
-                    border: Border.all(
-                      color: selected ? kPrimaryColor : Colors.transparent,
+            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Center(
+                  child: Container(
+                    width: 40,
+                    height: 4,
+                    margin: const EdgeInsets.only(bottom: 16),
+                    decoration: BoxDecoration(
+                      color: Colors.grey.shade300,
+                      borderRadius: BorderRadius.circular(2),
                     ),
                   ),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: kText(
-                          text: "$y",
-                          fSize: 14.5,
-                          fWeight:
-                              selected ? FontWeight.w700 : FontWeight.w500,
-                          tColor: selected ? kPrimaryColor : Colors.black87,
+                ),
+                kText(
+                  text: TranslationKeys.leaveBalance.tr,
+                  fSize: 16.0,
+                  fWeight: FontWeight.bold,
+                  tColor: Colors.black87,
+                ),
+                const SizedBox(height: 12),
+                ...years.map((y) {
+                  final selected = y == controller.balancesYear.value;
+                  return InkWell(
+                    borderRadius: BorderRadius.circular(12),
+                    onTap: () {
+                      Get.back();
+                      controller.fetchLeaveBalances(year: y);
+                    },
+                    child: Container(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 14,
+                        vertical: 14,
+                      ),
+                      margin: const EdgeInsets.only(bottom: 8),
+                      decoration: BoxDecoration(
+                        color:
+                            selected
+                                ? kPrimaryColor.withValues(alpha: 0.08)
+                                : Colors.grey.shade50,
+                        borderRadius: BorderRadius.circular(12),
+                        border: Border.all(
+                          color: selected ? kPrimaryColor : Colors.transparent,
                         ),
                       ),
-                      if (selected)
-                        const Icon(Icons.check_circle_rounded,
-                            color: kPrimaryColor, size: 20),
-                    ],
-                  ),
-                ),
-              );
-            }),
-          ],
-        ),
-      ),
+                      child: Row(
+                        children: [
+                          Expanded(
+                            child: kText(
+                              text: "$y",
+                              fSize: 14.5,
+                              fWeight:
+                                  selected ? FontWeight.w700 : FontWeight.w500,
+                              tColor: selected ? kPrimaryColor : Colors.black87,
+                            ),
+                          ),
+                          if (selected)
+                            const Icon(
+                              Icons.check_circle_rounded,
+                              color: kPrimaryColor,
+                              size: 20,
+                            ),
+                        ],
+                      ),
+                    ),
+                  );
+                }),
+              ],
+            ),
+          ),
     );
   }
 
   /// Full-width list row for a single leave-type balance.
   Widget _balanceRow(LeaveBalance b, int index) {
     final accent = _balanceAccents[index % _balanceAccents.length];
-    final remainingFraction = b.entitled <= 0
-        ? 0.0
-        : (b.balance / b.entitled).clamp(0.0, 1.0).toDouble();
+    final remainingFraction =
+        b.entitled <= 0
+            ? 0.0
+            : (b.balance / b.entitled).clamp(0.0, 1.0).toDouble();
 
     return Container(
       margin: const EdgeInsets.only(bottom: 10),
@@ -705,6 +731,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
     Color statusColor,
   ) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,

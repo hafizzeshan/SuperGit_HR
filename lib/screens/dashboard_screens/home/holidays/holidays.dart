@@ -37,9 +37,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
       backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitAction(title: TranslationKeys.holidays.tr),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Obx(() {
           // Show shimmer only on first load
           if (holidayController.isLoading.value &&
@@ -75,11 +73,7 @@ class _HolidayScreenState extends State<HolidayScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.event_busy_rounded,
-            size: 80,
-            color: Colors.grey.shade400,
-          ),
+          Icon(Icons.event_busy_rounded, size: 80, color: Colors.grey.shade400),
           const SizedBox(height: 16),
           kText(
             text: TranslationKeys.noHolidaysFound.tr,
@@ -209,9 +203,10 @@ class _HolidayScreenState extends State<HolidayScreen> {
                     ),
                     const SizedBox(width: 5),
                     kText(
-                      text: holiday.isRecurring == true
-                          ? TranslationKeys.recurring.tr
-                          : TranslationKeys.oneTime.tr,
+                      text:
+                          holiday.isRecurring == true
+                              ? TranslationKeys.recurring.tr
+                              : TranslationKeys.oneTime.tr,
                       fSize: 11.0,
                       fWeight: FontWeight.w600,
                       tColor: kPrimaryColor,

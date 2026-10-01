@@ -58,8 +58,10 @@ class AirTicketController extends GetxController {
       if (list != null) {
         entitlementHistory.assignAll(
           list
-              .map((e) =>
-                  AirTicketEntitlement.fromMap(Map<String, dynamic>.from(e)))
+              .map(
+                (e) =>
+                    AirTicketEntitlement.fromMap(Map<String, dynamic>.from(e)),
+              )
               .toList(),
         );
       }

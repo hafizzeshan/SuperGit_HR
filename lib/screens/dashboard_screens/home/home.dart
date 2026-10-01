@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:supergithr/views/shimmer/announcement_shimmer.dart';
 import 'package:supergithr/screens/dashboard_screens/support/contact_support_screen.dart';
 import 'package:flutter_animate/flutter_animate.dart';
@@ -404,7 +405,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   color: kPrimaryColor,
                   onRefresh: _onRefresh,
                   child: SingleChildScrollView(
-                    padding: const EdgeInsets.only(bottom: 110),
+                    padding: EdgeInsets.only(
+                      bottom: context.listBottomInset(24),
+                    ),
                     physics: const AlwaysScrollableScrollPhysics(
                       parent: BouncingScrollPhysics(),
                     ),

@@ -355,7 +355,8 @@ class UrduLocal {
       TranslationKeys.currentlyClockedIn: "آپ اس وقت کلاک اِن ہیں",
       TranslationKeys.clockTime: "وقت",
       TranslationKeys.device: "ڈیوائس",
-      TranslationKeys.supportBusyTryLater: "ہماری سپورٹ ٹیم اس وقت مصروف ہے۔ براہِ کرم کچھ دیر بعد رابطہ کریں۔",
+      TranslationKeys.supportBusyTryLater:
+          "ہماری سپورٹ ٹیم اس وقت مصروف ہے۔ براہِ کرم کچھ دیر بعد رابطہ کریں۔",
       TranslationKeys.yourEmail: "آپ کا ای میل",
       TranslationKeys.yourMessage: "آپ کا پیغام",
       TranslationKeys.writeYourMessageHere: "اپنا مسئلہ چند سطروں میں لکھیں…",
@@ -363,19 +364,24 @@ class UrduLocal {
       TranslationKeys.todaysMessages: "آج کے پیغامات",
       TranslationKeys.noMessagesToday: "آپ نے آج کوئی پیغام نہیں بھیجا",
       TranslationKeys.messagesLeftToday: "پیغام آج باقی ہیں",
-      TranslationKeys.dailyMessageLimitReached: "آپ روزانہ 2 پیغامات کی حد تک پہنچ چکے ہیں۔ براہِ کرم کل دوبارہ کوشش کریں۔",
-      TranslationKeys.messageSentToSupport: "آپ کا پیغام سپورٹ کو بھیج دیا گیا ہے",
-      TranslationKeys.failedToSendMessage: "پیغام نہیں بھیجا جا سکا۔ دوبارہ کوشش کریں۔",
+      TranslationKeys.dailyMessageLimitReached:
+          "آپ روزانہ 2 پیغامات کی حد تک پہنچ چکے ہیں۔ براہِ کرم کل دوبارہ کوشش کریں۔",
+      TranslationKeys.messageSentToSupport:
+          "آپ کا پیغام سپورٹ کو بھیج دیا گیا ہے",
+      TranslationKeys.failedToSendMessage:
+          "پیغام نہیں بھیجا جا سکا۔ دوبارہ کوشش کریں۔",
       TranslationKeys.failedToLoadRequests: "آپ کے پیغامات لوڈ نہیں ہو سکے",
       TranslationKeys.pleaseEnterValidEmail: "براہِ کرم درست ای میل درج کریں",
       TranslationKeys.pleaseEnterYourMessage: "براہِ کرم اپنا پیغام لکھیں",
-      TranslationKeys.weWillReplyByEmail: "ہماری ٹیم آپ کو ای میل پر جواب دے گی",
+      TranslationKeys.weWillReplyByEmail:
+          "ہماری ٹیم آپ کو ای میل پر جواب دے گی",
       TranslationKeys.supportUnavailable: "سپورٹ دستیاب نہیں",
       TranslationKeys.sent: "بھیج دیا گیا",
       TranslationKeys.ethicsReports: "ایتھکس رپورٹس",
       TranslationKeys.newEthicsReport: "نئی رپورٹ",
       TranslationKeys.ethicsIntroTitle: "آواز اٹھائیں",
-      TranslationKeys.ethicsIntroBody: "کام کی جگہ کے مسائل رازداری کے ساتھ رپورٹ کریں۔ آپ کی رپورٹ براہِ راست ایچ آر تک جاتی ہے۔",
+      TranslationKeys.ethicsIntroBody:
+          "کام کی جگہ کے مسائل رازداری کے ساتھ رپورٹ کریں۔ آپ کی رپورٹ براہِ راست ایچ آر تک جاتی ہے۔",
       TranslationKeys.noEthicsReports: "آپ نے ابھی کوئی رپورٹ نہیں بھیجی",
       TranslationKeys.myReports: "میری رپورٹس",
       TranslationKeys.category: "قسم",
@@ -384,7 +390,8 @@ class UrduLocal {
       TranslationKeys.incidentLocation: "واقعے کی جگہ",
       TranslationKeys.peopleInvolved: "شامل افراد",
       TranslationKeys.immediateDanger: "فوری خطرہ",
-      TranslationKeys.immediateDangerHint: "صرف اُس صورت میں منتخب کریں جب ہنگامی یا فوری خطرہ ہو",
+      TranslationKeys.immediateDangerHint:
+          "صرف اُس صورت میں منتخب کریں جب ہنگامی یا فوری خطرہ ہو",
       TranslationKeys.attachments: "منسلکات",
       TranslationKeys.addAttachment: "منسلک شامل کریں",
       TranslationKeys.submitReport: "رپورٹ بھیجیں",
@@ -395,22 +402,28 @@ class UrduLocal {
       TranslationKeys.submittedOn: "بھیجنے کی تاریخ",
       TranslationKeys.reference: "ریفرنس نمبر",
       TranslationKeys.pleaseSelectCategory: "براہِ کرم قسم منتخب کریں",
-      TranslationKeys.descriptionMin20Chars: "تفصیل کم از کم 20 حروف کی ہونی چاہیے",
-      TranslationKeys.fileTooLargeMax10Mb: "فائل 10 ایم بی سے بڑی نہیں ہونی چاہیے",
+      TranslationKeys.descriptionMin20Chars:
+          "تفصیل کم از کم 20 حروف کی ہونی چاہیے",
+      TranslationKeys.fileTooLargeMax10Mb:
+          "فائل 10 ایم بی سے بڑی نہیں ہونی چاہیے",
       TranslationKeys.reportSubmittedSuccessfully: "آپ کی رپورٹ بھیج دی گئی",
       TranslationKeys.reportUpdatedSuccessfully: "رپورٹ اپ ڈیٹ ہو گئی",
-      TranslationKeys.failedToSubmitReport: "رپورٹ نہیں بھیجی جا سکی۔ دوبارہ کوشش کریں۔",
+      TranslationKeys.failedToSubmitReport:
+          "رپورٹ نہیں بھیجی جا سکی۔ دوبارہ کوشش کریں۔",
       TranslationKeys.failedToUpdateReport: "رپورٹ اپ ڈیٹ نہیں ہو سکی",
       TranslationKeys.reportDeletedSuccessfully: "رپورٹ حذف ہو گئی",
       TranslationKeys.failedToDeleteReport: "رپورٹ حذف نہیں ہو سکی",
       TranslationKeys.failedToDeleteAttachment: "منسلک حذف نہیں ہو سکا",
       TranslationKeys.attachmentUploadFailed: "منسلک اپ لوڈ نہیں ہو سکا",
-      TranslationKeys.deleteReportConfirm: "یہ رپورٹ حذف کریں؟ یہ واپس نہیں ہو سکتا۔",
-      TranslationKeys.editableOnlyWhilePending: "آپ رپورٹ صرف زیرِ التوا حالت میں تبدیل کر سکتے ہیں",
+      TranslationKeys.deleteReportConfirm:
+          "یہ رپورٹ حذف کریں؟ یہ واپس نہیں ہو سکتا۔",
+      TranslationKeys.editableOnlyWhilePending:
+          "آپ رپورٹ صرف زیرِ التوا حالت میں تبدیل کر سکتے ہیں",
       TranslationKeys.noUpdatesYet: "ابھی کوئی اپ ڈیٹ نہیں",
       TranslationKeys.optional: "اختیاری",
       TranslationKeys.urgent: "فوری",
-      TranslationKeys.describeIncident: "بتائیں کیا ہوا، کب ہوا اور کون شامل تھا…",
+      TranslationKeys.describeIncident:
+          "بتائیں کیا ہوا، کب ہوا اور کون شامل تھا…",
       TranslationKeys.ethCatHarassment: "ہراسانی",
       TranslationKeys.ethCatDiscrimination: "امتیازی سلوک",
       TranslationKeys.ethCatFraud: "فراڈ",
@@ -434,11 +447,14 @@ class UrduLocal {
       TranslationKeys.clockedInAtTime: "شروع ہوا",
       TranslationKeys.gpsActive: "جی پی ایس فعال",
       TranslationKeys.gpsWaiting: "آپ کا مقام لیا جا رہا ہے…",
-      TranslationKeys.clockOutConfirm: "کیا آپ ریموٹ ورک سیشن ختم کرنا چاہتے ہیں؟",
+      TranslationKeys.clockOutConfirm:
+          "کیا آپ ریموٹ ورک سیشن ختم کرنا چاہتے ہیں؟",
       TranslationKeys.remoteClockedIn: "سیشن شروع ہو گیا",
       TranslationKeys.remoteClockedOut: "سیشن ختم ہو گیا",
-      TranslationKeys.remoteClockInFailed: "سیشن شروع نہیں ہو سکا۔ دوبارہ کوشش کریں۔",
-      TranslationKeys.remoteClockOutFailed: "سیشن ختم نہیں ہو سکا۔ دوبارہ کوشش کریں۔",
+      TranslationKeys.remoteClockInFailed:
+          "سیشن شروع نہیں ہو سکا۔ دوبارہ کوشش کریں۔",
+      TranslationKeys.remoteClockOutFailed:
+          "سیشن ختم نہیں ہو سکا۔ دوبارہ کوشش کریں۔",
       TranslationKeys.totalSessions: "کل سیشنز",
       TranslationKeys.pendingApprovals: "زیرِ التوا",
       TranslationKeys.approvedSessions: "منظور شدہ",
@@ -529,7 +545,8 @@ class UrduLocal {
       TranslationKeys.issuedBy: "جاری کنندہ",
       TranslationKeys.letterDate: "خط کی تاریخ",
       TranslationKeys.incidentRef: "واقعے کا حوالہ",
-      TranslationKeys.warningFileNotice: "اس وارننگ لیٹر کی ایک نقل لیبر قوانین کے مطابق آپ کی ملازمت فائل میں رکھ دی گئی ہے۔",
+      TranslationKeys.warningFileNotice:
+          "اس وارننگ لیٹر کی ایک نقل لیبر قوانین کے مطابق آپ کی ملازمت فائل میں رکھ دی گئی ہے۔",
       TranslationKeys.manageDiscipline: "ڈسپلن مینجمنٹ",
       TranslationKeys.startInvestigation: "تفتیش شروع کریں",
       TranslationKeys.requestResponse: "جواب طلب کریں",
@@ -844,7 +861,8 @@ class UrduLocal {
       TranslationKeys.cancelRequest: "درخواست منسوخ کریں",
       TranslationKeys.cancelRequestQuestion: "درخواست منسوخ کریں؟",
       TranslationKeys.requestNotFound: "درخواست نہیں ملی",
-      TranslationKeys.noApprovalActionsYet: "ابھی تک کوئی منظوری کارروائی نہیں۔",
+      TranslationKeys.noApprovalActionsYet:
+          "ابھی تک کوئی منظوری کارروائی نہیں۔",
       TranslationKeys.newRequest: "نئی درخواست",
       TranslationKeys.myRequests: "میری درخواستیں",
       TranslationKeys.noEntitlementFoundForYear:
@@ -882,11 +900,16 @@ class UrduLocal {
       TranslationKeys.totalOvertime: "کل اوور ٹائم",
       TranslationKeys.pendingRequests: "زیر التواء",
       TranslationKeys.approvedRequests: "منظور شدہ",
-      TranslationKeys.overtimeRequestCreated: "اوور ٹائم درخواست کامیابی سے بن گئی",
-      TranslationKeys.overtimeRequestFailed: "اوور ٹائم درخواست بنانے میں ناکامی",
-      TranslationKeys.failedToFetchOvertime: "اوور ٹائم درخواستیں حاصل کرنے میں ناکامی",
-      TranslationKeys.somethingWentWrongFetchingOvertime: "اوور ٹائم حاصل کرتے وقت کچھ غلط ہو گیا",
-      TranslationKeys.somethingWentWrongCreatingOvertime: "اوور ٹائم درخواست بناتے وقت کچھ غلط ہو گیا",
+      TranslationKeys.overtimeRequestCreated:
+          "اوور ٹائم درخواست کامیابی سے بن گئی",
+      TranslationKeys.overtimeRequestFailed:
+          "اوور ٹائم درخواست بنانے میں ناکامی",
+      TranslationKeys.failedToFetchOvertime:
+          "اوور ٹائم درخواستیں حاصل کرنے میں ناکامی",
+      TranslationKeys.somethingWentWrongFetchingOvertime:
+          "اوور ٹائم حاصل کرتے وقت کچھ غلط ہو گیا",
+      TranslationKeys.somethingWentWrongCreatingOvertime:
+          "اوور ٹائم درخواست بناتے وقت کچھ غلط ہو گیا",
       TranslationKeys.version: "ورژن",
     };
   }

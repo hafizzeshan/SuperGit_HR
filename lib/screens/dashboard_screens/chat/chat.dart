@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/support_controller.dart';
 import 'package:supergithr/screens/dashboard_screens/support/contact_support_screen.dart';
@@ -58,7 +59,12 @@ class _ChatScreenState extends State<ChatScreen> {
               physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              padding: EdgeInsets.fromLTRB(
+                16,
+                16,
+                16,
+                context.listBottomInset(24),
+              ),
               children: [
                 _header(),
                 const SizedBox(height: 18),

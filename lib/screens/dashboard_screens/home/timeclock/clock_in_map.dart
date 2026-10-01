@@ -99,9 +99,7 @@ class _ClockInMapScreenState extends State<ClockInMapScreen> {
           return Center(
             child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: 24),
-              child: _LocationWarningChip(
-                onRetry: _onLocationChipTap,
-              ),
+              child: _LocationWarningChip(onRetry: _onLocationChipTap),
             ),
           );
         }
@@ -116,6 +114,7 @@ class _ClockInMapScreenState extends State<ClockInMapScreen> {
           coords: coords,
           onConfirm: () {
             showModalBottomSheet(
+              useSafeArea: true,
               context: context,
               isScrollControlled: true,
               backgroundColor: Colors.transparent,
@@ -418,7 +417,10 @@ class _LocationWarningChipState extends State<_LocationWarningChip>
             decoration: BoxDecoration(
               color: _warn.withValues(alpha: 0.10),
               borderRadius: BorderRadius.circular(30),
-              border: Border.all(color: _warn.withValues(alpha: 0.35), width: 1),
+              border: Border.all(
+                color: _warn.withValues(alpha: 0.35),
+                width: 1,
+              ),
             ),
             child: Row(
               mainAxisSize: MainAxisSize.min,

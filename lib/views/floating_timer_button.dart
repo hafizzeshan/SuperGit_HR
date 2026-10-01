@@ -73,13 +73,13 @@ class FloatingTimerButton extends StatelessWidget {
             children: [
               // Pulsing live dot (continuous "live" indicator)
               Container(
-                width: 8,
-                height: 8,
-                decoration: const BoxDecoration(
-                  color: Colors.white,
-                  shape: BoxShape.circle,
-                ),
-              )
+                    width: 8,
+                    height: 8,
+                    decoration: const BoxDecoration(
+                      color: Colors.white,
+                      shape: BoxShape.circle,
+                    ),
+                  )
                   .animate(onPlay: (c) => c.repeat(reverse: true))
                   .fadeIn(duration: 700.ms)
                   .then()

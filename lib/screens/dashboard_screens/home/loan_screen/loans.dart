@@ -51,14 +51,14 @@ class _LoanScreenState extends State<LoanScreen> {
         ),
       ),
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Obx(() {
           // Show loading only on first load
           if (_loanController.isLoading.value &&
               _loanController.loans.isEmpty) {
-            return const Center(child: CircularProgressIndicator(color: kPrimaryColor));
+            return const Center(
+              child: CircularProgressIndicator(color: kPrimaryColor),
+            );
           }
 
           if (_loanController.loans.isEmpty &&
@@ -90,11 +90,7 @@ class _LoanScreenState extends State<LoanScreen> {
       child: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          Icon(
-            Icons.money_off_rounded,
-            size: 60,
-            color: Colors.grey.shade300,
-          ),
+          Icon(Icons.money_off_rounded, size: 60, color: Colors.grey.shade300),
           const SizedBox(height: 16),
           kText(
             text: TranslationKeys.noLoansFound.tr,
@@ -113,9 +109,10 @@ class _LoanScreenState extends State<LoanScreen> {
   }
 
   Widget _loanTile(LoanDatum loan) {
-    Color statusColor = loan.status.toLowerCase() == "approved"
-        ? Colors.green
-        : loan.status.toLowerCase() == "pending"
+    Color statusColor =
+        loan.status.toLowerCase() == "approved"
+            ? Colors.green
+            : loan.status.toLowerCase() == "pending"
             ? Colors.orange
             : Colors.red;
 
@@ -213,8 +210,12 @@ class _LoanScreenState extends State<LoanScreen> {
   }
 
   void _showLoanDetailsBottomSheet(
-      BuildContext context, LoanDatum loan, Color statusColor) {
+    BuildContext context,
+    LoanDatum loan,
+    Color statusColor,
+  ) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -285,14 +286,25 @@ class _LoanScreenState extends State<LoanScreen> {
                     children: [
                       _detailRow(TranslationKeys.purpose.tr, loan.purpose),
                       const SizedBox(height: 16),
-                      _detailRow(TranslationKeys.installments.tr, "${loan.installments}"),
-                      const SizedBox(height: 16),
-                      _detailRow(TranslationKeys.monthlyInstallment.tr, "${loan.monthlyInstallment}"),
-                      const SizedBox(height: 16),
-                      _detailRow(TranslationKeys.startMonth.tr, loan.startMonth),
+                      _detailRow(
+                        TranslationKeys.installments.tr,
+                        "${loan.installments}",
+                      ),
                       const SizedBox(height: 16),
                       _detailRow(
-                          TranslationKeys.remaining.tr, "${loan.remainingAmount}"),
+                        TranslationKeys.monthlyInstallment.tr,
+                        "${loan.monthlyInstallment}",
+                      ),
+                      const SizedBox(height: 16),
+                      _detailRow(
+                        TranslationKeys.startMonth.tr,
+                        loan.startMonth,
+                      ),
+                      const SizedBox(height: 16),
+                      _detailRow(
+                        TranslationKeys.remaining.tr,
+                        "${loan.remainingAmount}",
+                      ),
                     ],
                   ),
                 ),
@@ -310,11 +322,7 @@ class _LoanScreenState extends State<LoanScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        kText(
-          text: label,
-          fSize: 14,
-          tColor: Colors.grey.shade600,
-        ),
+        kText(text: label, fSize: 14, tColor: Colors.grey.shade600),
         kText(
           text: value,
           fSize: 14,
@@ -337,11 +345,7 @@ class _LoanScreenState extends State<LoanScreen> {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          kText(
-            text: title,
-            fSize: 10.0,
-            tColor: Colors.grey.shade600,
-          ),
+          kText(text: title, fSize: 10.0, tColor: Colors.grey.shade600),
           const SizedBox(height: 4),
           kText(
             text: value,

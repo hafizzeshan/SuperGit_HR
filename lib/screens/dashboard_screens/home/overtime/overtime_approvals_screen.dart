@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/overtime_controller.dart';
@@ -60,12 +61,7 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
     final remarks = TextEditingController();
     final confirmed = await Get.bottomSheet<bool>(
       Container(
-        padding: EdgeInsets.fromLTRB(
-          20,
-          20,
-          20,
-          MediaQuery.of(context).viewInsets.bottom + 24,
-        ),
+        padding: context.sheetPadding(),
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

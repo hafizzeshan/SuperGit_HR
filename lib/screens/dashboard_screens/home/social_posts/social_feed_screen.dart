@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -71,7 +72,10 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
                     return ListView.builder(
                       controller: _scrollController,
                       physics: const AlwaysScrollableScrollPhysics(),
-                      padding: const EdgeInsets.only(top: 4, bottom: 120),
+                      padding: EdgeInsets.only(
+                        top: 4,
+                        bottom: context.listBottomInset(24),
+                      ),
                       itemCount: c.posts.length + 1,
                       itemBuilder: (_, i) {
                         if (i == c.posts.length) return _buildFooter();
@@ -81,9 +85,9 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
                           onLike: () => c.toggleLike(c.posts[i]),
                           onCommentTap: () => _openDetail(c.posts[i]),
                         ).animate().fadeIn(
-                              duration: 320.ms,
-                              delay: (i * 40).ms,
-                            );
+                          duration: 320.ms,
+                          delay: (i * 40).ms,
+                        );
                       },
                     );
                   }),
@@ -95,21 +99,25 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
       ),
       // Only admins / HR can create posts.
       floatingActionButton: Obx(
-        () => c.isAdmin.value
-            ? Padding(
-                padding: const EdgeInsets.only(bottom: 100),
-                child: FloatingActionButton.extended(
-                  backgroundColor: kPrimaryColor,
-                  icon: const Icon(Icons.add_rounded, color: Colors.white),
-                  label: kText(
-                    text: TranslationKeys.newPost,
-                    style: textStyleMontserratBold(
-                        fontSize: 14, color: Colors.white),
+        () =>
+            c.isAdmin.value
+                ? Padding(
+                  padding: const EdgeInsets.only(bottom: 100),
+                  child: FloatingActionButton.extended(
+                    backgroundColor: kPrimaryColor,
+                    icon: const Icon(Icons.add_rounded, color: Colors.white),
+                    label: kText(
+                      text: TranslationKeys.newPost,
+                      style: textStyleMontserratBold(
+                        fontSize: 14,
+                        color: Colors.white,
+                      ),
+                    ),
+                    onPressed:
+                        () => Get.to(() => const CreateSocialPostScreen()),
                   ),
-                  onPressed: () => Get.to(() => const CreateSocialPostScreen()),
-                ),
-              )
-            : const SizedBox.shrink(),
+                )
+                : const SizedBox.shrink(),
       ),
     );
   }
@@ -126,8 +134,11 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
               color: kPrimaryColor.withValues(alpha: 0.1),
               borderRadius: BorderRadius.circular(12),
             ),
-            child: const Icon(Icons.dynamic_feed_rounded,
-                color: kPrimaryColor, size: 22),
+            child: const Icon(
+              Icons.dynamic_feed_rounded,
+              color: kPrimaryColor,
+              size: 22,
+            ),
           ),
           const SizedBox(width: 12),
           Expanded(
@@ -143,21 +154,18 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
                 ),
                 kText(
                   text: TranslationKeys.stayConnectedWithTeam,
-                  style: TextStyle(
-                    fontSize: 12,
-                    color: Colors.grey.shade600,
-                  ),
+                  style: TextStyle(fontSize: 12, color: Colors.grey.shade600),
                 ),
               ],
             ),
           ),
           Obx(
             () => IconButton(
-              onPressed:
-                  c.isLoadingFeed.value ? null : () => c.fetchFeed(),
-              icon: Icon(Icons.refresh_rounded,
-                  color:
-                      c.isLoadingFeed.value ? Colors.grey : Colors.black87),
+              onPressed: c.isLoadingFeed.value ? null : () => c.fetchFeed(),
+              icon: Icon(
+                Icons.refresh_rounded,
+                color: c.isLoadingFeed.value ? Colors.grey : Colors.black87,
+              ),
             ),
           ),
         ],
@@ -189,10 +197,7 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
         Center(
           child: kText(
             text: TranslationKeys.noPostsYet,
-            style: textStyleMontserratBold(
-              fontSize: 16,
-              color: Colors.black87,
-            ),
+            style: textStyleMontserratBold(fontSize: 16, color: Colors.black87),
           ),
         ),
         const SizedBox(height: 6),
@@ -200,10 +205,7 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
           child: kText(
             text: TranslationKeys.beTheFirstToShare,
             textalign: TextAlign.center,
-            style: TextStyle(
-              fontSize: 13,
-              color: Colors.grey.shade600,
-            ),
+            style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
           ),
         ),
       ],
@@ -212,71 +214,75 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
 
   Widget _buildShimmer() {
     return ListView.builder(
-      padding: const EdgeInsets.only(top: 4, bottom: 120),
+      padding: EdgeInsets.only(top: 4, bottom: context.listBottomInset(24)),
       physics: const AlwaysScrollableScrollPhysics(),
       itemCount: 4,
       // White card + shadow live OUTSIDE the shimmer so the card shape and the
       // gaps between placeholders stay white — only the skeleton shapes shimmer.
-      itemBuilder: (_, __) => Container(
-        margin: const EdgeInsets.only(bottom: 16),
-        decoration: BoxDecoration(
-          color: Colors.white,
-          boxShadow: [
-            BoxShadow(
-              color: Colors.black.withValues(alpha: 0.05),
-              blurRadius: 16,
-              offset: const Offset(0, 6),
+      itemBuilder:
+          (_, __) => Container(
+            margin: const EdgeInsets.only(bottom: 16),
+            decoration: BoxDecoration(
+              color: Colors.white,
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black.withValues(alpha: 0.05),
+                  blurRadius: 16,
+                  offset: const Offset(0, 6),
+                ),
+              ],
             ),
-          ],
-        ),
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey.shade300,
-          highlightColor: Colors.grey.shade100,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              // Media (16:9, matches _PostMedia)
-              AspectRatio(
-                aspectRatio: 16 / 9,
-                child: _box(width: double.infinity, height: double.infinity,
-                    radius: 0),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade300,
+              highlightColor: Colors.grey.shade100,
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  // Media (16:9, matches _PostMedia)
+                  AspectRatio(
+                    aspectRatio: 16 / 9,
+                    child: _box(
+                      width: double.infinity,
+                      height: double.infinity,
+                      radius: 0,
+                    ),
+                  ),
+                  // Title row + time (matches Padding(14, 12, 8, 4))
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 12, 8, 4),
+                    child: Row(
+                      children: [
+                        Expanded(child: _box(width: 180, height: 15)),
+                        const SizedBox(width: 8),
+                        _box(width: 30, height: 11),
+                      ],
+                    ),
+                  ),
+                  // Content lines (matches Padding(14, 0, 14, 0))
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 6, 14, 0),
+                    child: _box(width: double.infinity, height: 11),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(14, 8, 60, 0),
+                    child: _box(width: double.infinity, height: 11),
+                  ),
+                  const SizedBox(height: 10),
+                  // Action row (matches like + comment buttons, Padding(8, 0, 8, 8))
+                  Padding(
+                    padding: const EdgeInsets.fromLTRB(20, 8, 8, 18),
+                    child: Row(
+                      children: [
+                        _box(width: 46, height: 22),
+                        const SizedBox(width: 30),
+                        _box(width: 70, height: 22),
+                      ],
+                    ),
+                  ),
+                ],
               ),
-              // Title row + time (matches Padding(14, 12, 8, 4))
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 12, 8, 4),
-                child: Row(
-                  children: [
-                    Expanded(child: _box(width: 180, height: 15)),
-                    const SizedBox(width: 8),
-                    _box(width: 30, height: 11),
-                  ],
-                ),
-              ),
-              // Content lines (matches Padding(14, 0, 14, 0))
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 6, 14, 0),
-                child: _box(width: double.infinity, height: 11),
-              ),
-              Padding(
-                padding: const EdgeInsets.fromLTRB(14, 8, 60, 0),
-                child: _box(width: double.infinity, height: 11),
-              ),
-              const SizedBox(height: 10),
-              // Action row (matches like + comment buttons, Padding(8, 0, 8, 8))
-              Padding(
-                padding: const EdgeInsets.fromLTRB(20, 8, 8, 18),
-                child: Row(
-                  children: [
-                    _box(width: 46, height: 22),
-                    const SizedBox(width: 30),
-                    _box(width: 70, height: 22),
-                  ],
-                ),
-              ),
-            ],
+            ),
           ),
-        ),
-      ),
     );
   }
 
@@ -300,8 +306,7 @@ class _SocialFeedScreenState extends State<SocialFeedScreen> {
       if (c.isLoadingMore.value) {
         return const Padding(
           padding: EdgeInsets.symmetric(vertical: 16),
-          child: Center(
-              child: CircularProgressIndicator(color: kPrimaryColor)),
+          child: Center(child: CircularProgressIndicator(color: kPrimaryColor)),
         );
       }
       if (!c.hasMore && c.posts.isNotEmpty) {
@@ -412,9 +417,10 @@ class _PostCard extends StatelessWidget {
               child: Row(
                 children: [
                   _ActionButton(
-                    icon: post.isLiked
-                        ? Icons.favorite_rounded
-                        : Icons.favorite_border_rounded,
+                    icon:
+                        post.isLiked
+                            ? Icons.favorite_rounded
+                            : Icons.favorite_border_rounded,
                     color: post.isLiked ? Colors.red : Colors.grey.shade700,
                     label: "${post.likesCount}",
                     onTap: onLike,
@@ -463,11 +469,15 @@ class _PostMedia extends StatelessWidget {
       imageUrl: post.mediaUrl,
       fit: BoxFit.cover,
       placeholder: (_, __) => Container(color: Colors.grey.shade200),
-      errorWidget: (_, __, ___) => Container(
-        color: Colors.grey.shade200,
-        child: const Icon(Icons.broken_image_outlined,
-            color: Colors.grey, size: 36),
-      ),
+      errorWidget:
+          (_, __, ___) => Container(
+            color: Colors.grey.shade200,
+            child: const Icon(
+              Icons.broken_image_outlined,
+              color: Colors.grey,
+              size: 36,
+            ),
+          ),
     );
   }
 

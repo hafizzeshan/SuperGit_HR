@@ -44,10 +44,7 @@ const Color kMainBackgroundColor = Color(0xffF2F6F9);
 const Color kLightBlueBackgroundColor = Color(0xffD6EAF8);
 
 const LinearGradient kMainBackgroundGradient = LinearGradient(
-  colors: [
-    kLightBlueBackgroundColor,
-    kMainBackgroundColor,
-  ],
+  colors: [kLightBlueBackgroundColor, kMainBackgroundColor],
   begin: Alignment.topCenter,
   end: Alignment.center,
 );

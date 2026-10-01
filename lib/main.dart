@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:supergithr/views/colors.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:get/get.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -22,18 +23,28 @@ Future<void> main() async {
   Get.put(TranslationController(preferences: preferences));
   // 5️⃣ Print FCM token for testing
   getFCMToken();
-  // 7️⃣ System UI overlay — dark status bar icons everywhere.
-  SystemChrome.setSystemUIOverlayStyle(
-    const SystemUiOverlayStyle(
-      statusBarColor: Colors.transparent,
-      statusBarIconBrightness: Brightness.dark, // Android: dark icons
-      statusBarBrightness: Brightness.light, // iOS: dark icons
-    ),
-  );
+  // 7️⃣ System bars. Android 15+ ignores `navigationBarColor` entirely and
+  // always runs apps edge-to-edge, so the app itself has to paint behind the
+  // bars — otherwise that area is left black. Screen content stays clear of
+  // them through the insets in `views/safe_insets.dart`.
+  SystemChrome.setEnabledSystemUIMode(SystemUiMode.edgeToEdge);
+  SystemChrome.setSystemUIOverlayStyle(kAppSystemUiStyle);
 
   // 6️⃣ Run app
   runApp(const MyApp());
 }
+
+/// Status and navigation bars: transparent, with dark icons on the app's
+/// light background. Kept in one place because every AppBar re-applies the
+/// overlay style when its route becomes active.
+const SystemUiOverlayStyle kAppSystemUiStyle = SystemUiOverlayStyle(
+  statusBarColor: Colors.transparent,
+  statusBarIconBrightness: Brightness.dark, // Android: dark icons
+  statusBarBrightness: Brightness.light, // iOS: dark icons
+  systemNavigationBarColor: kMainBackgroundColor,
+  systemNavigationBarDividerColor: kMainBackgroundColor,
+  systemNavigationBarIconBrightness: Brightness.dark,
+);
 
 Future<void> getFCMToken() async {
   // String? token = await FirebaseMessaging.instance.getToken();
@@ -51,26 +62,16 @@ class MyApp extends StatelessWidget {
       builder:
           (context, orientation, screenType) => GetMaterialApp(
             navigatorKey: Get.key,
-            builder: (context, child) {
-              return SafeArea(
-                top: false,
-                bottom: true,
-                left: false,
-                right: false,
-                child: child!,
-              );
-            },
             enableLog: true,
             title: 'SuperGit HR',
             debugShowCheckedModeBanner: false,
             theme: ThemeData(
               colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
+              // Anything the screens leave unpainted now shows the app's own
+              // background instead of the default white.
+              scaffoldBackgroundColor: kMainBackgroundColor,
               appBarTheme: const AppBarTheme(
-                systemOverlayStyle: SystemUiOverlayStyle(
-                  statusBarColor: Colors.transparent,
-                  statusBarIconBrightness: Brightness.dark, // Android
-                  statusBarBrightness: Brightness.light, // iOS
-                ),
+                systemOverlayStyle: kAppSystemUiStyle,
               ),
             ),
             translations: GetLocalization(),

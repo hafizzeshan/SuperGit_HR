@@ -73,7 +73,9 @@ class LeaveController extends GetxController {
 
     try {
       final pageToFetch = currentPage.value;
-      log("📡 Fetching Leave Types: Page $pageToFetch (PageSize: ${pageSize.value})");
+      log(
+        "📡 Fetching Leave Types: Page $pageToFetch (PageSize: ${pageSize.value})",
+      );
 
       final response = await _repo.getLeaveTypes(
         page: pageToFetch,
@@ -91,14 +93,20 @@ class LeaveController extends GetxController {
         } else {
           // Prevent duplicates
           final existingIds = leaveTypes.map((e) => e.id).toSet();
-          final newItems = types.where((item) => !existingIds.contains(item.id)).toList();
+          final newItems =
+              types.where((item) => !existingIds.contains(item.id)).toList();
           leaveTypes.addAll(newItems);
         }
 
         // Robust parsing of pagination metadata
         final total = int.tryParse(response["total"]?.toString() ?? "0") ?? 0;
-        final totalPages = int.tryParse(response["total_pages"]?.toString() ?? "1") ?? 1;
-        final serverPage = int.tryParse(response["page"]?.toString() ?? pageToFetch.toString()) ?? pageToFetch;
+        final totalPages =
+            int.tryParse(response["total_pages"]?.toString() ?? "1") ?? 1;
+        final serverPage =
+            int.tryParse(
+              response["page"]?.toString() ?? pageToFetch.toString(),
+            ) ??
+            pageToFetch;
 
         this.totalPages.value = totalPages;
         this.totalItems.value = total;
@@ -211,10 +219,7 @@ class LeaveController extends GetxController {
         totalDays.isEmpty ||
         reason.isEmpty) {
       FocusManager.instance.primaryFocus?.unfocus();
-      Utils.snackBar(
-        TranslationKeys.pleaseFillAllRequiredFields.tr,
-        true,
-      );
+      Utils.snackBar(TranslationKeys.pleaseFillAllRequiredFields.tr, true);
       return;
     }
 
@@ -339,7 +344,9 @@ class LeaveController extends GetxController {
       }
 
       final pageToFetch = historyCurrentPage.value;
-      log("📡 API REQUEST => Leave History | Page: $pageToFetch | PageSize: ${historyPageSize.value}");
+      log(
+        "📡 API REQUEST => Leave History | Page: $pageToFetch | PageSize: ${historyPageSize.value}",
+      );
 
       final response = await _repo.getEmployeeLeaveHistory(
         employeeId,
@@ -351,8 +358,10 @@ class LeaveController extends GetxController {
 
       if (response != null && (response["data"] != null || response is List)) {
         // Handle cases where response might be the list itself or contains a "data" key
-        final List rawData = response["data"] ?? (response is List ? response : []);
-        final history = rawData.map((e) => LeaveRequestModel.fromJson(e)).toList();
+        final List rawData =
+            response["data"] ?? (response is List ? response : []);
+        final history =
+            rawData.map((e) => LeaveRequestModel.fromJson(e)).toList();
 
         if (pageToFetch == 1) {
           leaveHistory.assignAll(history);
@@ -360,37 +369,63 @@ class LeaveController extends GetxController {
         } else {
           // Prevent duplicates by checking ID
           final existingIds = leaveHistory.map((e) => e.id).toSet();
-          final newUniqueItems = history.where((item) => 
-            item.id != null && !existingIds.contains(item.id)
-          ).toList();
-          
+          final newUniqueItems =
+              history
+                  .where(
+                    (item) => item.id != null && !existingIds.contains(item.id),
+                  )
+                  .toList();
+
           if (newUniqueItems.isNotEmpty) {
             leaveHistory.addAll(newUniqueItems);
-            log("➕ Appended ${newUniqueItems.length} new items (Total: ${leaveHistory.length})");
+            log(
+              "➕ Appended ${newUniqueItems.length} new items (Total: ${leaveHistory.length})",
+            );
           } else {
-            log("⚠️ No new unique items found on Page $pageToFetch - API might be repeating data");
+            log(
+              "⚠️ No new unique items found on Page $pageToFetch - API might be repeating data",
+            );
           }
         }
 
         // Resilient metadata parsing for various common API naming conventions
-        final total = int.tryParse(
-          (response["total"] ?? response["total_items"] ?? response["count"] ?? "0").toString()
-        ) ?? 0;
-        
-        final totalPages = int.tryParse(
-          (response["total_pages"] ?? response["total_pages_count"] ?? response["last_page"] ?? response["totalPages"] ?? "1").toString()
-        ) ?? 1;
-        
-        final serverPage = int.tryParse(
-          (response["page"] ?? response["current_page"] ?? pageToFetch.toString()).toString()
-        ) ?? pageToFetch;
+        final total =
+            int.tryParse(
+              (response["total"] ??
+                      response["total_items"] ??
+                      response["count"] ??
+                      "0")
+                  .toString(),
+            ) ??
+            0;
+
+        final totalPages =
+            int.tryParse(
+              (response["total_pages"] ??
+                      response["total_pages_count"] ??
+                      response["last_page"] ??
+                      response["totalPages"] ??
+                      "1")
+                  .toString(),
+            ) ??
+            1;
+
+        final serverPage =
+            int.tryParse(
+              (response["page"] ??
+                      response["current_page"] ??
+                      pageToFetch.toString())
+                  .toString(),
+            ) ??
+            pageToFetch;
 
         historyTotalPages.value = totalPages;
         historyTotalItems.value = total;
         historyCurrentPage.value = serverPage;
 
         // Final check for more data
-        hasMoreHistory.value = historyCurrentPage.value < historyTotalPages.value;
+        hasMoreHistory.value =
+            historyCurrentPage.value < historyTotalPages.value;
 
         log(
           "📜 META SYNC => Page: ${historyCurrentPage.value}/$totalPages | Total: $total | hasMore: ${hasMoreHistory.value}",
@@ -414,19 +449,23 @@ class LeaveController extends GetxController {
       log("⏹️ loadMore skipped: No more history (hasMore=false)");
       return;
     }
-    
+
     if (isLoadingMoreHistory.value || isHistoryLoading.value) {
       log("⏳ loadMore skipped: Already loading (Wait for current fetch)");
       return;
     }
 
     if (historyCurrentPage.value >= historyTotalPages.value) {
-      log("⏹️ loadMore skipped: Current page (${historyCurrentPage.value}) is already at Total pages (${historyTotalPages.value})");
+      log(
+        "⏹️ loadMore skipped: Current page (${historyCurrentPage.value}) is already at Total pages (${historyTotalPages.value})",
+      );
       hasMoreHistory.value = false;
       return;
     }
 
-    log("🔼 PAGINATION => Advancing to next page: ${historyCurrentPage.value + 1}");
+    log(
+      "🔼 PAGINATION => Advancing to next page: ${historyCurrentPage.value + 1}",
+    );
     historyCurrentPage.value++;
     await getEmployeeLeaveHistory();
   }

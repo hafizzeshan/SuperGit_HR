@@ -20,18 +20,25 @@ class LeaveRepository {
       }
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        log("✅ Leave Types Response: Page $page, Total: ${response.data?['total'] ?? 0}");
+        log(
+          "✅ Leave Types Response: Page $page, Total: ${response.data?['total'] ?? 0}",
+        );
         return response.data;
       } else {
-        final message =
-            Utils.extractApiError(response.data, "Failed to fetch leave types");
+        final message = Utils.extractApiError(
+          response.data,
+          "Failed to fetch leave types",
+        );
         Utils.snackBar(message, true);
         log("❌ Leave Types Fetch Failed: $message");
         return null;
       }
     } catch (e, st) {
       log("❌ Exception in getLeaveTypes: $e", stackTrace: st);
-      Utils.snackBar(TranslationKeys.somethingWentWrongFetchingLeaveTypes.tr, true);
+      Utils.snackBar(
+        TranslationKeys.somethingWentWrongFetchingLeaveTypes.tr,
+        true,
+      );
       return null;
     }
   }
@@ -70,16 +77,17 @@ class LeaveRepository {
                 final errors = data['errors'] as Map;
                 if (errors.isNotEmpty) {
                   final firstError = errors.values.first;
-                  message = firstError is List
-                      ? firstError.first.toString()
-                      : firstError.toString();
+                  message =
+                      firstError is List
+                          ? firstError.first.toString()
+                          : firstError.toString();
                 }
               } else {
                 message = data['errors'].toString();
               }
             }
           } else {
-             message = data.toString();
+            message = data.toString();
           }
         }
         Utils.snackBar(message, true);
@@ -126,16 +134,19 @@ class LeaveRepository {
     int pageSize = 30,
   }) async {
     try {
-      final url = '${AppURL.leaveHistory(employeeId)}?page=$page&page_size=$pageSize';
+      final url =
+          '${AppURL.leaveHistory(employeeId)}?page=$page&page_size=$pageSize';
       final response = await _api.getRequest(url);
-      
+
       if (response == null) {
         Utils.snackBar(TranslationKeys.unableToReachServer.tr, true);
         return null;
       }
-      
+
       if (response.statusCode == 200 || response.statusCode == 201) {
-        log("✅ Leave History Response: Page $page, Total: ${response.data?['total'] ?? 0}");
+        log(
+          "✅ Leave History Response: Page $page, Total: ${response.data?['total'] ?? 0}",
+        );
         return response.data;
       } else {
         Utils.snackBar(

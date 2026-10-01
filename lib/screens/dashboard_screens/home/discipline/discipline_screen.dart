@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/discipline_controller.dart';
@@ -42,12 +43,7 @@ class _DisciplineScreenState extends State<DisciplineScreen>
 
     await Get.bottomSheet(
       Container(
-        padding: EdgeInsets.fromLTRB(
-          20,
-          20,
-          20,
-          MediaQuery.of(context).viewInsets.bottom + 24,
-        ),
+        padding: context.sheetPadding(),
         decoration: const BoxDecoration(
           color: Colors.white,
           borderRadius: BorderRadius.vertical(top: Radius.circular(24)),

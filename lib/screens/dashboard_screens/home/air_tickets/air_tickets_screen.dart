@@ -31,10 +31,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
   }
 
   Future<void> _refresh() async {
-    await Future.wait([
-      c.fetchEntitlement(),
-      c.fetchMyRequests(),
-    ]);
+    await Future.wait([c.fetchEntitlement(), c.fetchMyRequests()]);
   }
 
   @override
@@ -49,9 +46,10 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
           backgroundColor: canApply ? kPrimaryColor : Colors.grey,
           onPressed: () async {
             if (!canApply) {
-              final reason = e != null && e.eligibilityReason.isNotEmpty
-                  ? e.eligibilityReason
-                  : TranslationKeys.noEntitlementFoundForYear.tr;
+              final reason =
+                  e != null && e.eligibilityReason.isNotEmpty
+                      ? e.eligibilityReason
+                      : TranslationKeys.noEntitlementFoundForYear.tr;
               Utils.snackBar(reason, true);
               return;
             }
@@ -62,8 +60,10 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
             c.fetchEntitlement();
           },
           icon: const Icon(Icons.add, color: Colors.white),
-          label: Text(TranslationKeys.newRequest.tr,
-              style: const TextStyle(color: Colors.white)),
+          label: Text(
+            TranslationKeys.newRequest.tr,
+            style: const TextStyle(color: Colors.white),
+          ),
         );
       }),
       body: Container(
@@ -75,9 +75,13 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
             children: [
               _entitlementCard(),
               const SizedBox(height: 16),
-              Text(TranslationKeys.myRequests.tr,
-                  style: textStyleMontserratBold(
-                      fontSize: 16, color: Colors.black87)),
+              Text(
+                TranslationKeys.myRequests.tr,
+                style: textStyleMontserratBold(
+                  fontSize: 16,
+                  color: Colors.black87,
+                ),
+              ),
               const SizedBox(height: 8),
               _requestsList(),
             ],
@@ -102,15 +106,20 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
         return _cardShell(
           child: Padding(
             padding: const EdgeInsets.all(16),
-            child: Text(TranslationKeys.noEntitlementFoundForYear.tr,
-                style: textStyleMontserratBold(
-                    fontSize: 14, color: Colors.black54)),
+            child: Text(
+              TranslationKeys.noEntitlementFoundForYear.tr,
+              style: textStyleMontserratBold(
+                fontSize: 14,
+                color: Colors.black54,
+              ),
+            ),
           ),
         );
       }
-      final progress = e.eligibleTickets == 0
-          ? 0.0
-          : (e.usedTickets / e.eligibleTickets).clamp(0.0, 1.0);
+      final progress =
+          e.eligibleTickets == 0
+              ? 0.0
+              : (e.usedTickets / e.eligibleTickets).clamp(0.0, 1.0);
       return _cardShell(
         child: Padding(
           padding: const EdgeInsets.all(16),
@@ -121,9 +130,13 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
                 children: [
                   const Icon(Icons.flight_takeoff, color: kPrimaryColor),
                   const SizedBox(width: 8),
-                  Text("${TranslationKeys.entitlement.tr} · ${e.year}",
-                      style: textStyleMontserratBold(
-                          fontSize: 15, color: Colors.black87)),
+                  Text(
+                    "${TranslationKeys.entitlement.tr} · ${e.year}",
+                    style: textStyleMontserratBold(
+                      fontSize: 15,
+                      color: Colors.black87,
+                    ),
+                  ),
                   const Spacer(),
                   _statusChip(e.status),
                 ],
@@ -132,8 +145,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
               LinearProgressIndicator(
                 value: progress,
                 backgroundColor: Colors.grey.shade200,
-                valueColor:
-                    const AlwaysStoppedAnimation<Color>(kPrimaryColor),
+                valueColor: const AlwaysStoppedAnimation<Color>(kPrimaryColor),
                 minHeight: 8,
               ),
               const SizedBox(height: 8),
@@ -141,19 +153,23 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
-                      "${TranslationKeys.used.tr}: ${e.usedTickets}/${e.eligibleTickets}",
-                      style: const TextStyle(color: Colors.black87)),
-                  Text("${TranslationKeys.remaining.tr}: ${e.remainingTickets}",
-                      style: textStyleMontserratBold(
-                          fontSize: 13, color: kPrimaryColor)),
+                    "${TranslationKeys.used.tr}: ${e.usedTickets}/${e.eligibleTickets}",
+                    style: const TextStyle(color: Colors.black87),
+                  ),
+                  Text(
+                    "${TranslationKeys.remaining.tr}: ${e.remainingTickets}",
+                    style: textStyleMontserratBold(
+                      fontSize: 13,
+                      color: kPrimaryColor,
+                    ),
+                  ),
                 ],
               ),
               if (_frequencyLabel(e.ticketFrequency) != null) ...[
                 const SizedBox(height: 6),
                 Text(
                   _frequencyLabel(e.ticketFrequency)!,
-                  style:
-                      TextStyle(color: Colors.grey.shade600, fontSize: 12),
+                  style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
                 ),
               ],
               if (!e.canApply && e.eligibilityReason.isNotEmpty) ...[
@@ -167,14 +183,19 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
                   child: Row(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(Icons.info_outline,
-                          size: 18, color: Colors.orange.shade800),
+                      Icon(
+                        Icons.info_outline,
+                        size: 18,
+                        color: Colors.orange.shade800,
+                      ),
                       const SizedBox(width: 8),
                       Expanded(
                         child: Text(
                           e.eligibilityReason,
                           style: TextStyle(
-                              color: Colors.orange.shade900, fontSize: 12),
+                            color: Colors.orange.shade900,
+                            fontSize: 12,
+                          ),
                         ),
                       ),
                     ],
@@ -215,60 +236,69 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
             padding: const EdgeInsets.all(24),
             child: Column(
               children: [
-                Icon(Icons.airplanemode_inactive,
-                    size: 40, color: Colors.grey.shade400),
+                Icon(
+                  Icons.airplanemode_inactive,
+                  size: 40,
+                  color: Colors.grey.shade400,
+                ),
                 const SizedBox(height: 8),
-                Text(TranslationKeys.noAirTicketRequestsYet.tr,
-                    style: textStyleMontserratBold(
-                        fontSize: 14, color: Colors.black54)),
+                Text(
+                  TranslationKeys.noAirTicketRequestsYet.tr,
+                  style: textStyleMontserratBold(
+                    fontSize: 14,
+                    color: Colors.black54,
+                  ),
+                ),
               ],
             ),
           ),
         );
       }
-      return Column(
-        children: c.requests.map(_requestTile).toList(),
-      );
+      return Column(children: c.requests.map(_requestTile).toList());
     });
   }
 
   Widget _requestTile(AirTicketRequest r) {
-    final dep = r.departureDate == null
-        ? '—'
-        : DateFormat('MMM d, yyyy').format(r.departureDate!);
+    final dep =
+        r.departureDate == null
+            ? '—'
+            : DateFormat('MMM d, yyyy').format(r.departureDate!);
     return GestureDetector(
-      onTap: () =>
-          Get.to(() => AirTicketDetailsScreen(requestId: r.requestId)),
+      onTap: () => Get.to(() => AirTicketDetailsScreen(requestId: r.requestId)),
       child: _cardShell(
-      margin: const EdgeInsets.only(bottom: 10),
-      child: Padding(
-        padding: const EdgeInsets.all(14),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Expanded(
-                  child: Text(
-                    "${r.fromCity} → ${r.toCity}",
-                    style: textStyleMontserratBold(
-                        fontSize: 15, color: Colors.black87),
+        margin: const EdgeInsets.only(bottom: 10),
+        child: Padding(
+          padding: const EdgeInsets.all(14),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Row(
+                children: [
+                  Expanded(
+                    child: Text(
+                      "${r.fromCity} → ${r.toCity}",
+                      style: textStyleMontserratBold(
+                        fontSize: 15,
+                        color: Colors.black87,
+                      ),
+                    ),
                   ),
-                ),
-                _statusChip(r.status),
-              ],
-            ),
-            const SizedBox(height: 6),
-            Text("${TranslationKeys.departure.tr}: $dep",
-                style: const TextStyle(color: Colors.black54, fontSize: 13)),
-            const SizedBox(height: 2),
-            Text(
-              "${r.travelClass.toUpperCase()} · ${r.travelType.replaceAll('_', ' ')}",
-              style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
-            ),
-          ],
+                  _statusChip(r.status),
+                ],
+              ),
+              const SizedBox(height: 6),
+              Text(
+                "${TranslationKeys.departure.tr}: $dep",
+                style: const TextStyle(color: Colors.black54, fontSize: 13),
+              ),
+              const SizedBox(height: 2),
+              Text(
+                "${r.travelClass.toUpperCase()} · ${r.travelType.replaceAll('_', ' ')}",
+                style: TextStyle(color: Colors.grey.shade600, fontSize: 12),
+              ),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }
@@ -304,11 +334,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
       ),
       child: Text(
         status.isEmpty ? '—' : status,
-        style: TextStyle(
-          color: fg,
-          fontSize: 11,
-          fontWeight: FontWeight.w600,
-        ),
+        style: TextStyle(color: fg, fontSize: 11, fontWeight: FontWeight.w600),
       ),
     );
   }

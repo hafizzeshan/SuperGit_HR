@@ -414,7 +414,8 @@ class ArabicLocal {
       TranslationKeys.issuedBy: "صادر عن",
       TranslationKeys.letterDate: "تاريخ الخطاب",
       TranslationKeys.incidentRef: "رقم المخالفة",
-      TranslationKeys.warningFileNotice: "تم وضع نسخة من خطاب الإنذار في ملفك الوظيفي وفقاً لأنظمة العمل.",
+      TranslationKeys.warningFileNotice:
+          "تم وضع نسخة من خطاب الإنذار في ملفك الوظيفي وفقاً لأنظمة العمل.",
       TranslationKeys.manageDiscipline: "إدارة الانضباط",
       TranslationKeys.startInvestigation: "بدء التحقيق",
       TranslationKeys.requestResponse: "طلب رد",
@@ -725,8 +726,7 @@ class ArabicLocal {
       TranslationKeys.noApprovalActionsYet: "لا توجد إجراءات موافقة حتى الآن.",
       TranslationKeys.newRequest: "طلب جديد",
       TranslationKeys.myRequests: "طلباتي",
-      TranslationKeys.noEntitlementFoundForYear:
-          "لا يوجد استحقاق لهذه السنة.",
+      TranslationKeys.noEntitlementFoundForYear: "لا يوجد استحقاق لهذه السنة.",
       TranslationKeys.entitlement: "الاستحقاق",
       TranslationKeys.used: "المستخدَم",
       TranslationKeys.noAirTicketRequestsYet:
@@ -766,10 +766,8 @@ class ArabicLocal {
       TranslationKeys.optionalNotesForHr: "ملاحظات اختيارية للموارد البشرية",
       TranslationKeys.pleaseSelectDepartureDate: "يرجى اختيار تاريخ المغادرة",
       TranslationKeys.addAtLeastOnePassenger: "أضف مسافرًا واحدًا على الأقل",
-      TranslationKeys.fillNameAndPassport:
-          "أدخل الاسم وجواز السفر لكل مسافر",
-      TranslationKeys.pickDobForEveryPassenger:
-          "اختر تاريخ الميلاد لكل مسافر",
+      TranslationKeys.fillNameAndPassport: "أدخل الاسم وجواز السفر لكل مسافر",
+      TranslationKeys.pickDobForEveryPassenger: "اختر تاريخ الميلاد لكل مسافر",
       TranslationKeys.employeeIdMissingLogin:
           "معرّف الموظف مفقود. يرجى تسجيل الدخول مرة أخرى.",
       TranslationKeys.passengers: "المسافرون",
@@ -859,12 +857,9 @@ class ArabicLocal {
       TranslationKeys.unableToReachServerShort: "تعذّر الوصول إلى الخادم.",
       TranslationKeys.somethingWentWrongSubmittingRequest:
           "حدث خطأ أثناء إرسال الطلب",
-      TranslationKeys.somethingWentWrongClockIn:
-          "حدث خطأ أثناء تسجيل الدخول",
-      TranslationKeys.somethingWentWrongClockOut:
-          "حدث خطأ أثناء تسجيل الخروج",
-      TranslationKeys.errorFetchingAttendanceHistory:
-          "خطأ في جلب سجل الحضور",
+      TranslationKeys.somethingWentWrongClockIn: "حدث خطأ أثناء تسجيل الدخول",
+      TranslationKeys.somethingWentWrongClockOut: "حدث خطأ أثناء تسجيل الخروج",
+      TranslationKeys.errorFetchingAttendanceHistory: "خطأ في جلب سجل الحضور",
       TranslationKeys.somethingWentWrongRequestSubmission:
           "حدث خطأ أثناء إرسال الطلب",
       TranslationKeys.errorLoadingTodaysLogs: "خطأ في تحميل سجلات اليوم",
@@ -922,7 +917,8 @@ class ArabicLocal {
       TranslationKeys.currentlyClockedIn: "أنت مسجّل الدخول حالياً",
       TranslationKeys.clockTime: "الوقت",
       TranslationKeys.device: "الجهاز",
-      TranslationKeys.supportBusyTryLater: "فريق الدعم مشغول حالياً. يرجى التواصل بعد قليل.",
+      TranslationKeys.supportBusyTryLater:
+          "فريق الدعم مشغول حالياً. يرجى التواصل بعد قليل.",
       TranslationKeys.yourEmail: "بريدك الإلكتروني",
       TranslationKeys.yourMessage: "رسالتك",
       TranslationKeys.writeYourMessageHere: "اشرح مشكلتك في بضعة أسطر…",
@@ -930,19 +926,23 @@ class ArabicLocal {
       TranslationKeys.todaysMessages: "رسائل اليوم",
       TranslationKeys.noMessagesToday: "لم ترسل أي رسالة اليوم",
       TranslationKeys.messagesLeftToday: "رسالة متبقية اليوم",
-      TranslationKeys.dailyMessageLimitReached: "لقد وصلت إلى الحد اليومي وهو رسالتان. يرجى المحاولة غداً.",
+      TranslationKeys.dailyMessageLimitReached:
+          "لقد وصلت إلى الحد اليومي وهو رسالتان. يرجى المحاولة غداً.",
       TranslationKeys.messageSentToSupport: "تم إرسال رسالتك إلى الدعم",
-      TranslationKeys.failedToSendMessage: "تعذر إرسال رسالتك. يرجى المحاولة مرة أخرى.",
+      TranslationKeys.failedToSendMessage:
+          "تعذر إرسال رسالتك. يرجى المحاولة مرة أخرى.",
       TranslationKeys.failedToLoadRequests: "تعذر تحميل رسائلك",
       TranslationKeys.pleaseEnterValidEmail: "يرجى إدخال بريد إلكتروني صحيح",
       TranslationKeys.pleaseEnterYourMessage: "يرجى كتابة رسالتك",
-      TranslationKeys.weWillReplyByEmail: "سيرد عليك فريقنا عبر البريد الإلكتروني",
+      TranslationKeys.weWillReplyByEmail:
+          "سيرد عليك فريقنا عبر البريد الإلكتروني",
       TranslationKeys.supportUnavailable: "الدعم غير متاح",
       TranslationKeys.sent: "تم الإرسال",
       TranslationKeys.ethicsReports: "تقارير الأخلاقيات",
       TranslationKeys.newEthicsReport: "تقرير جديد",
       TranslationKeys.ethicsIntroTitle: "تحدّث بثقة",
-      TranslationKeys.ethicsIntroBody: "أبلغ عن مخاوف مكان العمل بسرية. يصل تقريرك إلى الموارد البشرية مباشرة.",
+      TranslationKeys.ethicsIntroBody:
+          "أبلغ عن مخاوف مكان العمل بسرية. يصل تقريرك إلى الموارد البشرية مباشرة.",
       TranslationKeys.noEthicsReports: "لم ترسل أي تقرير بعد",
       TranslationKeys.myReports: "تقاريري",
       TranslationKeys.category: "الفئة",
@@ -951,7 +951,8 @@ class ArabicLocal {
       TranslationKeys.incidentLocation: "مكان الواقعة",
       TranslationKeys.peopleInvolved: "الأشخاص المعنيون",
       TranslationKeys.immediateDanger: "خطر فوري",
-      TranslationKeys.immediateDangerHint: "اختر فقط في حالة الطوارئ أو وجود خطر عاجل على السلامة",
+      TranslationKeys.immediateDangerHint:
+          "اختر فقط في حالة الطوارئ أو وجود خطر عاجل على السلامة",
       TranslationKeys.attachments: "المرفقات",
       TranslationKeys.addAttachment: "إضافة مرفق",
       TranslationKeys.submitReport: "إرسال التقرير",
@@ -963,17 +964,21 @@ class ArabicLocal {
       TranslationKeys.reference: "الرقم المرجعي",
       TranslationKeys.pleaseSelectCategory: "يرجى اختيار الفئة",
       TranslationKeys.descriptionMin20Chars: "يجب ألا يقل الوصف عن 20 حرفاً",
-      TranslationKeys.fileTooLargeMax10Mb: "يجب ألا يتجاوز حجم الملف 10 ميجابايت",
+      TranslationKeys.fileTooLargeMax10Mb:
+          "يجب ألا يتجاوز حجم الملف 10 ميجابايت",
       TranslationKeys.reportSubmittedSuccessfully: "تم إرسال تقريرك",
       TranslationKeys.reportUpdatedSuccessfully: "تم تحديث التقرير",
-      TranslationKeys.failedToSubmitReport: "تعذر إرسال التقرير. يرجى المحاولة مرة أخرى.",
+      TranslationKeys.failedToSubmitReport:
+          "تعذر إرسال التقرير. يرجى المحاولة مرة أخرى.",
       TranslationKeys.failedToUpdateReport: "تعذر تحديث التقرير",
       TranslationKeys.reportDeletedSuccessfully: "تم حذف التقرير",
       TranslationKeys.failedToDeleteReport: "تعذر حذف التقرير",
       TranslationKeys.failedToDeleteAttachment: "تعذر حذف المرفق",
       TranslationKeys.attachmentUploadFailed: "تعذر رفع المرفق",
-      TranslationKeys.deleteReportConfirm: "هل تريد حذف هذا التقرير؟ لا يمكن التراجع.",
-      TranslationKeys.editableOnlyWhilePending: "يمكنك تعديل التقرير فقط أثناء حالة قيد الانتظار",
+      TranslationKeys.deleteReportConfirm:
+          "هل تريد حذف هذا التقرير؟ لا يمكن التراجع.",
+      TranslationKeys.editableOnlyWhilePending:
+          "يمكنك تعديل التقرير فقط أثناء حالة قيد الانتظار",
       TranslationKeys.noUpdatesYet: "لا توجد تحديثات بعد",
       TranslationKeys.urgent: "عاجل",
       TranslationKeys.describeIncident: "اشرح ما حدث ومتى ومن كان معنياً…",
@@ -1050,11 +1055,14 @@ class ArabicLocal {
       TranslationKeys.totalOvertime: "إجمالي العمل الإضافي",
       TranslationKeys.pendingRequests: "قيد الانتظار",
       TranslationKeys.approvedRequests: "معتمد",
-      TranslationKeys.overtimeRequestCreated: "تم إنشاء طلب العمل الإضافي بنجاح",
+      TranslationKeys.overtimeRequestCreated:
+          "تم إنشاء طلب العمل الإضافي بنجاح",
       TranslationKeys.overtimeRequestFailed: "فشل في إنشاء طلب العمل الإضافي",
       TranslationKeys.failedToFetchOvertime: "فشل في جلب طلبات العمل الإضافي",
-      TranslationKeys.somethingWentWrongFetchingOvertime: "حدث خطأ أثناء جلب العمل الإضافي",
-      TranslationKeys.somethingWentWrongCreatingOvertime: "حدث خطأ أثناء إنشاء طلب العمل الإضافي",
+      TranslationKeys.somethingWentWrongFetchingOvertime:
+          "حدث خطأ أثناء جلب العمل الإضافي",
+      TranslationKeys.somethingWentWrongCreatingOvertime:
+          "حدث خطأ أثناء إنشاء طلب العمل الإضافي",
       TranslationKeys.version: "الإصدار",
     };
   }

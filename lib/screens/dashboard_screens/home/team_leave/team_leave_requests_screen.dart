@@ -34,8 +34,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
       c.fetchRequests();
     });
     _scroll.addListener(() {
-      if (_scroll.position.pixels >=
-          _scroll.position.maxScrollExtent - 200) {
+      if (_scroll.position.pixels >= _scroll.position.maxScrollExtent - 200) {
         c.loadMore();
       }
     });
@@ -120,8 +119,11 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
               color: kPrimaryColor.withValues(alpha: 0.1),
               shape: BoxShape.circle,
             ),
-            child: const Icon(Icons.task_alt_rounded,
-                color: kPrimaryColor, size: 38),
+            child: const Icon(
+              Icons.task_alt_rounded,
+              color: kPrimaryColor,
+              size: 38,
+            ),
           ),
         ),
         const SizedBox(height: 16),
@@ -146,20 +148,21 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
     return ListView.builder(
       padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
       itemCount: 5,
-      itemBuilder: (_, __) => Padding(
-        padding: const EdgeInsets.only(bottom: 14),
-        child: Shimmer.fromColors(
-          baseColor: Colors.grey.shade200,
-          highlightColor: Colors.grey.shade100,
-          child: Container(
-            height: 170,
-            decoration: BoxDecoration(
-              color: Colors.white,
-              borderRadius: BorderRadius.circular(18),
+      itemBuilder:
+          (_, __) => Padding(
+            padding: const EdgeInsets.only(bottom: 14),
+            child: Shimmer.fromColors(
+              baseColor: Colors.grey.shade200,
+              highlightColor: Colors.grey.shade100,
+              child: Container(
+                height: 170,
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(18),
+                ),
+              ),
             ),
           ),
-        ),
-      ),
     );
   }
 
@@ -167,20 +170,22 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
 
   void _showDetails(TeamLeaveRequest r) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (_) => _DetailsSheet(
-        request: r,
-        onApprove: () {
-          Get.back();
-          _confirmAction(r, approve: true);
-        },
-        onReject: () {
-          Get.back();
-          _confirmAction(r, approve: false);
-        },
-      ),
+      builder:
+          (_) => _DetailsSheet(
+            request: r,
+            onApprove: () {
+              Get.back();
+              _confirmAction(r, approve: true);
+            },
+            onReject: () {
+              Get.back();
+              _confirmAction(r, approve: false);
+            },
+          ),
     );
   }
 
@@ -219,7 +224,9 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                   const SizedBox(width: 12),
                   Expanded(
                     child: Text(
-                      approve ? TranslationKeys.approveLeaveRequest.tr : TranslationKeys.rejectLeaveRequest.tr,
+                      approve
+                          ? TranslationKeys.approveLeaveRequest.tr
+                          : TranslationKeys.rejectLeaveRequest.tr,
                       style: textStyleMontserratBold(
                         fontSize: 16,
                         color: Colors.black87,
@@ -229,7 +236,10 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                 ],
               ),
               const SizedBox(height: 14),
-              _kv(TranslationKeys.employee.tr, "${r.displayName} (${r.employeeCode ?? '-'})"),
+              _kv(
+                TranslationKeys.employee.tr,
+                "${r.displayName} (${r.employeeCode ?? '-'})",
+              ),
               _kv(TranslationKeys.leaveType.tr, r.leaveTypeName ?? '-'),
               _kv(TranslationKeys.duration.tr, _range(r)),
               const SizedBox(height: 12),
@@ -237,11 +247,14 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                 controller: remarksCtrl,
                 maxLines: 3,
                 decoration: InputDecoration(
-                  hintText: approve
-                      ? TranslationKeys.remarksOptional.tr
-                      : TranslationKeys.reasonForRejection.tr,
-                  hintStyle:
-                      TextStyle(color: Colors.grey.shade400, fontSize: 13),
+                  hintText:
+                      approve
+                          ? TranslationKeys.remarksOptional.tr
+                          : TranslationKeys.reasonForRejection.tr,
+                  hintStyle: TextStyle(
+                    color: Colors.grey.shade400,
+                    fontSize: 13,
+                  ),
                   filled: true,
                   fillColor: Colors.grey.shade50,
                   contentPadding: const EdgeInsets.all(12),
@@ -301,7 +314,9 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
                         ),
                       ),
                       child: Text(
-                        approve ? TranslationKeys.approve.tr : TranslationKeys.reject.tr,
+                        approve
+                            ? TranslationKeys.approve.tr
+                            : TranslationKeys.reject.tr,
                         style: textStyleMontserratBold(
                           fontSize: 14,
                           color: Colors.white,
@@ -319,29 +334,29 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
   }
 
   Widget _kv(String k, String v) => Padding(
-        padding: const EdgeInsets.only(bottom: 6),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 92,
-              child: Text(
-                k,
-                style: TextStyle(fontSize: 12.5, color: Colors.grey.shade600),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                v,
-                style: textStyleMontserratBold(
-                  fontSize: 12.5,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.only(bottom: 6),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 92,
+          child: Text(
+            k,
+            style: TextStyle(fontSize: 12.5, color: Colors.grey.shade600),
+          ),
         ),
-      );
+        Expanded(
+          child: Text(
+            v,
+            style: textStyleMontserratBold(
+              fontSize: 12.5,
+              color: Colors.black87,
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 
   String _range(TeamLeaveRequest r) {
     final s = _fmt(r.startDate);
@@ -429,8 +444,10 @@ class _RequestCard extends StatelessWidget {
                 ),
               ),
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 5,
+                ),
                 decoration: BoxDecoration(
                   color: kPrimaryColor.withValues(alpha: 0.08),
                   borderRadius: BorderRadius.circular(20),
@@ -448,8 +465,11 @@ class _RequestCard extends StatelessWidget {
           const SizedBox(height: 14),
           Row(
             children: [
-              Icon(Icons.date_range_rounded,
-                  size: 16, color: Colors.grey.shade500),
+              Icon(
+                Icons.date_range_rounded,
+                size: 16,
+                color: Colors.grey.shade500,
+              ),
               const SizedBox(width: 6),
               Expanded(
                 child: Text(
@@ -697,16 +717,26 @@ class _DetailsSheet extends StatelessWidget {
           ),
           const SizedBox(height: 18),
           _row(TranslationKeys.leaveType.tr, request.leaveTypeName ?? '-'),
-          _row(TranslationKeys.startDate.tr, _TeamLeaveRequestsScreenState._fmt(request.startDate)),
-          _row(TranslationKeys.endDate.tr, _TeamLeaveRequestsScreenState._fmt(request.endDate)),
-          _row(TranslationKeys.totalDays.tr,
-              request.totalDays != null ? "${request.totalDays}" : '-'),
+          _row(
+            TranslationKeys.startDate.tr,
+            _TeamLeaveRequestsScreenState._fmt(request.startDate),
+          ),
+          _row(
+            TranslationKeys.endDate.tr,
+            _TeamLeaveRequestsScreenState._fmt(request.endDate),
+          ),
+          _row(
+            TranslationKeys.totalDays.tr,
+            request.totalDays != null ? "${request.totalDays}" : '-',
+          ),
           _row(TranslationKeys.status.tr, request.status ?? '-'),
           if (request.currentApproverName != null)
             _row(TranslationKeys.approver.tr, request.currentApproverName!),
           if (request.createdAt != null)
-            _row(TranslationKeys.requestedOn.tr,
-                _TeamLeaveRequestsScreenState._fmt(request.createdAt)),
+            _row(
+              TranslationKeys.requestedOn.tr,
+              _TeamLeaveRequestsScreenState._fmt(request.createdAt),
+            ),
           const SizedBox(height: 6),
           if (request.reason != null && request.reason!.isNotEmpty) ...[
             Text(
@@ -775,27 +805,24 @@ class _DetailsSheet extends StatelessWidget {
   }
 
   Widget _row(String k, String v) => Padding(
-        padding: const EdgeInsets.only(bottom: 10),
-        child: Row(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            SizedBox(
-              width: 110,
-              child: Text(
-                k,
-                style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
-              ),
-            ),
-            Expanded(
-              child: Text(
-                v,
-                style: textStyleMontserratBold(
-                  fontSize: 13,
-                  color: Colors.black87,
-                ),
-              ),
-            ),
-          ],
+    padding: const EdgeInsets.only(bottom: 10),
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(
+          width: 110,
+          child: Text(
+            k,
+            style: TextStyle(fontSize: 13, color: Colors.grey.shade600),
+          ),
         ),
-      );
+        Expanded(
+          child: Text(
+            v,
+            style: textStyleMontserratBold(fontSize: 13, color: Colors.black87),
+          ),
+        ),
+      ],
+    ),
+  );
 }

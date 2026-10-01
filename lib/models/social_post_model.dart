@@ -29,11 +29,12 @@ class SocialPost {
     DateTime? parseDate(dynamic v) =>
         (v is String && v.isNotEmpty) ? DateTime.tryParse(v) : null;
     final commentsRaw = map['comments'];
-    final comments = (commentsRaw is List)
-        ? commentsRaw
-            .map((e) => SocialComment.fromMap(Map<String, dynamic>.from(e)))
-            .toList()
-        : <SocialComment>[];
+    final comments =
+        (commentsRaw is List)
+            ? commentsRaw
+                .map((e) => SocialComment.fromMap(Map<String, dynamic>.from(e)))
+                .toList()
+            : <SocialComment>[];
     return SocialPost(
       id: map['id']?.toString() ?? '',
       tenantId: map['tenant_id']?.toString(),
@@ -43,9 +44,10 @@ class SocialPost {
       mediaType: map['media_type']?.toString() ?? 'image',
       createdBy: map['created_by']?.toString(),
       createdAt: parseDate(map['created_at']),
-      likesCount: (map['likes_count'] is num)
-          ? (map['likes_count'] as num).toInt()
-          : int.tryParse('${map['likes_count']}') ?? 0,
+      likesCount:
+          (map['likes_count'] is num)
+              ? (map['likes_count'] as num).toInt()
+              : int.tryParse('${map['likes_count']}') ?? 0,
       isLiked: map['is_liked'] == true,
       comments: comments,
     );
@@ -105,10 +107,12 @@ class SocialComment {
       employeeId: map['employee_id']?.toString() ?? '',
       comment: map['comment']?.toString() ?? '',
       createdAt: parseDate(map['created_at']),
-      employee: map['employee'] is Map
-          ? SocialCommentEmployee.fromMap(
-              Map<String, dynamic>.from(map['employee']))
-          : null,
+      employee:
+          map['employee'] is Map
+              ? SocialCommentEmployee.fromMap(
+                Map<String, dynamic>.from(map['employee']),
+              )
+              : null,
     );
   }
 }
@@ -118,11 +122,7 @@ class SocialCommentEmployee {
   final String? firstName;
   final String? lastName;
 
-  SocialCommentEmployee({
-    required this.id,
-    this.firstName,
-    this.lastName,
-  });
+  SocialCommentEmployee({required this.id, this.firstName, this.lastName});
 
   factory SocialCommentEmployee.fromMap(Map<String, dynamic> map) {
     return SocialCommentEmployee(

@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <!-- Adaptive launcher icon background. Written by flutter_launcher_icons
+         from `adaptive_icon_background` in pubspec.yaml — keep in step. -->
     <color name="ic_launcher_background">#ffffff</color>
+
+    <!-- kMainBackgroundColor from lib/views/colors.dart. Used as the window
+         background so anything Flutter has not painted yet (or the area behind
+         the navigation bar in edge-to-edge) matches the app instead of
+         showing the platform default, which is black in dark mode. -->
+    <color name="app_window_background">#F2F6F9</color>
 </resources>

@@ -242,8 +242,10 @@ class ApiNetworkService {
   }) async {
     await _attachToken();
     try {
-      print("🔹 ${usePatch ? 'PATCH' : 'PUT'} Request to: "
-          "${AppURL.baseUrl}$endpoint");
+      print(
+        "🔹 ${usePatch ? 'PATCH' : 'PUT'} Request to: "
+        "${AppURL.baseUrl}$endpoint",
+      );
       final request = usePatch ? dio.patch : dio.put;
       final response = await request(
         endpoint,

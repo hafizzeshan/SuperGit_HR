@@ -1,4 +1,3 @@
-
 class AttendanceLog {
   final String id;
   final String employeeId;

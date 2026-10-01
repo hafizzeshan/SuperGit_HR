@@ -30,15 +30,16 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
 
   // Calculate monthly installment based on input amount
   double get monthlyInstallment {
-    double amount = double.tryParse(_loanController.amountController.text) ?? 0.0;
+    double amount =
+        double.tryParse(_loanController.amountController.text) ?? 0.0;
     // Assuming fixed 12 months as per code logic
-    return amount / 12; 
+    return amount / 12;
   }
 
   // Date Picker Logic
   Future<void> _pickStartMonth() async {
     DateTime currentDate = DateTime.now();
-    DateTime firstSelectableDate = currentDate.add(const Duration(days: 1)); 
+    DateTime firstSelectableDate = currentDate.add(const Duration(days: 1));
 
     DateTime? picked = await showDatePicker(
       context: context,
@@ -77,60 +78,22 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
       appBar: appBarrWitoutAction(title: TranslationKeys.applyForLoan.tr),
-      
+
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: SingleChildScrollView(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // --- Summary Card ---
-            _buildSummaryCard(),
-            const SizedBox(height: 24),
+          padding: const EdgeInsets.all(20.0),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              // --- Summary Card ---
+              _buildSummaryCard(),
+              const SizedBox(height: 24),
 
-            // --- Amount Field ---
-            _buildLabel(TranslationKeys.amount.tr),
-            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
-                  ),
-                ],
-              ),
-              child: TextFormField(
-                controller: _loanController.amountController,
-                keyboardType: TextInputType.number,
-                onChanged: (_) => setState(() {}),
-                style: const TextStyle(fontWeight: FontWeight.w600),
-                decoration: InputDecoration(
-                  hintText: TranslationKeys.enterLoanAmount.tr,
-                  hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-                  contentPadding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
-                  border: InputBorder.none,
-                  suffixIcon: Icon(Icons.money, color: Colors.grey.shade400),
-                ),
-              ),
-            ),
-            
-            const SizedBox(height: 20),
-
-            // --- Start Month (Date Picker) ---
-            _buildLabel(TranslationKeys.startMonth.tr),
-            const SizedBox(height: 8),
-            GestureDetector(
-              onTap: _pickStartMonth,
-              child: Container(
-                padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 14),
+              // --- Amount Field ---
+              _buildLabel(TranslationKeys.amount.tr),
+              const SizedBox(height: 8),
+              Container(
                 decoration: BoxDecoration(
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(12),
@@ -143,73 +106,134 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
                     ),
                   ],
                 ),
-                child: Row(
-                  children: [
-                    Icon(Icons.calendar_month_rounded, color: kPrimaryColor, size: 20),
-                    const SizedBox(width: 12),
-                    Expanded(
-                      child: Text(
-                        _loanController.startMonthController.text.isNotEmpty
-                            ? _loanController.startMonthController.text
-                            : TranslationKeys.selectDate.tr,
-                        style: TextStyle(
-                          color: _loanController.startMonthController.text.isNotEmpty
-                              ? Colors.black87
-                              : Colors.grey.shade400,
-                          fontWeight: FontWeight.w500,
-                          fontSize: 14,
+                child: TextFormField(
+                  controller: _loanController.amountController,
+                  keyboardType: TextInputType.number,
+                  onChanged: (_) => setState(() {}),
+                  style: const TextStyle(fontWeight: FontWeight.w600),
+                  decoration: InputDecoration(
+                    hintText: TranslationKeys.enterLoanAmount.tr,
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                    ),
+                    contentPadding: const EdgeInsets.symmetric(
+                      horizontal: 16,
+                      vertical: 14,
+                    ),
+                    border: InputBorder.none,
+                    suffixIcon: Icon(Icons.money, color: Colors.grey.shade400),
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // --- Start Month (Date Picker) ---
+              _buildLabel(TranslationKeys.startMonth.tr),
+              const SizedBox(height: 8),
+              GestureDetector(
+                onTap: _pickStartMonth,
+                child: Container(
+                  padding: const EdgeInsets.symmetric(
+                    horizontal: 16,
+                    vertical: 14,
+                  ),
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    border: Border.all(color: Colors.grey.shade300),
+                    boxShadow: [
+                      BoxShadow(
+                        color: Colors.black.withValues(alpha: 0.02),
+                        blurRadius: 6,
+                        offset: const Offset(0, 2),
+                      ),
+                    ],
+                  ),
+                  child: Row(
+                    children: [
+                      Icon(
+                        Icons.calendar_month_rounded,
+                        color: kPrimaryColor,
+                        size: 20,
+                      ),
+                      const SizedBox(width: 12),
+                      Expanded(
+                        child: Text(
+                          _loanController.startMonthController.text.isNotEmpty
+                              ? _loanController.startMonthController.text
+                              : TranslationKeys.selectDate.tr,
+                          style: TextStyle(
+                            color:
+                                _loanController
+                                        .startMonthController
+                                        .text
+                                        .isNotEmpty
+                                    ? Colors.black87
+                                    : Colors.grey.shade400,
+                            fontWeight: FontWeight.w500,
+                            fontSize: 14,
+                          ),
                         ),
                       ),
+                      Icon(Icons.arrow_drop_down, color: Colors.grey.shade500),
+                    ],
+                  ),
+                ),
+              ),
+
+              const SizedBox(height: 20),
+
+              // --- Purpose Field ---
+              _buildLabel(TranslationKeys.purposeOfLoan.tr),
+              const SizedBox(height: 8),
+              Container(
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  borderRadius: BorderRadius.circular(12),
+                  border: Border.all(color: Colors.grey.shade300),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.02),
+                      blurRadius: 6,
+                      offset: const Offset(0, 2),
                     ),
-                    Icon(Icons.arrow_drop_down, color: Colors.grey.shade500),
                   ],
                 ),
-              ),
-            ),
-
-            const SizedBox(height: 20),
-
-            // --- Purpose Field ---
-            _buildLabel(TranslationKeys.purposeOfLoan.tr),
-            const SizedBox(height: 8),
-            Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(12),
-                border: Border.all(color: Colors.grey.shade300),
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.02),
-                    blurRadius: 6,
-                    offset: const Offset(0, 2),
+                child: TextFormField(
+                  controller: _loanController.purposeController,
+                  maxLines: 4,
+                  style: const TextStyle(fontWeight: FontWeight.w500),
+                  decoration: InputDecoration(
+                    hintText:
+                        TranslationKeys
+                            .addReasonForLeave
+                            .tr, // Reusing similar hint
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade400,
+                      fontSize: 14,
+                    ),
+                    contentPadding: const EdgeInsets.all(16),
+                    border: InputBorder.none,
                   ),
-                ],
-              ),
-              child: TextFormField(
-                controller: _loanController.purposeController,
-                maxLines: 4,
-                style: const TextStyle(fontWeight: FontWeight.w500),
-                decoration: InputDecoration(
-                  hintText: TranslationKeys.addReasonForLeave.tr, // Reusing similar hint
-                  hintStyle: TextStyle(color: Colors.grey.shade400, fontSize: 14),
-                  contentPadding: const EdgeInsets.all(16),
-                  border: InputBorder.none,
                 ),
               ),
-            ),
 
-            const SizedBox(height: 40),
+              const SizedBox(height: 40),
 
-            // --- Submit Button ---
-            Obx(() => LoadingButton(
+              // --- Submit Button ---
+              Obx(
+                () => LoadingButton(
                   isLoading: _loanController.isSubmitting.value,
                   text: TranslationKeys.applyForLoan.tr,
                   onTap: _applyLoan,
-                )),
-            const SizedBox(height: 20),
-          ],
+                ),
+              ),
+              const SizedBox(height: 20),
+            ],
+          ),
         ),
-      ),
       ),
     );
   }

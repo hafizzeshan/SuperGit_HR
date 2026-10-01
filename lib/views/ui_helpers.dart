@@ -157,6 +157,7 @@ class UIHelper {
     required VoidCallback onConfirmLogout,
   }) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(16)),
@@ -497,6 +498,7 @@ class UIHelper {
 
   showGenderBottomSheet({context, onTapM, onTapF}) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(15)),
@@ -880,7 +882,9 @@ class UIHelper {
                   Expanded(
                     child:
                         filteredItems.isEmpty
-                            ? Center(child: Text(TranslationKeys.noItemsFound.tr))
+                            ? Center(
+                              child: Text(TranslationKeys.noItemsFound.tr),
+                            )
                             : ListView.builder(
                               itemCount: filteredItems.length,
                               itemBuilder: (context, index) {

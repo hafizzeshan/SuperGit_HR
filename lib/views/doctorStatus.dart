@@ -108,10 +108,12 @@ class PrescriptionCard extends StatelessWidget {
                           child: Center(
                             child: Padding(
                               padding: const EdgeInsets.all(4.0),
-                                child: kText(
-                                  text: LocalizationHelper.getPrescriptionStatus(s),
-                                  fSize: 7.0,
+                              child: kText(
+                                text: LocalizationHelper.getPrescriptionStatus(
+                                  s,
                                 ),
+                                fSize: 7.0,
+                              ),
                             ),
                           ),
                         ),

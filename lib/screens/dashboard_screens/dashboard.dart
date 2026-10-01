@@ -35,70 +35,76 @@ class _DashBoradState extends State<DashBorad> {
 
   @override
   Widget build(BuildContext context) {
+    // Gesture-bar height — ~34 with gesture navigation, 0 with 3 buttons.
+    // The bar is grown and padded by this by hand, the same thing Material's
+    // own BottomNavigationBar does.
+    final bottomInset = MediaQuery.viewPaddingOf(context).bottom;
+    final isKeyboardVisible = MediaQuery.viewInsetsOf(context).bottom > 0;
+
     return Scaffold(
       resizeToAvoidBottomInset: true,
       backgroundColor: kMainBackgroundColor,
       body: Stack(
         children: [
           _getPage(_selectedIndex),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              decoration: BoxDecoration(
-                color: Colors.white,
-                boxShadow: [
-                  BoxShadow(
-                    color: Colors.black.withValues(alpha: 0.1),
-                    blurRadius: 20,
-                    offset: const Offset(0, -2),
-                  ),
-                ],
-              ),
-              child: SafeArea(
-                top: false,
-                child: SizedBox(
-                  height: 70,
-                  child: Row(
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                    children: [
-                      _buildNavItemWithDivider(
-                        index: 0,
-                        icon: AppAssets.home,
-                        label: TranslationKeys.home.tr,
-                      ),
-                      _buildNavItemWithDivider(
-                        index: 1,
-                        icon: AppAssets.approved,
-                        label: TranslationKeys.social.tr,
-                      ),
-                      _buildNavItemWithDivider(
-                        index: 2,
-                        icon: AppAssets.chat,
-                        label: TranslationKeys.chat.tr,
-                      ),
-                      _buildNavItemWithDivider(
-                        index: 3,
-                        icon: AppAssets.setting,
-                        label: TranslationKeys.setting.tr,
-                      ),
-                    ],
-                  ),
-                ),
-              ),
-            ),
-          ),
           // Floating timer/map action button — right side, just above the
           // nav bar. Lives in the Stack so it floats independently of pages.
           // Only shown on the Home tab.
           if (_selectedIndex == 0)
-            Positioned(
+            const Positioned(
               right: 20,
-              bottom: 70 + MediaQuery.of(context).padding.bottom + 16,
-              child: const FloatingTimerButton(),
+              bottom: 16,
+              child: FloatingTimerButton(),
             ),
         ],
       ),
+      // Using the Scaffold's own slot rather than stacking the bar over the
+      // page: Scaffold then paints its background across the whole window
+      // (including behind the gesture bar) and lays the body out above it, so
+      // no unpainted strip is left at the bottom.
+      bottomNavigationBar:
+          isKeyboardVisible
+              ? const SizedBox.shrink()
+              : Container(
+                height: 70 + bottomInset,
+                padding: EdgeInsets.only(bottom: bottomInset),
+                decoration: BoxDecoration(
+                  color: Colors.white,
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black.withValues(alpha: 0.1),
+                      blurRadius: 20,
+                      offset: const Offset(0, -2),
+                    ),
+                  ],
+                ),
+                child: Row(
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                  children: [
+                    _buildNavItemWithDivider(
+                      index: 0,
+                      icon: AppAssets.home,
+                      label: TranslationKeys.home.tr,
+                    ),
+                    _buildNavItemWithDivider(
+                      index: 1,
+                      icon: AppAssets.approved,
+                      label: TranslationKeys.social.tr,
+                    ),
+                    _buildNavItemWithDivider(
+                      index: 2,
+                      icon: AppAssets.chat,
+                      label: TranslationKeys.chat.tr,
+                    ),
+                    _buildNavItemWithDivider(
+                      index: 3,
+                      icon: AppAssets.setting,
+                      label: TranslationKeys.setting.tr,
+                    ),
+                  ],
+                ),
+              ),
     );
   }
 

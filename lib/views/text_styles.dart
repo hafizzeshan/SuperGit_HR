@@ -21,7 +21,8 @@ TextStyle textStyleExoRegular({
   double? height,
   bool decoration = false,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  final style =
+      Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
   return style(
     height: height,
     color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
@@ -42,7 +43,8 @@ TextStyle textStyleExoMiddle({
   double? height,
   bool decoration = false,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  final style =
+      Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
   return style(
     decorationColor: underlineColor ?? color,
     height: height,
@@ -64,7 +66,8 @@ TextStyle textStyleExoSemiBold({
   double? height,
   bool decoration = false,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  final style =
+      Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
   return style(
     height: height,
     color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
@@ -84,7 +87,8 @@ TextStyle textStyleExoBold({
   Color? underlineColor,
   FontWeight? weight,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  final style =
+      Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
   return style(
     color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
     fontSize: fontSize ?? fontMedium1,
@@ -101,7 +105,8 @@ TextStyle textStyleExoExtraBold({
   double? letterSpacing,
   Color? underlineColor,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
+  final style =
+      Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.exo;
   return style(
     fontSize: fontSize ?? fontMedium1,
     fontWeight: fontWeightExtraBold,
@@ -118,7 +123,10 @@ TextStyle textStyleMontserratRegular({
   double? height,
   bool decoration = false,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  final style =
+      Get.locale?.languageCode == 'ar'
+          ? GoogleFonts.tajawal
+          : GoogleFonts.inter;
   return style(
     height: height,
     color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
@@ -139,7 +147,10 @@ TextStyle textStyleMontserratMiddle({
   double? height,
   bool decoration = false,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  final style =
+      Get.locale?.languageCode == 'ar'
+          ? GoogleFonts.tajawal
+          : GoogleFonts.inter;
   return style(
     decorationColor: underlineColor ?? color,
     height: height,
@@ -161,7 +172,10 @@ TextStyle textStyleMontserratSemiBold({
   double? height,
   bool decoration = false,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  final style =
+      Get.locale?.languageCode == 'ar'
+          ? GoogleFonts.tajawal
+          : GoogleFonts.inter;
   return style(
     height: height,
     color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
@@ -182,7 +196,10 @@ TextStyle textStyleMontserratBold({
   FontWeight? weight,
   double? height,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  final style =
+      Get.locale?.languageCode == 'ar'
+          ? GoogleFonts.tajawal
+          : GoogleFonts.inter;
   return style(
     height: height,
     color: color ?? (Get.isDarkMode ? whiteColor : mainBlackcolor),
@@ -200,7 +217,10 @@ TextStyle textStyleMontserratExtraBold({
   double? letterSpacing,
   Color? underlineColor,
 }) {
-  final style = Get.locale?.languageCode == 'ar' ? GoogleFonts.tajawal : GoogleFonts.inter;
+  final style =
+      Get.locale?.languageCode == 'ar'
+          ? GoogleFonts.tajawal
+          : GoogleFonts.inter;
   return style(
     fontSize: fontSize ?? fontMedium1,
     fontWeight: fontWeightExtraBold,

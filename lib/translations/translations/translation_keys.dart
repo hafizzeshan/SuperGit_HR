@@ -934,7 +934,8 @@ class TranslationKeys {
   static const String pleaseSelectCategory = "pleaseSelectCategory";
   static const String descriptionMin20Chars = "descriptionMin20Chars";
   static const String fileTooLargeMax10Mb = "fileTooLargeMax10Mb";
-  static const String reportSubmittedSuccessfully = "reportSubmittedSuccessfully";
+  static const String reportSubmittedSuccessfully =
+      "reportSubmittedSuccessfully";
   static const String reportUpdatedSuccessfully = "reportUpdatedSuccessfully";
   static const String failedToSubmitReport = "failedToSubmitReport";
   static const String failedToUpdateReport = "failedToUpdateReport";
@@ -1023,7 +1024,9 @@ class TranslationKeys {
   static const String overtimeRequestCreated = "overtimeRequestCreated";
   static const String overtimeRequestFailed = "overtimeRequestFailed";
   static const String failedToFetchOvertime = "failedToFetchOvertime";
-  static const String somethingWentWrongFetchingOvertime = "somethingWentWrongFetchingOvertime";
-  static const String somethingWentWrongCreatingOvertime = "somethingWentWrongCreatingOvertime";
+  static const String somethingWentWrongFetchingOvertime =
+      "somethingWentWrongFetchingOvertime";
+  static const String somethingWentWrongCreatingOvertime =
+      "somethingWentWrongCreatingOvertime";
   static const String version = "version";
 }

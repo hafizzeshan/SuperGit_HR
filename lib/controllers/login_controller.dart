@@ -53,7 +53,9 @@ class LoginController extends GetxController {
     print("Login Response: $response");
     isLoading.value = false;
 
-    if (response != null && response['data'] != null && response['error'] != true) {
+    if (response != null &&
+        response['data'] != null &&
+        response['error'] != true) {
       final prefs = await SharedPreferences.getInstance();
       final token = response['data']['token'];
       final refresh_token = response['data']['refresh_token'];
@@ -93,10 +95,14 @@ class LoginController extends GetxController {
 
         // ✅ Admin flag from roles (used to gate admin-only actions like
         // creating social posts). Roles e.g. ["admin","employee","superadmin"].
-        final roles = (userData['roles'] is List)
-            ? (userData['roles'] as List).map((e) => '$e'.toLowerCase()).toList()
-            : <String>[];
-        final isAdmin = roles.contains('admin') ||
+        final roles =
+            (userData['roles'] is List)
+                ? (userData['roles'] as List)
+                    .map((e) => '$e'.toLowerCase())
+                    .toList()
+                : <String>[];
+        final isAdmin =
+            roles.contains('admin') ||
             roles.contains('superadmin') ||
             roles.contains('hr');
         await prefs.setBool('is_admin', isAdmin);
@@ -119,7 +125,9 @@ class LoginController extends GetxController {
           final lastName =
               nameParts.length > 1 ? nameParts.sublist(1).join(' ') : '';
 
-          final Map<String, dynamic> basicUserModel = Map<String, dynamic>.from(userData);
+          final Map<String, dynamic> basicUserModel = Map<String, dynamic>.from(
+            userData,
+          );
           // Override/Ensure specific mappings match UserModel expectations
           basicUserModel['id'] = employeeId; // Maps employee_id to id
           basicUserModel['user_id'] = userId; // Maps id to user_id
@@ -135,8 +143,6 @@ class LoginController extends GetxController {
         }
       }
 
-
-
       print("🔹 Fetching full profile from API...");
       await Future.delayed(const Duration(milliseconds: 500));
       try {
@@ -147,7 +153,7 @@ class LoginController extends GetxController {
 
       /// ✅ Navigate to Dashboard
       Get.offAll(() => DashBorad(index: 0));
-      
+
       // ✅ Refresh all data immediately after login
       Future.delayed(const Duration(milliseconds: 200), () async {
         Get.find<LeaveController>().fetchLeaveTypes();

@@ -128,6 +128,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
   /// ✅ Confirmation Sheet (map + confirm/edit buttons)
   void _showConfirmEndShiftSheet(BuildContext context, LatLng coords) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
@@ -172,8 +173,11 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                         color: Colors.red.withValues(alpha: 0.1),
                         shape: BoxShape.circle,
                       ),
-                      child: const Icon(Icons.logout_rounded,
-                          color: Colors.red, size: 28),
+                      child: const Icon(
+                        Icons.logout_rounded,
+                        color: Colors.red,
+                        size: 28,
+                      ),
                     ),
                     const SizedBox(height: 12),
                     kText(
@@ -266,27 +270,29 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                             borderRadius: BorderRadius.circular(12),
                           ),
                         ),
-                        onPressed: _controller.isClockOutLoading.value
-                            ? null
-                            : () async {
-                                Navigator.pop(context);
-                                await _runClockOut(coords); 
-                              },
-                        child: _controller.isClockOutLoading.value
-                            ? const SizedBox(
-                                height: 20,
-                                width: 20,
-                                child: CircularProgressIndicator(
-                                  strokeWidth: 2,
-                                  color: Colors.white,
+                        onPressed:
+                            _controller.isClockOutLoading.value
+                                ? null
+                                : () async {
+                                  Navigator.pop(context);
+                                  await _runClockOut(coords);
+                                },
+                        child:
+                            _controller.isClockOutLoading.value
+                                ? const SizedBox(
+                                  height: 20,
+                                  width: 20,
+                                  child: CircularProgressIndicator(
+                                    strokeWidth: 2,
+                                    color: Colors.white,
+                                  ),
+                                )
+                                : kText(
+                                  text: TranslationKeys.confirmHours.tr,
+                                  fSize: 15.0,
+                                  fWeight: FontWeight.bold,
+                                  tColor: Colors.white,
                                 ),
-                              )
-                            : kText(
-                                text: TranslationKeys.confirmHours.tr,
-                                fSize: 15.0,
-                                fWeight: FontWeight.bold,
-                                tColor: Colors.white,
-                              ),
                       ),
                     ),
                   ),
@@ -334,6 +340,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
     final noteController = TextEditingController();
 
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       isScrollControlled: true,
       shape: const RoundedRectangleBorder(
@@ -367,7 +374,8 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
             final diff = dtEnd.difference(dtStart);
             final hours = diff.inHours.toString().padLeft(2, '0');
             final minutes = (diff.inMinutes % 60).toString().padLeft(2, '0');
-            final durationStr = "$hours ${TranslationKeys.h.tr} $minutes ${TranslationKeys.m.tr}";
+            final durationStr =
+                "$hours ${TranslationKeys.h.tr} $minutes ${TranslationKeys.m.tr}";
 
             // Date Picker
             Future<void> pickDate() async {
@@ -469,7 +477,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
 
                       // Date Selection Card
                       InkWell(
-                        onTap:(){},
+                        onTap: () {},
                         // pickDate,
                         borderRadius: BorderRadius.circular(16),
                         child: Container(
@@ -498,7 +506,10 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                                 crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
                                   kText(
-                                    text: TranslationKeys.date.tr, // Ensure 'Date' key or use string
+                                    text:
+                                        TranslationKeys
+                                            .date
+                                            .tr, // Ensure 'Date' key or use string
                                     fSize: 12.0,
                                     tColor: Colors.grey.shade600,
                                   ),
@@ -536,8 +547,9 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                                 decoration: BoxDecoration(
                                   color: kMainBackgroundColor,
                                   borderRadius: BorderRadius.circular(16),
-                                  border:
-                                      Border.all(color: Colors.grey.shade200),
+                                  border: Border.all(
+                                    color: Colors.grey.shade200,
+                                  ),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -580,8 +592,9 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                                 decoration: BoxDecoration(
                                   color: kMainBackgroundColor,
                                   borderRadius: BorderRadius.circular(16),
-                                  border:
-                                      Border.all(color: Colors.grey.shade200),
+                                  border: Border.all(
+                                    color: Colors.grey.shade200,
+                                  ),
                                 ),
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.start,
@@ -731,22 +744,28 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                           }
 
                           if (dtStart.isAfter(now) || dtEnd.isAfter(now)) {
-                            Utils.snackBar(TranslationKeys.invalidTime.tr, true); // Fallback to a localized or safe string
+                            Utils.snackBar(
+                              TranslationKeys.invalidTime.tr,
+                              true,
+                            ); // Fallback to a localized or safe string
                             return;
                           }
 
                           Navigator.pop(context);
-                          
+
                           // Ensure we have coords
                           var coords = locationController.currentLatLng.value;
                           if (coords == null) {
-                             await locationController.getCurrentLocation();
-                             coords = locationController.currentLatLng.value;
+                            await locationController.getCurrentLocation();
+                            coords = locationController.currentLatLng.value;
                           }
 
                           if (coords == null) {
-                             Utils.snackBar(TranslationKeys.unableToFetchLocation.tr, true);
-                             return;
+                            Utils.snackBar(
+                              TranslationKeys.unableToFetchLocation.tr,
+                              true,
+                            );
+                            return;
                           }
 
                           // Call Controller Method
@@ -755,7 +774,10 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                             date: selectedDate,
                             startTime: startTime,
                             endTime: endTime,
-                            reason: noteController.text.isNotEmpty ? noteController.text : TranslationKeys.shiftEditRequest.tr,
+                            reason:
+                                noteController.text.isNotEmpty
+                                    ? noteController.text
+                                    : TranslationKeys.shiftEditRequest.tr,
                           );
 
                           Utils.snackBar(
@@ -891,7 +913,8 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                       ),
                       child: Obx(() {
                         // Prefer latest "In" log from the server; fall back to local.
-                        final start = _historyController.lastStartedAt ??
+                        final start =
+                            _historyController.lastStartedAt ??
                             _controller.clockInTime.value?.toLocal();
                         final startStr =
                             start != null

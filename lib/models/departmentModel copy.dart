@@ -17,9 +17,10 @@ class DepartmentResponse {
 
   factory DepartmentResponse.fromJson(Map<String, dynamic> json) {
     return DepartmentResponse(
-      data: (json['data'] as List<dynamic>)
-          .map((e) => Department.fromJson(e as Map<String, dynamic>))
-          .toList(),
+      data:
+          (json['data'] as List<dynamic>)
+              .map((e) => Department.fromJson(e as Map<String, dynamic>))
+              .toList(),
       message: json['message'] ?? '',
       page: json['page'] ?? 1,
       perPage: json['per_page'] ?? 0,
@@ -68,12 +69,14 @@ class Department {
       businessId: json["business_id"] is int ? json["business_id"] : null,
       nameAr: json["name_ar"] as String?,
       nameEn: json["name_en"] as String?,
-      createdAt: json["created_at"] != null
-          ? DateTime.tryParse(json["created_at"].toString())
-          : null,
-      updatedAt: json["updated_at"] != null
-          ? DateTime.tryParse(json["updated_at"].toString())
-          : null,
+      createdAt:
+          json["created_at"] != null
+              ? DateTime.tryParse(json["created_at"].toString())
+              : null,
+      updatedAt:
+          json["updated_at"] != null
+              ? DateTime.tryParse(json["updated_at"].toString())
+              : null,
     );
   }
 
@@ -146,18 +149,22 @@ class Doctor {
       lastUpdatedBy: json["last_updated_by"] ?? "",
       createdAt: DateTime.tryParse(json["createdAt"] ?? "") ?? DateTime.now(),
       updatedAt: DateTime.tryParse(json["updated_at"] ?? "") ?? DateTime.now(),
-      department: json["department"] != null
-          ? Department.fromJson(json["department"])
-          : null,
-      speciality: json["speciality"] != null
-          ? Speciality.fromJson(json["speciality"])
-          : null,
-      assignedNurses: (json["assigned_nurses"] as List<dynamic>? ?? [])
-          .map((e) => Nurse.fromJson(e))
-          .toList(),
-      schedule: (json["schedule"] as List<dynamic>? ?? [])
-          .map((e) => DoctorSchedule.fromJson(e))
-          .toList(),
+      department:
+          json["department"] != null
+              ? Department.fromJson(json["department"])
+              : null,
+      speciality:
+          json["speciality"] != null
+              ? Speciality.fromJson(json["speciality"])
+              : null,
+      assignedNurses:
+          (json["assigned_nurses"] as List<dynamic>? ?? [])
+              .map((e) => Nurse.fromJson(e))
+              .toList(),
+      schedule:
+          (json["schedule"] as List<dynamic>? ?? [])
+              .map((e) => DoctorSchedule.fromJson(e))
+              .toList(),
     );
   }
 
@@ -205,9 +212,10 @@ class DoctorSchedule {
       interval: json["interval"] ?? 0,
       limit: json["limit"] ?? 0,
       status: json["status"] ?? "",
-      shifts: (json["shifts"] as List<dynamic>? ?? [])
-          .map((e) => Shift.fromJson(e))
-          .toList(),
+      shifts:
+          (json["shifts"] as List<dynamic>? ?? [])
+              .map((e) => Shift.fromJson(e))
+              .toList(),
     );
   }
 
@@ -329,12 +337,14 @@ class Speciality {
       nameAr: json["name_ar"] as String?,
       nameEn: json["name_en"] as String?,
       rcmRef: json["rcm_ref"] as int?,
-      createdAt: json["created_at"] != null
-          ? DateTime.tryParse(json["created_at"])
-          : null,
-      updatedAt: json["updated_at"] != null
-          ? DateTime.tryParse(json["updated_at"])
-          : null,
+      createdAt:
+          json["created_at"] != null
+              ? DateTime.tryParse(json["created_at"])
+              : null,
+      updatedAt:
+          json["updated_at"] != null
+              ? DateTime.tryParse(json["updated_at"])
+              : null,
     );
   }
 

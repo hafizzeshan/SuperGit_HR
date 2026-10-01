@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:location/location.dart';
@@ -41,7 +42,9 @@ class _AboutScreenState extends State<AboutScreen> {
   String _appName = '';
   String _version = '';
   String _buildNumber = '';
-  bool _isPlayStore = false;
+
+  /// Where this copy of the app came from, so the footer can say so honestly.
+  _InstallChannel _channel = _InstallChannel.unknown;
 
   @override
   void initState() {
@@ -51,13 +54,11 @@ class _AboutScreenState extends State<AboutScreen> {
 
   Future<void> _loadVersion() async {
     final info = await PackageInfo.fromPlatform();
-    final isPlayStore =
-        Platform.isAndroid && info.installerStore == 'com.android.vending';
     setState(() {
       _appName = info.appName;
       _version = info.version;
       _buildNumber = info.buildNumber;
-      _isPlayStore = isPlayStore;
+      _channel = _InstallChannel.from(info.installerStore);
     });
   }
 
@@ -92,7 +93,7 @@ class _AboutScreenState extends State<AboutScreen> {
                   12,
                   0,
                   12,
-                  70 + MediaQuery.paddingOf(context).bottom + 16,
+                  context.listBottomInset(24),
                 ),
                 itemCount: 6,
                 itemBuilder: (context, index) {
@@ -354,6 +355,7 @@ class _AboutScreenState extends State<AboutScreen> {
     required LatLng? coords,
   }) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -758,17 +760,8 @@ class _AboutScreenState extends State<AboutScreen> {
   /// App identity footer shown under the logout tile: logo, app name,
   /// version + build, the distribution channel badge and a copyright line.
   Widget _buildVersionFooter() {
-    final String channelLabel;
-    final Color channelColor;
-
-    if (Platform.isAndroid) {
-      channelLabel = _isPlayStore ? 'Live' : 'Sideload';
-      channelColor =
-          _isPlayStore ? const Color(0xFF2E7D32) : const Color(0xFFE65100);
-    } else {
-      channelLabel = 'TestFlight';
-      channelColor = const Color(0xFF1565C0);
-    }
+    final channelLabel = _channel.label;
+    final channelColor = _channel.color;
 
     final versionText =
         _version.isEmpty
@@ -1031,4 +1024,52 @@ class _AboutScreenState extends State<AboutScreen> {
       ),
     );
   }
+}
+
+/// How the running build was installed.
+///
+/// `package_info_plus` reports the installer on both platforms — on iOS the
+/// App Store receipt tells TestFlight (`sandboxReceipt`) apart from a real
+/// App Store install, which is why the badge no longer has to assume
+/// TestFlight forever.
+enum _InstallChannel {
+  appStore,
+  testFlight,
+  simulator,
+  playStore,
+  sideload,
+  unknown;
+
+  static _InstallChannel from(String? installerStore) {
+    switch (installerStore) {
+      case 'com.android.vending':
+        return _InstallChannel.playStore;
+      case 'com.apple':
+        return _InstallChannel.appStore;
+      case 'com.apple.testflight':
+        return _InstallChannel.testFlight;
+      case 'com.apple.simulator':
+        return _InstallChannel.simulator;
+    }
+    if (Platform.isAndroid) return _InstallChannel.sideload;
+    return _InstallChannel.unknown;
+  }
+
+  String get label => switch (this) {
+    _InstallChannel.appStore => 'Live',
+    _InstallChannel.playStore => 'Live',
+    _InstallChannel.testFlight => 'TestFlight',
+    _InstallChannel.simulator => 'Simulator',
+    _InstallChannel.sideload => 'Sideload',
+    _InstallChannel.unknown => 'Debug',
+  };
+
+  Color get color => switch (this) {
+    _InstallChannel.appStore ||
+    _InstallChannel.playStore => const Color(0xFF2E7D32),
+    _InstallChannel.testFlight => const Color(0xFF1565C0),
+    _InstallChannel.simulator ||
+    _InstallChannel.sideload ||
+    _InstallChannel.unknown => const Color(0xFFE65100),
+  };
 }

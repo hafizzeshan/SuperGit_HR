@@ -149,7 +149,9 @@ class EmployeeCardScreen extends StatelessWidget {
               ),
               const SizedBox(height: 4),
               kText(
-                text: (user.jobTitle ?? TranslationKeys.softwareDeveloper.tr).toUpperCase(),
+                text:
+                    (user.jobTitle ?? TranslationKeys.softwareDeveloper.tr)
+                        .toUpperCase(),
                 fSize: 13.0,
                 fWeight: FontWeight.w600,
                 tColor: Colors.grey.shade600,
@@ -163,15 +165,30 @@ class EmployeeCardScreen extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 55),
                 child: Column(
                   children: [
-                    _infoEntry(TranslationKeys.idNo.tr, user.employeeCode ?? "BYTE0006"),
+                    _infoEntry(
+                      TranslationKeys.idNo.tr,
+                      user.employeeCode ?? "BYTE0006",
+                    ),
                     const SizedBox(height: 12),
-                    _infoEntry(TranslationKeys.email.tr, user.email ?? "uzairmunir@gmail.com"),
+                    _infoEntry(
+                      TranslationKeys.email.tr,
+                      user.email ?? "uzairmunir@gmail.com",
+                    ),
                     const SizedBox(height: 12),
-                    _infoEntry(TranslationKeys.gender.tr, (user.gender ?? TranslationKeys.male).tr),
+                    _infoEntry(
+                      TranslationKeys.gender.tr,
+                      (user.gender ?? TranslationKeys.male).tr,
+                    ),
                     const SizedBox(height: 12),
-                    _infoEntry(TranslationKeys.phone.tr, user.mobileNumber ?? "0534543423"),
+                    _infoEntry(
+                      TranslationKeys.phone.tr,
+                      user.mobileNumber ?? "0534543423",
+                    ),
                     const SizedBox(height: 12),
-                    _infoEntry(TranslationKeys.department.tr, TranslationKeys.softwareDevelopment.tr),
+                    _infoEntry(
+                      TranslationKeys.department.tr,
+                      TranslationKeys.softwareDevelopment.tr,
+                    ),
                   ],
                 ),
               ),

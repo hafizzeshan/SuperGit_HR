@@ -42,8 +42,7 @@ class LocationController extends GetxController {
       }
 
       if (permission == LocationPermission.deniedForever) {
-        address.value =
-            TranslationKeys.locationPermanentlyDenied.tr;
+        address.value = TranslationKeys.locationPermanentlyDenied.tr;
         return;
       }
 

@@ -29,11 +29,7 @@ class _SuccessDialogExampleState extends State<SuccessDialogExample> {
               CircleAvatar(
                 radius: 40,
                 backgroundColor: Colors.red.shade100,
-                child: Icon(
-                  Icons.person,
-                  size: 50,
-                  color: Colors.red,
-                ),
+                child: Icon(Icons.person, size: 50, color: Colors.red),
               ),
               SizedBox(height: 16),
               Text(
@@ -86,10 +82,7 @@ class _SuccessDialogExampleState extends State<SuccessDialogExample> {
               borderRadius: BorderRadius.circular(8),
             ),
           ),
-          child: Text(
-            'Submit',
-            style: TextStyle(fontSize: 16),
-          ),
+          child: Text('Submit', style: TextStyle(fontSize: 16)),
         ),
       ),
     );

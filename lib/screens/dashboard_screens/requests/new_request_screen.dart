@@ -162,7 +162,9 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                         ],
                       ),
                       borderRadius: BorderRadius.circular(20),
-                      border: Border.all(color: kPrimaryColor.withValues(alpha: 0.1)),
+                      border: Border.all(
+                        color: kPrimaryColor.withValues(alpha: 0.1),
+                      ),
                     ),
                     child: Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -217,7 +219,11 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
               const SizedBox(height: 10),
               TextField(
                 controller: leaveController.reasonController,
-                textDirection: (Get.locale?.languageCode == 'ur' || Get.locale?.languageCode == 'ar') ? TextDirection.rtl : TextDirection.ltr,
+                textDirection:
+                    (Get.locale?.languageCode == 'ur' ||
+                            Get.locale?.languageCode == 'ar')
+                        ? TextDirection.rtl
+                        : TextDirection.ltr,
                 onTapOutside: (event) async {
                   FocusScope.of(context).unfocus();
                 },
@@ -505,6 +511,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
     });
 
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,
@@ -851,7 +858,9 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                                   borderRadius: BorderRadius.circular(12),
                                   boxShadow: [
                                     BoxShadow(
-                                      color: Colors.green.withValues(alpha: 0.3),
+                                      color: Colors.green.withValues(
+                                        alpha: 0.3,
+                                      ),
                                       blurRadius: 4,
                                       offset: const Offset(0, 2),
                                     ),

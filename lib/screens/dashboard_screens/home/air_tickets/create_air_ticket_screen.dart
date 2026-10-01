@@ -57,7 +57,9 @@ class _CreateAirTicketRequestScreenState
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitoutAction(title: TranslationKeys.newAirTicketRequest.tr),
+      appBar: appBarrWitoutAction(
+        title: TranslationKeys.newAirTicketRequest.tr,
+      ),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Form(
@@ -75,13 +77,13 @@ class _CreateAirTicketRequestScreenState
                     icon: Icons.category_rounded,
                     value: _pretty(_requestType),
                     hint: TranslationKeys.chooseRequestType.tr,
-                    onTap: () => _openPicker(
-                      title: TranslationKeys.requestType.tr,
-                      items: _requestTypes,
-                      selected: _requestType,
-                      onSelected: (v) =>
-                          setState(() => _requestType = v),
-                    ),
+                    onTap:
+                        () => _openPicker(
+                          title: TranslationKeys.requestType.tr,
+                          items: _requestTypes,
+                          selected: _requestType,
+                          onSelected: (v) => setState(() => _requestType = v),
+                        ),
                   ),
                   const SizedBox(height: 16),
                   _fieldLabel(TranslationKeys.fromCity.tr),
@@ -129,8 +131,7 @@ class _CreateAirTicketRequestScreenState
                               hint: TranslationKeys.selectDate.tr,
                               onTap: () => _pickDate(false),
                               clearable: true,
-                              onClear: () =>
-                                  setState(() => _returnDate = null),
+                              onClear: () => setState(() => _returnDate = null),
                             ),
                           ],
                         ),
@@ -143,13 +144,13 @@ class _CreateAirTicketRequestScreenState
                     icon: Icons.airline_seat_recline_normal_rounded,
                     value: _pretty(_travelClass),
                     hint: TranslationKeys.chooseClass.tr,
-                    onTap: () => _openPicker(
-                      title: TranslationKeys.travelClass.tr,
-                      items: _travelClasses,
-                      selected: _travelClass,
-                      onSelected: (v) =>
-                          setState(() => _travelClass = v),
-                    ),
+                    onTap:
+                        () => _openPicker(
+                          title: TranslationKeys.travelClass.tr,
+                          items: _travelClasses,
+                          selected: _travelClass,
+                          onSelected: (v) => setState(() => _travelClass = v),
+                        ),
                   ),
                   const SizedBox(height: 16),
                   _fieldLabel(TranslationKeys.preferredAirline.tr),
@@ -171,14 +172,14 @@ class _CreateAirTicketRequestScreenState
                     icon: Icons.people_alt_rounded,
                     value: _travelTypeLabel(_travelType),
                     hint: TranslationKeys.chooseTravelType.tr,
-                    onTap: () => _openPicker(
-                      title: TranslationKeys.travelType.tr,
-                      items: _travelTypes,
-                      selected: _travelType,
-                      labelBuilder: _travelTypeLabel,
-                      onSelected: (v) =>
-                          setState(() => _travelType = v),
-                    ),
+                    onTap:
+                        () => _openPicker(
+                          title: TranslationKeys.travelType.tr,
+                          items: _travelTypes,
+                          selected: _travelType,
+                          labelBuilder: _travelTypeLabel,
+                          onSelected: (v) => setState(() => _travelType = v),
+                        ),
                   ),
                 ],
               ),
@@ -214,30 +215,34 @@ class _CreateAirTicketRequestScreenState
                         borderRadius: BorderRadius.circular(16),
                       ),
                     ),
-                    child: c.isSubmitting.value
-                        ? const SizedBox(
-                            height: 22,
-                            width: 22,
-                            child: CircularProgressIndicator(
-                              color: Colors.white,
-                              strokeWidth: 2,
-                            ),
-                          )
-                        : Row(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              const Icon(Icons.send_rounded,
-                                  color: Colors.white, size: 18),
-                              const SizedBox(width: 8),
-                              Text(
-                                TranslationKeys.submitRequest.tr,
-                                style: textStyleMontserratBold(
-                                  fontSize: 15,
-                                  color: Colors.white,
-                                ),
+                    child:
+                        c.isSubmitting.value
+                            ? const SizedBox(
+                              height: 22,
+                              width: 22,
+                              child: CircularProgressIndicator(
+                                color: Colors.white,
+                                strokeWidth: 2,
                               ),
-                            ],
-                          ),
+                            )
+                            : Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                const Icon(
+                                  Icons.send_rounded,
+                                  color: Colors.white,
+                                  size: 18,
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  TranslationKeys.submitRequest.tr,
+                                  style: textStyleMontserratBold(
+                                    fontSize: 15,
+                                    color: Colors.white,
+                                  ),
+                                ),
+                              ],
+                            ),
                   ),
                 ),
               ),
@@ -256,21 +261,23 @@ class _CreateAirTicketRequestScreenState
 
   Future<void> _pickDate(bool isDeparture) async {
     final now = DateTime.now();
-    final initial = isDeparture
-        ? (_departureDate ?? now)
-        : (_returnDate ?? _departureDate ?? now);
+    final initial =
+        isDeparture
+            ? (_departureDate ?? now)
+            : (_returnDate ?? _departureDate ?? now);
     final firstDate = isDeparture ? now : (_departureDate ?? now);
     final picked = await showDatePicker(
       context: context,
       initialDate: initial.isBefore(firstDate) ? firstDate : initial,
       firstDate: firstDate,
       lastDate: DateTime(now.year + 2),
-      builder: (ctx, child) => Theme(
-        data: Theme.of(ctx).copyWith(
-          colorScheme: ColorScheme.light(primary: kPrimaryColor),
-        ),
-        child: child!,
-      ),
+      builder:
+          (ctx, child) => Theme(
+            data: Theme.of(
+              ctx,
+            ).copyWith(colorScheme: ColorScheme.light(primary: kPrimaryColor)),
+            child: child!,
+          ),
     );
     if (picked == null) return;
     setState(() {
@@ -302,12 +309,13 @@ class _CreateAirTicketRequestScreenState
       initialDate: p.dob ?? DateTime(2000),
       firstDate: DateTime(1920),
       lastDate: DateTime.now(),
-      builder: (ctx, child) => Theme(
-        data: Theme.of(ctx).copyWith(
-          colorScheme: ColorScheme.light(primary: kPrimaryColor),
-        ),
-        child: child!,
-      ),
+      builder:
+          (ctx, child) => Theme(
+            data: Theme.of(
+              ctx,
+            ).copyWith(colorScheme: ColorScheme.light(primary: kPrimaryColor)),
+            child: child!,
+          ),
     );
     if (picked != null) setState(() => p.dob = picked);
   }
@@ -380,6 +388,7 @@ class _CreateAirTicketRequestScreenState
     String Function(String)? labelBuilder,
   }) async {
     await showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
@@ -424,17 +433,18 @@ class _CreateAirTicketRequestScreenState
                   },
                   child: Container(
                     padding: const EdgeInsets.symmetric(
-                        horizontal: 14, vertical: 14),
+                      horizontal: 14,
+                      vertical: 14,
+                    ),
                     margin: const EdgeInsets.only(bottom: 8),
                     decoration: BoxDecoration(
-                      color: isSelected
-                          ? kPrimaryColor.withValues(alpha: 0.08)
-                          : Colors.grey.shade50,
+                      color:
+                          isSelected
+                              ? kPrimaryColor.withValues(alpha: 0.08)
+                              : Colors.grey.shade50,
                       borderRadius: BorderRadius.circular(12),
                       border: Border.all(
-                        color: isSelected
-                            ? kPrimaryColor
-                            : Colors.transparent,
+                        color: isSelected ? kPrimaryColor : Colors.transparent,
                       ),
                     ),
                     child: Row(
@@ -444,18 +454,21 @@ class _CreateAirTicketRequestScreenState
                             label,
                             style: TextStyle(
                               fontSize: 14.5,
-                              fontWeight: isSelected
-                                  ? FontWeight.w700
-                                  : FontWeight.w500,
-                              color: isSelected
-                                  ? kPrimaryColor
-                                  : Colors.black87,
+                              fontWeight:
+                                  isSelected
+                                      ? FontWeight.w700
+                                      : FontWeight.w500,
+                              color:
+                                  isSelected ? kPrimaryColor : Colors.black87,
                             ),
                           ),
                         ),
                         if (isSelected)
-                          const Icon(Icons.check_circle_rounded,
-                              color: kPrimaryColor, size: 20),
+                          const Icon(
+                            Icons.check_circle_rounded,
+                            color: kPrimaryColor,
+                            size: 20,
+                          ),
                       ],
                     ),
                   ),
@@ -538,17 +551,17 @@ class _CreateAirTicketRequestScreenState
   }
 
   Widget _fieldLabel(String text) => Padding(
-        padding: const EdgeInsets.only(bottom: 6, left: 2),
-        child: Text(
-          text,
-          style: TextStyle(
-            fontSize: 12.5,
-            fontWeight: FontWeight.w600,
-            color: Colors.grey.shade700,
-            letterSpacing: 0.2,
-          ),
-        ),
-      );
+    padding: const EdgeInsets.only(bottom: 6, left: 2),
+    child: Text(
+      text,
+      style: TextStyle(
+        fontSize: 12.5,
+        fontWeight: FontWeight.w600,
+        color: Colors.grey.shade700,
+        letterSpacing: 0.2,
+      ),
+    ),
+  );
 
   Widget _textField({
     required TextEditingController controller,
@@ -568,8 +581,10 @@ class _CreateAirTicketRequestScreenState
         prefixIcon: Icon(icon, color: kPrimaryColor, size: 20),
         filled: true,
         fillColor: Colors.grey.shade50,
-        contentPadding:
-            const EdgeInsets.symmetric(horizontal: 14, vertical: 14),
+        contentPadding: const EdgeInsets.symmetric(
+          horizontal: 14,
+          vertical: 14,
+        ),
         border: OutlineInputBorder(
           borderRadius: BorderRadius.circular(14),
           borderSide: BorderSide(color: Colors.grey.shade200),
@@ -615,15 +630,16 @@ class _CreateAirTicketRequestScreenState
                 value.isEmpty ? hint : value,
                 style: TextStyle(
                   fontSize: 14,
-                  color: value.isEmpty
-                      ? Colors.grey.shade400
-                      : Colors.black87,
+                  color: value.isEmpty ? Colors.grey.shade400 : Colors.black87,
                   fontWeight: FontWeight.w500,
                 ),
               ),
             ),
-            Icon(Icons.keyboard_arrow_down_rounded,
-                color: Colors.grey.shade500, size: 22),
+            Icon(
+              Icons.keyboard_arrow_down_rounded,
+              color: Colors.grey.shade500,
+              size: 22,
+            ),
           ],
         ),
       ),
@@ -654,13 +670,10 @@ class _CreateAirTicketRequestScreenState
             const SizedBox(width: 8),
             Expanded(
               child: Text(
-                value == null
-                    ? hint
-                    : DateFormat('MMM d, yyyy').format(value),
+                value == null ? hint : DateFormat('MMM d, yyyy').format(value),
                 style: TextStyle(
                   fontSize: 13.5,
-                  color:
-                      value == null ? Colors.grey.shade400 : Colors.black87,
+                  color: value == null ? Colors.grey.shade400 : Colors.black87,
                   fontWeight: FontWeight.w500,
                 ),
                 overflow: TextOverflow.ellipsis,
@@ -669,8 +682,11 @@ class _CreateAirTicketRequestScreenState
             if (clearable && value != null)
               GestureDetector(
                 onTap: onClear,
-                child: Icon(Icons.close_rounded,
-                    size: 18, color: Colors.grey.shade500),
+                child: Icon(
+                  Icons.close_rounded,
+                  size: 18,
+                  color: Colors.grey.shade500,
+                ),
               ),
           ],
         ),
@@ -704,8 +720,11 @@ class _CreateAirTicketRequestScreenState
                   color: kPrimaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
-                child: const Icon(Icons.people_outline_rounded,
-                    color: kPrimaryColor, size: 20),
+                child: const Icon(
+                  Icons.people_outline_rounded,
+                  color: kPrimaryColor,
+                  size: 20,
+                ),
               ),
               const SizedBox(width: 12),
               Expanded(
@@ -756,8 +775,11 @@ class _CreateAirTicketRequestScreenState
               ),
               child: Row(
                 children: [
-                  Icon(Icons.info_outline_rounded,
-                      color: Colors.red.shade400, size: 18),
+                  Icon(
+                    Icons.info_outline_rounded,
+                    color: Colors.red.shade400,
+                    size: 18,
+                  ),
                   const SizedBox(width: 10),
                   Expanded(
                     child: Text(
@@ -773,10 +795,9 @@ class _CreateAirTicketRequestScreenState
               ),
             )
           else
-            ..._passengers
-                .asMap()
-                .entries
-                .map((e) => _passengerCard(e.key, e.value)),
+            ..._passengers.asMap().entries.map(
+              (e) => _passengerCard(e.key, e.value),
+            ),
         ],
       ),
     );
@@ -797,8 +818,10 @@ class _CreateAirTicketRequestScreenState
           Row(
             children: [
               Container(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 4),
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 10,
+                  vertical: 4,
+                ),
                 decoration: BoxDecoration(
                   color: kPrimaryColor.withValues(alpha: 0.1),
                   borderRadius: BorderRadius.circular(8),
@@ -820,8 +843,11 @@ class _CreateAirTicketRequestScreenState
                     color: Colors.red.shade50,
                     borderRadius: BorderRadius.circular(8),
                   ),
-                  child: Icon(Icons.delete_outline_rounded,
-                      color: Colors.red.shade400, size: 18),
+                  child: Icon(
+                    Icons.delete_outline_rounded,
+                    color: Colors.red.shade400,
+                    size: 18,
+                  ),
                 ),
               ),
             ],
@@ -839,12 +865,13 @@ class _CreateAirTicketRequestScreenState
             icon: Icons.family_restroom_rounded,
             value: p.relationship == null ? "" : _pretty(p.relationship!),
             hint: TranslationKeys.selectRelationship.tr,
-            onTap: () => _openPicker(
-              title: TranslationKeys.relationship.tr,
-              items: _relationships,
-              selected: p.relationship ?? '',
-              onSelected: (v) => setState(() => p.relationship = v),
-            ),
+            onTap:
+                () => _openPicker(
+                  title: TranslationKeys.relationship.tr,
+                  items: _relationships,
+                  selected: p.relationship ?? '',
+                  onSelected: (v) => setState(() => p.relationship = v),
+                ),
           ),
           const SizedBox(height: 12),
           _fieldLabel(TranslationKeys.passportNumber.tr),
@@ -876,8 +903,9 @@ class _CreateAirTicketRequestScreenState
   String _travelTypeLabel(String v) =>
       v == 'self' ? TranslationKeys.selfOnly.tr : TranslationKeys.selfFamily.tr;
 
-  String _pretty(String v) => v.replaceAll('_', ' ').replaceFirstMapped(
-      RegExp(r'^[a-z]'), (m) => m[0]!.toUpperCase());
+  String _pretty(String v) => v
+      .replaceAll('_', ' ')
+      .replaceFirstMapped(RegExp(r'^[a-z]'), (m) => m[0]!.toUpperCase());
 }
 
 class _PassengerInput {

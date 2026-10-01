@@ -204,6 +204,7 @@ class _EmployeeSalaryStructureScreenState
 
   void _openBottomSheet(BuildContext context, SalaryDatum item) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       isScrollControlled: true,
       backgroundColor: Colors.transparent,

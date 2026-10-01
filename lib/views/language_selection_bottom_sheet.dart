@@ -14,89 +14,91 @@ class LanguageSelectionBottomSheet {
         Get.find<TranslationController>();
 
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
-      builder: (context) => Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-          borderRadius: BorderRadius.vertical(
-            top: Radius.circular(24),
-          ),
-        ),
-        padding: const EdgeInsets.all(24),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            // Header with close button
-            Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      builder:
+          (context) => Container(
+            decoration: const BoxDecoration(
+              gradient: kMainBackgroundGradient,
+              borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
+            ),
+            padding: const EdgeInsets.all(24),
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                // Header with close button
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    kText(
+                      text: TranslationKeys.selectLanguage.tr,
+                      fSize: 20.0,
+                      fWeight: FontWeight.bold,
+                      tColor: Colors.black87,
+                    ),
+                    IconButton(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(Icons.close),
+                      color: Colors.grey.shade600,
+                    ),
+                  ],
+                ),
+                UIHelper.verticalSpaceSm10,
                 kText(
-                  text: TranslationKeys.selectLanguage.tr,
-                  fSize: 20.0,
-                  fWeight: FontWeight.bold,
-                  tColor: Colors.black87,
+                  text: TranslationKeys.chooseYourPreferredLanguage.tr,
+                  fSize: 14.0,
+                  tColor: Colors.grey.shade600,
                 ),
-                IconButton(
-                  onPressed: () => Navigator.pop(context),
-                  icon: const Icon(Icons.close),
-                  color: Colors.grey.shade600,
-                ),
+                UIHelper.verticalSpaceSm20,
+
+                // Language Options
+                Obx(() {
+                  // Observe the actual observable variable
+                  final currentLocale = translationController.local.value;
+                  final currentLanguage = translationController.getLanguage();
+
+                  return Column(
+                    children: [
+                      _buildLanguageTile(
+                        context: context,
+                        language: Language.english,
+                        title: "English",
+                        subtitle: "English",
+                        flag: "🇬🇧",
+                        isSelected: currentLanguage == Language.english,
+                        onTap: () async {
+                          await translationController.changeLanguage(
+                            Language.english,
+                          );
+                          Navigator.pop(context);
+                        },
+                      ),
+                      UIHelper.verticalSpaceSm10,
+                      _buildLanguageTile(
+                        context: context,
+                        language: Language.arabic,
+                        title: "العربية",
+                        subtitle: "Arabic",
+                        flag: "🇸🇦",
+                        isSelected: currentLanguage == Language.arabic,
+                        onTap: () async {
+                          await translationController.changeLanguage(
+                            Language.arabic,
+                          );
+                          Navigator.pop(context);
+                        },
+                      ),
+                    ],
+                  );
+                }),
+
+                UIHelper.verticalSpaceSm20,
               ],
             ),
-            UIHelper.verticalSpaceSm10,
-            kText(
-              text: TranslationKeys.chooseYourPreferredLanguage.tr,
-              fSize: 14.0,
-              tColor: Colors.grey.shade600,
-            ),
-            UIHelper.verticalSpaceSm20,
-
-            // Language Options
-            Obx(() {
-              // Observe the actual observable variable
-              final currentLocale = translationController.local.value;
-              final currentLanguage = translationController.getLanguage();
-              
-              return Column(
-                children: [
-                  _buildLanguageTile(
-                    context: context,
-                    language: Language.english,
-                    title: "English",
-                    subtitle: "English",
-                    flag: "🇬🇧",
-                    isSelected: currentLanguage == Language.english,
-                    onTap: () async {
-                      await translationController
-                          .changeLanguage(Language.english);
-                      Navigator.pop(context);
-                    },
-                  ),
-                  UIHelper.verticalSpaceSm10,
-                  _buildLanguageTile(
-                    context: context,
-                    language: Language.arabic,
-                    title: "العربية",
-                    subtitle: "Arabic",
-                    flag: "🇸🇦",
-                    isSelected: currentLanguage == Language.arabic,
-                    onTap: () async {
-                      await translationController
-                          .changeLanguage(Language.arabic);
-                      Navigator.pop(context);
-                    },
-                  ),
-                ],
-              );
-            }),
-
-            UIHelper.verticalSpaceSm20,
-          ],
-        ),
-      ),
+          ),
     );
   }
 
@@ -130,16 +132,14 @@ class LanguageSelectionBottomSheet {
               width: 50,
               height: 50,
               decoration: BoxDecoration(
-                color: isSelected
-                    ? Colors.white.withValues(alpha: 0.2)
-                    : Colors.white,
+                color:
+                    isSelected
+                        ? Colors.white.withValues(alpha: 0.2)
+                        : Colors.white,
                 borderRadius: BorderRadius.circular(12),
               ),
               alignment: Alignment.center,
-              child: Text(
-                flag,
-                style: const TextStyle(fontSize: 28),
-              ),
+              child: Text(flag, style: const TextStyle(fontSize: 28)),
             ),
             UIHelper.horizontalSpaceSm15,
             Expanded(
@@ -156,9 +156,10 @@ class LanguageSelectionBottomSheet {
                   kText(
                     text: subtitle,
                     fSize: 13.0,
-                    tColor: isSelected
-                        ? Colors.white.withValues(alpha: 0.9)
-                        : Colors.grey.shade600,
+                    tColor:
+                        isSelected
+                            ? Colors.white.withValues(alpha: 0.9)
+                            : Colors.grey.shade600,
                   ),
                 ],
               ),
@@ -171,11 +172,7 @@ class LanguageSelectionBottomSheet {
                   color: Colors.white,
                   shape: BoxShape.circle,
                 ),
-                child: Icon(
-                  Icons.check,
-                  color: kPrimaryColor,
-                  size: 20,
-                ),
+                child: Icon(Icons.check, color: kPrimaryColor, size: 20),
               )
             else
               Icon(

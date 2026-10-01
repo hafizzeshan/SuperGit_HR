@@ -38,9 +38,10 @@ class LeaveRequestModel {
       leaveTypeId: json["leave_type_id"]?.toString(),
       startDate: json["start_date"]?.toString(),
       endDate: json["end_date"]?.toString(),
-      totalDays: json["total_days"] is num
-          ? (json["total_days"] as num).toInt()
-          : num.tryParse(json["total_days"]?.toString() ?? "")?.toInt(),
+      totalDays:
+          json["total_days"] is num
+              ? (json["total_days"] as num).toInt()
+              : num.tryParse(json["total_days"]?.toString() ?? "")?.toInt(),
       status: json["status"]?.toString(),
       approverId: json["approver_id"]?.toString(),
       reason: json["reason"]?.toString(),

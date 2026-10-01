@@ -551,7 +551,9 @@ class _CreateSocialPostScreenState extends State<CreateSocialPostScreen> {
         padding: const EdgeInsets.symmetric(vertical: 14),
         decoration: BoxDecoration(
           color:
-              selected ? kPrimaryColor.withValues(alpha: 0.08) : Colors.grey.shade50,
+              selected
+                  ? kPrimaryColor.withValues(alpha: 0.08)
+                  : Colors.grey.shade50,
           borderRadius: BorderRadius.circular(14),
           border: Border.all(
             color: selected ? kPrimaryColor : Colors.grey.shade200,

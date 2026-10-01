@@ -41,9 +41,10 @@ class TeamLeaveRequest {
       leaveTypeName: map['leave_type_name']?.toString(),
       startDate: map['start_date']?.toString(),
       endDate: map['end_date']?.toString(),
-      totalDays: (map['total_days'] is num)
-          ? (map['total_days'] as num).toInt()
-          : int.tryParse('${map['total_days']}'),
+      totalDays:
+          (map['total_days'] is num)
+              ? (map['total_days'] as num).toInt()
+              : int.tryParse('${map['total_days']}'),
       reason: map['reason']?.toString(),
       status: map['status']?.toString(),
       currentApproverId: map['current_approver_id']?.toString(),

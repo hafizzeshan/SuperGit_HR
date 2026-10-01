@@ -41,9 +41,10 @@ class AirTicketEntitlement {
     return AirTicketEntitlement(
       id: map['id'] ?? '',
       employeeId: map['employee_id'] ?? '',
-      year: (map['year'] ?? 0) is int
-          ? map['year']
-          : int.tryParse('${map['year']}') ?? 0,
+      year:
+          (map['year'] ?? 0) is int
+              ? map['year']
+              : int.tryParse('${map['year']}') ?? 0,
       policyId: map['policy_id'],
       eligibleTickets: (map['eligible_tickets'] ?? 0) as int,
       usedTickets: (map['used_tickets'] ?? 0) as int,
@@ -101,7 +102,9 @@ class AirTicketPassenger {
 
   Map<String, dynamic> toCreateMap() {
     String? fmt(DateTime? d) =>
-        d == null ? null : "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
+        d == null
+            ? null
+            : "${d.year}-${d.month.toString().padLeft(2, '0')}-${d.day.toString().padLeft(2, '0')}";
     return {
       'name': name,
       if (relationship != null) 'relationship': relationship,
@@ -258,9 +261,10 @@ class AirTicketRequest {
       returnDate: parseDate(map['return_date']),
       preferredAirline: map['preferred_airline'],
       travelClass: map['travel_class'] ?? '',
-      estimatedCost: map['estimated_cost'] == null
-          ? null
-          : (map['estimated_cost'] as num).toDouble(),
+      estimatedCost:
+          map['estimated_cost'] == null
+              ? null
+              : (map['estimated_cost'] as num).toDouble(),
       currency: map['currency'],
       status: map['status'] ?? '',
       approvalStage: map['approval_stage'],
@@ -291,15 +295,24 @@ class AirTicketRequestDetails {
       request: AirTicketRequest.fromMap(
         Map<String, dynamic>.from(map['request'] ?? {}),
       ),
-      passengers: (map['passengers'] as List? ?? [])
-          .map((e) => AirTicketPassenger.fromMap(Map<String, dynamic>.from(e)))
-          .toList(),
-      approvals: (map['approvals'] as List? ?? [])
-          .map((e) => AirTicketApproval.fromMap(Map<String, dynamic>.from(e)))
-          .toList(),
-      booking: map['booking'] is Map
-          ? AirTicketBooking.fromMap(Map<String, dynamic>.from(map['booking']))
-          : null,
+      passengers:
+          (map['passengers'] as List? ?? [])
+              .map(
+                (e) => AirTicketPassenger.fromMap(Map<String, dynamic>.from(e)),
+              )
+              .toList(),
+      approvals:
+          (map['approvals'] as List? ?? [])
+              .map(
+                (e) => AirTicketApproval.fromMap(Map<String, dynamic>.from(e)),
+              )
+              .toList(),
+      booking:
+          map['booking'] is Map
+              ? AirTicketBooking.fromMap(
+                Map<String, dynamic>.from(map['booking']),
+              )
+              : null,
     );
   }
 }
@@ -323,9 +336,10 @@ class AirTicketRequestList {
   });
 
   factory AirTicketRequestList.fromMap(Map<String, dynamic> map) {
-    final items = (map['data'] as List? ?? [])
-        .map((e) => AirTicketRequest.fromMap(Map<String, dynamic>.from(e)))
-        .toList();
+    final items =
+        (map['data'] as List? ?? [])
+            .map((e) => AirTicketRequest.fromMap(Map<String, dynamic>.from(e)))
+            .toList();
     final pagination = Map<String, dynamic>.from(map['pagination'] ?? {});
     return AirTicketRequestList(
       items: items,

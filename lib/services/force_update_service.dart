@@ -89,8 +89,10 @@ class ForceUpdateService {
       if (!applyRemoteConfig) {
         AppURL.baseUrl = AppURL.defaultBaseUrl;
         ApiNetworkService().dio.options.baseUrl = AppURL.baseUrl;
-        print("⏭️ Remote Config disabled (manual) — using local base URL: "
-            "${AppURL.baseUrl}");
+        print(
+          "⏭️ Remote Config disabled (manual) — using local base URL: "
+          "${AppURL.baseUrl}",
+        );
         return null;
       }
 

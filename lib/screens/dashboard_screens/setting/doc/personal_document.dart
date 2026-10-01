@@ -26,13 +26,17 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
     super.initState();
     // Fetch only if documents list is empty (first time)
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      print('📊 Personal Documents - List count: ${_docController.documents.length}');
-      
+      print(
+        '📊 Personal Documents - List count: ${_docController.documents.length}',
+      );
+
       if (_docController.documents.isEmpty) {
         print('🔄 Fetching documents (list is empty)');
         _docController.fetchEmployeeDocuments();
       } else {
-        print('✅ Using cached documents (${_docController.documents.length} items)');
+        print(
+          '✅ Using cached documents (${_docController.documents.length} items)',
+        );
       }
     });
   }
@@ -58,12 +62,11 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
       ),
       backgroundColor: kMainBackgroundColor,
       body: Container(
-        decoration: const BoxDecoration(
-          gradient: kMainBackgroundGradient,
-        ),
+        decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Obx(() {
           // Show shimmer only on initial load (empty list)
-          if (_docController.isLoading.value && _docController.documents.isEmpty) {
+          if (_docController.isLoading.value &&
+              _docController.documents.isEmpty) {
             return _buildShimmerList();
           }
 
@@ -128,11 +131,15 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
     final Map<String, List<dynamic>> groupedDocs = {};
     for (var doc in docs) {
       String type = doc.documentType ?? TranslationKeys.others;
-      
+
       // Attempt to map older hardcoded names to universal keys for consistency,
       // while keeping any other distinct documentType exactly as was saved.
       final t = type.toLowerCase();
-      if (t == "national id" || t == "nationalid" || t == "هوية وطنية" || t == "بطاقة" || t == "شناختی") {
+      if (t == "national id" ||
+          t == "nationalid" ||
+          t == "هوية وطنية" ||
+          t == "بطاقة" ||
+          t == "شناختی") {
         type = TranslationKeys.nationalID;
       } else if (t == "iqama" || t == "إقامة" || t == "اقامہ") {
         type = TranslationKeys.iqama;
@@ -140,7 +147,12 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
         type = TranslationKeys.passport;
       } else if (t == "visa" || t == "تأشيرة" || t == "ویزا") {
         type = TranslationKeys.visa;
-      } else if (t == "degree certificate" || t == "education" || t == "certificate" || t == "شهادة" || t == "تعلیم" || t.contains("ڈگری")) {
+      } else if (t == "degree certificate" ||
+          t == "education" ||
+          t == "certificate" ||
+          t == "شهادة" ||
+          t == "تعلیم" ||
+          t.contains("ڈگری")) {
         type = TranslationKeys.degreeCertificate;
       } else if (t == "others" || t == "أخرى" || t == "دیگر") {
         type = TranslationKeys.others;
@@ -162,7 +174,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
         ...groupedDocs.entries.map((entry) {
           return _buildDocTypeSection(entry.key.tr, entry.value);
         }).toList(),
-        
+
         const SizedBox(height: 20),
       ],
     );
@@ -181,10 +193,17 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
             tColor: Colors.black87,
           ),
         ),
-        ...docs.map((doc) => Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 6),
-          child: _buildDocumentCard(doc),
-        )).toList(),
+        ...docs
+            .map(
+              (doc) => Padding(
+                padding: const EdgeInsets.symmetric(
+                  horizontal: 20,
+                  vertical: 6,
+                ),
+                child: _buildDocumentCard(doc),
+              ),
+            )
+            .toList(),
       ],
     );
   }
@@ -512,10 +531,10 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
         borderRadius: BorderRadius.circular(16),
         child: InkWell(
           onTap: () {
-            Get.to(() => DocumentViewerScreen(
-                  filePath: doc.filePath ?? '',
-                  doc: doc,
-                ));
+            Get.to(
+              () =>
+                  DocumentViewerScreen(filePath: doc.filePath ?? '', doc: doc),
+            );
           },
           borderRadius: BorderRadius.circular(16),
           child: Padding(
@@ -544,7 +563,10 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           kText(
-                            text: (doc.documentType ?? TranslationKeys.document).toString().tr,
+                            text:
+                                (doc.documentType ?? TranslationKeys.document)
+                                    .toString()
+                                    .tr,
                             fSize: 16,
                             fWeight: FontWeight.bold,
                             tColor: Colors.black87,

@@ -10,13 +10,14 @@ class ShimmerTile extends StatelessWidget {
       width: 200.0,
       height: 100.0,
       child: Shimmer.fromColors(
-          baseColor: Colors.grey,
-          highlightColor: Colors.white,
-          child: ListTile(
-            leading: CircleAvatar(),
-            title: Text(""),
-            subtitle: Text(""),
-          )),
+        baseColor: Colors.grey,
+        highlightColor: Colors.white,
+        child: ListTile(
+          leading: CircleAvatar(),
+          title: Text(""),
+          subtitle: Text(""),
+        ),
+      ),
     );
   }
 }
@@ -29,9 +30,10 @@ class ShimmerBox extends StatelessWidget {
     return CircleAvatar(
       radius: 45,
       child: Shimmer.fromColors(
-          baseColor: Colors.grey,
-          highlightColor: Colors.white,
-          child: const CircleAvatar(radius: 45)),
+        baseColor: Colors.grey,
+        highlightColor: Colors.white,
+        child: const CircleAvatar(radius: 45),
+      ),
     );
   }
 }

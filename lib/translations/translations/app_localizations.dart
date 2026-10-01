@@ -8,8 +8,10 @@ class GetLocalization extends Translations {
   Map<String, Map<String, String>> get keys => {
     /// English
     'en_US': EnglishLocal.getEnglish(),
+
     /// Arabic
     'ar_SA': ArabicLocal.getArabic(),
+
     /// Urdu
     'ur_PK': UrduLocal.getUrdu(),
   };

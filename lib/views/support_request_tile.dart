@@ -117,13 +117,7 @@ class SupportRequestShimmer extends StatelessWidget {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Row(
-                  children: [
-                    bar(64, 20),
-                    const Spacer(),
-                    bar(52, 12),
-                  ],
-                ),
+                Row(children: [bar(64, 20), const Spacer(), bar(52, 12)]),
                 const SizedBox(height: 14),
                 bar(double.infinity, 12),
                 const SizedBox(height: 8),

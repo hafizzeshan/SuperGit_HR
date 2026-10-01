@@ -411,8 +411,10 @@ class EnglishLocal {
       TranslationKeys.submitJustification: "Submit justification",
       TranslationKeys.editJustification: "Edit justification",
       TranslationKeys.yourExplanation: "Your explanation",
-      TranslationKeys.explainWhatHappened: "Explain what happened, in your own words…",
-      TranslationKeys.justificationSubmitted: "Your justification has been submitted",
+      TranslationKeys.explainWhatHappened:
+          "Explain what happened, in your own words…",
+      TranslationKeys.justificationSubmitted:
+          "Your justification has been submitted",
       TranslationKeys.justificationRequested: "Your justification is requested",
       TranslationKeys.reviewerComments: "HR comments",
       TranslationKeys.incidentDetails: "Incident details",
@@ -422,11 +424,13 @@ class EnglishLocal {
       TranslationKeys.statusUnderReview: "Under review",
       TranslationKeys.statusConfirmed: "Confirmed",
       TranslationKeys.statusClosed: "Closed",
-      TranslationKeys.officialDisciplinaryNotice: "Official disciplinary notice",
+      TranslationKeys.officialDisciplinaryNotice:
+          "Official disciplinary notice",
       TranslationKeys.issuedBy: "Issued by",
       TranslationKeys.letterDate: "Letter date",
       TranslationKeys.incidentRef: "Incident reference",
-      TranslationKeys.warningFileNotice: "A copy of this warning letter has been placed in your personnel file pursuant to labor regulations.",
+      TranslationKeys.warningFileNotice:
+          "A copy of this warning letter has been placed in your personnel file pursuant to labor regulations.",
       TranslationKeys.manageDiscipline: "Manage Discipline",
       TranslationKeys.startInvestigation: "Start investigation",
       TranslationKeys.requestResponse: "Request response",
@@ -443,12 +447,14 @@ class EnglishLocal {
       TranslationKeys.letterContent: "Letter content",
       TranslationKeys.letterContentRequired: "Please write the letter content",
       TranslationKeys.warningIssued: "Warning letter issued",
-      TranslationKeys.failedToIssueWarning: "Could not issue the warning letter",
+      TranslationKeys.failedToIssueWarning:
+          "Could not issue the warning letter",
       TranslationKeys.eligibleForWarning: "Eligible",
       TranslationKeys.notEligibleForWarning: "Below threshold",
       TranslationKeys.confirmedIncidentsCount: "confirmed incident(s)",
       TranslationKeys.threshold: "Threshold",
-      TranslationKeys.noConfirmedIncidents: "No confirmed incidents to warn against",
+      TranslationKeys.noConfirmedIncidents:
+          "No confirmed incidents to warn against",
       TranslationKeys.countsTowardWarning: "Counts toward warning",
       TranslationKeys.confirmEndShift: "Confirm End Shift",
       TranslationKeys.confirmHours: "Confirm hours",
@@ -938,19 +944,25 @@ class EnglishLocal {
       TranslationKeys.currentlyClockedIn: "You are currently clocked in",
       TranslationKeys.clockTime: "Time",
       TranslationKeys.device: "Device",
-      TranslationKeys.supportBusyTryLater: "Our support team is busy right now. Please get in touch a little later.",
+      TranslationKeys.supportBusyTryLater:
+          "Our support team is busy right now. Please get in touch a little later.",
       TranslationKeys.yourEmail: "Your email",
       TranslationKeys.yourMessage: "Your message",
-      TranslationKeys.writeYourMessageHere: "Describe your issue in a few lines…",
+      TranslationKeys.writeYourMessageHere:
+          "Describe your issue in a few lines…",
       TranslationKeys.sendMessage: "Send message",
       TranslationKeys.todaysMessages: "Today's messages",
       TranslationKeys.noMessagesToday: "You have not sent any message today",
       TranslationKeys.messagesLeftToday: "messages left today",
-      TranslationKeys.dailyMessageLimitReached: "You have reached the daily limit of 2 messages. Please try again tomorrow.",
-      TranslationKeys.messageSentToSupport: "Your message has been sent to support",
-      TranslationKeys.failedToSendMessage: "Could not send your message. Please try again.",
+      TranslationKeys.dailyMessageLimitReached:
+          "You have reached the daily limit of 2 messages. Please try again tomorrow.",
+      TranslationKeys.messageSentToSupport:
+          "Your message has been sent to support",
+      TranslationKeys.failedToSendMessage:
+          "Could not send your message. Please try again.",
       TranslationKeys.failedToLoadRequests: "Could not load your messages",
-      TranslationKeys.pleaseEnterValidEmail: "Please enter a valid email address",
+      TranslationKeys.pleaseEnterValidEmail:
+          "Please enter a valid email address",
       TranslationKeys.pleaseEnterYourMessage: "Please write your message",
       TranslationKeys.weWillReplyByEmail: "Our team will reply to you by email",
       TranslationKeys.supportUnavailable: "Support unavailable",
@@ -958,7 +970,8 @@ class EnglishLocal {
       TranslationKeys.ethicsReports: "Ethics Reports",
       TranslationKeys.newEthicsReport: "New Ethics Report",
       TranslationKeys.ethicsIntroTitle: "Speak up",
-      TranslationKeys.ethicsIntroBody: "Report workplace concerns confidentially. Your report goes directly to HR.",
+      TranslationKeys.ethicsIntroBody:
+          "Report workplace concerns confidentially. Your report goes directly to HR.",
       TranslationKeys.noEthicsReports: "You have not submitted any report yet",
       TranslationKeys.myReports: "My reports",
       TranslationKeys.category: "Category",
@@ -967,7 +980,8 @@ class EnglishLocal {
       TranslationKeys.incidentLocation: "Incident location",
       TranslationKeys.peopleInvolved: "People involved",
       TranslationKeys.immediateDanger: "Immediate danger",
-      TranslationKeys.immediateDangerHint: "Select only if there is an emergency or urgent safety risk",
+      TranslationKeys.immediateDangerHint:
+          "Select only if there is an emergency or urgent safety risk",
       TranslationKeys.attachments: "Attachments",
       TranslationKeys.addAttachment: "Add attachment",
       TranslationKeys.submitReport: "Submit report",
@@ -978,21 +992,29 @@ class EnglishLocal {
       TranslationKeys.submittedOn: "Submitted on",
       TranslationKeys.reference: "Reference",
       TranslationKeys.pleaseSelectCategory: "Please select a category",
-      TranslationKeys.descriptionMin20Chars: "Description must be at least 20 characters",
+      TranslationKeys.descriptionMin20Chars:
+          "Description must be at least 20 characters",
       TranslationKeys.fileTooLargeMax10Mb: "File must be 10 MB or smaller",
-      TranslationKeys.reportSubmittedSuccessfully: "Your report has been submitted",
+      TranslationKeys.reportSubmittedSuccessfully:
+          "Your report has been submitted",
       TranslationKeys.reportUpdatedSuccessfully: "Report updated",
-      TranslationKeys.failedToSubmitReport: "Could not submit your report. Please try again.",
+      TranslationKeys.failedToSubmitReport:
+          "Could not submit your report. Please try again.",
       TranslationKeys.failedToUpdateReport: "Could not update the report",
       TranslationKeys.reportDeletedSuccessfully: "Report deleted",
       TranslationKeys.failedToDeleteReport: "Could not delete the report",
-      TranslationKeys.failedToDeleteAttachment: "Could not delete the attachment",
-      TranslationKeys.attachmentUploadFailed: "Attachment could not be uploaded",
-      TranslationKeys.deleteReportConfirm: "Delete this report? This cannot be undone.",
-      TranslationKeys.editableOnlyWhilePending: "You can edit this report only while it is pending",
+      TranslationKeys.failedToDeleteAttachment:
+          "Could not delete the attachment",
+      TranslationKeys.attachmentUploadFailed:
+          "Attachment could not be uploaded",
+      TranslationKeys.deleteReportConfirm:
+          "Delete this report? This cannot be undone.",
+      TranslationKeys.editableOnlyWhilePending:
+          "You can edit this report only while it is pending",
       TranslationKeys.noUpdatesYet: "No updates from HR yet",
       TranslationKeys.urgent: "Urgent",
-      TranslationKeys.describeIncident: "Explain what happened, when and who was involved…",
+      TranslationKeys.describeIncident:
+          "Explain what happened, when and who was involved…",
       TranslationKeys.ethCatHarassment: "Harassment",
       TranslationKeys.ethCatDiscrimination: "Discrimination",
       TranslationKeys.ethCatFraud: "Fraud",
@@ -1019,8 +1041,10 @@ class EnglishLocal {
       TranslationKeys.clockOutConfirm: "End your remote work session?",
       TranslationKeys.remoteClockedIn: "Remote session started",
       TranslationKeys.remoteClockedOut: "Remote session ended",
-      TranslationKeys.remoteClockInFailed: "Could not start the session. Please try again.",
-      TranslationKeys.remoteClockOutFailed: "Could not end the session. Please try again.",
+      TranslationKeys.remoteClockInFailed:
+          "Could not start the session. Please try again.",
+      TranslationKeys.remoteClockOutFailed:
+          "Could not end the session. Please try again.",
       TranslationKeys.totalSessions: "Total sessions",
       TranslationKeys.pendingApprovals: "Pending",
       TranslationKeys.approvedSessions: "Approved",
@@ -1066,11 +1090,16 @@ class EnglishLocal {
       TranslationKeys.totalOvertime: "Total Overtime",
       TranslationKeys.pendingRequests: "Pending",
       TranslationKeys.approvedRequests: "Approved",
-      TranslationKeys.overtimeRequestCreated: "Overtime request created successfully",
-      TranslationKeys.overtimeRequestFailed: "Failed to create overtime request",
-      TranslationKeys.failedToFetchOvertime: "Failed to fetch overtime requests",
-      TranslationKeys.somethingWentWrongFetchingOvertime: "Something went wrong while fetching overtime",
-      TranslationKeys.somethingWentWrongCreatingOvertime: "Something went wrong while creating overtime request",
+      TranslationKeys.overtimeRequestCreated:
+          "Overtime request created successfully",
+      TranslationKeys.overtimeRequestFailed:
+          "Failed to create overtime request",
+      TranslationKeys.failedToFetchOvertime:
+          "Failed to fetch overtime requests",
+      TranslationKeys.somethingWentWrongFetchingOvertime:
+          "Something went wrong while fetching overtime",
+      TranslationKeys.somethingWentWrongCreatingOvertime:
+          "Something went wrong while creating overtime request",
       TranslationKeys.version: "Version",
     };
   }

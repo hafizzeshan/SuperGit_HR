@@ -27,10 +27,7 @@ class SocialPostRepository {
 
   /// GET /social-posts?page&limit
   /// Returns the full envelope (data + pagination) so caller can read both.
-  Future<Map<String, dynamic>?> getPosts({
-    int page = 1,
-    int limit = 10,
-  }) async {
+  Future<Map<String, dynamic>?> getPosts({int page = 1, int limit = 10}) async {
     try {
       final url = AppURL.socialPostsList(page: page, limit: limit);
       final res = await _api.getRequest(url);
@@ -249,8 +246,7 @@ class SocialPostRepository {
         );
         return true;
       }
-      Utils.snackBar(
-          _errorMessage(res.data, "Failed to delete comment"), true);
+      Utils.snackBar(_errorMessage(res.data, "Failed to delete comment"), true);
       return false;
     } catch (e, st) {
       log("❌ deleteComment: $e", stackTrace: st);

@@ -5,7 +5,6 @@ import 'package:supergithr/controllers/overtime_controller.dart';
 import 'package:supergithr/models/overtime_model.dart';
 import 'package:supergithr/screens/dashboard_screens/home/overtime/create_overtime_screen.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
-import 'package:supergithr/utils/localization_helper.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/colors.dart';
 import 'package:supergithr/views/text_styles.dart';
@@ -526,6 +525,7 @@ class OvertimeScreenState extends State<OvertimeScreen> {
 
   void _showDetailsSheet(OvertimeDatum item, Color color) {
     showModalBottomSheet(
+      useSafeArea: true,
       context: context,
       backgroundColor: Colors.transparent,
       isScrollControlled: true,
