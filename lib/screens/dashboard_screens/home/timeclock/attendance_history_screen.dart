@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -436,7 +437,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
 
     return ListView.separated(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16,
+      ).atLeastBottom(context.gestureInset + 8),
       itemCount: weeksInMonth,
       separatorBuilder: (_, __) => const SizedBox(width: 10),
       itemBuilder: (context, index) {
@@ -488,7 +491,9 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
 
     return ListView.separated(
       scrollDirection: Axis.horizontal,
-      padding: const EdgeInsets.symmetric(horizontal: 16),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16,
+      ).atLeastBottom(context.gestureInset + 8),
       itemCount: daysInMonth,
       separatorBuilder: (_, __) => const SizedBox(width: 10),
       itemBuilder: (context, index) {
@@ -631,7 +636,12 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
     }
 
     return ListView(
-      padding: const EdgeInsets.fromLTRB(16, 0, 16, 20),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        0,
+        16,
+        20,
+      ).atLeastBottom(context.gestureInset + 8),
       children: content,
     );
   }
@@ -891,7 +901,10 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
 
   Widget _buildShimmerContent() {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 0),
+      padding: EdgeInsets.symmetric(
+        horizontal: 16,
+        vertical: 0,
+      ).atLeastBottom(context.gestureInset + 8),
       itemCount: 8,
       itemBuilder: (context, index) {
         return Column(

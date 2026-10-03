@@ -1,5 +1,6 @@
 import 'package:file_picker/file_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/ethics_controller.dart';
@@ -122,7 +123,12 @@ class _CreateEthicsReportScreenState extends State<CreateEthicsReportScreen> {
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+          padding: EdgeInsets.fromLTRB(
+            16,
+            16,
+            16,
+            32,
+          ).atLeastBottom(context.gestureInset + 8),
           children: [
             _card(
               child: Column(

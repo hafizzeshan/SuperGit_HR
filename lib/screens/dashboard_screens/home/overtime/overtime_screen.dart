@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/overtime_controller.dart';
@@ -87,7 +88,12 @@ class OvertimeScreenState extends State<OvertimeScreen> {
               physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 24),
+              padding: EdgeInsets.fromLTRB(
+                16,
+                16,
+                16,
+                24,
+              ).atLeastBottom(context.gestureInset + 8),
               children: [
                 _summaryCard(),
                 const SizedBox(height: 20),
@@ -540,7 +546,7 @@ class OvertimeScreenState extends State<OvertimeScreen> {
             right: 24,
             top: 16,
             bottom: MediaQuery.of(context).padding.bottom + 24,
-          ),
+          ).atLeastBottom(context.gestureInset + 8),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(

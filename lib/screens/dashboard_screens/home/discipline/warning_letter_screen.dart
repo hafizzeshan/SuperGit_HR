@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/models/discipline_model.dart';
@@ -29,7 +30,12 @@ class WarningLetterScreen extends StatelessWidget {
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: ListView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.fromLTRB(16, 16, 16, 30),
+          padding: EdgeInsets.fromLTRB(
+            16,
+            16,
+            16,
+            30,
+          ).atLeastBottom(context.gestureInset + 8),
           children: [
             Container(
               decoration: BoxDecoration(

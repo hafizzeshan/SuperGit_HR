@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -69,7 +70,9 @@ class AnnouncementsListScreen extends StatelessWidget {
               padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
               child: CustomAnimatedGridView(
                 physics: const AlwaysScrollableScrollPhysics(),
-                padding: const EdgeInsets.only(bottom: 40),
+                padding: EdgeInsets.only(
+                  bottom: 40,
+                ).atLeastBottom(context.gestureInset + 8),
                 gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
                   crossAxisCount: 2,
                   childAspectRatio: 0.8, // Taller cards to match home style
@@ -137,7 +140,7 @@ class AnnouncementsListScreen extends StatelessWidget {
             date: "$date • $time",
           ),
       child: Container(
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20).atLeastBottom(context.gestureInset + 8),
         decoration: BoxDecoration(
           gradient: bgGradient,
           borderRadius: BorderRadius.circular(30), // Rounded modern style
@@ -199,7 +202,9 @@ class AnnouncementsListScreen extends StatelessWidget {
             Align(
               alignment: Alignment.bottomRight,
               child: Container(
-                padding: const EdgeInsets.all(8),
+                padding: EdgeInsets.all(
+                  8,
+                ).atLeastBottom(context.gestureInset + 8),
                 decoration: const BoxDecoration(
                   color: Color(0xff2A2A2A),
                   shape: BoxShape.circle,

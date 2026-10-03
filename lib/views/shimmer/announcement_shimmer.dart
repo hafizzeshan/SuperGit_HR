@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:shimmer/shimmer.dart';
 
 /// Placeholder cards for the home announcements strip.
@@ -30,7 +31,9 @@ class AnnouncementShimmer extends StatelessWidget {
         child: ListView.separated(
           scrollDirection: Axis.horizontal,
           physics: const NeverScrollableScrollPhysics(),
-          padding: const EdgeInsets.symmetric(horizontal: 20),
+          padding: EdgeInsets.symmetric(
+            horizontal: 20,
+          ).atLeastBottom(context.gestureInset + 8),
           itemCount: itemCount,
           separatorBuilder: (_, __) => const SizedBox(width: 16),
           itemBuilder:

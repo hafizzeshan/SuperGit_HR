@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/utils/localization_helper.dart';
@@ -38,7 +39,7 @@ class EducationalDocumentsScreen extends StatelessWidget {
       appBar: appBarrWitAction(title: TranslationKeys.educationalDocuments.tr),
       backgroundColor: Colors.grey.shade100,
       body: ListView.builder(
-        padding: const EdgeInsets.all(16),
+        padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
         itemCount: documents.length,
         itemBuilder: (context, index) {
           final doc = documents[index];

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/holiday_controller.dart';
@@ -54,7 +55,9 @@ class _HolidayScreenState extends State<HolidayScreen> {
             onRefresh: () => holidayController.fetchHolidays(),
             color: kPrimaryColor,
             child: CustomAnimatedListView(
-              padding: const EdgeInsets.all(16.0),
+              padding: EdgeInsets.all(
+                16.0,
+              ).atLeastBottom(context.gestureInset + 8),
               itemCount: holidayController.holidays.length,
               itemBuilder: (context, index) {
                 final holiday = holidayController.holidays[index];

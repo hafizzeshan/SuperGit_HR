@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
@@ -213,7 +214,7 @@ class QuickActionsGridScreen extends StatelessWidget {
             18,
             16,
             18 + MediaQuery.paddingOf(context).bottom,
-          ),
+          ).atLeastBottom(context.gestureInset + 8),
           gridDelegate: const SliverGridDelegateWithFixedCrossAxisCount(
             crossAxisCount: 2,
             crossAxisSpacing: 12,

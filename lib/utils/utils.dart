@@ -4,6 +4,7 @@ import 'dart:developer';
 import 'package:delightful_toast/delight_toast.dart';
 import 'package:delightful_toast/toast/utils/enums.dart';
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 import 'package:get/get.dart';
@@ -351,7 +352,7 @@ class Utils {
   //     ),
   //     builder: (BuildContext context) {
   //       return Padding(
-  //         padding: const EdgeInsets.all(16),
+  //         padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
   //         child: Consumer<LocalizationProvider>(
   //           builder: (context, localeProvider, _) {
   //             return Column(

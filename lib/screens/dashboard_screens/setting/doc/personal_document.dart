@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:supergithr/controllers/document_controller.dart';
@@ -88,7 +89,7 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
   Widget _buildEmptyState() {
     return ListView(
       physics: const AlwaysScrollableScrollPhysics(),
-      padding: const EdgeInsets.all(24),
+      padding: EdgeInsets.all(24).atLeastBottom(context.gestureInset + 8),
       children: [
         Container(
           height: 200,
@@ -165,7 +166,9 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
     }
 
     return ListView(
-      padding: const EdgeInsets.only(bottom: 20),
+      padding: EdgeInsets.only(
+        bottom: 20,
+      ).atLeastBottom(context.gestureInset + 8),
       children: [
         // Header Stats
         _buildHeaderStats(),
@@ -328,7 +331,10 @@ class _PersonalDocumentsScreenState extends State<PersonalDocumentsScreen> {
 
   Widget _buildShimmerList() {
     return ListView.builder(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 16),
+      padding: EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 16,
+      ).atLeastBottom(context.gestureInset + 8),
       itemCount: 6,
       itemBuilder: (context, index) {
         return Container(

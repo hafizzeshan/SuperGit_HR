@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/loan_controller.dart';
 import 'package:supergithr/views/CustomButton.dart';
@@ -82,7 +83,7 @@ class _ApplyLoanScreenState extends State<ApplyLoanScreen> {
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.all(20.0),
+          padding: EdgeInsets.all(20.0).atLeastBottom(context.gestureInset + 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

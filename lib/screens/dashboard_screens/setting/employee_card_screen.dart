@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -48,7 +49,10 @@ class EmployeeCardScreen extends StatelessWidget {
                           end: Alignment.bottomRight,
                         ),
                       ),
-                      padding: const EdgeInsets.only(top: 25, left: 30),
+                      padding: EdgeInsets.only(
+                        top: 25,
+                        left: 30,
+                      ).atLeastBottom(context.gestureInset + 8),
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/loan_controller.dart';
 import 'package:supergithr/models/loan_model.dart';
@@ -71,7 +72,9 @@ class _LoanScreenState extends State<LoanScreen> {
             onRefresh: () => _loanController.fetchLoans(),
             color: kPrimaryColor,
             child: ListView.builder(
-              padding: const EdgeInsets.symmetric(vertical: 16),
+              padding: EdgeInsets.symmetric(
+                vertical: 16,
+              ).atLeastBottom(context.gestureInset + 8),
               itemCount: _loanController.loans.length,
               itemBuilder: (_, index) {
                 final loan = _loanController.loans[index];
@@ -230,7 +233,7 @@ class _LoanScreenState extends State<LoanScreen> {
             right: 24,
             top: 16,
             bottom: MediaQuery.of(context).padding.bottom + 24,
-          ),
+          ).atLeastBottom(context.gestureInset + 8),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(

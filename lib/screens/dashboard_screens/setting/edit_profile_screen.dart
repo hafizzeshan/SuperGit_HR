@@ -1,5 +1,6 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/profile_controller.dart';
@@ -50,7 +51,10 @@ class EditProfileScreen extends StatelessWidget {
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: SingleChildScrollView(
-          padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 16),
+          padding: EdgeInsets.symmetric(
+            horizontal: 16,
+            vertical: 16,
+          ).atLeastBottom(context.gestureInset + 8),
           child: Form(
             key: _formKey,
             child: Column(

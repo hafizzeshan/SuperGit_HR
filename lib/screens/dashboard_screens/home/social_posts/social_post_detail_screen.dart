@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -81,7 +82,10 @@ class _SocialPostDetailScreenState extends State<SocialPostDetailScreen> {
                         onRefresh: () => c.fetchDetail(widget.postId),
                         child: ListView(
                           physics: const AlwaysScrollableScrollPhysics(),
-                          padding: const EdgeInsets.only(top: 14, bottom: 24),
+                          padding: EdgeInsets.only(
+                            top: 14,
+                            bottom: 24,
+                          ).atLeastBottom(context.gestureInset + 8),
                           children: [
                             _buildInfoSection(post),
                             const SizedBox(height: 18),

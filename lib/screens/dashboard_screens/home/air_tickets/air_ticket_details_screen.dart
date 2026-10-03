@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/air_ticket_controller.dart';
@@ -69,7 +70,7 @@ class _AirTicketDetailsScreenState extends State<AirTicketDetailsScreen> {
             return Center(child: Text(TranslationKeys.requestNotFound.tr));
           }
           return ListView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
             children: [
               _headerCard(d.request),
               const SizedBox(height: 14),

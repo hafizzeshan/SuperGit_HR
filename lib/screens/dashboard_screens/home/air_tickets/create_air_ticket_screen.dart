@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -65,7 +66,12 @@ class _CreateAirTicketRequestScreenState
         child: Form(
           key: _formKey,
           child: ListView(
-            padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+            padding: EdgeInsets.fromLTRB(
+              16,
+              12,
+              16,
+              24,
+            ).atLeastBottom(context.gestureInset + 8),
             children: [
               _sectionCard(
                 icon: Icons.flight_outlined,
@@ -398,7 +404,12 @@ class _CreateAirTicketRequestScreenState
             color: Colors.white,
             borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
           ),
-          padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+          padding: EdgeInsets.fromLTRB(
+            20,
+            12,
+            20,
+            24,
+          ).atLeastBottom(context.gestureInset + 8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

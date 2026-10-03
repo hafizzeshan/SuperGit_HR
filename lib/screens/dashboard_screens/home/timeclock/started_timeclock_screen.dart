@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
@@ -146,7 +147,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
             16,
             20,
             MediaQuery.of(context).viewInsets.bottom + 20,
-          ),
+          ).atLeastBottom(context.gestureInset + 8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
@@ -838,7 +839,10 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
         body: Container(
           decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
           child: ListView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 20),
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 20,
+            ).atLeastBottom(context.gestureInset + 8),
             children: [
               // Main Timer Card
               Container(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class MapShimmer extends StatelessWidget {
@@ -160,7 +161,12 @@ class MapShimmer extends StatelessWidget {
         Align(
           alignment: Alignment.bottomCenter,
           child: Container(
-            padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+            padding: EdgeInsets.fromLTRB(
+              20,
+              20,
+              20,
+              40,
+            ).atLeastBottom(context.gestureInset + 8),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: const BorderRadius.vertical(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
 import 'package:supergithr/controllers/attendance_controller.dart';
@@ -27,7 +28,12 @@ class SavedJobsSheet extends StatelessWidget {
     });
 
     return Container(
-      padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+      // The sheet owns its bottom inset: `useSafeArea` on showModalBottomSheet
+      // applies SafeArea(bottom: false), so the gesture bar is left to us.
+      padding: const EdgeInsets.symmetric(
+        horizontal: 20,
+        vertical: 10,
+      ).atLeastBottom(context.gestureInset + 8),
       decoration: const BoxDecoration(
         color: Colors.white,
         borderRadius: BorderRadius.only(

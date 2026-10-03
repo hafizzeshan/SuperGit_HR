@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
@@ -158,8 +159,8 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
                     },
                     color: kPrimaryColor,
                     child: ListView.separated(
-                      padding: const EdgeInsets.only(
-                        bottom: 50,
+                      padding: EdgeInsets.only(bottom: 50).atLeastBottom(
+                        context.gestureInset + 8,
                       ), // Extra space for better scroll experience
                       physics: const AlwaysScrollableScrollPhysics(
                         parent: BouncingScrollPhysics(),
@@ -346,7 +347,12 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            padding: const EdgeInsets.fromLTRB(20, 12, 20, 24),
+            padding: EdgeInsets.fromLTRB(
+              20,
+              12,
+              20,
+              24,
+            ).atLeastBottom(context.gestureInset + 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -746,7 +752,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
             right: 24,
             top: 16,
             bottom: MediaQuery.of(context).padding.bottom + 24,
-          ),
+          ).atLeastBottom(context.gestureInset + 8),
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             child: Column(
@@ -1069,7 +1075,7 @@ class _LeaveSummaryScreenState extends State<LeaveSummaryScreen> {
       separatorBuilder: (_, __) => const SizedBox(height: 10),
       itemBuilder: (context, index) {
         return Container(
-          padding: const EdgeInsets.all(16),
+          padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
           decoration: BoxDecoration(
             color: Colors.white,
             borderRadius: BorderRadius.circular(16),

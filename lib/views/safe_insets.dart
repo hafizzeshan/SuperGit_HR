@@ -35,3 +35,15 @@ extension SafeInsets on BuildContext {
     bottom + keyboardInset + gestureInset,
   );
 }
+
+/// Raises a bottom padding to clear the gesture bar, without stacking on top
+/// of the spacing the design already has.
+///
+/// A widget with an explicit `padding` does not pick up the system inset on
+/// its own (Flutter only does that when `padding` is null), so content ends up
+/// under the gesture bar. Adding the inset to the existing padding, though,
+/// leaves a visible gap on gesture phones — so this takes whichever is larger.
+extension SafeBottomPadding on EdgeInsets {
+  EdgeInsets atLeastBottom(double minimum) =>
+      bottom >= minimum ? this : copyWith(bottom: minimum);
+}

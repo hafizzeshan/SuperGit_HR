@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/models/overtime_model.dart';
 import 'package:intl/intl.dart';
@@ -73,7 +74,7 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: SingleChildScrollView(
           physics: const BouncingScrollPhysics(),
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20).atLeastBottom(context.gestureInset + 8),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

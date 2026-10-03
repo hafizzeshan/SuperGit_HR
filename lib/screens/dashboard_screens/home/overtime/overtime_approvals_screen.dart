@@ -176,7 +176,12 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
                     physics: const AlwaysScrollableScrollPhysics(
                       parent: BouncingScrollPhysics(),
                     ),
-                    padding: const EdgeInsets.fromLTRB(16, 4, 16, 28),
+                    padding: EdgeInsets.fromLTRB(
+                      16,
+                      4,
+                      16,
+                      28,
+                    ).atLeastBottom(context.gestureInset + 8),
                     children: [
                       if (_c.approvals.isEmpty)
                         _emptyState()
@@ -201,7 +206,10 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
       height: 58,
       child: ListView.separated(
         scrollDirection: Axis.horizontal,
-        padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 11),
+        padding: EdgeInsets.symmetric(
+          horizontal: 16,
+          vertical: 11,
+        ).atLeastBottom(context.gestureInset + 8),
         itemCount: _filters.length,
         separatorBuilder: (_, __) => const SizedBox(width: 8),
         itemBuilder: (_, index) {

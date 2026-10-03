@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:get/get.dart';
 import 'package:google_maps_flutter/google_maps_flutter.dart';
@@ -313,7 +314,12 @@ class _ClockInMapViewState extends State<_ClockInMapView> {
           Align(
             alignment: Alignment.bottomCenter,
             child: Container(
-              padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+              padding: EdgeInsets.fromLTRB(
+                20,
+                20,
+                20,
+                40,
+              ).atLeastBottom(context.gestureInset + 8),
               decoration: BoxDecoration(
                 color: Colors.white,
                 borderRadius: const BorderRadius.vertical(

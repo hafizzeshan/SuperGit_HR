@@ -456,7 +456,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           height: 145,
                           child: CustomAnimatedListView(
                             scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ).atLeastBottom(context.gestureInset + 8),
                             itemCount: 4,
                             separator: const SizedBox(width: 16),
                             itemBuilder: (context, index) {
@@ -599,7 +601,9 @@ class _HomeScreenState extends State<HomeScreen> {
 
                           return SingleChildScrollView(
                             scrollDirection: Axis.horizontal,
-                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            padding: EdgeInsets.symmetric(
+                              horizontal: 20,
+                            ).atLeastBottom(context.gestureInset + 8),
                             physics: const BouncingScrollPhysics(),
                             child: Row(
                               crossAxisAlignment: CrossAxisAlignment.start,
@@ -760,7 +764,7 @@ class _HomeScreenState extends State<HomeScreen> {
       child: Container(
         width: 260,
         height: 250,
-        padding: const EdgeInsets.all(20),
+        padding: EdgeInsets.all(20).atLeastBottom(context.gestureInset + 8),
         decoration: BoxDecoration(
           gradient: bgGradient,
           borderRadius: BorderRadius.circular(14),
@@ -847,7 +851,9 @@ class _HomeScreenState extends State<HomeScreen> {
             Align(
               alignment: Alignment.bottomRight,
               child: Container(
-                padding: const EdgeInsets.all(12),
+                padding: EdgeInsets.all(
+                  12,
+                ).atLeastBottom(context.gestureInset + 8),
                 decoration: const BoxDecoration(
                   color: Color(0xff2A2A2A),
                   shape: BoxShape.circle,

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/appBar.dart';
@@ -57,7 +58,9 @@ class NotificationScreen extends StatelessWidget {
                   ),
                 )
                 : ListView.separated(
-                  padding: const EdgeInsets.all(16),
+                  padding: EdgeInsets.all(
+                    16,
+                  ).atLeastBottom(context.gestureInset + 8),
                   itemCount: notifications.length,
                   separatorBuilder: (_, __) => const SizedBox(height: 12),
                   itemBuilder: (context, index) {

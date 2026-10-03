@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:supergithr/views/appBar.dart';
 import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
@@ -93,7 +94,9 @@ class ShimmerListView extends StatelessWidget {
         itemBuilder: (context, index) {
           return Container(
             child: Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(
+                8.0,
+              ).atLeastBottom(context.gestureInset + 8),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:supergithr/views/colors.dart';
@@ -24,7 +25,9 @@ class ButtonShimmerList extends StatelessWidget {
           ),
           itemBuilder: (context, index) {
             return Padding(
-              padding: const EdgeInsets.all(8.0),
+              padding: EdgeInsets.all(
+                8.0,
+              ).atLeastBottom(context.gestureInset + 8),
               child: Column(
                 children: [
                   Expanded(child: Container(color: shimmerBlack3)),

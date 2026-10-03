@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -33,7 +34,10 @@ class ProfileViewScreen extends StatelessWidget {
           final model = _profileController.userModel.value;
 
           return CustomAnimatedListView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 8),
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 8,
+            ).atLeastBottom(context.gestureInset + 8),
             itemCount: 4, // Header + 3 Sections
             itemBuilder: (context, index) {
               switch (index) {

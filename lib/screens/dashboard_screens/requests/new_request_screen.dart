@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/leave_controller.dart';
 import 'package:supergithr/models/leave_type_model.dart';
@@ -41,7 +42,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
           }
 
           return ListView(
-            padding: const EdgeInsets.all(20),
+            padding: EdgeInsets.all(20).atLeastBottom(context.gestureInset + 8),
             children: [
               // Leave Type Selector
               GestureDetector(
@@ -556,10 +557,10 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
 
                     // Header Section
                     Container(
-                      padding: const EdgeInsets.symmetric(
+                      padding: EdgeInsets.symmetric(
                         horizontal: 20,
                         vertical: 16,
-                      ),
+                      ).atLeastBottom(context.gestureInset + 8),
                       decoration: BoxDecoration(
                         gradient: LinearGradient(
                           colors: [
@@ -573,7 +574,9 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                       child: Row(
                         children: [
                           Container(
-                            padding: const EdgeInsets.all(12),
+                            padding: EdgeInsets.all(
+                              12,
+                            ).atLeastBottom(context.gestureInset + 8),
                             decoration: BoxDecoration(
                               gradient: linearGradient2,
                               borderRadius: BorderRadius.circular(15),
@@ -657,10 +660,10 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
                           child: ListView.builder(
                             controller: scrollController2,
                             physics: const BouncingScrollPhysics(),
-                            padding: const EdgeInsets.symmetric(
+                            padding: EdgeInsets.symmetric(
                               horizontal: 16,
                               vertical: 8,
-                            ),
+                            ).atLeastBottom(context.gestureInset + 8),
                             itemCount:
                                 currentTypes.length +
                                 (leaveController.hasMore.value ? 1 : 0),

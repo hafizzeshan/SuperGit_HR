@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:flutter_animate/flutter_animate.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -64,7 +65,12 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
             return ListView.builder(
               controller: _scroll,
               physics: const AlwaysScrollableScrollPhysics(),
-              padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+              padding: EdgeInsets.fromLTRB(
+                16,
+                12,
+                16,
+                24,
+              ).atLeastBottom(context.gestureInset + 8),
               itemCount: c.requests.length + 1,
               itemBuilder: (_, i) {
                 if (i == c.requests.length) return _footer();
@@ -146,7 +152,12 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
 
   Widget _shimmer() {
     return ListView.builder(
-      padding: const EdgeInsets.fromLTRB(16, 12, 16, 24),
+      padding: EdgeInsets.fromLTRB(
+        16,
+        12,
+        16,
+        24,
+      ).atLeastBottom(context.gestureInset + 8),
       itemCount: 5,
       itemBuilder:
           (_, __) => Padding(
@@ -199,7 +210,7 @@ class _TeamLeaveRequestsScreenState extends State<TeamLeaveRequestsScreen> {
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(20)),
         insetPadding: const EdgeInsets.symmetric(horizontal: 24),
         child: Padding(
-          padding: const EdgeInsets.all(20),
+          padding: EdgeInsets.all(20).atLeastBottom(context.gestureInset + 8),
           child: Column(
             mainAxisSize: MainAxisSize.min,
             crossAxisAlignment: CrossAxisAlignment.start,

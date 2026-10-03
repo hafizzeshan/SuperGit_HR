@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:flutter/services.dart';
 import 'package:dotted_border/dotted_border.dart';
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart' hide FormData, MultipartFile;
 import 'package:file_picker/file_picker.dart';
 import 'package:supergithr/controllers/document_controller.dart';
@@ -31,7 +32,10 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: Obx(
           () => SingleChildScrollView(
-            padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 24),
+            padding: EdgeInsets.symmetric(
+              horizontal: 20,
+              vertical: 24,
+            ).atLeastBottom(context.gestureInset + 8),
             physics: const BouncingScrollPhysics(),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -238,7 +242,9 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
               color: Colors.white,
               borderRadius: BorderRadius.vertical(top: Radius.circular(30)),
             ),
-            padding: const EdgeInsets.symmetric(vertical: 20),
+            padding: EdgeInsets.symmetric(
+              vertical: 20,
+            ).atLeastBottom(context.gestureInset + 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               children: [
@@ -268,7 +274,9 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                 Flexible(
                   child: ListView.separated(
                     shrinkWrap: true,
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    padding: EdgeInsets.symmetric(
+                      horizontal: 20,
+                    ).atLeastBottom(context.gestureInset + 8),
                     itemCount: docTypes.length,
                     separatorBuilder: (_, __) => const SizedBox(height: 12),
                     itemBuilder: (context, index) {
@@ -511,7 +519,10 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
           left: 0,
           right: 0,
           child: Container(
-            padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 12),
+            padding: EdgeInsets.symmetric(
+              horizontal: 16,
+              vertical: 12,
+            ).atLeastBottom(context.gestureInset + 8),
             decoration: BoxDecoration(
               color: Colors.white.withValues(alpha: 0.9),
               borderRadius: const BorderRadius.vertical(

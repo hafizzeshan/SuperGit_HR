@@ -231,7 +231,12 @@ class _DisciplineScreenState extends State<DisciplineScreen>
         physics: const AlwaysScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          8,
+          16,
+          28,
+        ).atLeastBottom(context.gestureInset + 8),
         children: [
           if (loading)
             const Padding(
@@ -258,7 +263,12 @@ class _DisciplineScreenState extends State<DisciplineScreen>
         physics: const AlwaysScrollableScrollPhysics(
           parent: BouncingScrollPhysics(),
         ),
-        padding: const EdgeInsets.fromLTRB(16, 8, 16, 28),
+        padding: EdgeInsets.fromLTRB(
+          16,
+          8,
+          16,
+          28,
+        ).atLeastBottom(context.gestureInset + 8),
         children: [
           if (loading)
             const Padding(

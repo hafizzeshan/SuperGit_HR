@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/air_ticket_controller.dart';
@@ -71,7 +72,7 @@ class _AirTicketsScreenState extends State<AirTicketsScreen> {
         child: RefreshIndicator(
           onRefresh: _refresh,
           child: ListView(
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
             children: [
               _entitlementCard(),
               const SizedBox(height: 16),

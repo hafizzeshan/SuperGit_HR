@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:shimmer/shimmer.dart';
 
 class HolidayShimmer extends StatelessWidget {
@@ -7,7 +8,7 @@ class HolidayShimmer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
       itemCount: 6,
       itemBuilder: (context, index) {
         return _buildShimmerCard();

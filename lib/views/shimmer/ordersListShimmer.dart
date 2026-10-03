@@ -5,6 +5,7 @@ import 'package:supergithr/views/customText.dart';
 import 'package:supergithr/views/text_styles.dart';
 import 'package:supergithr/views/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 
@@ -22,7 +23,9 @@ class OrderListShimmer extends StatelessWidget {
         itemCount: 5,
         itemBuilder: (context, index) {
           return Padding(
-            padding: const EdgeInsets.symmetric(vertical: 5),
+            padding: EdgeInsets.symmetric(
+              vertical: 5,
+            ).atLeastBottom(context.gestureInset + 8),
             child: Container(
               // height: height * 0.3,
               decoration: BoxDecoration(

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/salary_structure_controller.dart';
 import 'package:supergithr/models/salary_structure_model.dart';
@@ -108,7 +109,7 @@ class _EmployeeSalaryStructureScreenState
           child: ListView.separated(
             controller: scrollController,
             physics: const AlwaysScrollableScrollPhysics(),
-            padding: const EdgeInsets.all(16),
+            padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
             separatorBuilder: (_, __) => const SizedBox(height: 14),
             itemCount: controller.salaryStructureList.length + 1,
             itemBuilder: (_, index) {
@@ -224,7 +225,9 @@ class _EmployeeSalaryStructureScreenState
             minChildSize: 0.50,
             builder: (_, scrollController) {
               return Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 22),
+                padding: EdgeInsets.symmetric(
+                  horizontal: 22,
+                ).atLeastBottom(context.gestureInset + 8),
                 child: ListView(
                   controller: scrollController,
                   children: [

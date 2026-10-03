@@ -39,7 +39,7 @@ android {
         applicationId = "com.bytes.supergithr"
         minSdk = 26
         targetSdk = 36
-        versionCode = 13
+        versionCode = 14
         versionName = "1.0"
     }
 

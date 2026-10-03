@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/controllers/ethics_controller.dart';
@@ -73,7 +74,12 @@ class _EthicsReportsScreenState extends State<EthicsReportsScreen> {
               physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
-              padding: const EdgeInsets.fromLTRB(16, 16, 16, 28),
+              padding: EdgeInsets.fromLTRB(
+                16,
+                16,
+                16,
+                28,
+              ).atLeastBottom(context.gestureInset + 8),
               children: [
                 _introCard(),
                 const SizedBox(height: 20),

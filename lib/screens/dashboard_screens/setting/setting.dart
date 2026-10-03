@@ -370,7 +370,7 @@ class _AboutScreenState extends State<AboutScreen> {
               right: 20,
               top: 20,
               bottom: MediaQuery.of(context).padding.bottom + 20,
-            ),
+            ).atLeastBottom(context.gestureInset + 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,

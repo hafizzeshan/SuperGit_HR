@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:supergithr/controllers/employee_history_controller.dart';
@@ -82,7 +83,10 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
             onRefresh: () async => controller.getTodayLogs(),
             color: kPrimaryColor,
             child: CustomAnimatedListView(
-              padding: const EdgeInsets.symmetric(horizontal: 16, vertical: 20),
+              padding: EdgeInsets.symmetric(
+                horizontal: 16,
+                vertical: 20,
+              ).atLeastBottom(context.gestureInset + 8),
               physics: const AlwaysScrollableScrollPhysics(
                 parent: BouncingScrollPhysics(),
               ),
@@ -254,7 +258,7 @@ class _TodayHistoryScreenState extends State<TodayHistoryScreen> {
   // -----------------------------------------------------------
   Widget _buildShimmerList() {
     return ListView.builder(
-      padding: const EdgeInsets.all(16),
+      padding: EdgeInsets.all(16).atLeastBottom(context.gestureInset + 8),
       itemCount: 8,
       itemBuilder: (context, index) {
         return Container(

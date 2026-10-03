@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/support_controller.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -42,7 +43,12 @@ class _ContactSupportScreenState extends State<ContactSupportScreen> {
         child: Obx(() {
           return ListView(
             physics: const BouncingScrollPhysics(),
-            padding: const EdgeInsets.fromLTRB(16, 16, 16, 32),
+            padding: EdgeInsets.fromLTRB(
+              16,
+              16,
+              16,
+              32,
+            ).atLeastBottom(context.gestureInset + 8),
             children: [
               _header(),
               const SizedBox(height: 16),

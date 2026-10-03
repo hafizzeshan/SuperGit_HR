@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:responsive_sizer/responsive_sizer.dart';
@@ -70,7 +71,10 @@ class _LoginScreenState extends State<LoginScreen> {
         child: Center(
           child: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
-            padding: EdgeInsets.symmetric(horizontal: 5.w, vertical: 5.h),
+            padding: EdgeInsets.symmetric(
+              horizontal: 5.w,
+              vertical: 5.h,
+            ).atLeastBottom(context.gestureInset + 8),
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [

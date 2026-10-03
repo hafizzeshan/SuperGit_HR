@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/controllers/translation_controller.dart';
 import 'package:supergithr/views/colors.dart';
@@ -24,7 +25,7 @@ class LanguageSelectionBottomSheet {
               gradient: kMainBackgroundGradient,
               borderRadius: BorderRadius.vertical(top: Radius.circular(24)),
             ),
-            padding: const EdgeInsets.all(24),
+            padding: EdgeInsets.all(24).atLeastBottom(context.gestureInset + 8),
             child: Column(
               mainAxisSize: MainAxisSize.min,
               crossAxisAlignment: CrossAxisAlignment.start,
