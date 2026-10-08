@@ -124,19 +124,27 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                           fWeight: FontWeight.bold,
                           tColor: Colors.white,
                         ),
+                        // There is no attendance in the future, so the year
+                        // cannot be advanced past the current one.
                         IconButton(
-                          icon: const Icon(
+                          icon: Icon(
                             Icons.chevron_right,
-                            color: Colors.white,
+                            color:
+                                tempDate.year >= DateTime.now().year
+                                    ? Colors.white38
+                                    : Colors.white,
                           ),
-                          onPressed: () {
-                            setState(() {
-                              tempDate = DateTime(
-                                tempDate.year + 1,
-                                tempDate.month,
-                              );
-                            });
-                          },
+                          onPressed:
+                              tempDate.year >= DateTime.now().year
+                                  ? null
+                                  : () {
+                                    setState(() {
+                                      tempDate = DateTime(
+                                        tempDate.year + 1,
+                                        tempDate.month,
+                                      );
+                                    });
+                                  },
                         ),
                       ],
                     ),
@@ -169,17 +177,30 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                               tempDate.year == initialDate.year &&
                               (index + 1) == initialDate.month;
 
+                          // Months that have not happened yet hold no records.
+                          final now = DateTime.now();
+                          final isFuture = monthDate.isAfter(
+                            DateTime(now.year, now.month),
+                          );
+
                           return Material(
                             color: Colors.transparent,
                             child: InkWell(
-                              onTap: () {
-                                Navigator.pop(context, monthDate);
-                              },
+                              onTap:
+                                  isFuture
+                                      ? null
+                                      : () {
+                                        Navigator.pop(context, monthDate);
+                                      },
                               borderRadius: BorderRadius.circular(12),
                               child: Container(
                                 decoration: BoxDecoration(
                                   color:
-                                      isSelected ? kPrimaryColor : Colors.white,
+                                      isSelected
+                                          ? kPrimaryColor
+                                          : isFuture
+                                          ? Colors.grey.shade100
+                                          : Colors.white,
                                   borderRadius: BorderRadius.circular(12),
                                   border: Border.all(
                                     color:
@@ -211,6 +232,8 @@ class _AttendanceHistoryScreenState extends State<AttendanceHistoryScreen> {
                                   tColor:
                                       isSelected
                                           ? Colors.white
+                                          : isFuture
+                                          ? Colors.grey.shade400
                                           : Colors.black87,
                                 ),
                               ),

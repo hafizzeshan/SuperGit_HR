@@ -444,7 +444,7 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
                 right: 24,
                 top: 24,
                 bottom: MediaQuery.of(ct).viewInsets.bottom + 24,
-              ),
+              ).atLeastBottom(context.gestureInset + 8),
               child: FractionallySizedBox(
                 heightFactor: 0.70,
                 child: SingleChildScrollView(
@@ -1010,7 +1010,12 @@ class _TimeClockStartedScreenState extends State<TimeClockStartedScreen> {
               ),
             ],
           ),
-          padding: const EdgeInsets.fromLTRB(24, 24, 24, 40),
+          padding: EdgeInsets.fromLTRB(
+            24,
+            24,
+            24,
+            40,
+          ).atLeastBottom(context.gestureInset + 8),
           child: Obx(
             () => LoadingButton(
               isLoading: _controller.isClockOutLoading.value,

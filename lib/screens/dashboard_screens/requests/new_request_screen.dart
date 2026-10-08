@@ -351,7 +351,12 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
         }),
       ),
       bottomNavigationBar: Container(
-        padding: const EdgeInsets.fromLTRB(20, 20, 20, 40),
+        padding: EdgeInsets.fromLTRB(
+          20,
+          20,
+          20,
+          40,
+        ).atLeastBottom(context.gestureInset + 8),
         decoration: BoxDecoration(
           color: Colors.white,
           borderRadius: const BorderRadius.vertical(top: Radius.circular(30)),

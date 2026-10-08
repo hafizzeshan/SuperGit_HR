@@ -12,6 +12,11 @@
 	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
+	<!-- The app only uses HTTPS/TLS provided by the OS, no proprietary or
+	     non-standard cryptography, so it is export-exempt. Declaring it here
+	     stops App Store Connect asking on every build. -->
+	<key>ITSAppUsesNonExemptEncryption</key>
+	<false/>
 	<key>CFBundleName</key>
 	<string>supergithr</string>
 	<key>CFBundlePackageType</key>
