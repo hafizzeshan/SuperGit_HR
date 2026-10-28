@@ -41,12 +41,12 @@ class OvertimeController extends GetxController {
 
   int get durationMinutes => (hours.value * 60) + minutes.value;
 
-  /// Total approved + pending overtime hours currently loaded.
-  double get totalHours =>
-      overtimes.fold<double>(0, (sum, e) => sum + (e.durationMinutes / 60.0));
+  /// Total approved overtime hours currently loaded.
+  double get totalHours => overtimes
+      .where((e) => e.stage == OvertimeStage.approved)
+      .fold<double>(0, (sum, e) => sum + (e.durationMinutes / 60.0));
 
-  int get pendingCount =>
-      overtimes.where((e) => e.status.toLowerCase() == 'pending').length;
+  int get pendingCount => overtimes.where((e) => e.isPending).length;
 
   int get approvedCount =>
       overtimes.where((e) => e.status.toLowerCase() == 'approved').length;

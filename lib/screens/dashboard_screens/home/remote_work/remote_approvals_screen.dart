@@ -25,7 +25,13 @@ class RemoteApprovalsScreen extends StatefulWidget {
 class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
   final RemoteWorkController _c = Get.put(RemoteWorkController());
 
-  static const _filters = ['ALL', 'PENDING', 'APPROVED', 'REJECTED'];
+  static const _filters = [
+    'ALL',
+    'Pending Team Lead',
+    'Pending Admin',
+    'Approved',
+    'Rejected',
+  ];
 
   @override
   void initState() {
@@ -34,9 +40,10 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
   }
 
   String _filterLabel(String key) => switch (key) {
-    'PENDING' => TranslationKeys.filterPending.tr,
-    'APPROVED' => TranslationKeys.filterApproved.tr,
-    'REJECTED' => TranslationKeys.filterRejected.tr,
+    'Pending Team Lead' => TranslationKeys.pendingLeadReview.tr,
+    'Pending Admin' => TranslationKeys.pendingHrAdmin.tr,
+    'Approved' => TranslationKeys.filterApproved.tr,
+    'Rejected' => TranslationKeys.filterRejected.tr,
     _ => TranslationKeys.filterAll.tr,
   };
 
@@ -256,7 +263,10 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
         session.employeeName.isNotEmpty
             ? session.employeeName[0].toUpperCase()
             : '?';
-    final canDecide = session.isPending;
+    final canDecide =
+        widget.mode == ApprovalMode.teamLead
+            ? session.status == RemoteStatus.pendingTeamLead
+            : session.status == RemoteStatus.pendingAdmin;
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),

@@ -286,7 +286,8 @@ class AppURL {
     final params = <String>[
       if (fromDate != null && fromDate.isNotEmpty) 'from_date=$fromDate',
       if (toDate != null && toDate.isNotEmpty) 'to_date=$toDate',
-      if (status != null && status.isNotEmpty) 'status=$status',
+      if (status != null && status.isNotEmpty && status != 'ALL')
+        'status=$status',
     ];
     final path = isAdmin ? 'admin/pending' : 'team-lead/pending';
     return '$remoteWorkBase/$path${params.isEmpty ? '' : '?${params.join('&')}'}';

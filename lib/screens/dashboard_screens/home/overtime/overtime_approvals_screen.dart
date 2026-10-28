@@ -262,8 +262,7 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
     // A manager only acts on their own stage; an admin only on theirs.
     final canDecide =
         widget.isAdmin
-            ? stage == OvertimeStage.pendingAdmin ||
-                stage == OvertimeStage.pendingManager
+            ? stage == OvertimeStage.pendingAdmin
             : stage == OvertimeStage.pendingManager;
 
     return Container(

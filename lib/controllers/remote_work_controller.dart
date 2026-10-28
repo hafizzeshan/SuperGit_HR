@@ -216,7 +216,7 @@ class RemoteWorkController extends GetxController {
         // Defaults to the current month, as the web screen does.
         fromDate: formatter.format(DateTime(now.year, now.month, 1)),
         toDate: formatter.format(DateTime(now.year, now.month + 1, 0)),
-        status: approvalFilter.value,
+        status: approvalFilter.value == 'ALL' ? null : approvalFilter.value,
       );
       final raw = body?['data'];
       approvals.assignAll(

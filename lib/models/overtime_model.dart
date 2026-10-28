@@ -23,7 +23,10 @@ class OvertimeModel {
   factory OvertimeModel.fromJson(Map<String, dynamic> json) {
     final raw = json["data"];
     final isWrapped = raw is Map;
-    final items = isWrapped ? raw["items"] : raw;
+    dynamic items = raw;
+    if (isWrapped) {
+      items = raw["items"] ?? raw["data"];
+    }
 
     return OvertimeModel(
       data: List<OvertimeDatum>.from(
@@ -34,7 +37,7 @@ class OvertimeModel {
       pagination: OvertimePagination.fromJson(
         Map<String, dynamic>.from(
           isWrapped
-              ? Map<String, dynamic>.from(raw)
+              ? (raw["pagination"] ?? raw)
               : (json["pagination"] ?? const {}),
         ),
       ),
@@ -193,8 +196,9 @@ class OvertimeDatum {
 
   OvertimeStage get stage => OvertimeStageX.from(status);
 
-  /// Employees may change a request only before the manager has acted.
-  bool get isEditable => stage == OvertimeStage.pendingManager;
+  /// Employees may change non-approved requests, including rejected ones,
+  /// until the final approval is recorded.
+  bool get isEditable => stage != OvertimeStage.approved;
 
   bool get isPending =>
       stage == OvertimeStage.pendingManager ||
