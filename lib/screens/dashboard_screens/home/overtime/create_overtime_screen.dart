@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
 import 'package:supergithr/models/overtime_model.dart';
-import 'package:intl/intl.dart';
+import 'package:supergithr/utils/app_date_format.dart';
 import 'package:supergithr/controllers/overtime_controller.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/CustomButton.dart';
@@ -29,9 +29,18 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
   @override
   void initState() {
     super.initState();
-    // Start from a clean form and default the date to today.
-    _c.clearForm();
-    _c.selectedDate.value = DateTime.now();
+    final existing = widget.existing;
+    if (existing == null) {
+      // Start from a clean form and default the date to today.
+      _c.clearForm();
+      _c.selectedDate.value = DateTime.now();
+      return;
+    }
+    // Editing: show the request as it stands, so the form is never blank.
+    _c.selectedDate.value = existing.date;
+    _c.hours.value = existing.durationMinutes ~/ 60;
+    _c.minutes.value = existing.durationMinutes % 60;
+    _c.reasonController.text = existing.reason;
   }
 
   Future<void> _pickDate() async {
@@ -69,7 +78,12 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: kMainBackgroundColor,
-      appBar: appBarrWitoutAction(title: TranslationKeys.newOvertimeRequest.tr),
+      appBar: appBarrWitoutAction(
+        title:
+            widget.existing == null
+                ? TranslationKeys.newOvertimeRequest.tr
+                : TranslationKeys.editOvertimeRequest.tr,
+      ),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
         child: SingleChildScrollView(
@@ -99,7 +113,10 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
               Obx(
                 () => LoadingButton(
                   isLoading: _c.isSubmitting.value,
-                  text: TranslationKeys.submitRequest.tr,
+                  text:
+                      widget.existing == null
+                          ? TranslationKeys.submitRequest.tr
+                          : TranslationKeys.updateRequest.tr,
                   onTap: () async {
                     final existing = widget.existing;
                     if (existing == null) {
@@ -229,7 +246,7 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
                 return Text(
                   date == null
                       ? TranslationKeys.selectDate.tr
-                      : DateFormat('EEE, dd MMM yyyy').format(date),
+                      : appDateFormat('EEE, dd MMM yyyy').format(date),
                   style: textStyleMontserratMiddle(
                     fontSize: 14.0,
                     color: date == null ? Colors.grey.shade400 : Colors.black87,
@@ -309,12 +326,14 @@ class _CreateOvertimeScreenState extends State<CreateOvertimeScreen> {
   Widget _presetChip(int totalMinutes) {
     final h = totalMinutes ~/ 60;
     final m = totalMinutes % 60;
+    final hourUnit = TranslationKeys.hourShort.tr;
+    final minuteUnit = TranslationKeys.minuteShort.tr;
     final label =
         h > 0 && m > 0
-            ? "${h}h ${m}m"
+            ? "$h$hourUnit $m$minuteUnit"
             : h > 0
-            ? "${h}h"
-            : "${m}m";
+            ? "$h$hourUnit"
+            : "$m$minuteUnit";
     return Obx(() {
       final selected = _c.durationMinutes == totalMinutes;
       return GestureDetector(

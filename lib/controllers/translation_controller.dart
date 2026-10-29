@@ -3,7 +3,7 @@ import 'dart:ui';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-enum Language { english, arabic, urdu }
+enum Language { english, arabic }
 
 class TranslationController extends GetxController {
   TranslationController({required this.preferences});
@@ -28,10 +28,6 @@ class TranslationController extends GetxController {
         local.value = const Locale('ar', 'SA');
         preferences.setString("local", "ar");
         break;
-      case Language.urdu:
-        local.value = const Locale('ur', 'PK');
-        preferences.setString("local", "ur");
-        break;
     }
     Get.updateLocale(local.value).then((_) {
       if (onLocaleChanged != null) {
@@ -49,9 +45,6 @@ class TranslationController extends GetxController {
       case "ar":
         local.value = const Locale("ar", "SA");
         break;
-      case "ur":
-        local.value = const Locale("ur", "PK");
-        break;
       default:
         local.value = const Locale("en", "US");
     }
@@ -64,8 +57,6 @@ class TranslationController extends GetxController {
         return Language.arabic;
       case "en":
         return Language.english;
-      case "ur":
-        return Language.urdu;
 
       default:
         return Language.english;
@@ -73,12 +64,7 @@ class TranslationController extends GetxController {
   }
 
   bool isLTR() {
-    String languageCode = local.value.languageCode;
-    // Arabic and Urdu are RTL (Right-to-Left)
-    if (languageCode == "ar" || languageCode == 'ur') {
-      return false;
-    }
-    // English and all other languages are LTR (Left-to-Right)
-    return true;
+    // Arabic is the only right-to-left language the app ships.
+    return local.value.languageCode != "ar";
   }
 }

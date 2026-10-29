@@ -221,8 +221,7 @@ class _NewLeaveRequestScreenState extends State<NewLeaveRequestScreen> {
               TextField(
                 controller: leaveController.reasonController,
                 textDirection:
-                    (Get.locale?.languageCode == 'ur' ||
-                            Get.locale?.languageCode == 'ar')
+                    Get.locale?.languageCode == 'ar'
                         ? TextDirection.rtl
                         : TextDirection.ltr,
                 onTapOutside: (event) async {

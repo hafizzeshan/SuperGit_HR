@@ -24,10 +24,7 @@ class LocalizationHelper {
   /// Check if current language is Arabic
   static bool get isArabic => currentLanguage == Language.arabic;
 
-  /// Check if current language is Urdu
-  static bool get isUrdu => currentLanguage == Language.urdu;
-
-  /// Get current language code (en, ar, ur)
+  /// Get current language code (en, ar)
   static String get languageCode => controller.local.value.languageCode;
 
   /// Get current locale
@@ -164,8 +161,6 @@ class LocalizationHelper {
         return 'English';
       case Language.arabic:
         return 'العربية';
-      case Language.urdu:
-        return 'اردو';
     }
   }
 
@@ -176,8 +171,6 @@ class LocalizationHelper {
         return '🇬🇧';
       case Language.arabic:
         return '🇸🇦';
-      case Language.urdu:
-        return '🇵🇰';
     }
   }
 }

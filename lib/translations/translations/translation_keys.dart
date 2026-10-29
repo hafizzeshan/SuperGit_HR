@@ -495,6 +495,9 @@ class TranslationKeys {
   static const String endDate = "endDate";
   static const String addReasonForLeave = "addReasonForLeave";
   static const String submitRequest = "submitRequest";
+  static const String updateRequest = "updateRequest";
+  static const String hourShort = "hourShort";
+  static const String minuteShort = "minuteShort";
   static const String invalidDateRange = "invalidDateRange";
   static const String endDateCannotBeBeforeStartDate =
       "endDateCannotBeBeforeStartDate";
@@ -876,6 +879,8 @@ class TranslationKeys {
   static const String sharePdf = "sharePdf";
   static const String confirmSelection = "confirmSelection";
   static const String noPendingApprovals = "noPendingApprovals";
+  static const String reviewAccessOnly = "reviewAccessOnly";
+  static const String requestsToApprove = "requestsToApprove";
   static const String approveLeaveRequest = "approveLeaveRequest";
   static const String rejectLeaveRequest = "rejectLeaveRequest";
   static const String remarksOptional = "remarksOptional";
@@ -981,6 +986,8 @@ class TranslationKeys {
   static const String approvedSessions = "approvedSessions";
   static const String sessionHistory = "sessionHistory";
   static const String noRemoteSessions = "noRemoteSessions";
+  static const String activeSessionAfterClockOut =
+      "activeSessionAfterClockOut";
   static const String approvalTrail = "approvalTrail";
   static const String employeeCheckIn = "employeeCheckIn";
   static const String teamLeadReview = "teamLeadReview";
@@ -1009,6 +1016,7 @@ class TranslationKeys {
   static const String overtime = "overtime";
   static const String overtimeRequests = "overtimeRequests";
   static const String newOvertimeRequest = "newOvertimeRequest";
+  static const String editOvertimeRequest = "editOvertimeRequest";
   static const String requestOvertime = "requestOvertime";
   static const String noOvertimeFound = "noOvertimeFound";
   static const String overtimeDetails = "overtimeDetails";

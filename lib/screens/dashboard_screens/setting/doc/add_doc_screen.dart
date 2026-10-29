@@ -61,8 +61,7 @@ class _AddDocumentScreenState extends State<AddDocumentScreen> {
                     ),
                     child: Directionality(
                       textDirection:
-                          (Get.locale?.languageCode == 'ur' ||
-                                  Get.locale?.languageCode == 'ar')
+                          Get.locale?.languageCode == 'ar'
                               ? TextDirection.rtl
                               : TextDirection.ltr,
                       child: Row(

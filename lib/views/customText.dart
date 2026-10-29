@@ -38,8 +38,7 @@ class kText extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    bool isRTL =
-        Get.locale?.languageCode == 'ar' || Get.locale?.languageCode == 'ur';
+    bool isRTL = Get.locale?.languageCode == 'ar';
 
     final textWidget = Text(
       text.tr,

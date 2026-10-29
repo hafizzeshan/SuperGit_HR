@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:supergithr/utils/app_date_format.dart';
 import 'package:supergithr/controllers/overtime_controller.dart';
+import 'package:supergithr/controllers/social_post_controller.dart';
+import 'package:supergithr/controllers/team_leave_controller.dart';
 import 'package:supergithr/models/overtime_model.dart';
 import 'package:supergithr/screens/dashboard_screens/home/overtime/overtime_screen.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -25,17 +27,38 @@ class OvertimeApprovalsScreen extends StatefulWidget {
 class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
   final OvertimeController _c = Get.find<OvertimeController>();
 
-  static const List<OvertimeStage?> _filters = [
-    null,
-    OvertimeStage.pendingManager,
-    OvertimeStage.pendingAdmin,
-    OvertimeStage.approved,
-    OvertimeStage.rejected,
-  ];
+  /// A manager's queue is fetched by `current_approver_id`, and the service
+  /// moves that away as soon as they decide — so for them only the stage they
+  /// act on can ever return rows. An admin queries by stage and sees them all.
+  List<OvertimeStage?> get _filters =>
+      widget.isAdmin
+          ? const [
+            null,
+            OvertimeStage.pendingManager,
+            OvertimeStage.pendingAdmin,
+            OvertimeStage.approved,
+            OvertimeStage.rejected,
+          ]
+          : const [null, OvertimeStage.pendingManager];
+
+  /// The same role check the Quick Actions tile uses, repeated here so this
+  /// screen can never show decision controls to someone who only works on
+  /// their own requests.
+  late final bool _canReview = _resolveAccess();
+
+  bool _resolveAccess() {
+    if (widget.isAdmin) {
+      return Get.isRegistered<SocialPostController>() &&
+          Get.find<SocialPostController>().isAdmin.value;
+    }
+    return Get.isRegistered<TeamLeaveController>() &&
+        Get.find<TeamLeaveController>().canReview;
+  }
 
   @override
   void initState() {
     super.initState();
+    if (!_canReview) return;
     // Admins land on the stage they act on; managers on theirs.
     _c.approvalFilter.value =
         widget.isAdmin
@@ -111,21 +134,33 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
             SizedBox(
               width: double.infinity,
               height: 48,
-              child: ElevatedButton(
-                onPressed: () => Get.back(result: true),
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: const Color(0xffEF4444),
-                  elevation: 0,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14),
-                  ),
-                ),
-                child: kText(
-                  text: TranslationKeys.reject.tr,
-                  fSize: 15.0,
-                  fWeight: FontWeight.w600,
-                  tColor: Colors.white,
-                ),
+              // The service records the reason on both tiers, so the button
+              // stays disabled until one is typed.
+              child: ValueListenableBuilder<TextEditingValue>(
+                valueListenable: remarks,
+                builder: (_, value, __) {
+                  final hasReason = value.text.trim().isNotEmpty;
+                  return ElevatedButton(
+                    onPressed:
+                        hasReason ? () => Get.back(result: true) : null,
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: const Color(0xffEF4444),
+                      disabledBackgroundColor: const Color(
+                        0xffEF4444,
+                      ).withValues(alpha: 0.35),
+                      elevation: 0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(14),
+                      ),
+                    ),
+                    child: kText(
+                      text: TranslationKeys.reject.tr,
+                      fSize: 15.0,
+                      fWeight: FontWeight.w600,
+                      tColor: Colors.white,
+                    ),
+                  );
+                },
               ),
             ),
           ],
@@ -155,7 +190,10 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
-        child: Column(
+        child:
+            !_canReview
+                ? _noAccess()
+                : Column(
           children: [
             _filterBar(),
             Expanded(
@@ -197,6 +235,26 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
       ),
     );
   }
+
+  Widget _noAccess() => Center(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(Icons.lock_outline_rounded, size: 64, color: Colors.grey.shade300),
+          const SizedBox(height: 12),
+          kText(
+            text: TranslationKeys.reviewAccessOnly.tr,
+            fSize: 13.5,
+            tColor: Colors.grey.shade500,
+            textalign: TextAlign.center,
+            maxLines: 3,
+          ),
+        ],
+      ),
+    ),
+  );
 
   Widget _filterBar() => Obx(() {
     // Read the observable here, in the Obx builder itself — reading it only
@@ -259,11 +317,17 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
 
   Widget _card(OvertimeDatum request) {
     final stage = request.stage;
-    // A manager only acts on their own stage; an admin only on theirs.
+    // A manager only acts on their own stage and only on requests routed to
+    // them; an admin only on theirs. A status this build does not recognise
+    // never offers a decision — that transition belongs to the service.
     final canDecide =
-        widget.isAdmin
+        request.hasKnownStage &&
+        // Nobody signs off their own overtime, whatever the service routes.
+        request.employeeId != _c.myEmployeeId.value &&
+        (widget.isAdmin
             ? stage == OvertimeStage.pendingAdmin
-            : stage == OvertimeStage.pendingManager;
+            : stage == OvertimeStage.pendingManager &&
+                request.isAssignedTo(_c.myEmployeeId.value));
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -317,7 +381,7 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
                         if (request.employeeCode.isNotEmpty)
                           request.employeeCode,
                         if (request.date != null)
-                          DateFormat('EEE, d MMM yyyy').format(request.date!),
+                          appDateFormat('EEE, d MMM yyyy').format(request.date!),
                       ].join('  ·  '),
                       fSize: 11.0,
                       tColor: Colors.grey.shade500,
@@ -380,7 +444,7 @@ class _OvertimeApprovalsScreenState extends State<OvertimeApprovalsScreen> {
                     text:
                         "${TranslationKeys.managerApproved.tr}: "
                         "${request.managerName.isEmpty ? '' : '${request.managerName} · '}"
-                        "${DateFormat('d MMM · hh:mm a').format(request.managerApprovedAt!)}",
+                        "${appDateFormat('d MMM · hh:mm a').format(request.managerApprovedAt!)}",
                     fSize: 11.0,
                     tColor: Colors.grey.shade600,
                   ),

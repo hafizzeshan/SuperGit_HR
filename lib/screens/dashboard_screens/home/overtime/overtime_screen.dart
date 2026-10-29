@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:supergithr/utils/app_date_format.dart';
 import 'package:supergithr/controllers/overtime_controller.dart';
 import 'package:supergithr/models/overtime_model.dart';
 import 'package:supergithr/screens/dashboard_screens/home/overtime/create_overtime_screen.dart';
@@ -302,14 +302,14 @@ class OvertimeScreenState extends State<OvertimeScreen> {
                   child: Column(
                     children: [
                       Text(
-                        date == null ? "--" : DateFormat('dd').format(date),
+                        date == null ? "--" : appDateFormat('dd').format(date),
                         style: textStyleMontserratBold(
                           fontSize: 18.0,
                           color: color,
                         ),
                       ),
                       Text(
-                        date == null ? "" : DateFormat('MMM').format(date),
+                        date == null ? "" : appDateFormat('MMM').format(date),
                         style: textStyleMontserratMiddle(
                           fontSize: 11.0,
                           color: color,
@@ -338,8 +338,15 @@ class OvertimeScreenState extends State<OvertimeScreen> {
                               color: Colors.black87,
                             ),
                           ),
-                          const Spacer(),
-                          Flexible(child: _statusPill(item.status, color)),
+                          const SizedBox(width: 10),
+                          // The pill takes the rest of the row, so a label
+                          // like "Lead review" is not clipped to "Lead r…".
+                          Expanded(
+                            child: Align(
+                              alignment: Alignment.centerRight,
+                              child: _statusPill(item.status, color),
+                            ),
+                          ),
                         ],
                       ),
                       const SizedBox(height: 6),
@@ -593,7 +600,7 @@ class OvertimeScreenState extends State<OvertimeScreen> {
                         TranslationKeys.date.tr,
                         item.date == null
                             ? "-"
-                            : DateFormat('dd MMM yyyy').format(item.date!),
+                            : appDateFormat('dd MMM yyyy').format(item.date!),
                       ),
                       _detailRow(
                         TranslationKeys.duration.tr,
@@ -619,7 +626,7 @@ class OvertimeScreenState extends State<OvertimeScreen> {
                         TranslationKeys.requestedOn.tr,
                         item.createdAt == null
                             ? "-"
-                            : DateFormat(
+                            : appDateFormat(
                               'dd MMM yyyy, hh:mm a',
                             ).format(item.createdAt!),
                         isLast: item.reason.isEmpty,

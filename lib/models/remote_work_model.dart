@@ -42,6 +42,9 @@ class RemoteLocation {
     final lat = double.tryParse('${raw['latitude']}');
     final lng = double.tryParse('${raw['longitude']}');
     if (lat == null || lng == null) return null;
+    // The service fills an unset location with zeroes, so treat that as none
+    // rather than printing "0.0000, 0.0000" in history.
+    if (lat == 0 && lng == 0) return null;
     return RemoteLocation(latitude: lat, longitude: lng);
   }
 
@@ -62,6 +65,9 @@ class RemoteWorkSession {
   final RemoteLocation? clockInLocation;
   final RemoteLocation? clockOutLocation;
   final RemoteStatus status;
+  /// Kept verbatim so an unrecognised state can be told apart from one this
+  /// build maps onto a stage.
+  final String rawStatus;
   final bool autoClockedOut;
   final String remarks;
   final String locationName;
@@ -73,6 +79,7 @@ class RemoteWorkSession {
     required this.teamLeadName,
     required this.attendanceLogId,
     required this.status,
+    required this.rawStatus,
     required this.autoClockedOut,
     required this.remarks,
     required this.locationName,
@@ -98,8 +105,19 @@ class RemoteWorkSession {
       status == RemoteStatus.pendingTeamLead ||
       status == RemoteStatus.pendingAdmin;
 
+  /// Anything the service adds later still renders, but must never offer
+  /// approve/reject — only the backend knows what that state allows.
+  bool get hasKnownStatus {
+    final key = rawStatus.toLowerCase();
+    return key.contains('pending') ||
+        key.contains('approved') ||
+        key.contains('processed') ||
+        key.contains('reject');
+  }
+
   factory RemoteWorkSession.fromJson(Map<String, dynamic> json) {
     DateTime? parse(dynamic v) => DateTime.tryParse('$v')?.toLocal();
+    final raw = '${json['status'] ?? json['approval_status'] ?? ''}';
 
     return RemoteWorkSession(
       id: '${json['id'] ?? ''}',
@@ -114,9 +132,8 @@ class RemoteWorkSession {
       clockInLocation: RemoteLocation.fromJson(json['clock_in_location']),
       clockOutLocation: RemoteLocation.fromJson(json['clock_out_location']),
       // `approval_status` mirrors `status`; prefer whichever is present.
-      status: RemoteWorkEnums.statusFrom(
-        '${json['status'] ?? json['approval_status'] ?? ''}',
-      ),
+      status: RemoteWorkEnums.statusFrom(raw),
+      rawStatus: raw,
       autoClockedOut: json['auto_clocked_out'] == true,
       remarks: '${json['remarks'] ?? ''}',
       locationName: '${json['location_name'] ?? ''}',

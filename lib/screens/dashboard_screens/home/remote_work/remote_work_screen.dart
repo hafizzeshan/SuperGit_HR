@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:supergithr/utils/app_date_format.dart';
 import 'package:supergithr/controllers/remote_work_controller.dart';
 import 'package:supergithr/models/remote_work_model.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
@@ -182,7 +182,7 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
             text:
                 isRunning
                     ? RemoteWorkController.formatStopwatch(_c.elapsed.value)
-                    : DateFormat('hh:mm a').format(DateTime.now()),
+                    : appDateFormat('hh:mm a').format(DateTime.now()),
             fSize: isRunning ? 38.0 : 30.0,
             fWeight: FontWeight.w700,
             tColor: Colors.white,
@@ -192,7 +192,7 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
             kText(
               text:
                   "${TranslationKeys.clockedInAtTime.tr} "
-                  "${DateFormat('hh:mm a · d MMM').format(active.clockInTime!)}",
+                  "${appDateFormat('hh:mm a · d MMM').format(active.clockInTime!)}",
               fSize: 12.0,
               tColor: Colors.white.withValues(alpha: 0.85),
             ),
@@ -286,7 +286,7 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
         Expanded(
           child: Container(
             margin: const EdgeInsets.only(right: 10),
-            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 12),
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 9),
             decoration: BoxDecoration(
               color: Colors.white,
               borderRadius: BorderRadius.circular(16),
@@ -304,11 +304,13 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
                   tColor: Colors.black87,
                 ),
                 const SizedBox(height: 2),
+                // Four tiles on a 360dp screen leave little room, so the
+                // label wraps rather than being cut to "Total s…".
                 kText(
                   text: label,
-                  fSize: 10.5,
+                  fSize: 10.0,
                   tColor: Colors.grey.shade600,
-                  maxLines: 1,
+                  maxLines: 2,
                   textoverflow: TextOverflow.ellipsis,
                 ),
               ],
@@ -346,20 +348,39 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
     );
   }
 
-  Widget _emptyHistory() => Padding(
-    padding: const EdgeInsets.only(top: 40),
-    child: Column(
-      children: [
-        Icon(Icons.laptop_mac_rounded, size: 64, color: Colors.grey.shade300),
-        const SizedBox(height: 12),
-        kText(
-          text: TranslationKeys.noRemoteSessions.tr,
-          fSize: 13.5,
-          tColor: Colors.grey.shade500,
-        ),
-      ],
-    ),
-  );
+  Widget _emptyHistory() {
+    // A running session is shown in the card above, so saying "no sessions"
+    // here would contradict the screen.
+    final hasOpenSession = _c.isClockedIn;
+    return Padding(
+      padding: const EdgeInsets.only(top: 40),
+      child: Column(
+        children: [
+          Icon(
+            hasOpenSession
+                ? Icons.hourglass_top_rounded
+                : Icons.laptop_mac_rounded,
+            size: 64,
+            color: Colors.grey.shade300,
+          ),
+          const SizedBox(height: 12),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 32),
+            child: kText(
+              text:
+                  hasOpenSession
+                      ? TranslationKeys.activeSessionAfterClockOut.tr
+                      : TranslationKeys.noRemoteSessions.tr,
+              fSize: 13.5,
+              tColor: Colors.grey.shade500,
+              textalign: TextAlign.center,
+              maxLines: 3,
+            ),
+          ),
+        ],
+      ),
+    );
+  }
 
   Widget _historyCard(RemoteWorkSession session) {
     final start = session.clockInTime;
@@ -391,7 +412,7 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
                   text:
                       start == null
                           ? '—'
-                          : DateFormat('EEEE, d MMM yyyy').format(start),
+                          : appDateFormat('EEEE, d MMM yyyy').format(start),
                   fSize: 13.5,
                   fWeight: FontWeight.w700,
                   tColor: Colors.black87,
@@ -405,12 +426,12 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
             children: [
               _timeChip(
                 Icons.login_rounded,
-                start == null ? '—' : DateFormat('hh:mm a').format(start),
+                start == null ? '—' : appDateFormat('hh:mm a').format(start),
               ),
               const SizedBox(width: 8),
               _timeChip(
                 Icons.logout_rounded,
-                end == null ? '—' : DateFormat('hh:mm a').format(end),
+                end == null ? '—' : appDateFormat('hh:mm a').format(end),
               ),
               const Spacer(),
               if (session.duration != null)
@@ -500,7 +521,7 @@ class _RemoteWorkScreenState extends State<RemoteWorkScreen> {
   );
 
   Widget _trail(RemoteWorkSession session) {
-    final df = DateFormat('d MMM · hh:mm a');
+    final df = appDateFormat('d MMM · hh:mm a');
     final rejected = session.status == RemoteStatus.rejected;
 
     return Padding(

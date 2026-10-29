@@ -140,7 +140,7 @@ class QuickActionsGridScreen extends StatelessWidget {
       if (canReview)
         {
           'icon': Icons.playlist_add_check_rounded,
-          'title': "Team Leave Requests",
+          'title': TranslationKeys.teamLeaveRequests.tr,
           'onTap': () {
             Get.to(() => const TeamLeaveRequestsScreen());
           },

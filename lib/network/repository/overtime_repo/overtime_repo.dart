@@ -18,16 +18,40 @@ class OvertimeRepository {
     return {if (tenantId.isNotEmpty) 'X-Tenant-ID': tenantId};
   }
 
+
+  /// Last message the service returned for a failed call, so the controller
+  /// can show what actually went wrong ("remote clock-in already exists for
+  /// today") instead of a generic failure.
+  String lastError = '';
+
+  /// Reads the message out of an error body, in the order the service uses.
+  static String _messageOf(dynamic data) {
+    if (data is String) return data.trim();
+    if (data is! Map) return '';
+    for (final key in ['message', 'error', 'msg', 'detail', 'details']) {
+      final v = data[key];
+      if (v is String && v.trim().isNotEmpty) return v.trim();
+      if (v is Map && v['message'] is String) return '${v['message']}'.trim();
+      if (v is List && v.isNotEmpty) return '${v.first}'.trim();
+    }
+    return '';
+  }
+
   Map<String, dynamic>? _body(Response? response) {
-    if (response == null) return null;
+    if (response == null) {
+      lastError = '';
+      return null;
+    }
     final code = response.statusCode ?? 0;
     if (code < 200 || code >= 300) {
+      lastError = _messageOf(response.data);
       log(
         '❌ Overtime API ${response.requestOptions.uri} → $code '
         '${response.data}',
       );
       return null;
     }
+    lastError = '';
     final data = response.data;
     return data is Map ? Map<String, dynamic>.from(data) : null;
   }
@@ -116,12 +140,12 @@ class OvertimeRepository {
     String remarks = '',
     String reason = '',
   }) async {
+    // The service reads the reason from either key, so send one trimmed
+    // string in both — the same way the web client does.
+    final text = (reason.trim().isNotEmpty ? reason : remarks).trim();
     final response = await _api.postRequest(
       AppURL.overtimeReject(id),
-      data: {
-        if (remarks.trim().isNotEmpty) 'remarks': remarks.trim(),
-        if (reason.trim().isNotEmpty) 'rejection_reason': reason.trim(),
-      },
+      data: {'remarks': text, 'rejection_reason': text},
       headers: await _headers(),
     );
     return _body(response) != null;

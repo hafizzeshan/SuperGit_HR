@@ -5,6 +5,9 @@
 import 'dart:convert';
 
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+
+import '../translations/translations/translation_keys.dart';
 
 OvertimeModel overtimeModelFromJson(String str) =>
     OvertimeModel.fromJson(json.decode(str));
@@ -101,7 +104,9 @@ class OvertimeDatum {
   final String status;
   final String employeeName;
   final String employeeCode;
+  final String managerId;
   final String managerName;
+  final String currentApproverId;
   final String currentApproverName;
   final DateTime? managerApprovedAt;
   final String managerRemarks;
@@ -126,7 +131,9 @@ class OvertimeDatum {
     required this.status,
     required this.employeeName,
     required this.employeeCode,
+    this.managerId = '',
     this.managerName = '',
+    this.currentApproverId = '',
     this.currentApproverName = '',
     this.managerApprovedAt,
     this.managerRemarks = '',
@@ -163,7 +170,9 @@ class OvertimeDatum {
     status: json["status"]?.toString() ?? "",
     employeeName: json["employee_name"]?.toString() ?? "",
     employeeCode: json["employee_code"]?.toString() ?? "",
+    managerId: json["manager_id"]?.toString() ?? "",
     managerName: json["manager_name"]?.toString() ?? "",
+    currentApproverId: json["current_approver_id"]?.toString() ?? "",
     currentApproverName: json["current_approver_name"]?.toString() ?? "",
     managerApprovedAt: _toDate(json["manager_approved_at"]),
     managerRemarks: json["manager_remarks"]?.toString() ?? "",
@@ -189,6 +198,8 @@ class OvertimeDatum {
     "status": status,
     "employee_name": employeeName,
     "employee_code": employeeCode,
+    "manager_id": managerId,
+    "current_approver_id": currentApproverId,
     "created_at": createdAt?.toIso8601String(),
     "updated_at": updatedAt?.toIso8601String(),
     "deleted_at": deletedAt,
@@ -204,13 +215,34 @@ class OvertimeDatum {
       stage == OvertimeStage.pendingManager ||
       stage == OvertimeStage.pendingAdmin;
 
-  /// "2h 30m" style label built from `duration_minutes`.
+  /// Whether `status` is one of the states this app understands. Anything the
+  /// service adds later maps to a stage for display, but must never expose
+  /// approve/reject — the backend owns that transition.
+  bool get hasKnownStage {
+    final key = status.toLowerCase();
+    return key.contains('pending') ||
+        key.contains('approved') ||
+        key.contains('reject');
+  }
+
+  /// A manager may only act on a request routed to them. An empty
+  /// `current_approver_id` means the service did not say, so fall back to the
+  /// queue filter that fetched the row.
+  bool isAssignedTo(String employeeId) =>
+      currentApproverId.isEmpty ||
+      employeeId.isEmpty ||
+      currentApproverId == employeeId;
+
+  /// "2h 30m" style label built from `duration_minutes`, in the language the
+  /// app is showing.
   String get durationLabel {
     final h = durationMinutes ~/ 60;
     final m = durationMinutes % 60;
-    if (h > 0 && m > 0) return "${h}h ${m}m";
-    if (h > 0) return "${h}h";
-    return "${m}m";
+    final hourUnit = TranslationKeys.hourShort.tr;
+    final minuteUnit = TranslationKeys.minuteShort.tr;
+    if (h > 0 && m > 0) return "$h$hourUnit $m$minuteUnit";
+    if (h > 0) return "$h$hourUnit";
+    return "$m$minuteUnit";
   }
 }
 

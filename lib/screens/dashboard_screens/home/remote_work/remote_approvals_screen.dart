@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:supergithr/views/safe_insets.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
+import 'package:supergithr/utils/app_date_format.dart';
 import 'package:supergithr/controllers/remote_work_controller.dart';
+import 'package:supergithr/controllers/social_post_controller.dart';
+import 'package:supergithr/controllers/team_leave_controller.dart';
 import 'package:supergithr/models/remote_work_model.dart';
 import 'package:supergithr/translations/translations/translation_keys.dart';
 import 'package:supergithr/views/appBar.dart';
@@ -33,9 +35,23 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
     'Rejected',
   ];
 
+  /// The same role check the Quick Actions tile uses, repeated here so the
+  /// review screen can never show decision controls to a plain employee.
+  late final bool _canReview = _resolveAccess();
+
+  bool _resolveAccess() {
+    if (widget.mode == ApprovalMode.admin) {
+      return Get.isRegistered<SocialPostController>() &&
+          Get.find<SocialPostController>().isAdmin.value;
+    }
+    return Get.isRegistered<TeamLeaveController>() &&
+        Get.find<TeamLeaveController>().canReview;
+  }
+
   @override
   void initState() {
     super.initState();
+    if (!_canReview) return;
     _c.loadApprovals(widget.mode, force: true);
   }
 
@@ -159,7 +175,10 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
       ),
       body: Container(
         decoration: const BoxDecoration(gradient: kMainBackgroundGradient),
-        child: Column(
+        child:
+            !_canReview
+                ? _noAccess()
+                : Column(
           children: [
             _filterBar(),
             Expanded(
@@ -241,6 +260,30 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
     });
   }
 
+  Widget _noAccess() => Center(
+    child: Padding(
+      padding: const EdgeInsets.symmetric(horizontal: 32),
+      child: Column(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(
+            Icons.lock_outline_rounded,
+            size: 64,
+            color: Colors.grey.shade300,
+          ),
+          const SizedBox(height: 12),
+          kText(
+            text: TranslationKeys.reviewAccessOnly.tr,
+            fSize: 13.5,
+            tColor: Colors.grey.shade500,
+            textalign: TextAlign.center,
+            maxLines: 3,
+          ),
+        ],
+      ),
+    ),
+  );
+
   Widget _emptyState() => Padding(
     padding: const EdgeInsets.only(top: 70),
     child: Column(
@@ -263,10 +306,14 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
         session.employeeName.isNotEmpty
             ? session.employeeName[0].toUpperCase()
             : '?';
+    // A reviewer acts only at their own stage, never on a state this build
+    // does not recognise, and never on their own session.
     final canDecide =
-        widget.mode == ApprovalMode.teamLead
+        session.hasKnownStatus &&
+        session.employeeId != _c.myEmployeeId.value &&
+        (widget.mode == ApprovalMode.teamLead
             ? session.status == RemoteStatus.pendingTeamLead
-            : session.status == RemoteStatus.pendingAdmin;
+            : session.status == RemoteStatus.pendingAdmin);
 
     return Container(
       margin: const EdgeInsets.only(bottom: 12),
@@ -316,7 +363,7 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
                       text:
                           start == null
                               ? '—'
-                              : DateFormat('EEE, d MMM yyyy').format(start),
+                              : appDateFormat('EEE, d MMM yyyy').format(start),
                       fSize: 11.0,
                       tColor: Colors.grey.shade500,
                     ),
@@ -339,11 +386,11 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
                   children: [
                     _stat(
                       Icons.login_rounded,
-                      start == null ? '—' : DateFormat('hh:mm a').format(start),
+                      start == null ? '—' : appDateFormat('hh:mm a').format(start),
                     ),
                     _stat(
                       Icons.logout_rounded,
-                      end == null ? '—' : DateFormat('hh:mm a').format(end),
+                      end == null ? '—' : appDateFormat('hh:mm a').format(end),
                     ),
                     _stat(
                       Icons.timer_outlined,
@@ -404,7 +451,7 @@ class _RemoteApprovalsScreenState extends State<RemoteApprovalsScreen> {
                     text:
                         "${TranslationKeys.teamLeadReview.tr}: "
                         "${session.teamLeadName.isEmpty ? '' : '${session.teamLeadName} · '}"
-                        "${DateFormat('d MMM · hh:mm a').format(session.teamLeadApprovedAt!)}",
+                        "${appDateFormat('d MMM · hh:mm a').format(session.teamLeadApprovedAt!)}",
                     fSize: 11.0,
                     tColor: Colors.grey.shade600,
                   ),

@@ -28,6 +28,10 @@ class OvertimeController extends GetxController {
   final approvalFilter = Rxn<OvertimeStage>();
   final decidingId = ''.obs;
 
+  /// Signed-in employee, kept here so the approvals screen can check that a
+  /// manager-stage request is actually routed to them.
+  final myEmployeeId = ''.obs;
+
   final currentPage = 1.obs;
   final totalPages = 1.obs;
   final totalRecords = 0.obs;
@@ -52,6 +56,11 @@ class OvertimeController extends GetxController {
       overtimes.where((e) => e.status.toLowerCase() == 'approved').length;
 
   bool get hasMore => currentPage.value < totalPages.value;
+
+  /// The service's own words when it refuses something — it explains the
+  /// refusal better than any local string can.
+  String _failure(String fallback) =>
+      _repo.lastError.isNotEmpty ? _repo.lastError : fallback;
 
   Future<String> _employeeId() async {
     final prefs = await SharedPreferences.getInstance();
@@ -141,7 +150,10 @@ class OvertimeController extends GetxController {
       log("⏱️ Overtime create payload: $data");
 
       final response = await _repo.create(data);
-      if (response == null) return;
+      if (response == null) {
+        Utils.snackBar(_failure(TranslationKeys.error.tr), true);
+        return;
+      }
 
       // Snackbar already shown in repository. Refresh from page 1 so the new
       // request (server-generated id/status) shows at the top.
@@ -182,15 +194,15 @@ class OvertimeController extends GetxController {
 
     isSubmitting.value = true;
     try {
-      final employeeId = await _employeeId();
+      // The edit endpoint takes the record's own fields only; ownership is
+      // fixed at creation and resolved from the request id.
       final response = await _repo.update(id, {
-        "employee_id": employeeId,
         "date": _apiDate(date),
         "duration_minutes": durationMinutes,
         "reason": reason,
       });
       if (response == null) {
-        Utils.snackBar(TranslationKeys.failedToUpdateReport.tr, true);
+        Utils.snackBar(_failure(TranslationKeys.failedToUpdateReport.tr), true);
         return false;
       }
       clearForm();
@@ -210,7 +222,7 @@ class OvertimeController extends GetxController {
       totalRecords.value = (totalRecords.value - 1).clamp(0, 1 << 30);
       Utils.snackBar(TranslationKeys.requestDeleted.tr, false);
     } else {
-      Utils.snackBar(TranslationKeys.failedToDeleteReport.tr, true);
+      Utils.snackBar(_failure(TranslationKeys.failedToDeleteReport.tr), true);
     }
     return ok;
   }
@@ -232,6 +244,7 @@ class OvertimeController extends GetxController {
     try {
       isLoadingApprovals.value = true;
       final approverId = await _employeeId();
+      myEmployeeId.value = approverId;
       final response = await _repo.list(
         currentApproverId: isAdmin ? null : approverId,
         page: 1,
@@ -259,6 +272,10 @@ class OvertimeController extends GetxController {
     String reason = '',
   }) async {
     if (decidingId.value.isNotEmpty) return;
+    if (!approve && reason.trim().isEmpty && remarks.trim().isEmpty) {
+      Utils.snackBar(TranslationKeys.reasonForRejection.tr, true);
+      return;
+    }
     try {
       decidingId.value = request.id;
       final ok =
@@ -279,7 +296,7 @@ class OvertimeController extends GetxController {
         Utils.snackBar(TranslationKeys.decisionSaved.tr, false);
         await loadApprovals(isAdmin: isAdmin, force: true);
       } else {
-        Utils.snackBar(TranslationKeys.failedToSaveDecision.tr, true);
+        Utils.snackBar(_failure(TranslationKeys.failedToSaveDecision.tr), true);
       }
     } finally {
       decidingId.value = '';

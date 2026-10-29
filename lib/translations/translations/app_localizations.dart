@@ -1,7 +1,6 @@
 import 'package:get/get.dart';
 import 'package:supergithr/translations/languages/arabic_local.dart';
 import 'package:supergithr/translations/languages/english_local.dart';
-import 'package:supergithr/translations/languages/urdu_local.dart';
 
 class GetLocalization extends Translations {
   @override
@@ -11,8 +10,5 @@ class GetLocalization extends Translations {
 
     /// Arabic
     'ar_SA': ArabicLocal.getArabic(),
-
-    /// Urdu
-    'ur_PK': UrduLocal.getUrdu(),
   };
 }

@@ -156,7 +156,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              "Team Leave",
+                              TranslationKeys.teamLeave.tr,
                               style: textStyleMontserratBold(
                                 fontSize: 14.5,
                                 color: Colors.white,
@@ -165,8 +165,8 @@ class _HomeScreenState extends State<HomeScreen> {
                             const SizedBox(height: 2),
                             Text(
                               hasPending
-                                  ? "$count request${count > 1 ? 's' : ''} to approve"
-                                  : "No pending approvals",
+                                  ? "$count ${TranslationKeys.requestsToApprove.tr}"
+                                  : TranslationKeys.noPendingApprovals.tr,
                               style: textStyleMontserratMiddle(
                                 fontSize: 11.5,
                                 color: Colors.white.withValues(alpha: 0.9),
@@ -192,7 +192,9 @@ class _HomeScreenState extends State<HomeScreen> {
                           mainAxisSize: MainAxisSize.min,
                           children: [
                             Text(
-                              hasPending ? "Review" : "View",
+                              hasPending
+                                  ? TranslationKeys.review.tr
+                                  : TranslationKeys.view.tr,
                               style: textStyleMontserratBold(
                                 fontSize: 11.5,
                                 color: kPrimaryColor,

@@ -84,7 +84,6 @@ class MyApp extends StatelessWidget {
             supportedLocales: const [
               Locale('en', 'US'), // English
               Locale('ar', 'SA'), // Arabic
-              Locale('ur', 'PK'), // Urdu
             ],
             locale: translationController.local.value,
             home: SplashScreen(),

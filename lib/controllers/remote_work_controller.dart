@@ -1,6 +1,7 @@
 import 'dart:async';
 
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:supergithr/models/remote_work_model.dart';
@@ -32,6 +33,9 @@ class RemoteWorkController extends GetxController {
   final approvalFilter = 'ALL'.obs;
   final decidingId = ''.obs;
 
+  /// Signed-in employee, so a reviewer is never offered their own session.
+  final myEmployeeId = ''.obs;
+
   @override
   void onInit() {
     super.onInit();
@@ -43,6 +47,10 @@ class RemoteWorkController extends GetxController {
     _ticker?.cancel();
     super.onClose();
   }
+
+  /// The service explains a refusal better than a local string can.
+  String _failure(String fallback) =>
+      _repo.lastError.isNotEmpty ? _repo.lastError : fallback;
 
   // ── stats for the header cards ──────────────────────────────────────────
 
@@ -67,7 +75,9 @@ class RemoteWorkController extends GetxController {
   static String formatDuration(Duration d) {
     final h = d.inHours;
     final m = d.inMinutes.remainder(60);
-    return h > 0 ? '${h}h ${m}m' : '${m}m';
+    final hourUnit = TranslationKeys.hourShort.tr;
+    final minuteUnit = TranslationKeys.minuteShort.tr;
+    return h > 0 ? '$h$hourUnit $m$minuteUnit' : '$m$minuteUnit';
   }
 
   static String formatStopwatch(Duration d) {
@@ -182,9 +192,11 @@ class RemoteWorkController extends GetxController {
 
       if (body == null) {
         Utils.snackBar(
-          isClockIn
-              ? TranslationKeys.remoteClockInFailed.tr
-              : TranslationKeys.remoteClockOutFailed.tr,
+          _failure(
+            isClockIn
+                ? TranslationKeys.remoteClockInFailed.tr
+                : TranslationKeys.remoteClockOutFailed.tr,
+          ),
           true,
         );
         return false;
@@ -209,6 +221,8 @@ class RemoteWorkController extends GetxController {
     if (isLoadingApprovals.value) return;
     try {
       isLoadingApprovals.value = true;
+      final prefs = await SharedPreferences.getInstance();
+      myEmployeeId.value = prefs.getString('employee_id') ?? '';
       final now = DateTime.now();
       final formatter = DateFormat('yyyy-MM-dd');
       final body = await _repo.pendingApprovals(
@@ -260,7 +274,7 @@ class RemoteWorkController extends GetxController {
         Utils.snackBar(TranslationKeys.decisionSaved.tr, false);
         await loadApprovals(mode, force: true);
       } else {
-        Utils.snackBar(TranslationKeys.failedToSaveDecision.tr, true);
+        Utils.snackBar(_failure(TranslationKeys.failedToSaveDecision.tr), true);
       }
     } finally {
       decidingId.value = '';

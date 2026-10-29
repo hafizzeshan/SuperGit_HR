@@ -18,16 +18,40 @@ class RemoteWorkRepository {
     return {if (tenantId.isNotEmpty) 'X-Tenant-ID': tenantId};
   }
 
+
+  /// Last message the service returned for a failed call, so the controller
+  /// can show what actually went wrong ("remote clock-in already exists for
+  /// today") instead of a generic failure.
+  String lastError = '';
+
+  /// Reads the message out of an error body, in the order the service uses.
+  static String _messageOf(dynamic data) {
+    if (data is String) return data.trim();
+    if (data is! Map) return '';
+    for (final key in ['message', 'error', 'msg', 'detail', 'details']) {
+      final v = data[key];
+      if (v is String && v.trim().isNotEmpty) return v.trim();
+      if (v is Map && v['message'] is String) return '${v['message']}'.trim();
+      if (v is List && v.isNotEmpty) return '${v.first}'.trim();
+    }
+    return '';
+  }
+
   Map<String, dynamic>? _body(Response? response) {
-    if (response == null) return null;
+    if (response == null) {
+      lastError = '';
+      return null;
+    }
     final code = response.statusCode ?? 0;
     if (code < 200 || code >= 300) {
+      lastError = _messageOf(response.data);
       log(
         '❌ Remote work API ${response.requestOptions.uri} → $code '
         '${response.data}',
       );
       return null;
     }
+    lastError = '';
     final data = response.data;
     return data is Map ? Map<String, dynamic>.from(data) : null;
   }
